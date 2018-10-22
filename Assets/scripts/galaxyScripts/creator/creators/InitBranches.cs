@@ -29,6 +29,7 @@ namespace GalaxyCreators
             for (int i = 0; i < numBranches; i++)
             {
                 GameObject branch = new GameObject();
+                branch.name = "branch " + i;
                 branch.transform.SetParent(holder.transform);
 
                 var star = new StarNode(newStarRepresention(branch.transform));
@@ -40,6 +41,13 @@ namespace GalaxyCreators
                 branchArr[0] = star;
                 starNodes[i] = branchArr;
             }
+            for (int i = 0; i < numBranches - 1; i++)
+            {
+                var a = starNodes[i][0];
+                var b = starNodes[i + 1][0];
+                var connection = starConnectionFactory.makeConnection(a, b);
+            }
+            starConnectionFactory.makeConnection(starNodes[0][0], starNodes[starNodes.Count-1][0]);
             return starNodes;
         }
     }

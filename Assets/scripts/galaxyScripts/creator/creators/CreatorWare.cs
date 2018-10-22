@@ -17,6 +17,8 @@ namespace GalaxyCreators
         [SerializeField]
         public GameObject baseStarFab;
         [SerializeField]
+        public StarConnectionFactory starConnectionFactory;
+        [SerializeField]
         public GameObject holder;
 
         

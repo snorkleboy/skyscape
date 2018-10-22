@@ -26,10 +26,11 @@ namespace GalaxyCreators
         private bool created = false;
         public void create()
         {
-            Debug.Log("create ");
             if (created)
             {
                 destroy();
+                created = false;
+
             }
             foreach (CreatorWare creator in creatorStack)
             {
@@ -40,6 +41,7 @@ namespace GalaxyCreators
 
         public void destroy()
         {
+
             foreach (var keyVal in starNodes)
             {
                 foreach (var star in keyVal.Value)
@@ -47,9 +49,17 @@ namespace GalaxyCreators
                     star.representation.destroy();
                 }
             }
+            destroyRecursive(holder.transform);
             starNodes = new Dictionary<int, StarNode[]>();
-            foreach (Transform trans in holder.transform)
+        }
+        public void destroyRecursive(Transform parent)
+        {
+            if(parent == null)
             {
+                return;
+            }
+            foreach (Transform trans in parent) {
+                destroyRecursive(trans);
 #if UNITY_EDITOR
                 GameObject.DestroyImmediate(trans.gameObject);
 #else
@@ -57,7 +67,6 @@ namespace GalaxyCreators
 #endif
             }
         }
-
 
     }
 

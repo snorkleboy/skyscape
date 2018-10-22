@@ -29,16 +29,21 @@ namespace GalaxyCreators
             for (int i = 1; i < numStars; i++)
             {
                 var newstar = createStarNode(starArr[0], branchI, i);
-                starArr[i] = (newstar);
+                starArr[i] = newstar;
+                var connection = starConnectionFactory.makeConnection(starArr[i - 1], newstar);
+
             }
             return starArr;
         }
         private StarNode createStarNode(StarNode branchLeader, int branchNum, int starI)
         {
+            var ran = (int)Random.Range(-1, 1);
+            var ranMult = 1 + (.1 * ran);
             var starRep = newStarRepresention(branchLeader.transform.parent);
             starRep.transform.position = branchLeader.transform.position;
-            starRep.transform.Translate(branchLeader.transform.forward * starI * starToStarDistance);
-            starRep.transform.RotateAround(Vector3.zero, Vector3.up, perStarAngle * starI);
+            starRep.transform.Translate(branchLeader.transform.forward * (int)(ranMult*starI * starToStarDistance * starI));
+            starRep.transform.Translate(Vector3.up * ((int)(ranMult * starToStarDistance * .3 * starI) + starI));
+            starRep.transform.RotateAround(Vector3.zero, Vector3.up, ((int)(ranMult * starI * perStarAngle)+ starI));
             return new StarNode(starRep);
         }
     }
