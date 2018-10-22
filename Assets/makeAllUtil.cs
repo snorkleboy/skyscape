@@ -2,23 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GalaxyCreateMenu : MonoBehaviour {
+public class makeAllUtil : MonoBehaviour {
 
-    public GalaxyCreators.galaxyCreator galCreator;
-    [ContextMenu("Create Galaxy")]
-    public void makeGalaxy()
-    {
-        galCreator.create();
-        SetLayerRecursively(galCreator.transform);
-    }
-    [ContextMenu("Destroy Galaxy")]
-    public void destroy()
-    {
-        galCreator.destroy();
-    }
+    public GameObject target;
 
     public void SetLayerRecursively(Transform target)
     {
+        Debug.Log("CHANGE LAYER");
         if (target == null)
         {
             return;
@@ -29,4 +19,5 @@ public class GalaxyCreateMenu : MonoBehaviour {
             SetLayerRecursively(child);
         }
     }
+
 }

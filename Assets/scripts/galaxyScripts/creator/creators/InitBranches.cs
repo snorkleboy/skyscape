@@ -2,16 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Objects.Galaxy;
+using UnityEngine.UI;
+
 namespace GalaxyCreators
 {
     public class InitBranches : StarMaker
     {
         [Range(1, 200)]
-        [SerializeField] private int centralNoHabZoneRadius = 30;
+        [SerializeField] public int centralNoHabZoneRadius = 30;
+        public void setCentralNoHabZoneRadius(Slider slider) { centralNoHabZoneRadius = (int)slider.value; }
         [Range(1, 10)]
         [SerializeField] public int numBranches = 5;
+        public void setNumBranchess(Slider slider) { numBranches = (int)slider.value; }
         [Range(1, 40)]
-        [SerializeField] private int branchSize = 10;
+        [SerializeField] public int branchSize = 10;
+        public void setBanchSize(Slider slider) { branchSize = (int)slider.value; }
+
 
         public override Dictionary<int, StarNode[]> actOn(Dictionary<int, StarNode[]> starNodes)
         {

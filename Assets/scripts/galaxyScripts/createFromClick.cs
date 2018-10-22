@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class createFromClick : MonoBehaviour {
 
-    public galaxyCreator galmaker;
+    public GalaxyCreators.galaxyCreator galmaker;
     void OnMouseDown()
     {
 

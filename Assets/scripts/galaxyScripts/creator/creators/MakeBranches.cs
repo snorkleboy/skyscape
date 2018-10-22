@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Objects.Galaxy;
+using UnityEngine.UI;
+
 namespace GalaxyCreators
 {
     public class MakeBranches : StarMaker
     {
         [Range(1, 50)]
-        [SerializeField] private int perStarAngle = 5;
+        [SerializeField] public int perStarAngle = 5;
+        public void setStarAngle(Slider slider) { perStarAngle = (int)slider.value; }
         [Range(1, 200)]
-        [SerializeField] private int starToStarDistance = 10;
-
+        [SerializeField] public int starToStarDistance = 10;
+        public void setStarToStarDistance(Slider slider) { starToStarDistance = (int)slider.value; }
         public override Dictionary<int, StarNode[]> actOn(Dictionary<int, StarNode[]> starNodes)
         {
             foreach (var ketVal in starNodes)
