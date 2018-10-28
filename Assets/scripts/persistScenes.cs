@@ -10,7 +10,6 @@ public class persistScenes : MonoBehaviour {
         {
             DontDestroyOnLoad(this.gameObject);
             created = true;
-            Debug.Log("Awake: " + this.gameObject);
         }
     }
 }

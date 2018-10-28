@@ -16,7 +16,7 @@ namespace Objects.Galaxy
         }
         public StarNode createStar(Transform holder)
         {
-            var rep = new HolderRenderer(_sceneToPrefab, holder);
+            var rep = new StarRenderer(_sceneToPrefab, holder);
             var star = new StarNode(rep);
             star.render(0);
             return star;

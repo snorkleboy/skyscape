@@ -4,14 +4,17 @@ using System;
 
 namespace Objects.Galaxy
 {
-    public class StarConnectionRenderHelper : PerSceneRenderer
+    public class StarConnectionRenderHelper : PerSceneRenderer<StarConnection>
     {
         StarNode[] nodes;
         public StarConnectionRenderHelper(GameObject[] sceneToPrefab, StarNode[] nodes) : base(sceneToPrefab)
         {
             this.nodes = nodes;
         }
-
+        public override void applyScript(GameObject go, StarConnection script)
+        {
+            go.GetComponent<ConnectionStub>().connection = script;
+        }
         public override bool render(int scene)
         {
             if (base.render(scene))

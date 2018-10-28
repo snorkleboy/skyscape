@@ -3,7 +3,7 @@ using UnityEngine;
 using System;
 namespace Objects.Galaxy
 {
-    public class HolderRenderer: PerSceneRenderer
+    public abstract class HolderRenderer<type> : PerSceneRenderer<type>
     {
         Dictionary<Guid, IRenderable> renderables = new Dictionary<Guid, IRenderable>();
         private Vector3 position;

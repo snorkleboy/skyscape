@@ -5,7 +5,7 @@ using System;
 namespace Objects.Galaxy
 {
     [System.Serializable]
-    public class SingleSceneRenderer : RenderHelper
+    public abstract class SingleSceneRenderer<scriptType> : RenderHelper<scriptType>
     {
         [SerializeField] private GameObject _prefab;
 

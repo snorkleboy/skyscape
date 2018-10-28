@@ -8,7 +8,6 @@ public class createFromClick : MonoBehaviour {
     void OnMouseDown()
     {
 
-        Debug.Log("click create");
         galmaker.create();
     }
 }

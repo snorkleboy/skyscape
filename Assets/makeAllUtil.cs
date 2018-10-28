@@ -8,7 +8,6 @@ public class makeAllUtil : MonoBehaviour {
 
     public void SetLayerRecursively(Transform target)
     {
-        Debug.Log("CHANGE LAYER");
         if (target == null)
         {
             return;

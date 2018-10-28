@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 33405738964256364}
   - component: {fileID: 23962196553909278}
   - component: {fileID: 135108079917010742}
+  - component: {fileID: 114160941185635412}
   m_Layer: 9
   m_Name: star
   m_TagString: Untagged
@@ -274,6 +275,19 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 1
   m_ShadowAngle: 0
+--- !u!114 &114160941185635412
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1463900030636224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fdb3537ac1941744b7ebba173f211ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  starnode:
+    position: {x: 0, y: 0, z: 0}
 --- !u!123 &123014789124465844
 LensFlare:
   m_ObjectHideFlags: 1

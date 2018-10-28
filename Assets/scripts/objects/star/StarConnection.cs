@@ -11,6 +11,7 @@ namespace Objects.Galaxy
         public StarConnection(double _strength, StarNode[] _nodes, StarConnectionRenderHelper renderer)
         {
             renderHelper = renderer;
+            renderer.scriptSingelton = this;
             strength = _strength;
             nodes = _nodes;
         }

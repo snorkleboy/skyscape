@@ -9,10 +9,10 @@ namespace Objects.Galaxy
     public class StarNode : IRenderable
     {
         public IRenderer renderHelper { get { return starRenderer; } }
-        public HolderRenderer starRenderer;
+        public HolderRenderer<StarNode> starRenderer;
         public Transform transform { get { return renderHelper.transform; } }
         public Vector3 position;
-        private List<StarConnection> _connections;
+        [SerializeField] private List<StarConnection> _connections;
         public List<StarConnection> connections
         {
             get
@@ -30,7 +30,7 @@ namespace Objects.Galaxy
             connections.Add(connection);
             starRenderer.addRenderables(connections.ToArray());
         }
-        private Planet[] _planets;
+        [SerializeField] private Planet[] _planets;
         public Planet[] planets {
             get
             {
@@ -42,9 +42,10 @@ namespace Objects.Galaxy
                 starRenderer.addRenderables(_planets);
             }
         }
-        public StarNode(HolderRenderer renderer)
+        public StarNode(HolderRenderer<StarNode> renderer)
         {
             this.starRenderer = renderer;
+            renderer.scriptSingelton = this;
             connections = new List<StarConnection>();
         }
 

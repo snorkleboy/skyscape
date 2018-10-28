@@ -5,12 +5,15 @@ using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
 
 using Objects.Galaxy;
+using GalaxyCreators;
 namespace Objects
 {
     public class GameManager : MonoBehaviour
     {
-        public GalaxyCreators.galaxyCreator gameCreator;
         private StarNodeCollection _starNodes;
+        [SerializeField]
+        public List<CreatorWare> creatorStack = new List<CreatorWare>();
+
         public loadScene sceneLoader;
         void Awake()
         {
@@ -24,8 +27,11 @@ namespace Objects
             sceneLoader.LoadByIndex(1);
             Debug.Log("IN MAIN LOADING SCENE");
             _starNodes.destroy();
+            foreach (CreatorWare creator in creatorStack)
+            {
+                creator.actOn(_starNodes._starNodes);
+            }
             _starNodes.render(2);
-
             Debug.Log("loading 2");
             sceneLoader.LoadByIndex(2);
             Debug.Log("IN MAIN GAME");
@@ -33,11 +39,12 @@ namespace Objects
 
 
         }
-        public void loadStarSystem(StarNode star)
+        public void loadStarSystem(StarStub starstub)
         {
             Debug.Log("loading star system");
+            var star = starstub.starnode;
+            _starNodes.destroy();
             sceneLoader.LoadByIndex(3);
-            _starNodes.deactive();
             star.render((int)util.Enums.sceneNames.StarSystemView);
         }
 

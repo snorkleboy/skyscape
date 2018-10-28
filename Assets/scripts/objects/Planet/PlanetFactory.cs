@@ -11,7 +11,7 @@ namespace Objects.Galaxy
 
         public Planet newPlanet(Transform holder)
         {
-            var rep = new SingleSceneRenderer(baseStarFab);
+            var rep = new PlanetRenderer(baseStarFab);
             rep.parent = holder;
             Planet planet = new Planet(rep);
             return planet;

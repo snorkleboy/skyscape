@@ -5,17 +5,24 @@ using System;
 namespace Objects
 {
     [System.Serializable]
-    public abstract class RenderHelper: IRenderer
+    public abstract class RenderHelper<ScriptSource>: IRenderer
     {
+        public ScriptSource scriptSingelton { get; set; }
         protected bool active = false;
-
+        public abstract void applyScript(GameObject activeGO, ScriptSource scriptSingelton);
         public abstract bool render(int scene);
         public RenderHelper()
         {
             uid = Guid.NewGuid();
         }
         public Transform parent { get; set; }
-        [SerializeField] protected GameObject activeGO;
+        protected GameObject _activeGO;
+        [SerializeField]
+        protected GameObject activeGO
+        {
+            get { return _activeGO; }
+            set { _activeGO = value; if (value != null) { applyScript(_activeGO, scriptSingelton); } }
+        }
         public Transform transform
         {
             get
