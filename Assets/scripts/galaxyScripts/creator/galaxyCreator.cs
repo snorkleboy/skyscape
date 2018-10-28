@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Objects.Galaxy;
+using util;
+
 namespace GalaxyCreators
 {
     public class galaxyCreator : MonoBehaviour
@@ -9,19 +11,8 @@ namespace GalaxyCreators
 
         [Header("Galaxy Settings")]
         [Space(10)]
-        //[Range(1, 50)]
-        //[SerializeField] private int featherSize = 5;
-        //[Range(.01f, 1)]
-        //[SerializeField] private double emptySystemRate = .4;
-        //[Range(1, 20)]
-        //[SerializeField] private int planaterySystemAverageSize = 4;
-        //private int interFeatherConnectedness;
-        //private int interBranchConnectedness;
-        //private int outerConnectedNess;
-        //private int innerConnectedNess;
-
         [SerializeField] public List<CreatorWare> creatorStack = new List<CreatorWare>();
-        [SerializeField] private Dictionary<int, StarNode[]> starNodes = new Dictionary<int, StarNode[]>();
+        [SerializeField] public Dictionary<int, List<StarNode>> starNodes { get; set; }
         public GameObject holder;
         private bool created = false;
         public void create()
@@ -30,43 +21,29 @@ namespace GalaxyCreators
             {
                 destroy();
                 created = false;
-
             }
+            starNodes = new Dictionary<int, List<StarNode>>();
             foreach (CreatorWare creator in creatorStack)
             {
                 creator.actOn(starNodes);
             }
+
             created = true;
         }
 
         public void destroy()
         {
-
             foreach (var keyVal in starNodes)
             {
                 foreach (var star in keyVal.Value)
                 {
-                    star.representation.destroy();
+                    star.renderHelper.destroy();
                 }
             }
-            destroyRecursive(holder.transform);
-            starNodes = new Dictionary<int, StarNode[]>();
+            Util.destroyRecursive(holder.transform);
+            starNodes = new Dictionary<int, List<StarNode>>();
         }
-        public void destroyRecursive(Transform parent)
-        {
-            if(parent == null)
-            {
-                return;
-            }
-            foreach (Transform trans in parent) {
-                destroyRecursive(trans);
-#if UNITY_EDITOR
-                GameObject.DestroyImmediate(trans.gameObject);
-#else
-                            GameObject.Destroy(trans.gameObject);
-#endif
-            }
-        }
+
 
     }
 

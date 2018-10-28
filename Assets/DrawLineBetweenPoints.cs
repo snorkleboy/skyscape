@@ -23,7 +23,7 @@ public class DrawLineBetweenPoints : MonoBehaviour {
     }
     public void Start()
     {
-        lineRenderer.startWidth = 0.5F;
+        lineRenderer.startWidth = 3;
         lineRenderer.positionCount = 2;
         lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
     }

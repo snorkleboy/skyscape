@@ -1,0 +1,43 @@
+﻿using System.Collections.Generic;
+using UnityEngine;
+using System;
+
+namespace Objects.Galaxy
+{
+    [System.Serializable]
+    public class PerSceneRenderer : RenderHelper
+    {
+        [SerializeField] private GameObject[] _sceneToPrefab;
+
+
+        private int activeScene = -1;
+        public PerSceneRenderer(GameObject[] sceneToPrefab) : base()
+        {
+            _sceneToPrefab = sceneToPrefab;
+        }
+        public PerSceneRenderer(GameObject[] sceneToPrefab, Transform parent):base()
+        {
+            _sceneToPrefab = sceneToPrefab;
+            this.parent = parent;
+        }
+        public override bool render(int scene)
+        {
+            var prefab = _sceneToPrefab[scene];
+            var supposedToRender = prefab != null;
+            destroy();
+            if (supposedToRender)
+            {
+                activeGO = GameObject.Instantiate(prefab, parent);
+                this.activeScene = scene;
+                active = true;
+            }
+            else
+            {
+                destroy();
+                this.activeScene = -1;
+            }
+            return active;
+        }
+
+    }
+}

@@ -6,7 +6,7 @@ namespace GalaxyCreators
 {
     public class CreatorWare : MonoBehaviour
     {
-        public virtual Dictionary<int, StarNode[]> actOn(Dictionary<int, StarNode[]> starNodes)
+        public virtual Dictionary<int, List<StarNode>> actOn(Dictionary<int, List<StarNode>> starNodes)
         {
             return starNodes;
         }
@@ -15,18 +15,9 @@ namespace GalaxyCreators
     public class StarMaker : CreatorWare
     {
         [SerializeField]
-        public GameObject baseStarFab;
-        [SerializeField]
-        public StarConnectionFactory starConnectionFactory;
+        public StarFactory starFactory;
         [SerializeField]
         public GameObject holder;
-
-        
-        protected StarRepresentation newStarRepresention(Transform holder)
-        {
-            var star = new StarRepresentation(baseStarFab, holder);
-            return star;
-        }
     }
 
 }

@@ -5,13 +5,16 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/scenes/mainMenu.unity
     guid: ee45fb116d2bfe243a7bf22f03ad6ccf
   - enabled: 1
-    path: Assets/scenes/mainGame.unity
+    path: Assets/scenes/loadingScene.unity
+    guid: 3f2a94e81b7ac944080362d68fcc9dcc
+  - enabled: 1
+    path: Assets/scenes/Galaxy.unity
     guid: 9dca032bb0e4dee4198da4d99b40d592
+  - enabled: 1
+    path: Assets/scenes/starNode.unity
+    guid: 89d240cecb0a2f048ab8471e47e5db0a
   m_configObjects: {}
