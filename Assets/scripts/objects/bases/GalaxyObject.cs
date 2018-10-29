@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Objects.Galaxy
 {
-    public class GalaxyObject:MonoBehaviour
+    public class GalaxyObject
     {
 
     }

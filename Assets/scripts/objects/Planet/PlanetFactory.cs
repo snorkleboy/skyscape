@@ -1,19 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Objects.Galaxy.Holdable;
 namespace Objects.Galaxy
 {
-    [System.Serializable]
     public class PlanetFactory: MonoBehaviour
     {
-        [SerializeField] public GameObject baseStarFab;
+        public GameObject baseStarFab;
+        public TileFactory tileFactory;
 
         public Planet newPlanet(Transform holder)
         {
             var rep = new PlanetRenderer(baseStarFab);
             rep.parent = holder;
             Planet planet = new Planet(rep);
+            planet.tileManager = tileFactory.makeTileManager();
             return planet;
         }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Objects.Galaxy;
-using util;
+using Util;
 
 namespace GalaxyCreators
 {
@@ -40,7 +40,7 @@ namespace GalaxyCreators
                     star.renderHelper.destroy();
                 }
             }
-            Util.destroyRecursive(holder.transform);
+            Util.Util.destroyRecursive(holder.transform);
             starNodes = new Dictionary<int, List<StarNode>>();
         }
 

@@ -8,16 +8,22 @@ namespace Objects.Galaxy
     public abstract class SingleSceneRenderer<scriptType> : RenderHelper<scriptType>
     {
         [SerializeField] private GameObject _prefab;
-
-        public SingleSceneRenderer(GameObject prefab) : base()
+        private int _scene;
+        public SingleSceneRenderer(GameObject prefab, int scene) : base()
         {
             _prefab = prefab;
+            _scene = scene;
         }
         public override bool render(int scene)
         {
-            activeGO = GameObject.Instantiate(_prefab, parent);
-            active = true;
-            return true;
+            if (scene == _scene){
+                activeGO = GameObject.Instantiate(_prefab, parent);
+                active = true;
+                return true;
+            }else{
+                destroy();
+                return false;
+            }
         }
     }
 }

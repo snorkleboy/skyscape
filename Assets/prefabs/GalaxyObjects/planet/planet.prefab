@@ -133,6 +133,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planet:
     position: {x: 0, y: 0, z: 0}
+    tileManager:
+      tiles: []
+      height: 0
+      width: 0
 --- !u!114 &114776902495367572
 MonoBehaviour:
   m_ObjectHideFlags: 1

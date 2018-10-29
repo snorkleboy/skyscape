@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 114520542996417810}
   - component: {fileID: 114521524740155420}
   - component: {fileID: 114358923448739294}
+  - component: {fileID: 114415622776142604}
   - component: {fileID: 114212618831107792}
   - component: {fileID: 114803522493948180}
   - component: {fileID: 114158194352236248}
@@ -180,6 +181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseStarFab: {fileID: 1682095863304454, guid: a38b15dc3b8333146b4db3b017101651,
     type: 2}
+  tileFactory: {fileID: 114415622776142604}
 --- !u!114 &114413352710444702
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -192,6 +194,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   galCreator: {fileID: 114520542996417810}
+--- !u!114 &114415622776142604
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1596900601935064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f164b655836cd7d48885d6ab7ccfbc26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textures:
+  - {fileID: 2800000, guid: a51044dfe95257548b466bc35528b878, type: 3}
+  - {fileID: 2800000, guid: f3c7e12938d22604eb51dc02b394dd80, type: 3}
+  - {fileID: 2800000, guid: eafd0beb9c624d34f812be7d14134c2f, type: 3}
+  - {fileID: 2800000, guid: cd4f831376722b54bbadd59ef7c6c744, type: 3}
+  - {fileID: 2800000, guid: c65e186198f501046a0aba89c6335cac, type: 3}
 --- !u!114 &114520542996417810
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -220,10 +239,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sceneToPrefab:
-  - {fileID: 1460809747158084, guid: 1c9e83256a4d6a74eaca2b974eea7da4, type: 2}
+  - {fileID: 1883205605988992, guid: de3b5f400207c9c4ca27ac700c19635c, type: 2}
   - {fileID: 0}
-  - {fileID: 1460809747158084, guid: 1c9e83256a4d6a74eaca2b974eea7da4, type: 2}
-  - {fileID: 1219531062754224, guid: ebdfba2cb373bb84e8e9c8edd858f484, type: 2}
+  - {fileID: 1911534772598746, guid: 1c9e83256a4d6a74eaca2b974eea7da4, type: 2}
+  - {fileID: 1187759442596460, guid: ebdfba2cb373bb84e8e9c8edd858f484, type: 2}
   starConnectionFactory: {fileID: 114212618831107792}
   planetfactory: {fileID: 114358923448739294}
 --- !u!114 &114550784916167522

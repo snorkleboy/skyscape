@@ -52,7 +52,11 @@ namespace Objects.Galaxy
         public void render(int scene)
         {
             starRenderer.render(scene, position);
-            starRenderer.transform.position = position;
+            if (scene == 3){
+                starRenderer.transform.position = Vector3.zero;
+            }else{
+                starRenderer.transform.position = position;
+            }
         }
 
     }

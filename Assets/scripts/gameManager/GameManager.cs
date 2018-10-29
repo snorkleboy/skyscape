@@ -20,6 +20,8 @@ namespace Objects
             Debug.Log("game manager awake");
         }
         private int scene;
+
+        private StarNode selectedStar;
         public void startgame(Dictionary<int, List<StarNode>> starNodes)
         {
             _starNodes = new StarNodeCollection(starNodes);
@@ -39,13 +41,26 @@ namespace Objects
 
 
         }
+        void onStarLoaded(Scene scene, LoadSceneMode mode)
+        {
+            Debug.Log("OnSceneLoaded: " + scene.name);
+            Debug.Log(mode);
+            Debug.Log("render star");
+            selectedStar.render((int)util.Enums.sceneNames.StarSystemView);
+            SceneManager.sceneLoaded -= onStarLoaded;
+
+        }
         public void loadStarSystem(StarStub starstub)
         {
             Debug.Log("loading star system");
             var star = starstub.starnode;
+            Debug.Log("destroy old");
+
             _starNodes.destroy();
+            Debug.Log("load scene");
             sceneLoader.LoadByIndex(3);
-            star.render((int)util.Enums.sceneNames.StarSystemView);
+            selectedStar = star;
+            SceneManager.sceneLoaded += onStarLoaded;
         }
 
     }
