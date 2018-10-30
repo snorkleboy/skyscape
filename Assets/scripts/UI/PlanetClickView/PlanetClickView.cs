@@ -6,7 +6,7 @@ namespace UI
 {
 	public class PlanetClickView : BaseUIScript{
 		public MainView mainview;
-		public PlanetClickViewContext contextPane;
+		public GameObject contextPane;
 		public GameObject actionPane;
 
 		protected override void refresh(){
@@ -16,15 +16,22 @@ namespace UI
 		}
 		protected override void render(){
 			if (_toDisplay != null){
-				lastUpdateId = _toDisplay.updateId;
-				mainview.render(_toDisplay,renderContext);
+				renderMain(_toDisplay);
 			}else{
 				Debug.LogWarning(this + " called render without _toDisplay set  ");
 			}
 		}
-		protected void renderContext(IContextable tile){
-			Debug.Log("renderContext callback called, proof:" + tile);
-			contextPane.render(tile);
+		protected void renderMain(IViewable viewable){
+			lastUpdateId = viewable.updateId;
+			mainview.render(_toDisplay,renderContext);
+		}
+		protected void renderContext(IContextable contextable){
+		Debug.Log("renderContext callback called, proof:" + contextable);
+			contextable.renderContext(contextPane.transform,renderActions,renderMain);
+		}
+		protected void renderActions(IActOnable actionable){
+			Debug.Log("renderActions callback called, proof:" + actionable);
+			actionable.renderActionView(actionPane.transform);
 		}
 	}
 

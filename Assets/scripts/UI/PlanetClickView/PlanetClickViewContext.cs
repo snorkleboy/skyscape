@@ -5,14 +5,8 @@ using Objects.Galaxy;
 using UI;
 using System;
 public class PlanetClickViewContext : MonoBehaviour {
-
-	public void render(IContextable contextable){
-		contextable.renderContext( transform, b,a);
+	public void render(IContextable contextable, Action<IActOnable> ActionsCallBack,Action<IViewable> viewableCallBack ){
+		contextable.renderContext( transform, ActionsCallBack,viewableCallBack);
 	}
-	public void a(IViewable a){
 
-	}
-	public void b(IActOnable b){
-
-	}
 }
