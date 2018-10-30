@@ -14,9 +14,19 @@ namespace Objects.Galaxy.Holdable
             }
             return new TileManager(width, height, tiles);
         }
-        public Tile makeTile(int i){
-            return new Tile(sprites[(int)Random.Range(0,sprites.Length)]);
+        public Tile makeTile(int tileNum){
+            var sprite = sprites[(int)Random.Range(0,sprites.Length)];
+            var makeBuilding = Random.Range(0,10)>3;
+            if (makeBuilding){
+                Pop[] pops = new Pop[Random.Range(1,10)];
+                for(var i = 0; i<pops.Length;i++){
+                    pops[i] = new Pop();
+                }
+                var building = new Building(pops);
+                return new Tile(sprite, building);
+            }else{
+                return new Tile(sprite);
+            }
         }
-
     }
 }

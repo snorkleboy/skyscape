@@ -4,9 +4,9 @@ using UnityEngine;
 using Objects.Galaxy;
 namespace UI
 {
-	public class PlanetClickView : BaseUIScript<Planet>{
-		public MainView centralPane;
-		public GameObject contextPane;
+	public class PlanetClickView : BaseUIScript{
+		public MainView mainview;
+		public PlanetClickViewContext contextPane;
 		public GameObject actionPane;
 
 		protected override void refresh(){
@@ -17,10 +17,14 @@ namespace UI
 		protected override void render(){
 			if (_toDisplay != null){
 				lastUpdateId = _toDisplay.updateId;
-				centralPane.render(_toDisplay);
+				mainview.render(_toDisplay,renderContext);
 			}else{
 				Debug.LogWarning(this + " called render without _toDisplay set  ");
 			}
+		}
+		protected void renderContext(IContextable tile){
+			Debug.Log("renderContext callback called, proof:" + tile);
+			contextPane.render(tile);
 		}
 	}
 

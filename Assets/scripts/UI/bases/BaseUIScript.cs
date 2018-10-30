@@ -2,16 +2,17 @@ using UnityEngine;
 using Objects.Galaxy;
 namespace UI
 {
-    public abstract class BaseUIScript<GalObj> : MonoBehaviour
+    public abstract class BaseUIScript : MonoBehaviour
     {		
         public int perFrameRate = 10;
 
-		[SerializeField]protected GalObj _toDisplay;
+		[SerializeField]protected IViewable _toDisplay;
 
 		protected int lastUpdateId = -1;
-        public virtual void set(GalObj obj){
+        public virtual void set(IViewable obj){
 			_toDisplay = obj;
 			transform.gameObject.SetActive(true);
+			Debug.Log("PLANET VIEW SET " + obj);
 			render();
 		}
 		public virtual void unset(){

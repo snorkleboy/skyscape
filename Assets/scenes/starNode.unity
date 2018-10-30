@@ -256,6 +256,35 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1032040035294426, guid: 1d829d35cb9339642b166588fc6b826d, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224434724741270836, guid: 1d829d35cb9339642b166588fc6b826d,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224434724741270836, guid: 1d829d35cb9339642b166588fc6b826d,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224434724741270836, guid: 1d829d35cb9339642b166588fc6b826d,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: -466.19995
+      objectReference: {fileID: 0}
+    - target: {fileID: 114092909487428110, guid: 1d829d35cb9339642b166588fc6b826d,
+        type: 2}
+      propertyPath: mainview
+      value: 
+      objectReference: {fileID: 265244778}
+    - target: {fileID: 114092909487428110, guid: 1d829d35cb9339642b166588fc6b826d,
+        type: 2}
+      propertyPath: contextPane
+      value: 
+      objectReference: {fileID: 265244780}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d829d35cb9339642b166588fc6b826d, type: 2}
   m_IsPrefabAsset: 0
@@ -264,6 +293,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 224677166859712680, guid: 1d829d35cb9339642b166588fc6b826d,
     type: 2}
   m_PrefabInternal: {fileID: 265244776}
+--- !u!114 &265244778 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114414664679525068, guid: 1d829d35cb9339642b166588fc6b826d,
+    type: 2}
+  m_PrefabInternal: {fileID: 265244776}
+  m_Script: {fileID: 11500000, guid: 65881f6628cfb6543b69a0ab8cd4f475, type: 3}
+--- !u!1 &265244779 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1260070083316092, guid: 1d829d35cb9339642b166588fc6b826d,
+    type: 2}
+  m_PrefabInternal: {fileID: 265244776}
+--- !u!114 &265244780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 265244779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6912c9c6f21b81b479f00625a4a16c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &471793798
 GameObject:
   m_ObjectHideFlags: 0

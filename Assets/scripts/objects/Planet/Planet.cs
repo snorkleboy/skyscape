@@ -6,7 +6,7 @@ using UI;
 namespace Objects.Galaxy
 {
     [System.Serializable]
-    public class Planet :IUIable, IRenderable
+    public class Planet :IViewable, IRenderable
     {
         public int updateId{get;}
         public IRenderer renderHelper { get { return planetRenderer; } }
@@ -18,6 +18,10 @@ namespace Objects.Galaxy
         {
             renderer.scriptSingelton = this;
             planetRenderer = renderer;
+        }
+        public GameObject renderUIView(Transform parent, Action<IContextable> renderContextCallBack){
+            Debug.Log("planet render UIVIEW");
+            return tileManager.renderUIView(parent,renderContextCallBack);
         }
         public void render(int scene)
         {

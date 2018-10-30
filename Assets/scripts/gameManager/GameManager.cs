@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
-
 using Objects.Galaxy;
+using UnityEditor.SceneManagement;
 using GalaxyCreators;
 namespace Objects
 {
@@ -22,24 +22,28 @@ namespace Objects
         private int scene;
 
         private StarNode selectedStar;
-        public void startgame(Dictionary<int, List<StarNode>> starNodes)
+        public async Task startgame(Dictionary<int, List<StarNode>> starNodes)
         {
+            Debug.Log("Start Game Called");
             _starNodes = new StarNodeCollection(starNodes);
-            Debug.Log("loading 1");
-            sceneLoader.LoadByIndex(1);
-            Debug.Log("IN MAIN LOADING SCENE");
+            Debug.Log("destroying");
             _starNodes.destroy();
+            Debug.Log("loading 1");
+            SceneManager.LoadSceneAsync(1);
+            Debug.Log("onLoadWaitingScreen");
+            loadStartGame();
+        }
+        private void loadStartGame(){
+            Debug.Log("IN MAIN LOADING SCENE, putting more stuff on`");
             foreach (CreatorWare creator in creatorStack)
             {
                 creator.actOn(_starNodes._starNodes);
             }
+            Debug.Log("rendering");
             _starNodes.render(2);
             Debug.Log("loading 2");
             sceneLoader.LoadByIndex(2);
             Debug.Log("IN MAIN GAME");
-            var count = 0;
-
-
         }
         void onStarLoaded(Scene scene, LoadSceneMode mode)
         {
@@ -48,7 +52,6 @@ namespace Objects
             Debug.Log("render star");
             selectedStar.render((int)util.Enums.sceneNames.StarSystemView);
             SceneManager.sceneLoaded -= onStarLoaded;
-
         }
         public void loadStarSystem(StarStub starstub)
         {

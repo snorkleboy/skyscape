@@ -9,7 +9,7 @@ public class StartGame : MonoBehaviour {
 
     public void StartGameA()
     {
-
+        Debug.Log("StartGame Button handler called, calling gameManager start");
         gameManager.startgame(creator.starNodes);
     }
 }

@@ -6,5 +6,4 @@ namespace UI
     public interface IUIable : IUpdateable{
         
     }
-
 }

@@ -1,13 +1,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-namespace Objects.Galaxy.Holdable
+using UI;
+namespace Objects.Galaxy
 {
-    public class Pop
+    public static class PopNames{
+        public static string[] names = new string[]{"bob","tim","fisher","ms.disher","constilisher"};
+    }
+    [System.Serializable]
+    public class Pop : IIconable
     {
+       [SerializeField]public string name;
+        [SerializeField]public int money;
         public Pop()
         {
-
+            name = PopNames.names[UnityEngine.Random.Range(0,PopNames.names.Length-1)];
+            money = UnityEngine.Random.Range(0,100);
+        }
+        public GameObject renderIcon(){
+            Debug.Log("POP RENDER ICON");
+            Debug.Log(name + " " + money);
+            return new GameObject();
         }
     }
 }
