@@ -39,7 +39,7 @@ namespace UI
 		}
 		protected void renderMain(IViewable viewable){
 			lastUpdateId = viewable.updateId;
-			mainview.render(_toDisplay,callbacks);
+			mainview.render(viewable,callbacks);
 		}
 		protected void renderContext(IContextable contextable){
 		Debug.Log("renderContext callback called, proof:" + contextable);
