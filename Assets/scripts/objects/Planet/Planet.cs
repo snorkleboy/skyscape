@@ -19,9 +19,9 @@ namespace Objects.Galaxy
             renderer.scriptSingelton = this;
             planetRenderer = renderer;
         }
-        public GameObject renderUIView(Transform parent, Action<IContextable> renderContextCallBack){
+        public GameObject renderUIView(Transform parent, clickViews callbacks){
             Debug.Log("planet render UIVIEW");
-            return tileManager.renderUIView(parent,renderContextCallBack);
+            return tileManager.renderUIView(parent,callbacks);
         }
         public void render(int scene)
         {

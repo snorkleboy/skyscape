@@ -17,7 +17,7 @@ namespace Objects.Galaxy
         public Tile(Sprite sprite, Building building):this(sprite){
             this.building = building;
         }
-        public GameObject renderContext(Transform parent, Action<IActOnable> a, Action<IViewable> b){
+        public GameObject renderContext(Transform parent,clickViews callbacks){
             Debug.Log("RENDER TILE CONTEXT");
             return new GameObject("Tile");
         }

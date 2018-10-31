@@ -8,9 +8,9 @@ using UI;
 public class TilerView {
 
 	private Action<IContextable> _tileCB;
-	public GameObject render(TileManager tileManager,Transform parent, Action<IContextable> tileCB){
+	public GameObject render(TileManager tileManager,Transform parent,clickViews callbacks){
 		Debug.Log("rendering tiler view");
-		_tileCB = tileCB;
+		_tileCB = callbacks.contextViewCallback;
 		var Holder = new GameObject("grid");
 		Holder.transform.SetParent(parent);
 		var grid = Holder.AddComponent<GridLayoutGroup>();

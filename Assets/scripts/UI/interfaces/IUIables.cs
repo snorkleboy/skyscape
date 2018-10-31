@@ -4,16 +4,16 @@ using System;
 namespace UI{
     public interface IIconable
     {
-        GameObject renderIcon();
+        GameObject renderIcon(clickViews viewCallBacks);
     }
     public interface IViewable : IUIable{
-        GameObject renderUIView(Transform parent,Action<IContextable> renderContextCallBack);
+        GameObject renderUIView(Transform parent,clickViews viewCallBacks);
     }
     public interface IActOnable{
-        GameObject renderActionView(Transform parent);
+        GameObject renderActionView(Transform parent,clickViews viewCallBacks);
     }
     public interface IContextable{
-        GameObject renderContext(Transform parent,Action<IActOnable> renderActionViewCallBack,Action<IViewable> renderViewCallBack);
+        GameObject renderContext(Transform parent,clickViews viewCallBacks);
     }
 
     public interface IUIComplex{

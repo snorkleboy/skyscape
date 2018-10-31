@@ -16,9 +16,9 @@ namespace Objects.Galaxy
             this.width = width;
             this.tiles = tiles;
         }
-        public GameObject renderUIView(Transform parent,Action<IContextable> tileCallback){
+        public GameObject renderUIView(Transform parent,clickViews callbacks){
             Debug.Log("Tilemanger render UIVIEW");
-            return tilerView.render(this,parent,tileCallback);
+            return tilerView.render(this,parent,callbacks);
         }
     }
 }

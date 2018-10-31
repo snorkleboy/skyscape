@@ -10,9 +10,9 @@ namespace UI{
 		public GameObject centralView;
 		public GameObject bottomBar;
 
-		public void render(IViewable viewable, Action<IContextable> contextCB){
+		public void render(IViewable viewable, clickViews viewCallBacks){
 			Debug.Log("render MainView " + viewable);
-			viewable.renderUIView(centralView.transform,contextCB);
+			viewable.renderUIView(centralView.transform,viewCallBacks);
 		}
 	}
 }
