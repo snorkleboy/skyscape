@@ -17,7 +17,7 @@ namespace Objects.Galaxy
             name = PopNames.names[UnityEngine.Random.Range(0,PopNames.names.Length-1)];
             money = UnityEngine.Random.Range(0,100);
         }
-        public GameObject renderIcon(clickViews viewCallBacks){
+        public GameObject renderIcon(Transform transform,clickViews viewCallBacks){
             Debug.Log("POP RENDER ICON");
             Debug.Log(name + " " + money);
             return new GameObject();

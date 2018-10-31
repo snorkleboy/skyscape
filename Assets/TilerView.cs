@@ -34,20 +34,9 @@ public class TilerView {
 
 		foreach (var tile in tileManager.tiles)
 		{
-			makeTile(Holder.transform,tile);
+			tile.renderIcon(Holder.transform,callbacks);
 		}
 		return Holder;
-	}
-	public void makeTile(Transform parent,Tile tileClass){
-
-		var tile = new GameObject("Tile");
-		tile.transform.SetParent(parent);
-		tile.AddComponent<TileStub>().tile = tileClass;
-		var image = tile.AddComponent<Image>();
-		image.sprite = tileClass.sprite;
-
-		var button = tile.AddComponent<UnityEngine.UI.Button>();
-		button.onClick.AddListener(()=>{Debug.Log("clicked" + tileClass);_tileCB(tileClass);});
 	}
 
 }

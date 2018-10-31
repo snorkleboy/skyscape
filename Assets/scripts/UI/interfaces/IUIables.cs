@@ -4,7 +4,7 @@ using System;
 namespace UI{
     public interface IIconable
     {
-        GameObject renderIcon(clickViews viewCallBacks);
+        GameObject renderIcon(Transform parent,clickViews viewCallBacks);
     }
     public interface IViewable : IUIable{
         GameObject renderUIView(Transform parent,clickViews viewCallBacks);

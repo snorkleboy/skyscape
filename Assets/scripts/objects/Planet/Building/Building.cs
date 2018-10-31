@@ -21,11 +21,11 @@ namespace Objects.Galaxy
         {
             pops = startPops;
         }
-        public GameObject renderIcon(clickViews viewCallBacks){
+        public GameObject renderIcon(Transform transform,clickViews viewCallBacks){
             Debug.Log("building" + name + "   pop names:");
             foreach (var item in pops)
             {
-                item.renderIcon(viewCallBacks);
+                item.renderIcon(transform,viewCallBacks);
             }            
             return new GameObject();
         }
