@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UI;
 namespace Objects.Galaxy
 {
@@ -7,27 +8,69 @@ namespace Objects.Galaxy
         public static string[] names = new string[]{"buildinger","anotherBuil","Foo","Bar"};
     }
     [System.Serializable]
-    public class Building : IIconable
+    public class Building : IIconable, IContextable
     {
         [SerializeField]public string name;
-        [SerializeField]private Pop[] _pops;
-        public Pop[] pops{get;}
-        public Building()
+        public Sprite buildingSprite;
+        public string title{get;}
+        private List<Pop> _pops = new List<Pop>();
+        public List<Pop> pops{get{return _pops;}}
+        public int updateId{get;}
+        public Building(Sprite icon)
         {
+            title = "building";
             name = buildingNames.names[Random.Range(0,buildingNames.names.Length-1)];
-            _pops = new Pop[1];
+            buildingSprite = icon;
         }
-        public Building(Pop[] startPops):this()
+        public Building(Sprite icon,Pop[] startPops):this(icon)
         {
-            pops = startPops;
+            pops.AddRange(startPops);
         }
-        public GameObject renderIcon(Transform transform,clickViews viewCallBacks){
-            Debug.Log("building" + name + "   pop names:");
-            foreach (var item in pops)
+        public GameObject renderContext(Transform parent, clickViews callbacks){
+            Debug.Log("RENDER BUILDING CONTEXT");
+            var holder =  new GameObject("BUILDING Context");
+            holder.transform.SetParent(parent, false);
+            holder.AddComponent<HorizontalLayoutGroup>();
+            holder.AddComponent<AspectRatioFitter>().aspectMode = UnityEngine.UI.AspectRatioFitter.AspectMode.FitInParent;
+            renderIcon(callbacks).transform.SetParent(holder.transform, false);
+            var children = renderInfo(callbacks);
+            if (children != null){
+                var right = new GameObject("info-right");
+                right.transform.SetParent(holder.transform, false);
+                right.AddComponent<VerticalLayoutGroup>();
+                foreach( var infoObj in children){
+                    infoObj.transform.SetParent(right.transform,false);
+                }
+            }
+            return holder;
+
+        }
+        public GameObject renderIcon(){
+            var go =  new GameObject("BuildingIcon");
+            var image = go.AddComponent<Image>();
+            image.sprite = buildingSprite;
+            return go;
+        }
+        public GameObject renderIcon(clickViews viewCallBacks){
+            Debug.Log("building " + name);
+            var go = renderIcon();
+            var button = go.AddComponent<UnityEngine.UI.Button>();
+            button.onClick.AddListener(()=>{viewCallBacks.contextViewCallback(this);});
+            button.image = go.GetComponent<Image>();
+            return go;
+        }
+        public List<GameObject> renderInfo(clickViews viewCallBacks){
+            List<GameObject> gos = new List<GameObject>();
+            if (pops != null)
             {
-                item.renderIcon(transform,viewCallBacks);
-            }            
-            return new GameObject();
+                foreach (var item in pops)
+                {
+                    Debug.Log(item);
+                    gos.Add(item.renderIcon(viewCallBacks));
+                }
+            }
+            return gos;        
         }
+
     }
 }

@@ -5,7 +5,7 @@ using UI;
 namespace Objects.Galaxy
 {
     [Serializable]
-    public class TileManager: IViewable{
+    public class TileManager{
         public int updateId{get;}
         [SerializeField]public Tile[] tiles;
         public TilerView tilerView = new TilerView();

@@ -12,7 +12,13 @@ namespace UI{
 
 		public void render(IViewable viewable, clickViews viewCallBacks){
 			Debug.Log("render MainView " + viewable);
+			clear(centralView);
 			viewable.renderUIView(centralView.transform,viewCallBacks);
+		}
+		private void clear(GameObject gameObject){
+			foreach(Transform child in gameObject.transform){
+				Destroy(child);
+			}
 		}
 	}
 }

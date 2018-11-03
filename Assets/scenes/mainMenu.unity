@@ -9530,6 +9530,16 @@ Prefab:
       propertyPath: sprites.Array.size
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 114415622776142604, guid: 8e5f3192759929b4ba862c22b26cf766,
+        type: 2}
+      propertyPath: popSprites.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114415622776142604, guid: 8e5f3192759929b4ba862c22b26cf766,
+        type: 2}
+      propertyPath: buildingSprites.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4746423228138904, guid: 8e5f3192759929b4ba862c22b26cf766, type: 2}
       propertyPath: m_LocalPosition.x
       value: -51.292023
@@ -9597,6 +9607,42 @@ Prefab:
       propertyPath: sprites.Array.data[5]
       value: 
       objectReference: {fileID: 21300000, guid: 9d90663c9ea0d484eae41530ee2031c5,
+        type: 3}
+    - target: {fileID: 114415622776142604, guid: 8e5f3192759929b4ba862c22b26cf766,
+        type: 2}
+      propertyPath: popSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 7c2dfef117adc1544906324dce0868fe,
+        type: 3}
+    - target: {fileID: 114415622776142604, guid: 8e5f3192759929b4ba862c22b26cf766,
+        type: 2}
+      propertyPath: popSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 7c2dfef117adc1544906324dce0868fe,
+        type: 3}
+    - target: {fileID: 114415622776142604, guid: 8e5f3192759929b4ba862c22b26cf766,
+        type: 2}
+      propertyPath: popSprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: 7c2dfef117adc1544906324dce0868fe,
+        type: 3}
+    - target: {fileID: 114415622776142604, guid: 8e5f3192759929b4ba862c22b26cf766,
+        type: 2}
+      propertyPath: buildingSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 8be7816805b133f4abd2eb613de3e2d0,
+        type: 3}
+    - target: {fileID: 114415622776142604, guid: 8e5f3192759929b4ba862c22b26cf766,
+        type: 2}
+      propertyPath: buildingSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 8be7816805b133f4abd2eb613de3e2d0,
+        type: 3}
+    - target: {fileID: 114415622776142604, guid: 8e5f3192759929b4ba862c22b26cf766,
+        type: 2}
+      propertyPath: buildingSprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: 8be7816805b133f4abd2eb613de3e2d0,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e5f3192759929b4ba862c22b26cf766, type: 2}

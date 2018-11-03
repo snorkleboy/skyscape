@@ -2,9 +2,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 namespace UI{
-    public interface IIconable
+    public interface IUpdateable{
+        int updateId{get;}
+    }
+    public interface IUIable : IUpdateable{
+        GameObject renderIcon();
+        string title{get;}
+    }
+
+    public interface IIconable : IUIable
     {
-        GameObject renderIcon(Transform parent,clickViews viewCallBacks);
+        GameObject renderIcon(clickViews viewCallBacks);
+        List<GameObject> renderInfo(clickViews viewCallBacks);
+
     }
     public interface IViewable : IUIable{
         GameObject renderUIView(Transform parent,clickViews viewCallBacks);

@@ -1,5 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Objects.Galaxy;
 using System;
 using UI;
 namespace Objects.Galaxy
@@ -12,15 +15,31 @@ namespace Objects.Galaxy
     {
        [SerializeField]public string name;
         [SerializeField]public int money;
-        public Pop()
+        public int updateId{get;}
+        public string title{get{return name;}}
+        public Sprite popSprite;
+        public Pop(Sprite sprite)
         {
+            popSprite = sprite;
             name = PopNames.names[UnityEngine.Random.Range(0,PopNames.names.Length-1)];
             money = UnityEngine.Random.Range(0,100);
         }
-        public GameObject renderIcon(Transform transform,clickViews viewCallBacks){
+        public GameObject renderIcon(){
+            var go =  new GameObject("popIcon");
+            var image = go.AddComponent<Image>();
+            image.sprite = popSprite;
+            return go;
+        }
+        public GameObject renderIcon(clickViews viewCallBacks){
             Debug.Log("POP RENDER ICON");
             Debug.Log(name + " " + money);
-            return new GameObject();
+            var go = renderIcon();
+            var button = go.AddComponent<UnityEngine.UI.Button>();
+            button.onClick.AddListener(()=>{Debug.Log("clicked" + this);});
+            return go;
+        }
+        public List<GameObject> renderInfo(clickViews callBacks){
+            return new List<GameObject>();
         }
     }
 }

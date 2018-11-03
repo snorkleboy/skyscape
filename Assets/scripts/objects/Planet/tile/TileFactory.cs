@@ -5,6 +5,8 @@ namespace Objects.Galaxy.Holdable
     public class TileFactory: MonoBehaviour
     {
         public Sprite[] sprites;
+        public Sprite[] popSprites;
+        public Sprite[] buildingSprites;
         public TileManager makeTileManager(){
             var width = (int)Random.Range(5,15);
             var height = width;
@@ -15,18 +17,24 @@ namespace Objects.Galaxy.Holdable
             return new TileManager(width, height, tiles);
         }
         public Tile makeTile(int tileNum){
-            var sprite = sprites[(int)Random.Range(0,sprites.Length)];
-            var makeBuilding = Random.Range(0,10)>3;
-            if (makeBuilding){
-                Pop[] pops = new Pop[Random.Range(1,10)];
-                for(var i = 0; i<pops.Length;i++){
-                    pops[i] = new Pop();
-                }
-                var building = new Building(pops);
-                return new Tile(sprite, building);
+            var shouldMakeBuilding = Random.Range(0,10)>3;
+            if (shouldMakeBuilding){
+                var pops = makePops(Random.Range(1,10));
+                var building = makeBuilding(pops);
+                return new Tile(sprites[Random.Range(0,sprites.Length)], building,tileNum);
             }else{
-                return new Tile(sprite);
+                return new Tile(sprites[Random.Range(0,sprites.Length)],tileNum);
             }
+        }
+        public Pop[] makePops(int num){
+            Pop[] pops = new Pop[num];
+            for(var i = 0; i<num;i++){
+                pops[i] = new Pop(popSprites[0]);
+            }
+            return pops;
+        }
+        public Building makeBuilding(Pop[] pops){
+           return new Building(buildingSprites[0],pops);
         }
     }
 }
