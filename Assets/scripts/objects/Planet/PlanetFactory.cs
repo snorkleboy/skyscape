@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Objects.Galaxy.Holdable;
 namespace Objects.Galaxy
 {
     public class PlanetFactory: MonoBehaviour

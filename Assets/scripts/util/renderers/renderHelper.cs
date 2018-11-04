@@ -46,9 +46,9 @@ namespace Objects
             if (active)
             {
 #if UNITY_EDITOR
-                GameObject.DestroyImmediate(activeGO);
+            GameObject.DestroyImmediate(activeGO);
 #else
-            GameObject.Destroy(active);
+            GameObject.Destroy(activeGO);
 #endif
                 activeGO = null;
                 active = false;

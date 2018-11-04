@@ -4,46 +4,59 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
 using Objects.Galaxy;
-using UnityEditor.SceneManagement;
 using GalaxyCreators;
+using System.IO;
+using Loaders;
 namespace Objects
 {
+    public static class GameManagerSingleton
+    {
+        public static GameManager gameManager{get;set;}
+
+    }
     public class GameManager : MonoBehaviour
     {
         private StarNodeCollection _starNodes;
         [SerializeField]
         public List<CreatorWare> creatorStack = new List<CreatorWare>();
-
-        public loadScene sceneLoader;
         void Awake()
         {
             Debug.Log("game manager awake");
+            GameManagerSingleton.gameManager = this;
+            Debug.Log("loading bundles");
+            var bundles = SceneLoader.loadBundles();
+            Debug.Log("loading assets");
+            SceneLoader.loadAssets(bundles);
         }
         private int scene;
-
         private StarNode selectedStar;
         public async Task startgame(Dictionary<int, List<StarNode>> starNodes)
         {
             Debug.Log("Start Game Called");
             _starNodes = new StarNodeCollection(starNodes);
-            Debug.Log("destroying");
-            _starNodes.destroy();
-            Debug.Log("loading 1");
-            SceneManager.LoadSceneAsync(1);
-            Debug.Log("onLoadWaitingScreen");
             loadStartGame();
         }
-        private void loadStartGame(){
-            Debug.Log("IN MAIN LOADING SCENE, putting more stuff on`");
+        private async Task loadStartGame(){
+            UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+
+            Debug.Log("loading screen loaded");
+            await Task.Delay(1000);
+            Debug.Log("destroying protogalaxy");
+            _starNodes.destroy();
+
+            Debug.Log("Hydrating Galaxy");
+            hydrateProtoGalaxy();
+            Debug.Log("rendering galaxy");
+            _starNodes.render(2);
+            Debug.Log("loading galaxy scene");
+            SceneLoader.LoadByIndex(2);
+            Debug.Log("IN MAIN GAME");
+        }
+        public void hydrateProtoGalaxy(){
             foreach (CreatorWare creator in creatorStack)
             {
                 creator.actOn(_starNodes._starNodes);
             }
-            Debug.Log("rendering");
-            _starNodes.render(2);
-            Debug.Log("loading 2");
-            sceneLoader.LoadByIndex(2);
-            Debug.Log("IN MAIN GAME");
         }
         void onStarLoaded(Scene scene, LoadSceneMode mode)
         {
@@ -51,7 +64,7 @@ namespace Objects
             Debug.Log(mode);
             Debug.Log("render star");
             selectedStar.render((int)util.Enums.sceneNames.StarSystemView);
-            SceneManager.sceneLoaded -= onStarLoaded;
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded -= onStarLoaded;
         }
         public void loadStarSystem(StarStub starstub)
         {
@@ -61,9 +74,9 @@ namespace Objects
 
             _starNodes.destroy();
             Debug.Log("load scene");
-            sceneLoader.LoadByIndex(3);
+            SceneLoader.LoadByIndex(3);
             selectedStar = star;
-            SceneManager.sceneLoaded += onStarLoaded;
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded += onStarLoaded;
         }
 
     }

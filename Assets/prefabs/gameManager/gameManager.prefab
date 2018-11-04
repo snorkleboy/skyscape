@@ -23,9 +23,28 @@ GameObject:
   - component: {fileID: 114599278146466314}
   - component: {fileID: 114631949399411676}
   - component: {fileID: 114550784916167522}
-  - component: {fileID: 114310238271337566}
+  - component: {fileID: 114432421797651502}
   m_Layer: 0
   m_Name: gameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1528691851071608
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4383668560276088}
+  - component: {fileID: 114681954219070732}
+  - component: {fileID: 114182408884570654}
+  - component: {fileID: 114302563319424390}
+  - component: {fileID: 114490985205517084}
+  m_Layer: 0
+  m_Name: factories
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,10 +61,6 @@ GameObject:
   - component: {fileID: 65683110628276974}
   - component: {fileID: 114413352710444702}
   - component: {fileID: 114520542996417810}
-  - component: {fileID: 114521524740155420}
-  - component: {fileID: 114358923448739294}
-  - component: {fileID: 114415622776142604}
-  - component: {fileID: 114212618831107792}
   - component: {fileID: 114803522493948180}
   - component: {fileID: 114158194352236248}
   - component: {fileID: 114755449681422662}
@@ -84,6 +99,19 @@ Transform:
   m_Father: {fileID: 4535651274636078}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4383668560276088
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1528691851071608}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4746423228138904}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4535651274636078
 Transform:
   m_ObjectHideFlags: 1
@@ -109,6 +137,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4535651274636078}
+  - {fileID: 4383668560276088}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -135,17 +164,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5291f902ac145c0459f55631366eb208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  starFactory: {fileID: 114521524740155420}
+  starFactory: {fileID: 114681954219070732}
   holder: {fileID: 1773680751791624}
   perStarAngle: 10
   starToStarDistance: 50
   branchSize: 10
---- !u!114 &114212618831107792
+--- !u!114 &114182408884570654
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1596900601935064}
+  m_GameObject: {fileID: 1528691851071608}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d8ce0cc7fd936f4e8b8fdf25b323cf2, type: 3}
@@ -156,24 +185,12 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 1079240539784288, guid: 9258ca438e4f2d4478c2e1f24f5fa13e, type: 2}
   - {fileID: 0}
---- !u!114 &114310238271337566
+--- !u!114 &114302563319424390
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1373440309816132}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e3b55f5c25763942a9dfb94158c85d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  planetFactory: {fileID: 114358923448739294}
---- !u!114 &114358923448739294
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1596900601935064}
+  m_GameObject: {fileID: 1528691851071608}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e55f39d3b7040d408021c2f7f11b453, type: 3}
@@ -181,7 +198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseStarFab: {fileID: 1682095863304454, guid: a38b15dc3b8333146b4db3b017101651,
     type: 2}
-  tileFactory: {fileID: 114415622776142604}
+  tileFactory: {fileID: 114490985205517084}
 --- !u!114 &114413352710444702
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -194,23 +211,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   galCreator: {fileID: 114520542996417810}
---- !u!114 &114415622776142604
+--- !u!114 &114432421797651502
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1596900601935064}
+  m_GameObject: {fileID: 1373440309816132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e3b55f5c25763942a9dfb94158c85d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  planetFactory: {fileID: 114302563319424390}
+--- !u!114 &114490985205517084
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1528691851071608}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f164b655836cd7d48885d6ab7ccfbc26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textures:
-  - {fileID: 2800000, guid: a51044dfe95257548b466bc35528b878, type: 3}
-  - {fileID: 2800000, guid: f3c7e12938d22604eb51dc02b394dd80, type: 3}
-  - {fileID: 2800000, guid: eafd0beb9c624d34f812be7d14134c2f, type: 3}
-  - {fileID: 2800000, guid: cd4f831376722b54bbadd59ef7c6c744, type: 3}
-  - {fileID: 2800000, guid: c65e186198f501046a0aba89c6335cac, type: 3}
+  sprites:
+  - {fileID: 21300000, guid: 6dff70b1f69dbc640b854ad550b78c39, type: 3}
+  - {fileID: 21300000, guid: 216e2729631e003468211108545a08f1, type: 3}
+  - {fileID: 21300000, guid: 9875bf7345d4ac04ab35f3b9ed63a954, type: 3}
+  - {fileID: 21300000, guid: eacec9cd0f31ea04b82121877a6cccaa, type: 3}
+  - {fileID: 21300000, guid: e5bdfc3501c76e542bf68ff5e1c84f67, type: 3}
+  - {fileID: 21300000, guid: 9d90663c9ea0d484eae41530ee2031c5, type: 3}
+  popSprites:
+  - {fileID: 21300000, guid: 7c2dfef117adc1544906324dce0868fe, type: 3}
+  - {fileID: 21300000, guid: 7c2dfef117adc1544906324dce0868fe, type: 3}
+  - {fileID: 21300000, guid: 7c2dfef117adc1544906324dce0868fe, type: 3}
+  buildingSprites:
+  - {fileID: 21300000, guid: 8be7816805b133f4abd2eb613de3e2d0, type: 3}
+  - {fileID: 21300000, guid: 8be7816805b133f4abd2eb613de3e2d0, type: 3}
+  - {fileID: 21300000, guid: 8be7816805b133f4abd2eb613de3e2d0, type: 3}
 --- !u!114 &114520542996417810
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -227,24 +265,6 @@ MonoBehaviour:
   - {fileID: 114158194352236248}
   - {fileID: 114755449681422662}
   holder: {fileID: 1773680751791624}
---- !u!114 &114521524740155420
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1596900601935064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f54bc97cc96cfb46b2ca0f4e586cd77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sceneToPrefab:
-  - {fileID: 1883205605988992, guid: de3b5f400207c9c4ca27ac700c19635c, type: 2}
-  - {fileID: 0}
-  - {fileID: 1911534772598746, guid: 1c9e83256a4d6a74eaca2b974eea7da4, type: 2}
-  - {fileID: 1187759442596460, guid: ebdfba2cb373bb84e8e9c8edd858f484, type: 2}
-  starConnectionFactory: {fileID: 114212618831107792}
-  planetfactory: {fileID: 114358923448739294}
 --- !u!114 &114550784916167522
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -292,8 +312,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   creatorStack:
-  - {fileID: 114310238271337566}
+  - {fileID: 114432421797651502}
   sceneLoader: {fileID: 114631949399411676}
+--- !u!114 &114681954219070732
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1528691851071608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f54bc97cc96cfb46b2ca0f4e586cd77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sceneToPrefab:
+  - {fileID: 1883205605988992, guid: de3b5f400207c9c4ca27ac700c19635c, type: 2}
+  - {fileID: 0}
+  - {fileID: 1911534772598746, guid: 1c9e83256a4d6a74eaca2b974eea7da4, type: 2}
+  - {fileID: 1187759442596460, guid: ebdfba2cb373bb84e8e9c8edd858f484, type: 2}
+  starConnectionFactory: {fileID: 114182408884570654}
+  planetfactory: {fileID: 114302563319424390}
 --- !u!114 &114755449681422662
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -305,7 +343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8baea1ec2c2a5ac4f9bb18f3ac78fc15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  starFactory: {fileID: 114521524740155420}
+  starFactory: {fileID: 114681954219070732}
   holder: {fileID: 1773680751791624}
 --- !u!114 &114803522493948180
 MonoBehaviour:
@@ -318,7 +356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbf874c54948f6a4dbbb47c8a2770dba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  starFactory: {fileID: 114521524740155420}
+  starFactory: {fileID: 114681954219070732}
   holder: {fileID: 1773680751791624}
   centralNoHabZoneRadius: 30
   numBranches: 4

@@ -1,12 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
-namespace Objects.Galaxy.Holdable
+using Loaders;
+namespace Objects.Galaxy
 {
     public class TileFactory: MonoBehaviour
     {
         public Sprite[] sprites;
         public Sprite[] popSprites;
         public Sprite[] buildingSprites;
+        public void Start(){
+            var popSprites = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"pop");
+            Debug.Log("popSPrites: " + popSprites.Length);
+            foreach(var sprite in popSprites){
+                Debug.Log(sprite);
+            }
+        }
         public TileManager makeTileManager(){
             var width = (int)Random.Range(5,15);
             var height = width;
