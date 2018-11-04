@@ -5,15 +5,14 @@ namespace Objects.Galaxy
 {
     public class TileFactory: MonoBehaviour
     {
-        public Sprite[] sprites;
-        public Sprite[] popSprites;
-        public Sprite[] buildingSprites;
+        private Sprite[] tileSprites;
+        private Sprite[] popSprites;
+        private Sprite[] buildingSprites;
         public void Start(){
-            var popSprites = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"pop");
-            Debug.Log("popSPrites: " + popSprites.Length);
-            foreach(var sprite in popSprites){
-                Debug.Log(sprite);
-            }
+            popSprites = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"pop");
+            buildingSprites = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"building");
+            tileSprites = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"tile");
+            Debug.Log("SPRITES:"+tileSprites.Length + " " + popSprites.Length + " " + buildingSprites.Length);
         }
         public TileManager makeTileManager(){
             var width = (int)Random.Range(5,15);
@@ -29,9 +28,9 @@ namespace Objects.Galaxy
             if (shouldMakeBuilding){
                 var pops = makePops(Random.Range(1,10));
                 var building = makeBuilding(pops);
-                return new Tile(sprites[Random.Range(0,sprites.Length)], building,tileNum);
+                return new Tile(tileSprites[Random.Range(0,tileSprites.Length)], building,tileNum);
             }else{
-                return new Tile(sprites[Random.Range(0,sprites.Length)],tileNum);
+                return new Tile(tileSprites[Random.Range(0,tileSprites.Length)],tileNum);
             }
         }
         public Pop[] makePops(int num){

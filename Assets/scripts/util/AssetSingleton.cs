@@ -13,7 +13,7 @@ namespace Loaders{
 		public static AssetBundle sprites{get{return bundles[bundleNames.sprites];}}
 
 		public static AssetBundle prefabs{get{return bundles[bundleNames.prefabs];}}
-		public static Object[] getBundledDirectory<T> (string bundle, string directory)where T: UnityEngine.Object{
+		public static T[] getBundledDirectory<T> (string bundle, string directory)where T: UnityEngine.Object{
 			List<T> objectList = new List<T>();
 			foreach(var path in bundles[bundle].GetAllAssetNames()){
 				if (path.Contains(bundle+"/"+directory)){

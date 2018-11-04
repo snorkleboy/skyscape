@@ -38,7 +38,7 @@ namespace Objects.Galaxy
             Debug.Log("RENDER TILE CONTEXT");
             var holder =  new GameObject("TileContext");
             holder.transform.SetParent(parent, false);
-            holder.AddComponent<HorizontalLayoutGroup>();
+            holder.AddComponent<VerticalLayoutGroup>();
             holder.AddComponent<AspectRatioFitter>().aspectMode = UnityEngine.UI.AspectRatioFitter.AspectMode.FitInParent;
             renderIcon(callbacks).transform.SetParent(holder.transform, false);
 
