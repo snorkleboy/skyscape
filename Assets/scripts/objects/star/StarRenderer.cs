@@ -11,7 +11,7 @@ namespace Objects.Galaxy
         }
         public override void applyScript(GameObject go, StarNode script)
         {
-            go.GetComponent<StarStub>().starnode = script;
+            go.GetComponent<StarStub>().set(script);
         }
 
     }

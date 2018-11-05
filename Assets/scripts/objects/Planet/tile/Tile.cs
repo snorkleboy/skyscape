@@ -55,7 +55,14 @@ namespace Objects.Galaxy
             }
             return holder; 
         }
-        public GameObject renderIcon(){
+        public iconInfo getIconableInfo(){
+            var info = new iconInfo();
+            info.source = this;
+            info.name = "tile " +tilePosition;
+            info.icon = sprite;
+            return info;
+        }
+        private GameObject renderIcon(){
             var tile = new GameObject("TileIcon");
             tile.AddComponent<TileStub>().tile = this;
             var image = tile.AddComponent<Image>();

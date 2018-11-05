@@ -24,7 +24,14 @@ namespace Objects.Galaxy
             name = PopNames.names[UnityEngine.Random.Range(0,PopNames.names.Length-1)];
             money = UnityEngine.Random.Range(0,100);
         }
-        public GameObject renderIcon(){
+        public iconInfo getIconableInfo(){
+            var info = new iconInfo();
+            info.source = this;
+            info.name = name;
+            info.icon = popSprite;
+            return info;
+        }
+        private GameObject renderIcon(){
             var go =  new GameObject("popIcon");
             var image = go.AddComponent<Image>();
             image.sprite = popSprite;

@@ -2,12 +2,11 @@ using UnityEngine;
 
 namespace UI
 {
-    public abstract class Stub<T> : MonoBehaviour where T: IUIable
-    {
-        T stub;
-        public void setStub(T thing){
-            stub = thing;
+    public class Stub : MonoBehaviour{
+        protected void setUI<T>(T obj)where T : IUIable{
+            var icon = GetComponentInChildren<SpaceableIcon>();
+            icon.set(obj);
         }
-
     }
+
 }

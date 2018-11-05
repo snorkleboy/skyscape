@@ -1,0 +1,40 @@
+ManifestFileVersion: 0
+CRC: 529960609
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 67d7335b65abb18ff2ae8135220b1cd7
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: ea5a42e0fd8ea905efa7aa926a3b8944
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/runtimeLibrary/sprites/UI/44.png
+- Assets/runtimeLibrary/sprites/UI/53.png
+- Assets/runtimeLibrary/sprites/UI/34.png
+- Assets/runtimeLibrary/sprites/UI/83.png
+- Assets/runtimeLibrary/sprites/UI/51.png
+- Assets/runtimeLibrary/sprites/UI/69.png
+- Assets/runtimeLibrary/sprites/UI/71.png
+- Assets/runtimeLibrary/sprites/UI/79.png
+- Assets/runtimeLibrary/sprites/UI/33.png
+- Assets/runtimeLibrary/sprites/UI/back.png
+- Assets/runtimeLibrary/sprites/UI/31.png
+- Assets/runtimeLibrary/sprites/UI/58.png
+- Assets/runtimeLibrary/sprites/UI/63.png
+- Assets/runtimeLibrary/sprites/UI/X.png
+- Assets/runtimeLibrary/sprites/UI/36.png
+- Assets/runtimeLibrary/sprites/UI/45.png
+- Assets/runtimeLibrary/sprites/UI/46.png
+- Assets/runtimeLibrary/sprites/UI/94.png
+- Assets/runtimeLibrary/sprites/UI/86.png
+- Assets/runtimeLibrary/sprites/UI/93.png
+- Assets/runtimeLibrary/sprites/UI/89.png
+- Assets/runtimeLibrary/sprites/UI/43.png
+- Assets/runtimeLibrary/sprites/UI/47.png
+Dependencies: []

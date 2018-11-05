@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1134492773
+CRC: 60789603
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 24ed1baf05e3056d6d2f55b199cf34b5
+    Hash: 5abbc342d7f62c302eb79d020faa87fd
   TypeTreeHash:
     serializedVersion: 2
-    Hash: cc9556c263e60ec803b2ed018a7b1d30
+    Hash: 1e35dc63b7312113a2cf783244a6ec26
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -40,6 +40,8 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 1297475563, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 - Class: 114
+  Script: {fileID: 11500000, guid: fd6ba3c3138663940bb31e6c8c1db0fd, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: c0e46e043272b0f4ca5596f8f2a519dc, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 78edb6269d8577f4f9230c315f780a34, type: 3}
@@ -53,8 +55,6 @@ ClassTypes:
   Script: {fileID: 11500000, guid: 68b0b7198e0f28d4f95487b3b1dca714, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 7498162ec51ea4f43a9f9f1a312e2b79, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: c9c6e67e167c0e543a04ee4a2a6a021e, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 120
@@ -83,11 +83,11 @@ Assets:
 - Assets/runtimeLibrary/prefabs/star/protoStar.prefab
 - Assets/runtimeLibrary/prefabs/star/connection/justLine.prefab
 - Assets/runtimeLibrary/prefabs/star/connection/connection.prefab
+- Assets/runtimeLibrary/prefabs/UI/spaceableIcon.prefab
 - Assets/runtimeLibrary/prefabs/star/galaxyViewStar.prefab
 - Assets/runtimeLibrary/prefabs/UI/open_close.prefab
 - Assets/runtimeLibrary/prefabs/UI/main menu.prefab
 - Assets/runtimeLibrary/prefabs/UI/MainUI.prefab
 - Assets/runtimeLibrary/prefabs/star/starSystemViewStar.prefab
 - Assets/runtimeLibrary/prefabs/planet/planet.prefab
-- Assets/runtimeLibrary/prefabs/UI/helperIcon.prefab
 Dependencies: []

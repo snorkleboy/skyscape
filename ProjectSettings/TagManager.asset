@@ -6,6 +6,7 @@ TagManager:
   tags:
   - planetClickView
   - canvas
+  - icon
   layers:
   - Default
   - TransparentFX

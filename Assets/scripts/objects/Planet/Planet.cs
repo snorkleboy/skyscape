@@ -14,11 +14,13 @@ namespace Objects.Galaxy
         public string title{get;}
         private SingleSceneRenderer<Planet> planetRenderer { get; set; }
         public Transform transform { get { return renderHelper.transform; } }
+        public Sprite planetSprite;
         [SerializeField]public Vector3 position;
         [SerializeField]public TileManager tileManager;
-        public Planet(SingleSceneRenderer<Planet> renderer)
+        public Planet(SingleSceneRenderer<Planet> renderer,Sprite planetSprite)
         {
             title = "planet";
+            this.planetSprite = planetSprite;
             renderer.scriptSingelton = this;
             planetRenderer = renderer;
         }
@@ -39,8 +41,12 @@ namespace Objects.Galaxy
             text.transform.SetParent(holder.transform,false);
             return holder;
         }
-        public GameObject renderIcon(){
-            return new GameObject();
+        public iconInfo getIconableInfo(){
+            var info = new iconInfo();
+            info.source = this;
+            info.name = title;
+            info.icon = planetSprite;
+            return info;
         }
         public void render(int scene)
         {

@@ -46,10 +46,11 @@ namespace Objects
 
             Debug.Log("Hydrating Galaxy");
             hydrateProtoGalaxy();
-            Debug.Log("rendering galaxy");
-            _starNodes.render(2);
+
             Debug.Log("loading galaxy scene");
             SceneLoader.LoadByIndex(2);
+            Debug.Log("rendering galaxy");
+            _starNodes.render(2);
             Debug.Log("IN MAIN GAME");
         }
         public void hydrateProtoGalaxy(){

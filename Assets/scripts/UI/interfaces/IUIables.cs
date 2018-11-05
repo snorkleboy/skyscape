@@ -2,12 +2,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 namespace UI{
+
+    
+    public struct iconInfo{
+        public IUIable source;
+        public string name;
+        public Sprite icon;
+        public iconInfo[] details;
+
+    }
     public interface IUpdateable{
         int updateId{get;}
     }
+
     public interface IUIable : IUpdateable{
-        GameObject renderIcon();
-        string title{get;}
+        iconInfo getIconableInfo();
+
     }
 
     public interface IIconable : IUIable

@@ -45,7 +45,14 @@ namespace Objects.Galaxy
             return holder;
 
         }
-        public GameObject renderIcon(){
+        public iconInfo getIconableInfo(){
+            var info = new iconInfo();
+            info.source = this;
+            info.name = name;
+            info.icon = buildingSprite;
+            return info;
+        }
+        private GameObject renderIcon(){
             var go =  new GameObject("BuildingIcon");
             var image = go.AddComponent<Image>();
             image.sprite = buildingSprite;
