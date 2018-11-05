@@ -9,7 +9,7 @@ namespace Objects.Galaxy
 {
     public class Tile: IContextable, IIconable, IActOnable
     {
-        private Building building = null;
+        public Building building = null;
         public int updateId{get;}
         public void setBuilding(Building building){
             this.building = building;

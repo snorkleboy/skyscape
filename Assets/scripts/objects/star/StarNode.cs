@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using UI;
 using UnityEngine.UI;
+using Loaders;
 namespace Objects.Galaxy
 {
     [System.Serializable]
@@ -15,9 +16,12 @@ namespace Objects.Galaxy
         public Transform transform { get { return renderHelper.transform; } }
         public Vector3 position;
         public Sprite Icon;
+
+        public string name;
         [SerializeField] private List<StarConnection> _connections;
         public StarNode(HolderRenderer<StarNode> renderer, Sprite Icon)
         {
+            name = StarNames.names[UnityEngine.Random.Range(0,StarNames.names.Length-1)];
             this.Icon = Icon;
             this.starRenderer = renderer;
             renderer.scriptSingelton = this;
@@ -33,8 +37,33 @@ namespace Objects.Galaxy
         public iconInfo getIconableInfo(){
             var info = new iconInfo();
             info.source = this;
-            info.name = position.ToString();
+            info.name = name;
             info.icon = Icon;
+            var details = new iconInfo[2];
+            var detail = new iconInfo();
+            detail.name = planets.Length.ToString();
+            var bundle = AssetSingleton.bundles[AssetSingleton.bundleNames.sprites];
+            var asset = bundle.LoadAsset<Sprite>("43");
+            detail.icon = asset;
+            details[0] = detail;
+            
+
+            var otherDetail = new iconInfo();
+            var popNum = 0;
+            foreach(var planet in planets){
+               foreach(var tile in  planet.tileManager.tiles){
+                   if (tile.building != null){
+                       if (tile.building.pops != null){
+                           popNum += tile.building.pops.Count;
+                       }
+                   }
+               }
+            }
+            otherDetail.name = popNum.ToString();
+            otherDetail.icon =  AssetSingleton.bundles[AssetSingleton.bundleNames.sprites].LoadAsset<Sprite>("69");
+            details[1] = otherDetail;
+
+            info.details = details;
             return info;
         }
         public List<StarConnection> connections

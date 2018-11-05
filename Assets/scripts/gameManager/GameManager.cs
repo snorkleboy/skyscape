@@ -37,13 +37,11 @@ namespace Objects
             loadStartGame();
         }
         private async Task loadStartGame(){
-            UnityEngine.SceneManagement.SceneManager.LoadScene(1);
-
-            Debug.Log("loading screen loaded");
-            await Task.Delay(1000);
             Debug.Log("destroying protogalaxy");
             _starNodes.destroy();
-
+            SceneLoader.LoadByIndex(1);
+            Debug.Log("loading screen loaded");
+            await Task.Delay(1000);
             Debug.Log("Hydrating Galaxy");
             hydrateProtoGalaxy();
 

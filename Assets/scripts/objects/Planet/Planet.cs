@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UI;
 namespace Objects.Galaxy
 {
+
     [System.Serializable]
     public class Planet :IViewable,IContextable, IRenderable
     {

@@ -9,15 +9,7 @@ namespace Util{
             return canvas;
         }
         void Awake () {
-            Debug.Log("CANVAS SINGELTON AWAKE");
-
-
             canvas = transform.gameObject;
-            if (canvas == null) {
-                Debug.Log("WHAT IS GOING ON CANVAS NULL");
-            }else{
-                Debug.Log("CANVAS SET");
-            }
         }
 
     }

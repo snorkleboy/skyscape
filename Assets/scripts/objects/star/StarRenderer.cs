@@ -11,7 +11,11 @@ namespace Objects.Galaxy
         }
         public override void applyScript(GameObject go, StarNode script)
         {
-            go.GetComponent<StarStub>().set(script);
+           var stub = go.GetComponent<StarStub>();
+           bool fullStar = stub != null;
+           if (fullStar){
+               stub.set(script);
+           }
         }
 
     }

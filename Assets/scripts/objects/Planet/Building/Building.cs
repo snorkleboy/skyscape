@@ -52,7 +52,7 @@ namespace Objects.Galaxy
             info.icon = buildingSprite;
             return info;
         }
-        private GameObject renderIcon(){
+        public GameObject renderIcon(){
             var go =  new GameObject("BuildingIcon");
             var image = go.AddComponent<Image>();
             image.sprite = buildingSprite;

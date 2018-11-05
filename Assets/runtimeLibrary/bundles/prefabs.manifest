@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 60789603
+CRC: 1682996943
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 5abbc342d7f62c302eb79d020faa87fd
+    Hash: 99c761e4ae60715ad5e92fe12a4c56cf
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 1e35dc63b7312113a2cf783244a6ec26
+    Hash: 59e25ad4d261e8477a7acbafe0dbcc2f
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -81,6 +81,7 @@ ClassTypes:
   Script: {instanceID: 0}
 Assets:
 - Assets/runtimeLibrary/prefabs/star/protoStar.prefab
+- Assets/runtimeLibrary/prefabs/planet/planet 1.prefab
 - Assets/runtimeLibrary/prefabs/star/connection/justLine.prefab
 - Assets/runtimeLibrary/prefabs/star/connection/connection.prefab
 - Assets/runtimeLibrary/prefabs/UI/spaceableIcon.prefab
