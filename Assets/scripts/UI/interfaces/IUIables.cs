@@ -5,6 +5,12 @@ namespace UI{
 
     
     public struct iconInfo{
+        public iconInfo(string name,Sprite icon,IUIable source = null, iconInfo[] details=null){
+            this.source = source;
+            this.name = name;
+            this.icon = icon;
+            this.details = details;
+        }
         public IUIable source;
         public string name;
         public Sprite icon;

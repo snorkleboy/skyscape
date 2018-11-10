@@ -56,6 +56,7 @@ namespace Objects.Galaxy
             var go =  new GameObject("BuildingIcon");
             var image = go.AddComponent<Image>();
             image.sprite = buildingSprite;
+            image.rectTransform.sizeDelta = new Vector2(20,20);
             return go;
         }
         public GameObject renderIcon(clickViews viewCallBacks){

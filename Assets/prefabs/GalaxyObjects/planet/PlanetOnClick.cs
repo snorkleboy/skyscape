@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Objects.Galaxy;
 using UI;
+using Objects;
 public class PlanetOnClick : MonoBehaviour {
 	public PlanetStub planet;
 	public PlanetClickView ui; 
 
 	public void Start(){
-		var canvas = Util.GetSingletonCanvas.canvas;
+		var canvas = GameManager.instance.sceneCanvas;
 		if (canvas != null){
 			ui = canvas.GetComponentInChildren<PlanetClickView>(true);
 			if (ui == null){

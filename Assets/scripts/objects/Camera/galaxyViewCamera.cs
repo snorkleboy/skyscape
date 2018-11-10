@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class galaxyViewCamera : MonoBehaviour
 {
-    public float flySpeed = 1.0f;
+    public float flySpeed = 100.0f;
     public Vector2 flySpeedLimit = new Vector2(0, 10);
     public float rotationSpeed = 120.0f;
     public Vector2 sensitivity = new Vector2(2, 2);
@@ -26,9 +26,9 @@ public class galaxyViewCamera : MonoBehaviour
     void panByKeyBoard()
     {
         if (Input.GetAxis("Vertical") != 0)
-            transform.Translate(transform.forward * flySpeed * Input.GetAxis("Vertical"), Space.World);
+            transform.Translate(transform.forward * flySpeed * Input.GetAxis("Vertical") * Time.deltaTime, Space.World);
         if (Input.GetAxis("Horizontal") != 0)
-            transform.Translate(transform.right * flySpeed * Input.GetAxis("Horizontal"), Space.World);
+            transform.Translate(transform.right * flySpeed * Input.GetAxis("Horizontal") * Time.deltaTime, Space.World);
     }
     void zoomChangeByScroll() {
         var input = Input.GetAxis("Mouse ScrollWheel");

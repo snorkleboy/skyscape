@@ -1,8 +1,26 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 namespace Objects.Galaxy
 {
 
 public static class StarNames{
-        public static string[] names = new string[]{
+    public static List<string> usedNames = new List<string>();
+    public static string getName(){
+        var name = names[0];
+        if (name != null){
+            names.RemoveAt(0);
+            return name;
+        }else{
+            var temp = names;
+            names = usedNames;
+            usedNames = temp;
+            Debug.LogWarning("out of unused star names, switching to used names");
+            return getName();
+        }
+
+    }
+    public static List<string> names = new List<string>(){
 "ACHERNAR",
 "Achird",
 "ACRUX",

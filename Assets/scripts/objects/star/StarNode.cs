@@ -21,7 +21,7 @@ namespace Objects.Galaxy
         [SerializeField] private List<StarConnection> _connections;
         public StarNode(HolderRenderer<StarNode> renderer, Sprite Icon)
         {
-            name = StarNames.names[UnityEngine.Random.Range(0,StarNames.names.Length-1)];
+            name = StarNames.names[UnityEngine.Random.Range(0,StarNames.names.Count-1)];
             this.Icon = Icon;
             this.starRenderer = renderer;
             renderer.scriptSingelton = this;

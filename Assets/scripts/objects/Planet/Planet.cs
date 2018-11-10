@@ -8,7 +8,7 @@ namespace Objects.Galaxy
 {
 
     [System.Serializable]
-    public class Planet :IViewable,IContextable, IRenderable
+    public class Planet :IViewable,IContextable,IActOnable, IRenderable
     {
         public int updateId{get;}
         public IRenderer renderHelper { get { return planetRenderer; } }
@@ -18,16 +18,41 @@ namespace Objects.Galaxy
         public Sprite planetSprite;
         [SerializeField]public Vector3 position;
         [SerializeField]public TileManager tileManager;
-        public Planet(SingleSceneRenderer<Planet> renderer,Sprite planetSprite)
+        [SerializeField]public ShipFactory shipFactory;
+        public Planet(SingleSceneRenderer<Planet> renderer,Sprite planetSprite, ShipFactory shipFactory)
         {
             title = "planet";
             this.planetSprite = planetSprite;
             renderer.scriptSingelton = this;
             planetRenderer = renderer;
+            this.shipFactory = shipFactory;
+        }
+        public GameObject renderActionView(Transform parent, clickViews callbacks){
+            Debug.Log("RENDER ACTION VIEW");
+            var holder = new GameObject("planet action view");
+            var layout = holder.AddComponent<VerticalLayoutGroup>();
+            layout.childControlHeight = false;
+		    layout.childControlWidth = false;
+            layout.childForceExpandHeight = false;
+            layout.childForceExpandWidth = false;
+
+            var makeShipButton = new GameObject("makeShip");
+            var button = makeShipButton.AddComponent<Button>();
+            button.onClick.AddListener(()=>{
+                Debug.Log("making ship");
+                shipFactory.makeShip(transform).render(3);
+            });
+            var text = makeShipButton.AddComponent<Text>();
+            text.text = "make ship";
+            text.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
+ 
+            makeShipButton.transform.SetParent(parent,false);
+            return holder;
         }
         public GameObject renderUIView(Transform parent, clickViews callbacks){
             Debug.Log("planet render UIVIEW");
             callbacks.contextViewCallback(this);
+            callbacks.actionViewCallBack(this);
             return tileManager.renderUIView(parent,callbacks);
         }
         public GameObject renderContext(Transform parent, clickViews callbacks){

@@ -8,7 +8,7 @@ public class AssetLoader
     [MenuItem("Assets/Build AssetBundles")]
     static void BuildAllAssetBundles()
     {
-        string assetBundleDirectory = "Assets/runtimeLibrary/bundles";
+        string assetBundleDirectory = "Assets/StreamingAssets/bundles";
         if(!Directory.Exists(assetBundleDirectory))
 		{
 			Directory.CreateDirectory(assetBundleDirectory);

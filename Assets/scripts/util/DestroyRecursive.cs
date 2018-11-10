@@ -15,9 +15,9 @@ namespace Util
             {
                 destroyRecursive(trans);
 #if UNITY_EDITOR
-                GameObject.DestroyImmediate(trans.gameObject);
+    GameObject.DestroyImmediate(trans.gameObject);
 #else
-                            GameObject.Destroy(trans.gameObject);
+    GameObject.Destroy(trans.gameObject);
 #endif
             }
         }

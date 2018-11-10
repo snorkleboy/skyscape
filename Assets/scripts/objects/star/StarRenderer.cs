@@ -17,6 +17,13 @@ namespace Objects.Galaxy
                stub.set(script);
            }
         }
+        public override bool render(int scene){
+            if(base.render(scene)){
+                activeGO.name = scriptSingelton.name;
+            }
+            return true;
+
+        }
 
     }
 }

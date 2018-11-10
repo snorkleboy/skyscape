@@ -35,6 +35,7 @@ namespace Objects.Galaxy
             var go =  new GameObject("popIcon");
             var image = go.AddComponent<Image>();
             image.sprite = popSprite;
+            image.rectTransform.sizeDelta = new Vector2(20,20);
             return go;
         }
         public GameObject renderIcon(clickViews viewCallBacks){

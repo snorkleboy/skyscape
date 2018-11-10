@@ -12,7 +12,6 @@ namespace Objects.Galaxy
             popSprites = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"pop");
             buildingSprites = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"building");
             tileSprites = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"tile");
-            Debug.Log("SPRITES:"+tileSprites.Length + " " + popSprites.Length + " " + buildingSprites.Length);
         }
         public TileManager makeTileManager(){
             var width = (int)Random.Range(5,15);

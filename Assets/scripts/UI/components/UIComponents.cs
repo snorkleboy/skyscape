@@ -24,8 +24,6 @@ namespace UI
                 layout.childForceExpandWidth = false;
             }
 
-
-
             var img = new GameObject("image");
             var imgComp = img.AddComponent<Image>();
             imgComp.sprite = sprite;

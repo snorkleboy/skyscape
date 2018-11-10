@@ -38,20 +38,30 @@ namespace Objects.Galaxy
             Debug.Log("RENDER TILE CONTEXT");
             var holder =  new GameObject("TileContext");
             holder.transform.SetParent(parent, false);
-            holder.AddComponent<VerticalLayoutGroup>();
+            var layout = holder.AddComponent<VerticalLayoutGroup>();
+            layout.childControlHeight = false;
+            layout.childControlWidth = false;
+            layout.childForceExpandHeight = false;
+            layout.childForceExpandWidth = false;
             holder.AddComponent<AspectRatioFitter>().aspectMode = UnityEngine.UI.AspectRatioFitter.AspectMode.FitInParent;
-            renderIcon(callbacks).transform.SetParent(holder.transform, false);
+            var thisIcon = renderSimpleIcon();
+            thisIcon.transform.SetParent(holder.transform, false);
+            thisIcon.AddComponent<AspectRatioFitter>().aspectMode = UnityEngine.UI.AspectRatioFitter.AspectMode.FitInParent;
 
             if (building != null){
                 var right = new GameObject("info-right");
                 right.transform.SetParent(holder.transform, false);
-                right.AddComponent<VerticalLayoutGroup>();
+                layout = right.AddComponent<VerticalLayoutGroup>();
+                layout.childControlHeight = false;
+                layout.childControlWidth = false;
+                layout.childForceExpandHeight = false;
+                layout.childForceExpandWidth = false;
                 building.renderIcon(callbacks).transform.SetParent(right.transform,false);
                 foreach( var infoObj in building.renderInfo(callbacks)){
                     infoObj.transform.SetParent(right.transform,false);
                 }
             }else{
-                Debug.Log("no buildin");
+                Debug.Log("no building");
             }
             return holder; 
         }
@@ -62,15 +72,23 @@ namespace Objects.Galaxy
             info.icon = sprite;
             return info;
         }
-        private GameObject renderIcon(){
+        private GameObject renderSimpleIcon(int width = 20,int height = 20 ){
             var tile = new GameObject("TileIcon");
             tile.AddComponent<TileStub>().tile = this;
             var image = tile.AddComponent<Image>();
             image.sprite = sprite;
+            if (building != null){
+                var bInfo = building.getIconableInfo();
+                var topImage = new GameObject("buildingSprite");
+                topImage.transform.SetParent(tile.transform);
+                topImage.AddComponent<Image>().sprite = bInfo.icon;
+                topImage.AddComponent<AspectRatioFitter>().aspectMode = AspectRatioFitter.AspectMode.FitInParent;
+            }
+            image.rectTransform.sizeDelta = new Vector2(width,height);
             return tile;
         }
         public GameObject renderIcon(clickViews callbacks){
-            var tile = renderIcon();
+            var tile = renderSimpleIcon();
             var button = tile.AddComponent<UnityEngine.UI.Button>();
             button.onClick.AddListener(()=>{Debug.Log("clicked" + this);callbacks.contextViewCallback(this);callbacks.actionViewCallBack(this);});
             return tile;

@@ -18,7 +18,7 @@ namespace Objects.Galaxy
         {
             var rep = new PlanetRenderer(baseStarFab);
             rep.parent = holder;
-            Planet planet = new Planet(rep,planetSprites[Random.Range(0,planetSprites.Length-1)]);
+            Planet planet = new Planet(rep,planetSprites[Random.Range(0,planetSprites.Length-1)], GameManager.instance.shipFactory);
             planet.tileManager = tileFactory.makeTileManager();
             return planet;
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Objects.Galaxy;
+using Objects;
 using UI;
 public class StarStub : Stub {
     private GameObject floatingIcon;
@@ -19,7 +20,7 @@ public class StarStub : Stub {
     public void Update(){
 
         if (canvas == null){
-            canvas = Util.GetSingletonCanvas.getCanvas();
+            canvas = GameManager.instance.sceneCanvas.gameObject;
         }
 
         if (floatingIcon == null){

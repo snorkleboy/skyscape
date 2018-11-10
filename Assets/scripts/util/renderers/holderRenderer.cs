@@ -5,7 +5,7 @@ namespace Objects.Galaxy
 {
     public abstract class HolderRenderer<type> : PerSceneRenderer<type>
     {
-        Dictionary<Guid, IRenderable> renderables = new Dictionary<Guid, IRenderable>();
+        public Dictionary<Guid, IRenderable> renderables = new Dictionary<Guid, IRenderable>();
         private Vector3 position;
         public void addRenderables(IRenderable[] renderablesIn)
         {
