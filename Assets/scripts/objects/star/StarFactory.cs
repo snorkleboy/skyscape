@@ -14,6 +14,8 @@ namespace Objects.Galaxy
             starIconSprites = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"star");
             if (starIconSprites == null){
                 Debug.LogError("failed to load StarIcon Sprites");
+            }else{
+                Debug.Log("loaded StarIcon Sprites  "+starIconSprites.Length  );
             }
         }
 
@@ -21,11 +23,16 @@ namespace Objects.Galaxy
         {
             return createStar(holder);
         }
+        public StarNode createStar(Transform holder, Vector3 position){
+           var node = createStar(holder);
+            node.position = position;
+            return node;
+        }
+
         public StarNode createStar(Transform holder)
         {
             var rep = new StarRenderer(_sceneToPrefab, holder);
             var star = new StarNode(rep,starIconSprites[0]);
-            star.render(0);
             return star;
         }
         public virtual StarConnection makeConnection(StarNode a, StarNode b)

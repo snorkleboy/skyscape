@@ -17,7 +17,11 @@ namespace Objects.Galaxy
         public override bool render(int scene)
         {
             if (scene == _scene){
-                activeGO = GameObject.Instantiate(_prefab, parent);
+                if(parent){
+                    activeGO = GameObject.Instantiate(_prefab, parent);
+                }else{
+                    activeGO = GameObject.Instantiate(_prefab);
+                }
                 active = true;
                 return true;
             }else{

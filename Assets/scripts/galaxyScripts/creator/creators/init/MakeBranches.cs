@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace GalaxyCreators
 {
-    public class MakeBranches : StarMaker
+    public class MakeBranches : ProtoStarMaker
     {
         [Range(1, 50)]
         [SerializeField] public int perStarAngle = 10;
@@ -17,7 +17,7 @@ namespace GalaxyCreators
         [Range(1, 40)]
         [SerializeField] public int branchSize = 10;
         public void setBanchSize(Slider slider) { branchSize = (int)slider.value; }
-        public override Dictionary<int, List<StarNode>> actOn(Dictionary<int, List<StarNode>> starNodes)
+        public override Dictionary<int, List<ProtoStar>> actOn(Dictionary<int, List<ProtoStar>> starNodes)
         {
             foreach (var ketVal in starNodes)
             {
@@ -26,7 +26,7 @@ namespace GalaxyCreators
             return starNodes;
         }
 
-        private List<StarNode> createBranch(List<StarNode> starArr, int branchI)
+        private List<ProtoStar> createBranch(List<ProtoStar> starArr, int branchI)
         {
             var numStars = (int)(branchSize * Random.Range(.8f, 1.2f));
             for (int i = 1; i < numStars; i++)
@@ -37,7 +37,7 @@ namespace GalaxyCreators
             }
             return starArr;
         }
-        private StarNode createStarNode(List<StarNode> starArr, int branchNum, int starI)
+        private ProtoStar createStarNode(List<ProtoStar> starArr, int branchNum, int starI)
         {
             var branchLeader = starArr[0];
             var ran = (int)Random.Range(-1, 1);

@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Objects;
+using Objects.Galaxy;
+using GalaxyCreators;
 public class StartGame : MonoBehaviour {
 
-    public GalaxyCreators.galaxyCreator creator;
+    public ProtoGalaxyCreator creator;
     public GameManager gameManager;
 
-    public void StartGameA()
+    public async void startGame()
     {
         Debug.Log("StartGame Button handler called, calling gameManager start");
-        gameManager.startgame(creator.starNodes);
+        await gameManager.startgame(creator.starNodes);
     }
 }

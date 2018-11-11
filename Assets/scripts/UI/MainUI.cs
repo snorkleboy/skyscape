@@ -29,11 +29,9 @@ public class MainUI : MonoBehaviour {
 		text.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
 		text.text = userFactionInfo.name;
 		nameHolder.transform.SetParent(holder.transform);
-		Debug.Log("Making Detials");
 		if (userFactionInfo.details != null){
 			foreach (var subInfo in userFactionInfo.details )
 			{
-				Debug.Log("subInfo.name =" + subInfo.name);
 				var detail = subInfo.name;
 				var detailHolder = new GameObject(detail);
 				text = detailHolder.AddComponent<Text>();

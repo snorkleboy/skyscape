@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Objects.Galaxy;
 namespace GalaxyCreators
 {
     public class GalaxyMenuListener : MonoBehaviour
@@ -9,7 +10,7 @@ namespace GalaxyCreators
         public Slider centralNoZoneSlider;
         public Slider perStarAngleSlider;
         public Slider starDistenceSlider;
-        public galaxyCreator creator;
+        public galaxyCreator<ProtoStar> creator;
     }
 }
 

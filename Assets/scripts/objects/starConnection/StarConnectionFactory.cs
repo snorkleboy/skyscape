@@ -8,17 +8,15 @@ namespace Objects.Galaxy
     {
         public GameObject[] _sceneToPrefab;
 
-        public void Start(){
+        public void Awake(){
             
             _sceneToPrefab = new GameObject[4];
             _sceneToPrefab[2] = AssetSingleton.getBundle(AssetSingleton.bundleNames.prefabs).LoadAsset<GameObject>("connection");
             _sceneToPrefab[0] = AssetSingleton.getBundle(AssetSingleton.bundleNames.prefabs).LoadAsset<GameObject>("justLine");
             _sceneToPrefab[3] = AssetSingleton.getBundle(AssetSingleton.bundleNames.prefabs).LoadAsset<GameObject>("starViewConnection");
-            Debug.Log("STARVIEW CONNECTION PREFAB:" + _sceneToPrefab[3]);
         }
         public StarConnection makeConnection(StarNode a, StarNode b)
         {
-            gameObject.name = "connection";
             var starNodes = new StarNode[] { a, b };
             var renderer = new StarConnectionRenderHelper(_sceneToPrefab, starNodes);
             renderer.parent = a.transform;

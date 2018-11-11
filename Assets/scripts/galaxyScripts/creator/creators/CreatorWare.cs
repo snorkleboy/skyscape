@@ -4,20 +4,28 @@ using UnityEngine;
 using Objects.Galaxy;
 namespace GalaxyCreators
 {
-    public class CreatorWare : MonoBehaviour
+    public interface ICreator<T>
     {
-        public virtual Dictionary<int, List<StarNode>> actOn(Dictionary<int, List<StarNode>> starNodes)
-        {
-            return starNodes;
-        }
+        Dictionary<int, List<T>> actOn(Dictionary<int, List<T>> nodes);
+        
     }
-
-    public class StarMaker : CreatorWare
+    public class ProtoStarMaker : MonoBehaviour,ICreator<ProtoStar>
     {
-        [SerializeField]
-        public StarFactory starFactory;
-        [SerializeField]
+        public ProtoStarFactory starFactory;
         public GameObject holder;
+        public virtual Dictionary<int, List<ProtoStar>> actOn(Dictionary<int, List<ProtoStar>> nodes){
+            return nodes;
+        }
+
+
+    }
+        public class StarMaker : MonoBehaviour,ICreator<StarNode>
+    {
+        public ProtoStarFactory starFactory;
+        public GameObject holder;
+        public virtual Dictionary<int, List<StarNode>> actOn(Dictionary<int, List<StarNode>> nodes){
+            return nodes;
+        }
     }
 
 }

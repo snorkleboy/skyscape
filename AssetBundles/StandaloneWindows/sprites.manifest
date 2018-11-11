@@ -1,0 +1,65 @@
+ManifestFileVersion: 0
+CRC: 2314548176
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 6b14f50fb5118659dbe29e0a5ae298ea
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 1e19a299b959f5b712c049d7eedf4f33
+HashAppended: 0
+ClassTypes:
+- Class: 89
+  Script: {instanceID: 0}
+Assets:
+- Assets/runtimeassets/sprites/UI/44.png
+- Assets/runtimeassets/sprites/UI/53.png
+- Assets/runtimeassets/sprites/planet/icons/earthy.png
+- Assets/runtimeassets/sprites/UI/34.png
+- Assets/runtimeassets/sprites/pop/icons/moodyGuy.png
+- Assets/runtimeassets/sprites/pop/icons/bigHair.png
+- Assets/runtimeassets/sprites/UI/83.png
+- Assets/runtimeassets/sprites/tile/ground6_Diffuse.tga
+- Assets/runtimeassets/sprites/UI/51.png
+- Assets/runtimeassets/sprites/pop/icons/pinkHair.png
+- Assets/runtimeassets/sprites/planet/icons/beige.png
+- Assets/runtimeassets/sprites/planet/icons/teal.png
+- Assets/runtimeassets/sprites/pop/icons/swordGuy.png
+- Assets/runtimeassets/sprites/UI/69.png
+- Assets/runtimeassets/sprites/tile/ground4_Diffuse.tga
+- Assets/runtimeassets/sprites/UI/71.png
+- Assets/runtimeassets/sprites/UI/79.png
+- Assets/runtimeassets/sprites/UI/33.png
+- Assets/runtimeassets/sprites/tile/ground12_Diffuse.tga
+- Assets/runtimeassets/sprites/building/icons/whiteTall.png
+- Assets/runtimeassets/sprites/UI/back.png
+- Assets/runtimeassets/sprites/building/icons/orangeTall.png
+- Assets/runtimeassets/sprites/building/icons/whiteHouse.png
+- Assets/runtimeassets/sprites/pop/icons/whiteHair.png
+- Assets/runtimeassets/sprites/UI/31.png
+- Assets/runtimeassets/sprites/UI/58.png
+- Assets/runtimeassets/sprites/planet/icons/purpleGreen.png
+- Assets/runtimeassets/sprites/UI/63.png
+- Assets/runtimeassets/sprites/UI/X.png
+- Assets/runtimeassets/sprites/tile/ground5_Diffuse.tga
+- Assets/runtimeassets/sprites/UI/36.png
+- Assets/runtimeassets/sprites/UI/45.png
+- Assets/runtimeassets/sprites/UI/46.png
+- Assets/runtimeassets/sprites/UI/94.png
+- Assets/runtimeassets/sprites/pop/icons/trenchGirl.png
+- Assets/runtimeassets/sprites/building/icons/whiteWide.png
+- Assets/runtimeassets/sprites/pop/icons/darkHippy.png
+- Assets/runtimeassets/sprites/tile/ground9_Diffuse.tga
+- Assets/runtimeassets/sprites/UI/86.png
+- Assets/runtimeassets/sprites/planet/icons/pink.png
+- Assets/runtimeassets/sprites/building/icons/factory.png
+- Assets/runtimeassets/sprites/UI/93.png
+- Assets/runtimeassets/sprites/planet/icons/othereathy.png
+- Assets/runtimeassets/sprites/tile/ground1_Diffuse.tga
+- Assets/runtimeassets/sprites/star/sun.jpg
+- Assets/runtimeassets/sprites/UI/89.png
+- Assets/runtimeassets/sprites/planet/icons/brown.png
+- Assets/runtimeassets/sprites/UI/43.png
+- Assets/runtimeassets/sprites/UI/47.png
+- Assets/runtimeassets/sprites/pop/icons/goggles.png
+Dependencies: []

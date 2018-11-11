@@ -25,25 +25,56 @@ namespace Objects
         public FactionManager factions = new FactionManager();
         public Transform sceneCanvas;
         public MainUI mainUI;
-        public List<CreatorWare> creatorStack = new List<CreatorWare>();
-
-        public ShipFactory shipFactory = new ShipFactory();
+        public List<ICreator<StarNode>> creatorStack = new List<ICreator<StarNode>>();
+        public GameObject GameCreatorPrefab;
+        public ShipFactory shipFactory;
         void Awake()
         {
             Debug.Log("game manager awake");
-            Debug.Log("loading bundles");
-            var bundles = SceneLoader.loadBundles();
-            SceneLoader.loadAssets(bundles);
-
-            instance = this;
         }
         private int scene;
         private StarNode selectedStar;
-        public async Task startgame(Dictionary<int, List<StarNode>> starNodes)
+        public async Task startgame(Dictionary<int, List<ProtoStar>> protoNodes)
         {
-            Debug.Log("Start Game Called");
-            _starNodes = new StarNodeCollection(starNodes);
-            await loadStartGame();
+            instance = this;
+            Debug.Log("Start Game Called, loading loading screen");
+            loadByIndex(1);
+            await Task.Delay(200);
+            Debug.Log("loading screen loaded");
+            await buildGame(protoNodes);
+        }
+        public async Task buildGame(Dictionary<int, List<ProtoStar>> protoNodes){
+            Debug.Log("loading bundles");
+            var bundles = SceneLoader.loadBundles();
+            SceneLoader.loadAssets(bundles);
+            
+            Debug.Log("Making Factories");
+            shipFactory = this.gameObject.AddComponent<ShipFactory>();
+            var creator = GameObject.Instantiate(GameCreatorPrefab);
+            var galCreator = creator.GetComponentInChildren<GameGalaxyCreator>();
+            creator.SetActive(true);
+            var galHolder = GameObject.Find("Galaxy");
+            galHolder.transform.SetParent(transform);
+            await Task.Delay(200);
+
+            Debug.Log("converting protostars to starnodes");
+            _starNodes = new StarNodeCollection(galCreator.hydrate(protoNodes));
+
+            Debug.Log("creating user faction");
+            var faction = new Faction("my Faction");
+            factions.factions.Add(faction.name,faction);
+            user = new User(faction);
+
+            Debug.Log("setting up UI");
+            mainUI.setManager(this);
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded += getSceneCanvas;
+
+            Debug.Log("loading galaxy scene");
+            loadByIndex(2);
+            Debug.Log("rendering galaxy");
+            _starNodes.render(2);
+            mainUI.transform.gameObject.SetActive(true);
+            Debug.Log("IN MAIN GAME");
         }
         private void getSceneCanvas(Scene scene, LoadSceneMode mode){
             Debug.Log("getting canvas  "+ scene.buildIndex);
@@ -52,34 +83,7 @@ namespace Objects
                 Debug.LogWarning("scene canvas not found. scene:"+ scene.buildIndex);
             }
         }
-        private async Task loadStartGame(){
-            Debug.Log("destroying protogalaxy");
-            _starNodes.destroy();
-            loadByIndex(1);
-            Debug.Log("loading screen loaded");
-            Debug.Log("Hydrating Galaxy");
-            hydrateProtoGalaxy();
-            Debug.Log("creating user faction");
-            var faction = new Faction("my Faction");
-            Debug.Log(faction.name);
-            factions.factions.Add(faction.name,faction);
-            user = new User(faction);
-            Debug.Log("setting ui");
-            mainUI.setManager(this);
-            UnityEngine.SceneManagement.SceneManager.sceneLoaded += getSceneCanvas;
-            Debug.Log("loading galaxy scene");
-            loadByIndex(2);
-            Debug.Log("rendering galaxy");
-            _starNodes.render(2);
-            mainUI.transform.gameObject.SetActive(true);
-            Debug.Log("IN MAIN GAME");
-        }
-        public void hydrateProtoGalaxy(){
-            foreach (CreatorWare creator in creatorStack)
-            {
-                creator.actOn(_starNodes._starNodes);
-            }
-        }
+
         void onStarLoaded(Scene scene, LoadSceneMode mode)
         {
             Debug.Log("OnSceneLoaded: " + scene.name);

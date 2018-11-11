@@ -14,11 +14,7 @@ namespace Util
             foreach (Transform trans in parent)
             {
                 destroyRecursive(trans);
-#if UNITY_EDITOR
-    GameObject.DestroyImmediate(trans.gameObject);
-#else
-    GameObject.Destroy(trans.gameObject);
-#endif
+                GameObject.Destroy(trans.gameObject);
             }
         }
     }

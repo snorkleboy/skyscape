@@ -6,45 +6,37 @@ using Util;
 
 namespace GalaxyCreators
 {
-    public class galaxyCreator : MonoBehaviour
+
+    public class galaxyCreator<T> : MonoBehaviour
     {
 
         [Header("Galaxy Settings")]
         [Space(10)]
-        [SerializeField] public List<CreatorWare> creatorStack = new List<CreatorWare>();
-        [SerializeField] public Dictionary<int, List<StarNode>> starNodes { get; set; }
+        [SerializeField] public List<ICreator<T>> creatorStack = new List<ICreator<T>>();
+        [SerializeField] public Dictionary<int, List<T>> starNodes { get; set; }
         public GameObject holder;
-        private bool created = false;
-        public void create()
+        protected bool created = false;
+        public virtual void create()
         {
+            Debug.Log("CREATE GALAXY");
             if (created)
             {
                 destroy();
                 created = false;
             }
-            starNodes = new Dictionary<int, List<StarNode>>();
-            foreach (CreatorWare creator in creatorStack)
+            starNodes = new Dictionary<int, List<T>>();
+            foreach (ICreator<T> creator in creatorStack)
             {
                 creator.actOn(starNodes);
             }
 
             created = true;
         }
-
         public void destroy()
         {
-            foreach (var keyVal in starNodes)
-            {
-                foreach (var star in keyVal.Value)
-                {
-                    star.renderHelper.destroy();
-                }
-            }
             Util.Util.destroyRecursive(holder.transform);
-            starNodes = new Dictionary<int, List<StarNode>>();
+            starNodes = new Dictionary<int, List<T>>();
         }
-
-
     }
 
 }

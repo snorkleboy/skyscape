@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 namespace Loaders{
 
 	public static  class AssetSingleton {
@@ -17,10 +18,15 @@ namespace Loaders{
 			List<T> objectList = new List<T>();
 			foreach(var path in bundles[bundle].GetAllAssetNames()){
 				if (path.Contains(bundle+"/"+directory)){
+					var assets = bundles[bundle];
+					var obj = assets.LoadAsset<T>(path);
 					objectList.Add(
-						bundles[bundle].LoadAsset<T>(path)
+						obj
 					);
 				}
+			}
+			if (objectList == null && objectList.Count > 0){
+				throw new Exception("error getting bundle " + bundle + " " + directory);
 			}
 			return objectList.ToArray();
 		}

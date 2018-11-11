@@ -6,18 +6,18 @@ using UnityEngine.UI;
 
 namespace GalaxyCreators
 {
-    class MakeLeaves : StarMaker
+    class MakeLeaves : ProtoStarMaker
     {
-        public override Dictionary<int, List<StarNode>> actOn(Dictionary<int, List<StarNode>> starNodes)
+        public override Dictionary<int, List<ProtoStar>> actOn(Dictionary<int, List<ProtoStar>> starNodes)
         {
             var count = 0;
 
-            List<List<StarNode>> listLists = new List<List<StarNode>>();
+            List<List<ProtoStar>> listLists = new List<List<ProtoStar>>();
             foreach (var branchStars in starNodes)
             {
                 count = 0;
                 var starArr = branchStars.Value;
-                var list = new List<StarNode>();
+                var list = new List<ProtoStar>();
                 listLists.Add(list);
                 foreach (var star in starArr)
                 {
@@ -39,10 +39,10 @@ namespace GalaxyCreators
             });
             return starNodes;
         }
-        private List<StarNode> makeLeafVein(StarNode star, int branchCount)
+        private List<ProtoStar> makeLeafVein(ProtoStar star, int branchCount)
         {
             var originalstar = star;
-            var list = new List<StarNode>();
+            var list = new List<ProtoStar>();
             for (var i =0; i < Random.Range(1, branchCount); i++)
             {
                 var newStar = starFactory.newStar(originalstar.transform.parent);
@@ -59,7 +59,6 @@ namespace GalaxyCreators
                 star = newStar;
             }
             return list;
-
         }
     }
 }

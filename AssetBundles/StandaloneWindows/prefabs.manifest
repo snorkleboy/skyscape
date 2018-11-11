@@ -1,0 +1,101 @@
+ManifestFileVersion: 0
+CRC: 2484896821
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 1bd9ef703bce4e7ccee713f6e39d5ab4
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: d29979b752d59e06e6565161f363f171
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 102
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 1297475563, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: d12ca8300584fd24c91281ffb0eabe8f, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 10354d70712921947a2005e6341bd92f, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 6ee490c17b53afc4fb7f7a05188f2c26, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: fd6ba3c3138663940bb31e6c8c1db0fd, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: c0e46e043272b0f4ca5596f8f2a519dc, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 78edb6269d8577f4f9230c315f780a34, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 0fdb3537ac1941744b7ebba173f211ed, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 12a54487c24cbed46857d3197091ad4f, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: d22101b876f9aef4587aa316b593314a, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 68b0b7198e0f28d4f95487b3b1dca714, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7aa75bf92b51b5f4d91244c408bb042b, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7498162ec51ea4f43a9f9f1a312e2b79, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 120
+  Script: {instanceID: 0}
+- Class: 121
+  Script: {instanceID: 0}
+- Class: 123
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+- Class: 135
+  Script: {instanceID: 0}
+- Class: 136
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 220
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+Assets:
+- Assets/runtimeassets/prefabs/star/protoStar.prefab
+- Assets/runtimeassets/prefabs/planet/planet 1.prefab
+- Assets/runtimeassets/prefabs/connection/justLine.prefab
+- Assets/runtimeassets/prefabs/connection/connection.prefab
+- Assets/runtimeassets/prefabs/UI/spaceableIcon.prefab
+- Assets/runtimeassets/prefabs/star/galaxyViewStar.prefab
+- Assets/runtimeassets/prefabs/UI/open_close.prefab
+- Assets/runtimeassets/prefabs/UI/main menu.prefab
+- Assets/runtimeassets/prefabs/UI/MainUI.prefab
+- Assets/runtimeassets/prefabs/star/starSystemViewStar.prefab
+- Assets/runtimeassets/prefabs/planet/planet.prefab
+- Assets/runtimeassets/prefabs/connection/starViewConnection.prefab
+Dependencies: []

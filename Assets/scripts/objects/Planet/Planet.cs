@@ -40,7 +40,9 @@ namespace Objects.Galaxy
             var button = makeShipButton.AddComponent<Button>();
             button.onClick.AddListener(()=>{
                 Debug.Log("making ship");
-                shipFactory.makeShip(transform).render(3);
+                var ship = shipFactory.makeShip();
+                ship.render(3);
+                Debug.Log("render ship  " + ship);
             });
             var text = makeShipButton.AddComponent<Text>();
             text.text = "make ship";

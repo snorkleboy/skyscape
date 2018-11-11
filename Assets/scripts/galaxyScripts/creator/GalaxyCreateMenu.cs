@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Objects.Galaxy;
 public class GalaxyCreateMenu : MonoBehaviour {
 
-    public GalaxyCreators.galaxyCreator galCreator;
+    public GalaxyCreators.galaxyCreator<ProtoStar> galCreator;
     [ContextMenu("Create Galaxy")]
     public void makeGalaxy()
     {

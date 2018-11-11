@@ -19,10 +19,10 @@ namespace Loaders {
 
         private static AssetBundle loadBundle (string name) {
             string path;
-            path = Path.Combine(Application.dataPath, "StreamingAssets/bundles/"+name);
-            var bundle = AssetBundle.LoadFromFile (path);
+            path = Application.dataPath+"/" +"StreamingAssets/bundles/"+name;
+            var bundle = AssetBundle.LoadFromFile(path);
             if (bundle == null) {
-                Debug.LogError ("Failed to load " + name + " !    assetPaths:" + path + "    Application.dataPath    " + Application.dataPath + "Application.streamingAssetsPath"      + Path.Combine(Application.streamingAssetsPath, "/bundles/" + name));
+                Debug.LogError ("Failed to load " + name + " !    assetPaths:" + path + "\n    Application.dataPath    " + Application.dataPath);
             }
             return bundle;
         }

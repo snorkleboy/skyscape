@@ -10,7 +10,7 @@ namespace Objects.Galaxy
     {
         public IRenderer renderHelper {get;}
         public void render(int context){
-            
+            renderHelper.render(context);
         }
         public Sprite icon;
         public Ship(SingleSceneRenderer<Ship> renderer)
@@ -29,5 +29,6 @@ namespace Objects.Galaxy
         {
             go.GetComponent<ShipStub>().ship = script;
         }
+
     }
 }

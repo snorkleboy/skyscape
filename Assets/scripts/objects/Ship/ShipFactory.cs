@@ -5,16 +5,20 @@ using UnityEngine.UI;
 using Loaders;
 namespace Objects.Galaxy
 {
-    public class ShipFactory
+    public class ShipFactory :MonoBehaviour
     {
         public Sprite[] shipIcons;
         public GameObject[] shipPrefabs;
-        public ShipFactory()
+        public void Awake()
         {
-            shipPrefabs = AssetSingleton.getBundledDirectory<GameObject>(AssetSingleton.bundleNames.prefabs,"ships");
+            shipPrefabs = AssetSingleton.getBundledDirectory<GameObject>(AssetSingleton.bundleNames.prefabs,"ship");
+            if(shipPrefabs == null){
+                Debug.LogError("ship prefab not found");
+            }
         }
-        public Ship makeShip(Transform parent){
-            var renderer = new ShipRenderer(shipPrefabs[Random.Range(0,shipPrefabs.Length)]);
+        public Ship makeShip(){
+            var prefab = shipPrefabs[0];
+            var renderer = new ShipRenderer(prefab);
             return new Ship(renderer);
         }
     }

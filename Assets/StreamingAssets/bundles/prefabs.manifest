@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3782410146
+CRC: 1482796487
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 0d98ea52e59ac6b6c67a29c49148b9cd
+    Hash: 5e74153ddb017e157d04ef479f814ab7
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 9b171defe3d6c441befd337011314756
+    Hash: df45a2fac8dc4bc53149cc1474fb9c80
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -58,6 +58,8 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: 7aa75bf92b51b5f4d91244c408bb042b, type: 3}
 - Class: 114
+  Script: {fileID: 11500000, guid: 5c4f2a3cece9fa04e896295181827bd1, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: 7498162ec51ea4f43a9f9f1a312e2b79, type: 3}
 - Class: 115
   Script: {instanceID: 0}
@@ -86,16 +88,17 @@ ClassTypes:
 - Class: 224
   Script: {instanceID: 0}
 Assets:
-- Assets/runtimeLibrary/prefabs/star/protoStar.prefab
-- Assets/runtimeLibrary/prefabs/planet/planet 1.prefab
-- Assets/runtimeLibrary/prefabs/connection/justLine.prefab
-- Assets/runtimeLibrary/prefabs/connection/connection.prefab
-- Assets/runtimeLibrary/prefabs/UI/spaceableIcon.prefab
-- Assets/runtimeLibrary/prefabs/star/galaxyViewStar.prefab
-- Assets/runtimeLibrary/prefabs/UI/open_close.prefab
-- Assets/runtimeLibrary/prefabs/UI/main menu.prefab
-- Assets/runtimeLibrary/prefabs/UI/MainUI.prefab
-- Assets/runtimeLibrary/prefabs/star/starSystemViewStar.prefab
-- Assets/runtimeLibrary/prefabs/planet/planet.prefab
-- Assets/runtimeLibrary/prefabs/connection/starViewConnection.prefab
+- Assets/RunTimeAssets/prefabs/star/protoStar.prefab
+- Assets/RunTimeAssets/prefabs/planet/planet 1.prefab
+- Assets/RunTimeAssets/prefabs/connection/justLine.prefab
+- Assets/RunTimeAssets/prefabs/connection/connection.prefab
+- Assets/RunTimeAssets/prefabs/UI/spaceableIcon.prefab
+- Assets/RunTimeAssets/prefabs/star/galaxyViewStar.prefab
+- Assets/RunTimeAssets/prefabs/UI/open_close.prefab
+- Assets/RunTimeAssets/prefabs/UI/main menu.prefab
+- Assets/RunTimeAssets/prefabs/ship/shipa.prefab
+- Assets/RunTimeAssets/prefabs/UI/MainUI.prefab
+- Assets/RunTimeAssets/prefabs/star/starSystemViewStar.prefab
+- Assets/RunTimeAssets/prefabs/planet/planet.prefab
+- Assets/RunTimeAssets/prefabs/connection/starViewConnection.prefab
 Dependencies: []
