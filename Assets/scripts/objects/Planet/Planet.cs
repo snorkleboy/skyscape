@@ -28,7 +28,6 @@ namespace Objects.Galaxy
             this.shipFactory = shipFactory;
         }
         public GameObject renderActionView(Transform parent, clickViews callbacks){
-            Debug.Log("RENDER ACTION VIEW");
             var holder = new GameObject("planet action view");
             var layout = holder.AddComponent<VerticalLayoutGroup>();
             layout.childControlHeight = false;
@@ -39,26 +38,21 @@ namespace Objects.Galaxy
             var makeShipButton = new GameObject("makeShip");
             var button = makeShipButton.AddComponent<Button>();
             button.onClick.AddListener(()=>{
-                Debug.Log("making ship");
                 var ship = shipFactory.makeShip();
                 ship.render(3);
-                Debug.Log("render ship  " + ship);
             });
             var text = makeShipButton.AddComponent<Text>();
-            text.text = "make ship";
             text.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
  
             makeShipButton.transform.SetParent(parent,false);
             return holder;
         }
         public GameObject renderUIView(Transform parent, clickViews callbacks){
-            Debug.Log("planet render UIVIEW");
             callbacks.contextViewCallback(this);
             callbacks.actionViewCallBack(this);
             return tileManager.renderUIView(parent,callbacks);
         }
         public GameObject renderContext(Transform parent, clickViews callbacks){
-            Debug.Log("RENDER PLANET CONTEXT");
             var holder =  new GameObject("PLANET Context");
             holder.transform.SetParent(parent, false);
             var text = new GameObject("planet info");

@@ -9,15 +9,36 @@ namespace Objects
 {
     public class Fleet
     {
-        public List<Ship> ships = new List<Ship>();
+        public ShipManager ships= new ShipManager();
         public Pop admiral;
         public string name;
 
         public Sprite icon;
-        public Fleet(List<Ship> ships,string name){
-            this.ships.AddRange(ships);
+        public Fleet(string name, Sprite icon){
             this.name = name;
-            icon = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"star")[0];
+            this.icon = icon;
+        }
+        public Fleet(string name,Sprite icon,List<Ship> ships):this(name, icon){
+            this.ships.addShips(ships);
+        }
+
+    }
+
+    public class ShipManager{
+        public ShipManager(){
+
+        }
+        public ShipManager(List<Ship> ships){
+            addShips(ships);
+        }
+        public List<Ship> ships = new List<Ship>();
+        public ShipManager addShips(Ship ship){
+            this.ships.Add(ship);
+            return this;
+        }
+        public ShipManager addShips(List<Ship> ships ){
+            this.ships.AddRange(ships);
+            return this;
         }
     }
 }

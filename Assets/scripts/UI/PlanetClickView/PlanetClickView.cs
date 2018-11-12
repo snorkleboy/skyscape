@@ -71,7 +71,6 @@ namespace UI
 
 		protected void renderContext(){
 			var contextable = renderedContextableStack[renderedContextableStack.Count-1];
-			Debug.Log("renderContext callback called, proof:" + contextable);
 			clear(contextPane);
 			var rendered = contextable.renderContext(contextPane.transform,callbacks);
 		}
@@ -84,7 +83,6 @@ namespace UI
 		protected void renderActions(){
 			var actionable = renderedActOnableStack[renderedActOnableStack.Count-1];
 			renderedActOnableStack.Add(actionable);
-			Debug.Log("renderActions callback called, proof:" + actionable);
 			clear(actionPane);
 			actionable.renderActionView(actionPane.transform,callbacks);
 		}

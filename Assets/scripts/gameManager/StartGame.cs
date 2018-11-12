@@ -11,7 +11,6 @@ public class StartGame : MonoBehaviour {
 
     public async void startGame()
     {
-        Debug.Log("StartGame Button handler called, calling gameManager start");
-        await gameManager.startgame(creator.starNodes);
+        gameManager.startgame(creator.starNodes);
     }
 }

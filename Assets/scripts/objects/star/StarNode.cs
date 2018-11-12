@@ -46,7 +46,6 @@ namespace Objects.Galaxy
             var asset = bundle.LoadAsset<Sprite>("43");
             detail.icon = asset;
             details[0] = detail;
-            
 
             var otherDetail = new iconInfo();
             var popNum = 0;

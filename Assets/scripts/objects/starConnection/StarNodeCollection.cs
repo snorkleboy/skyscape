@@ -5,7 +5,7 @@ using System.Text;
 using util;
 namespace Objects.Galaxy
 {
-    class StarNodeCollection
+    public class StarNodeCollection
     {
         public Dictionary<int, List<StarNode>> _starNodes;
 

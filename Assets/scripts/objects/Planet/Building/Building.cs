@@ -27,7 +27,6 @@ namespace Objects.Galaxy
             pops.AddRange(startPops);
         }
         public GameObject renderContext(Transform parent, clickViews callbacks){
-            Debug.Log("RENDER BUILDING CONTEXT");
             var holder =  new GameObject("BUILDING Context");
             holder.transform.SetParent(parent, false);
             holder.AddComponent<HorizontalLayoutGroup>();
@@ -60,7 +59,6 @@ namespace Objects.Galaxy
             return go;
         }
         public GameObject renderIcon(clickViews viewCallBacks){
-            Debug.Log("building " + name);
             var go = renderIcon();
             var button = go.AddComponent<UnityEngine.UI.Button>();
             button.onClick.AddListener(()=>{viewCallBacks.contextViewCallback(this);});
@@ -73,7 +71,6 @@ namespace Objects.Galaxy
             {
                 foreach (var item in pops)
                 {
-                    Debug.Log(item);
                     gos.Add(item.renderIcon(viewCallBacks));
                 }
             }

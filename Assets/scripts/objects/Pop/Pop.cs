@@ -39,8 +39,6 @@ namespace Objects.Galaxy
             return go;
         }
         public GameObject renderIcon(clickViews viewCallBacks){
-            Debug.Log("POP RENDER ICON");
-            Debug.Log(name + " " + money);
             var go = renderIcon();
             var button = go.AddComponent<UnityEngine.UI.Button>();
             button.onClick.AddListener(()=>{Debug.Log("clicked" + this);});

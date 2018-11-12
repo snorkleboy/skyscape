@@ -9,7 +9,6 @@ public class TilerView {
 
 	private Action<IContextable> _tileCB;
 	public GameObject render(TileManager tileManager,Transform parent,clickViews callbacks){
-		Debug.Log("rendering tiler view");
 		_tileCB = callbacks.contextViewCallback;
 		var Holder = new GameObject("grid");
 		Holder.transform.SetParent(parent);

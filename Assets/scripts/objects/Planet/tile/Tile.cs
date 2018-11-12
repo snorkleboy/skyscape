@@ -35,7 +35,6 @@ namespace Objects.Galaxy
             return holder;
         }
         public GameObject renderContext(Transform parent,clickViews callbacks){
-            Debug.Log("RENDER TILE CONTEXT");
             var holder =  new GameObject("TileContext");
             holder.transform.SetParent(parent, false);
             var layout = holder.AddComponent<VerticalLayoutGroup>();
