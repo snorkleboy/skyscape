@@ -5,31 +5,74 @@ using System;
 using UI;
 using UnityEngine.UI;
 using Loaders;
+using Objects.Conceptuals;
 namespace Objects.Galaxy
 {
-    [System.Serializable]
-    public class StarNode : IRenderable, IUIable
-    {
-        public int updateId{get;set;}
-        public IRenderer renderHelper { get { return starRenderer; } }
-        public HolderRenderer<StarNode> starRenderer;
-        public Transform transform { get { return renderHelper.transform; } }
-        public Vector3 position;
-        public Sprite Icon;
 
-        public string name;
-        [SerializeField] private List<StarConnection> _connections;
-        public StarNode(HolderRenderer<StarNode> renderer, Sprite Icon)
+    [System.Serializable]
+    public partial class StarNode : MonoBehaviour, IRenderable, IUIable
+    {
+        public void Init(HolderRenderer<StarNode> renderer, Sprite Icon)
         {
-            name = StarNames.names[UnityEngine.Random.Range(0,StarNames.names.Count-1)];
+            name = Names.starNames.getName();
+            gameObject.name = name;
             this.Icon = Icon;
             this.starRenderer = renderer;
             renderer.scriptSingelton = this;
             connections = new List<StarConnection>();
         }
+        public void render(int scene)
+        {
+            starRenderer.render(scene, transform.position);
+            if (scene == 3){
+                starRenderer.transform.position = Vector3.zero;
+            }
+        }
+
+    }
+    public partial class StarNode{
+     public Faction Owner;
+        public int updateId{get;set;}
+        public IRenderer renderHelper { get { return starRenderer; } }
+        [SerializeField] public HolderRenderer<StarNode> starRenderer;
+        public Sprite Icon;
+        public string name;
+        [SerializeField] public List<StarConnection> _connections;
+
+        public List<StarConnection> connections
+        {
+            get
+            {
+                return _connections;
+            }
+            set
+            {
+                _connections = value;
+                starRenderer.addRenderables(_connections.ToArray());
+            }
+        }
+        public void addConnection(StarConnection connection)
+        {
+            connections.Add(connection);
+            starRenderer.addRenderables(connection);
+        }
+        [SerializeField] private Planet[] _planets;
+        public Planet[] planets {
+            get
+            {
+                return _planets;
+            }
+            set
+            {
+                _planets = value;
+                starRenderer.addRenderables(_planets);
+            }
+        }
+
+    }
+    public partial class StarNode{
         public GameObject renderIcon(){
             var star = new GameObject("StarIcon");
-            star.AddComponent<StarStub>().starnode = this;
             var image = star.AddComponent<Image>();
             image.sprite = Icon;
             return star;
@@ -65,47 +108,6 @@ namespace Objects.Galaxy
             info.details = details;
             return info;
         }
-        public List<StarConnection> connections
-        {
-            get
-            {
-                return _connections;
-            }
-            set
-            {
-                _connections = value;
-                starRenderer.addRenderables(_connections.ToArray());
-            }
-        }
-        public void addConnection(StarConnection connection)
-        {
-            connections.Add(connection);
-            starRenderer.addRenderables(connections.ToArray());
-        }
-        [SerializeField] private Planet[] _planets;
-        public Planet[] planets {
-            get
-            {
-                return _planets;
-            }
-            set
-            {
-                _planets = value;
-                starRenderer.addRenderables(_planets);
-            }
-        }
-
-
-        public void render(int scene)
-        {
-            starRenderer.render(scene, position);
-            if (scene == 3){
-                starRenderer.transform.position = Vector3.zero;
-            }else{
-                starRenderer.transform.position = position;
-            }
-        }
-
     }
 
 }

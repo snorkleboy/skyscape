@@ -191,7 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e55f39d3b7040d408021c2f7f11b453, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseStarFab: {fileID: 1682095863304454, guid: a38b15dc3b8333146b4db3b017101651,
+  baseStarFab: {fileID: 1942429911658782, guid: 78efbe0dd72db624283c06e70b6b6923,
     type: 2}
   tileFactory: {fileID: 114880216621783862}
   planetSprites: []

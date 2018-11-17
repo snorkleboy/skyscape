@@ -19,9 +19,10 @@ namespace Objects.Galaxy
         {
             var starNodes = new StarNode[] { a, b };
             var renderer = new StarConnectionRenderHelper(_sceneToPrefab, starNodes);
-            renderer.parent = a.transform;
-            var conn = new StarConnection(Random.Range(.01f, .99f), starNodes, renderer);
-            conn.render(0);
+            // renderer.parent = a.transform.Find("representation");
+            var conn = a.gameObject.AddComponent<StarConnection>();
+            conn.Init(Random.Range(.01f, .99f), starNodes, renderer);
+            // conn.render(0);
             a.addConnection(conn);
             b.addConnection(conn);
             return conn;

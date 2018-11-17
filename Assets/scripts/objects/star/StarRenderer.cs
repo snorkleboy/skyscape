@@ -4,6 +4,8 @@ using System;
 
 namespace Objects.Galaxy
 {
+    [System.Serializable]
+
     public class StarRenderer : HolderRenderer<StarNode>
     {
         public StarRenderer(GameObject[] sceneToPrefab, Transform holder) : base(sceneToPrefab, holder)
@@ -11,18 +13,13 @@ namespace Objects.Galaxy
         }
         public override void applyScript(GameObject go, StarNode script)
         {
-           var stub = go.GetComponent<StarStub>();
-           bool fullStar = stub != null;
-           if (fullStar){
-               stub.set(script);
-           }
+
         }
         public override bool render(int scene){
             if(base.render(scene)){
                 activeGO.name = scriptSingelton.name;
             }
             return true;
-
         }
 
     }

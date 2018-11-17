@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1482796487
+CRC: 4037626472
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 5e74153ddb017e157d04ef479f814ab7
+    Hash: 870ca8af5156e57442dcdb3d7c095792
   TypeTreeHash:
     serializedVersion: 2
-    Hash: df45a2fac8dc4bc53149cc1474fb9c80
+    Hash: b8fb235f5fc00c08fa2d1d9aeb3a841f
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -27,10 +27,14 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 102
   Script: {instanceID: 0}
+- Class: 108
+  Script: {instanceID: 0}
 - Class: 114
   Script: {fileID: 11500000, guid: d12ca8300584fd24c91281ffb0eabe8f, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 10354d70712921947a2005e6341bd92f, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 0c590ab14c0b0cd42a07e564c54eb364, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 6ee490c17b53afc4fb7f7a05188f2c26, type: 3}
 - Class: 114
@@ -88,6 +92,8 @@ ClassTypes:
 - Class: 224
   Script: {instanceID: 0}
 Assets:
+- Assets/RunTimeAssets/prefabs/star/protoStarp.prefab
+- Assets/RunTimeAssets/prefabs/star/gameStar.prefab
 - Assets/RunTimeAssets/prefabs/star/protoStar.prefab
 - Assets/RunTimeAssets/prefabs/planet/planet 1.prefab
 - Assets/RunTimeAssets/prefabs/connection/justLine.prefab
@@ -95,10 +101,13 @@ Assets:
 - Assets/RunTimeAssets/prefabs/UI/spaceableIcon.prefab
 - Assets/RunTimeAssets/prefabs/star/galaxyViewStar.prefab
 - Assets/RunTimeAssets/prefabs/UI/open_close.prefab
+- Assets/RunTimeAssets/prefabs/star/star.prefab
 - Assets/RunTimeAssets/prefabs/UI/main menu.prefab
 - Assets/RunTimeAssets/prefabs/ship/shipa.prefab
 - Assets/RunTimeAssets/prefabs/UI/MainUI.prefab
 - Assets/RunTimeAssets/prefabs/star/starSystemViewStar.prefab
+- Assets/RunTimeAssets/prefabs/star/loadingScreenStar.prefab
 - Assets/RunTimeAssets/prefabs/planet/planet.prefab
+- Assets/RunTimeAssets/prefabs/planet/planet 2.prefab
 - Assets/RunTimeAssets/prefabs/connection/starViewConnection.prefab
 Dependencies: []

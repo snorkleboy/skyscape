@@ -18,9 +18,21 @@ namespace Loaders {
             Debug.Log(msg);
             txt.text = msg;
         }
-        public void onLoadingScreen(Scene scene, LoadSceneMode mode){
+        public async void onLoadingScreen(Scene scene, LoadSceneMode mode){
             UnityEngine.SceneManagement.SceneManager.sceneLoaded -= onLoadingScreen;
-            StartCoroutine(buildGameRoutine());
+            if (Application.isEditor)
+            {
+                Debug.Log("Application.isEditor BUILD");
+                var iterator = buildGameRoutine();
+                iterator.MoveNext();
+                while(iterator.Current != null){
+                    await Task.Delay(25);
+                    iterator.MoveNext();
+                }
+            }else{
+                Debug.Log("Application.isNOTEditor BUILD");
+                StartCoroutine(buildGameRoutine());
+            }
         }
 
         public void buildGame(GameManager gameManager,Dictionary<int, List<ProtoStar>> protoNodes){
@@ -36,38 +48,46 @@ namespace Loaders {
                 Debug.LogError("startGame cant find text");
             }
             textEl.text = "loading";
-            yield return null;
+            yield return "null";
             var spritesStr = AssetSingleton.bundleNames.sprites;
             var prefabStr = AssetSingleton.bundleNames.prefabs;
             var bundles = new Dictionary<string, AssetBundle> () { { spritesStr,null  }, { prefabStr,null }};
-            Log("loading bundles: "+spritesStr,textEl);
-            yield return loadBundle(spritesStr,bundles);
-            Log("loading bundles: "+prefabStr,textEl);
-            yield return loadBundle(prefabStr,bundles);
+
+            if (!Application.isEditor){
+                Log("loading bundles: "+spritesStr,textEl);
+                yield return loadBundle(spritesStr,bundles);
+                Log("loading bundles: "+prefabStr,textEl);
+                yield return loadBundle(prefabStr,bundles);
+            }else{
+                Log("loading bundles: "+spritesStr,textEl);
+                loadBundleSync(spritesStr,bundles);
+                Log("loading bundles: "+prefabStr,textEl);
+                loadBundleSync(prefabStr,bundles);
+            }
+
             Log("loading assets ",textEl);
             SceneLoader.loadAssets(bundles);
-            yield return null;
+            yield return "null";
 
             Log("Making Factories",textEl);
-            gameManager.shipFactory = gameManager.gameObject.AddComponent<ShipFactory>();
+            // gameManager.shipFactory = gameManager.gameObject.AddComponent<ShipFactory>();
             var creator = GameObject.Instantiate(gameManager.GameCreatorPrefab);
             gameManager.galaxyCreator = creator.GetComponentInChildren<GameGalaxyCreator>();
             creator.SetActive(true);
             var galHolder = GameObject.Find("Galaxy");
             galHolder.transform.SetParent(gameManager.transform);
-            yield return null;
+            yield return "null";
             Log("converting protostars to starnodes",textEl);
             gameManager._starNodes = new StarNodeCollection(gameManager.galaxyCreator.hydrate(protoNodes));
-            yield return null;
+            yield return "null";
             Log("creating user faction",textEl);
-            var faction = new Faction("my Faction");
-            gameManager.factions.factions.Add(faction.name,faction);
+            var faction = gameManager.factions.createFaction("my Faction");
             gameManager.user = new User(faction);
-            yield return null;
+            yield return "null";
             Log("setting up UI",textEl);
             gameManager.mainUI.setManager(gameManager);
             UnityEngine.SceneManagement.SceneManager.sceneLoaded += gameManager.getSceneCanvas;
-            yield return null;
+            yield return "null";
             Log("loading galaxy scene",textEl);
             LoadByIndex(2);
             Debug.Log("rendering galaxy");
@@ -101,6 +121,7 @@ namespace Loaders {
         private static IEnumerator loadBundle (string name, Dictionary<string, AssetBundle> bundles) {
             string path;
             path = Application.dataPath+"/" +"StreamingAssets/bundles/"+name;
+
             var bundleLoadRequest  = AssetBundle.LoadFromFileAsync(path);
             yield return bundleLoadRequest;
             var bundle = bundleLoadRequest.assetBundle;
@@ -108,6 +129,17 @@ namespace Loaders {
                 Debug.LogError ("Failed to load " + name + " !    assetPaths:" + path + "\n    Application.dataPath    " + Application.dataPath);
             }
             bundles[name] = bundle;
+        }
+        private static AssetBundle loadBundleSync(string name, Dictionary<string, AssetBundle> bundles) {
+            string path;
+            path = Application.dataPath+"/" +"StreamingAssets/bundles/"+name;
+
+            var bundle  = AssetBundle.LoadFromFile(path);
+            if (bundle == null) {
+                Debug.LogError ("Failed to load " + name + " !    assetPaths:" + path + "\n    Application.dataPath    " + Application.dataPath);
+            }
+            bundles[name] = bundle;
+            return bundle;
         }
         public static void loadAssets (Dictionary<string, AssetBundle> bundles) {
             foreach (var bundle in bundles) {

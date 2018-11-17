@@ -6,30 +6,30 @@ using UI;
 using Loaders;
 
 namespace Objects.Conceptuals{
-	public class Faction :IViewable{
+	[System.Serializable]
+	public class Faction :MonoBehaviour,IViewable{
 		private iconInfo baseInfo;
-		public Dictionary<string,StarNode> ownedStars = new Dictionary<string,StarNode>();
+		public Dictionary<string,Planet> ownedPlanets = new Dictionary<string,Planet>();
 		public Dictionary<string,Fleet> fleets = new Dictionary<string, Fleet>();
-		public string name;
+		public FleetFactory fleetFactory;
+		public Fleet createFleet(string name){
+			var fleet = fleetFactory.makeFleet("fleet 1");
+			fleets[fleet.name] = fleet;
+			return fleet;
+		}
+		public string factionName;
 		public Sprite icon;
-
-		public Pop leader;
-
 
 		public int money;
 
-		//temp
-		public Sprite tempIcon;
-
 		public int updateId{get;}
-
-		public Faction(string name){
-			this.name = name;
+		public void Awake(){
 			icon = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"ui")[2];
-			var starDetails = new iconInfo(ownedStars.Count.ToString(),AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"star")[0]);
+			var starDetails = new iconInfo(ownedPlanets.Count.ToString(),AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"star")[0]);
 			var finDetails = new iconInfo(money.ToString(),AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"ui")[0]);
 			var fleetDetails = new iconInfo(fleets.Count.ToString(),AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"ui")[1]);
 			baseInfo = new iconInfo(name,icon,this,new iconInfo[]{starDetails,finDetails,fleetDetails});
+			fleetFactory = gameObject.AddComponent<FleetFactory>();
 		}
 		public iconInfo getIconableInfo(){
 			var info = baseInfo;

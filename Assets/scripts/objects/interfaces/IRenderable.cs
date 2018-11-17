@@ -6,7 +6,7 @@ namespace Objects
     {
         bool render(int scene);
         Transform transform { get; }
-        Transform parent { set; }
+        Transform parent { set;get; }
         void disable();
         void enable();
         void destroy();

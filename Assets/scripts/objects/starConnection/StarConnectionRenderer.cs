@@ -4,6 +4,7 @@ using System;
 
 namespace Objects.Galaxy
 {
+        [System.Serializable]
     public class StarConnectionRenderHelper : PerSceneRenderer<StarConnection>
     {
         StarNode[] nodes;
@@ -13,7 +14,6 @@ namespace Objects.Galaxy
         }
         public override void applyScript(GameObject go, StarConnection script)
         {
-            var stub = go.GetComponent<ConnectionStub>();
         }
         public override bool render(int scene)
         {

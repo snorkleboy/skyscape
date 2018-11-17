@@ -24,15 +24,22 @@ namespace Objects.Galaxy
             return createStar(holder);
         }
         public StarNode createStar(Transform holder, Vector3 position){
-           var node = createStar(holder);
-            node.position = position;
+            var node = createStar(holder);
+            node.transform.position = position;
             return node;
         }
 
         public StarNode createStar(Transform holder)
         {
-            var rep = new StarRenderer(_sceneToPrefab, holder);
-            var star = new StarNode(rep,starIconSprites[0]);
+            var starGo = new GameObject("starNode");
+            starGo.transform.SetParent(holder);
+            var star = starGo.AddComponent<StarNode>();
+            var planetHolder = new GameObject("planetHolder");
+            planetHolder.transform.SetParent(starGo.transform);
+            var representation = new GameObject("representation");
+            representation.transform.SetParent(starGo.transform);
+            var rep = new StarRenderer(_sceneToPrefab, representation.transform);
+            star.Init(rep,starIconSprites[0]);
             return star;
         }
         public virtual StarConnection makeConnection(StarNode a, StarNode b)

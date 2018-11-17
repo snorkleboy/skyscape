@@ -11,10 +11,9 @@ public class starNodeConnectionController : MonoBehaviour {
 	StarNode other;
 	public TextMesh text;
 	public void set (StarConnection starConnection) {
-		var starNodeStub = GetComponentInParent<StarStub>();
-		starNode = starNodeStub.starnode;
+		starNode = GetComponentInParent<StarNode>();
 		if(starNode == null){
-			Debug.Log("starNode stub not found in starconnection");
+			Debug.Log("starNode not found in starconnection");
 		}
 		var name = "";
 		StarNode here;
@@ -26,8 +25,8 @@ public class starNodeConnectionController : MonoBehaviour {
 			other = starConnection.nodes[0]; 			
 		}
 		name = other.name;
-		Vector3 direction = other.position - here.position;
-		transform.position = starNodeStub.transform.position;
+		Vector3 direction = other.transform.position - here.transform.position;
+		transform.position = starNode.transform.position;
 		transform.Translate((direction/direction.magnitude)*500);
 		text.text = name;
 	}

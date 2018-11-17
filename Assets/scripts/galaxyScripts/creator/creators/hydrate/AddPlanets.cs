@@ -19,7 +19,7 @@ namespace GalaxyCreators
                     var multiplier = 1.0;
                     for (int i = 0; i < planets.Length; i++)
                     {
-                        var planet =  planetFactory.newPlanet(starNode.transform);
+                        var planet =  planetFactory.newPlanet(starNode);
                         if (i>2){
                             multiplier++;
                         }

@@ -12,8 +12,6 @@ namespace Objects.Galaxy
         }
         public override void applyScript(GameObject go, Planet script)
         {
-
-            go.GetComponent<PlanetStub>().planet = script;
         }
     }
 }

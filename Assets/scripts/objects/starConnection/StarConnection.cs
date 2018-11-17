@@ -2,13 +2,13 @@
 
 namespace Objects.Galaxy
 {
-    public class StarConnection: IRenderable
+    public class StarConnection: MonoBehaviour,IRenderable
     {
         public IRenderer renderHelper { get; set; }
         public double strength;
         public StarNode[] nodes;
 
-        public StarConnection(double _strength, StarNode[] _nodes, StarConnectionRenderHelper renderer)
+        public void Init(double _strength, StarNode[] _nodes, StarConnectionRenderHelper renderer)
         {
             renderHelper = renderer;
             renderer.scriptSingelton = this;

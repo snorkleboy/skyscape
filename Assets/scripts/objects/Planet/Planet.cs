@@ -8,48 +8,56 @@ namespace Objects.Galaxy
 {
 
     [System.Serializable]
-    public class Planet :IViewable,IContextable,IActOnable, IRenderable
+    public partial class Planet :MonoBehaviour, IViewable,IContextable,IActOnable, IRenderable
     {
         public int updateId{get;}
         public IRenderer renderHelper { get { return planetRenderer; } }
-        public string title{get;}
+        public string title{get;set;}
         private SingleSceneRenderer<Planet> planetRenderer { get; set; }
-        public Transform transform { get { return renderHelper.transform; } }
         public Sprite planetSprite;
         [SerializeField]public Vector3 position;
         [SerializeField]public TileManager tileManager;
-        [SerializeField]public ShipFactory shipFactory;
-        public Planet(SingleSceneRenderer<Planet> renderer,Sprite planetSprite, ShipFactory shipFactory)
+        public void Init(SingleSceneRenderer<Planet> renderer,Sprite planetSprite )
         {
-            title = "planet";
+            title = Names.planetNames.getName();
             this.planetSprite = planetSprite;
             renderer.scriptSingelton = this;
             planetRenderer = renderer;
-            this.shipFactory = shipFactory;
         }
+
+        public void render(int scene)
+        {
+            if (planetRenderer.render(scene)){
+                planetRenderer.transform.Translate(position);
+            }
+        }
+    }
+    public partial class Planet{
         public GameObject renderActionView(Transform parent, clickViews callbacks){
             var holder = new GameObject("planet action view");
             var layout = holder.AddComponent<VerticalLayoutGroup>();
+            holder.SetParent(parent);
             layout.childControlHeight = false;
 		    layout.childControlWidth = false;
             layout.childForceExpandHeight = false;
             layout.childForceExpandWidth = false;
 
-            var makeShipButton = new GameObject("makeShip");
+            var makeShipButton = new GameObject("make Fleet");
             var button = makeShipButton.AddComponent<Button>();
             button.onClick.AddListener(()=>{
-                var ship = shipFactory.makeShip();
-                ship.render(3);
+                var fleet = GameManager.instance.factions.GetFaction(this).createFleet("fleet");
+                // fleet.render(3);
             });
             var text = makeShipButton.AddComponent<Text>();
             text.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
- 
-            makeShipButton.transform.SetParent(parent,false);
+            text.text = "make fleet";
+            makeShipButton.SetParent(holder,false);
             return holder;
         }
         public GameObject renderUIView(Transform parent, clickViews callbacks){
             callbacks.contextViewCallback(this);
             callbacks.actionViewCallBack(this);
+            Debug.Log("RENDER PLANET UI VIEW");
             return tileManager.renderUIView(parent,callbacks);
         }
         public GameObject renderContext(Transform parent, clickViews callbacks){
@@ -69,12 +77,6 @@ namespace Objects.Galaxy
             info.name = title;
             info.icon = planetSprite;
             return info;
-        }
-        public void render(int scene)
-        {
-            if (planetRenderer.render(scene)){
-                planetRenderer.transform.Translate(position);
-            }
         }
     }
 

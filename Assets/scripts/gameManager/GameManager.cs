@@ -15,17 +15,19 @@ namespace Objects
         public static GameManager instance;
         public User user;
         public StarNodeCollection _starNodes;
-        public FactionManager factions = new FactionManager();
-        public Transform sceneCanvas;
+        public FactionManager factions;
+        public Transform sceneCanvas = null;
+        public Transform GMcanvas;
         public MainUI mainUI;
-        public List<ICreator<StarNode>> creatorStack = new List<ICreator<StarNode>>();
         public GameObject GameCreatorPrefab;
-        public ShipFactory shipFactory;
         public GameGalaxyCreator galaxyCreator;
         public SceneLoader sceneLoader;
         void Awake()
         {
             Debug.Log("game manager awake");
+            var managers = new GameObject("managers");
+            managers.transform.SetParent(this.transform);
+            factions = managers.AddComponent<FactionManager>();
         }
         private int scene;
         public StarNode selectedStar;
@@ -41,10 +43,7 @@ namespace Objects
                 Debug.LogWarning("scene canvas not found. scene:"+ scene.buildIndex);
             }
         }
-        public void loadStarSystem(StarStub starstub)
-        {
-            loadStarSystem(starstub.starnode);
-        }
+
         public void loadStarSystem(StarNode star){
             SceneLoader.loadStarSystem(star);
         }

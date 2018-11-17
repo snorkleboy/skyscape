@@ -4,7 +4,7 @@ using UnityEngine;
 using Objects.Galaxy;
 using Objects;
 using UI;
-public class StarStub : Stub {
+public class StarStub : MonoBehaviour {
     private GameObject floatingIcon;
     private GameObject canvas;
     public StarNode starnode;
@@ -12,10 +12,7 @@ public class StarStub : Stub {
 
     public void Start(){
         m_Renderer = transform.gameObject.GetComponentInChildren<MeshRenderer>();
-    }
-    public void set(StarNode starnode){
-        this.starnode = starnode;
-
+        this.starnode = gameObject.GetComponentInParent<StarNode>();
     }
     public void Update(){
 

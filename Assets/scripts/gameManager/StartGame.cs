@@ -9,7 +9,7 @@ public class StartGame : MonoBehaviour {
     public ProtoGalaxyCreator creator;
     public GameManager gameManager;
 
-    public async void startGame()
+    public void startGame()
     {
         gameManager.startgame(creator.starNodes);
     }

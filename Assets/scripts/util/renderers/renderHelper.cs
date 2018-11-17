@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System;
 namespace Objects
 {
@@ -28,7 +29,9 @@ namespace Objects
             get
             {
                 if (activeGO) { return activeGO.transform; }
-                else { return null; }
+                else {
+                    return null;
+                 }
             }
         }
         public Guid uid { get; }

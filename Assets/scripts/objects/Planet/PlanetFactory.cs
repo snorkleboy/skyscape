@@ -14,11 +14,17 @@ namespace Objects.Galaxy
             planetSprites = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"planet");
         }
 
-        public Planet newPlanet(Transform holder)
+        public Planet newPlanet(StarNode star)
         {
             var rep = new PlanetRenderer(baseStarFab);
-            rep.parent = holder;
-            Planet planet = new Planet(rep,planetSprites[Random.Range(0,planetSprites.Length-1)], GameManager.instance.shipFactory);
+            var parent = new GameObject("planet");
+            var planetHolder = star.gameObject.transform.Find("planetHolder");
+            parent.transform.SetParent(planetHolder);
+
+            rep.parent = parent.transform;
+            var sprite = planetSprites[Random.Range(0,planetSprites.Length-1)];
+            var planet = parent.AddComponent<Planet>();
+            planet.Init(rep,sprite);
             planet.tileManager = tileFactory.makeTileManager();
             return planet;
         }

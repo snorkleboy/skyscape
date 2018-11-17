@@ -3,6 +3,7 @@ using UnityEngine;
 using System;
 namespace Objects.Galaxy
 {
+    [System.Serializable]
     public abstract class HolderRenderer<type> : PerSceneRenderer<type>
     {
         public Dictionary<Guid, IRenderable> renderables = new Dictionary<Guid, IRenderable>();
@@ -13,6 +14,10 @@ namespace Objects.Galaxy
             {
                 this.renderables[renderable.renderHelper.uid] = renderable;
             }
+        }
+        public void addRenderables(IRenderable renderable)
+        {
+            this.renderables[renderable.renderHelper.uid] = renderable;
         }
         public HolderRenderer(GameObject[] sceneToPrefab, Transform parent) : base(sceneToPrefab, parent)
         {
@@ -30,7 +35,10 @@ namespace Objects.Galaxy
                 activeGO.transform.position = position;
                 foreach (var renderable in renderables.Values)
                 {
-                    renderable.renderHelper.parent = activeGO.transform;
+                    if (renderable.renderHelper.parent == null){
+                        renderable.renderHelper.parent = activeGO.transform;
+                    }
+                    
                     renderable.render(scene);
                 }
             }

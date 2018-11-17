@@ -23,19 +23,12 @@ namespace Objects.Galaxy
         public override bool render(int scene)
         {
             var prefab = _sceneToPrefab[scene];
-            var supposedToRender = prefab != null;
-            destroy();
-            if (supposedToRender)
-            {
-                activeGO = GameObject.Instantiate(prefab, parent);
-                this.activeScene = scene;
-                active = true;
-            }
-            else
-            {
-                destroy();
-                this.activeScene = -1;
-            }
+
+            activeGO = GameObject.Instantiate(prefab, parent);
+
+            this.activeScene = scene;
+            active = true;
+ 
             return active;
         }
 

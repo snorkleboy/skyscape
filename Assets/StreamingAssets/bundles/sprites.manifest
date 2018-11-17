@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1127555346
+CRC: 2621276107
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 1247f0f65803cac4bcd35b73d934d2d0
+    Hash: 96d6c752d4d6a8271922519fdea2ce54
   TypeTreeHash:
     serializedVersion: 2
     Hash: ea5a42e0fd8ea905efa7aa926a3b8944
@@ -39,6 +39,7 @@ Assets:
 - Assets/RunTimeAssets/sprites/building/icons/whiteHouse.png
 - Assets/RunTimeAssets/sprites/pop/icons/whiteHair.png
 - Assets/RunTimeAssets/sprites/UI/31.png
+- Assets/RunTimeAssets/sprites/fleet/icons/fleeticon.jpg
 - Assets/RunTimeAssets/sprites/UI/58.png
 - Assets/RunTimeAssets/sprites/planet/icons/purpleGreen.png
 - Assets/RunTimeAssets/sprites/UI/63.png

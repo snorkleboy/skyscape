@@ -6,7 +6,7 @@ using UI;
 using UnityEngine.UI;
 namespace Objects.Galaxy
 {
-    public class GalaxyObject: IUIable
+    public class GalaxyObject
     {
 
     }

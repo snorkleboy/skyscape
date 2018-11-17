@@ -9705,31 +9705,20 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 1649441078614426, guid: 0867728f05f7ae5419a3245ec79503bd, type: 2}
-      propertyPath: m_Name
-      value: GameManager
-      objectReference: {fileID: 0}
     - target: {fileID: 114316972994663962, guid: 0867728f05f7ae5419a3245ec79503bd,
         type: 2}
       propertyPath: creator
       value: 
       objectReference: {fileID: 246832493}
+    - target: {fileID: 1649441078614426, guid: 0867728f05f7ae5419a3245ec79503bd, type: 2}
+      propertyPath: m_Name
+      value: GameManager
+      objectReference: {fileID: 0}
     - target: {fileID: 224886902373789412, guid: 0867728f05f7ae5419a3245ec79503bd,
         type: 2}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114300690908723498, guid: 0867728f05f7ae5419a3245ec79503bd,
-        type: 2}
-      propertyPath: GameCreatorPrefab
-      value: 
-      objectReference: {fileID: 1381659017135062, guid: cb5faca9c9c9ff14d97388ae8fed901e,
-        type: 2}
-    - target: {fileID: 114300690908723498, guid: 0867728f05f7ae5419a3245ec79503bd,
-        type: 2}
-      propertyPath: sceneLoader
-      value: 
-      objectReference: {fileID: 1278682307}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0867728f05f7ae5419a3245ec79503bd, type: 2}
   m_IsPrefabAsset: 0
@@ -19632,22 +19621,6 @@ Transform:
   m_Father: {fileID: 246832488}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1278682303 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1649441078614426, guid: 0867728f05f7ae5419a3245ec79503bd,
-    type: 2}
-  m_PrefabInternal: {fileID: 293242538}
---- !u!114 &1278682307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1278682303}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0782655f4fa961946a8b77e685472ab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!108 &1432306485
 Light:
   m_ObjectHideFlags: 0

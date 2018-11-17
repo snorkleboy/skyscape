@@ -3,24 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Objects.Galaxy
 {
+    public class Names{
+        
+    public static StarNames starNames = new StarNames(); 
+    public static PlanetNames planetNames = new PlanetNames();
 
-public static class StarNames{
-    public static List<string> usedNames = new List<string>();
-    public static string getName(){
-        var name = names[0];
-        if (name != null){
-            names.RemoveAt(0);
+
+    protected List<string> usedNames = new List<string>();
+    protected List<string> names = new List<string>();
+
+    public string getName(){
+        if (names.Count > 0){
+            var index = Random.Range(0,names.Count - 1);
+            var name = names[index];
+            names.RemoveAt(index);
+            usedNames.Add(name);
             return name;
         }else{
             var temp = names;
             names = usedNames;
             usedNames = temp;
-            Debug.LogWarning("out of unused star names, switching to used names");
             return getName();
         }
 
     }
-    public static List<string> names = new List<string>(){
+
+}
+public class PlanetNames : Names{
+    public PlanetNames(){
+    names = new List<string>(){
+"K-btransit","Kepler-btra","Kepler-btra","Kepler-btran","HDbradial","Kepler-btran","Kepler-btran","Kepler-btra","Kepler-btra","WASP-btran","Kepler-btran","Kepler-ctra","COROT-btra","Kepler-btran","Kepler-btran","Kepler-btra","HDbradial","Kepler-ctra","HDbradial","HDbradial","Kepler-dtra","Kepler-dtran","Kepler-ctran","Gliesecra","Kepler-btran","Kepler-ctra","HDbradial","Kepler-btra","Kepler-ctra","Kepler-btran","Kepler-btra","Kepler-btran","Kepler-btran","K-btransit","Kepler-btran","Kepler-btran","Kepler-btran","Kepler-btran","K-btransit","Kepler-dtra","Kepler-dtra","Kepler-btran","HATS-btran","Kepler-ctra","K-ctransit","Kepler-etra","Kepler-btra","HDAbradial","Kepler-btran","WASP-btran","Kepler-etra","Kepler-btran","Cancrifrad","WASP-btran","Kepler-btran","HDbradial","BetaUrsaeMinorisb","Kepler-btran","Kepler-btran","HDbradial","K-btransit","Kepler-btran","Kepler-btra","Kepler-etra","Kepler-ctra","HDbradial","Kepler-etra","Kepler-ctra","Kepler-btran","Kepler-ctran","WASP-btran","Kepler-btran","Kepler-btran","Kepler-ctran","Kepler-btran","WASP-btran","HDBbradial","Kepler-btran","HDcradial","Kepler-btran","Kepler-btran","Qatar-btra","WASP-btran","PsiDraconisBb","Kepler-btran","Kepler-btran","Kepler-btran","Kepler-btran","Kepler-btran","Kepler-btra","Kepler-btran","Kepler-btr","K-btransit","HDbradial","K-btransit","Kepler-btra","Kepler-ftra","HDbradialv","Kepler-btra","Kepler-btran","Kepler-dtra","Kepler-btran","Kepler-dtran","Kepler-btran","Kepler-btran","MuAraebra","HDcradial","HDbradial","HDbradial","Kepler-dtra","Kepler-btran","Kepler-btran","Kepler-btran","HDbradial","MOA--BLG-Lbm","HATS-btran","Kepler-btran","HDdradial","Kepler-btran","Kepler-btra","Kepler-btran","BD+bradia","Kepler-btran","Kepler-btra","HDbradial","Kepler-btra","Kepler-ctra","HDbradial","Kepler-ctra","Kepler-dtra","Kepler-ctra","HDbradial","HATS-btran","HIPbradia","Kepler-ctra","Kepler-ctra","Kepler-btran","Kepler-btra","UZFornacisc","Kepler-dtra","Kepler-btran","KICctransi","Kepler-ctra","Kepler-ctra","Herculisb","Kepler-btran","Kepler-btran","K-btransit","Kepler-dtran","Kepler-btran","Kepler-btran","Kepler-btran","Kepler-btra","HAT-P-btra","Kepler-btran","Kepler-dtra","Kepler-btra","Kepler-btra","Kepler-btran","HDbradial","WASP-btran","Kepler-btran","Kepler-dtra","Kepler-btran","Kepler-dtra","Kepler-btr","KICbimaging","Kepler-btran","HDbradial","Kepler-ctra","OGLE-TR-bt","Kepler-ctra","WASP-btran","Kepler-btran","Kepler-btran","Kepler-btran","Kepler-ctran","Kepler-btran","Virginisb","Kepler-etra","Kepler-btra","HRbimaging","UpsilonAndromedaeb","Kepler-btr","Kepler-dtra","Kepler-btr","K-btransit","COROT-btra","HATS-btran","HDbradial","Kepler-ctra","K-btransit","Kepler-btra","Kepler-btran","Kepler-ctran","OGLE--BLG-Lb","HDcradial","HDcradia","Kepler-ctra","Kepler-btran"
+        };
+    }
+}
+public class StarNames : Names{
+    public StarNames(){
+    names = new List<string>(){
 "ACHERNAR",
 "Achird",
 "ACRUX",
@@ -326,5 +344,6 @@ public static class StarNames{
 "Zuben Elschemali",
 "Zuben Elakrab",
     };
+}
 }
 }

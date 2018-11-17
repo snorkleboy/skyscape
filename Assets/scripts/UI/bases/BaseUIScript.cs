@@ -19,11 +19,7 @@ namespace UI
 			transform.gameObject.SetActive(true);
 		}
         
-		protected virtual void LateUpdate() {
-			if(Time.frameCount%perFrameRate == 0){
-				refresh();
-			}
-		}
+
 		protected abstract void refresh();
 		abstract protected void render();
     }
