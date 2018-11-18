@@ -14,8 +14,6 @@ namespace Objects.Galaxy
             starIconSprites = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"star");
             if (starIconSprites == null){
                 Debug.LogError("failed to load StarIcon Sprites");
-            }else{
-                Debug.Log("loaded StarIcon Sprites  "+starIconSprites.Length  );
             }
         }
 
@@ -38,8 +36,9 @@ namespace Objects.Galaxy
             planetHolder.transform.SetParent(starGo.transform);
             var representation = new GameObject("representation");
             representation.transform.SetParent(starGo.transform);
-            var rep = new StarRenderer(_sceneToPrefab, representation.transform);
+            var rep = new HolderRenderer<StarNode>(_sceneToPrefab, representation.transform,star);
             star.Init(rep,starIconSprites[0]);
+            starGo.name = star.name;
             return star;
         }
         public virtual StarConnection makeConnection(StarNode a, StarNode b)

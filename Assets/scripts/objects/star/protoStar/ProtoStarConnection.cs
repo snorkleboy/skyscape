@@ -7,7 +7,7 @@ namespace Objects.Galaxy
         public IRenderer renderHelper { get; set; }
         public double strength;
         public ProtoStar[] nodes;
-        public ProtoStarConnection(double _strength, ProtoStar[] _nodes, ProtoStarConnectionRenderer renderer)
+        public void Init(double _strength, ProtoStar[] _nodes, ProtoStarConnectionRenderer renderer)
         {
             renderHelper = renderer;
             strength = _strength;

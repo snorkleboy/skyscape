@@ -15,9 +15,12 @@ namespace Objects.Galaxy
         public ProtoStarConnection makeConnection(ProtoStar a, ProtoStar b)
         {
             var starNodes = new ProtoStar[] { a, b };
-            var renderer = new ProtoStarConnectionRenderer(_sceneToPrefab, starNodes);
+            var conn = new ProtoStarConnection();
+            var renderer = new ProtoStarConnectionRenderer(_sceneToPrefab, starNodes,conn);
+            conn.Init(Random.Range(.01f, .99f), starNodes, renderer);
             renderer.parent = a.transform;
-            var conn = new ProtoStarConnection(Random.Range(.01f, .99f), starNodes, renderer);
+
+
             conn.render(0);
             a.addConnection(conn);
             b.addConnection(conn);

@@ -8,12 +8,11 @@ namespace Objects.Galaxy
     public class StarConnectionRenderHelper : PerSceneRenderer<StarConnection>
     {
         StarNode[] nodes;
-        public StarConnectionRenderHelper(GameObject[] sceneToPrefab, StarNode[] nodes) : base(sceneToPrefab)
+        public override Transform parent { get; set; }
+
+        public StarConnectionRenderHelper(GameObject[] sceneToPrefab, StarNode[] nodes, StarConnection connection) : base(sceneToPrefab,nodes[0].renderHelper.parent,connection)
         {
             this.nodes = nodes;
-        }
-        public override void applyScript(GameObject go, StarConnection script)
-        {
         }
         public override bool render(int scene)
         {
@@ -36,6 +35,9 @@ namespace Objects.Galaxy
                 return true;
             }
             return false;
+        }
+        public override void destroy(){
+            base.destroy();
         }
     }
 }

@@ -7,9 +7,9 @@ using Loaders;
 
 namespace Objects
 {
-    public class Fleet:IViewable,IRenderable
+    public class Fleet:MonoBehaviour,IViewable,IRenderable
     {
-        public IRenderer renderHelper{get;} 
+        public IRenderer renderHelper{get;set;} 
         public void render(int scene){
 
         }
@@ -18,11 +18,13 @@ namespace Objects
         public string name;
 
         public Sprite icon;
-        public Fleet(string name, Sprite icon){
+        public void Init(string name, Sprite icon, HolderRenderer<Fleet> renderHelper){
             this.name = name;
             this.icon = icon;
+            this.renderHelper = renderHelper;
         }
-        public Fleet(string name,Sprite icon,List<Ship> ships):this(name, icon){
+        public void Init(string name,Sprite icon,HolderRenderer<Fleet> renderHelper, List<Ship> ships){
+            Init(name,icon,renderHelper);
             this.ships.addShips(ships);
         }
         
@@ -35,16 +37,6 @@ namespace Objects
         }
         public GameObject renderUIView(Transform parent, clickViews callbacks){
             return new GameObject();
-        }
-    }
-    public class FleetRenderer : HolderRenderer<Fleet>{
-        public FleetRenderer(GameObject[] sceneToPrefab, Transform holder) : base(sceneToPrefab, holder)
-        {
-        }
-        public override void applyScript(GameObject go, Fleet script)
-        {
-
-            go.GetComponent<FleetStub>().fleet = script;
         }
     }
 

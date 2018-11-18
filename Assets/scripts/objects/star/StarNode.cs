@@ -9,7 +9,7 @@ using Objects.Conceptuals;
 namespace Objects.Galaxy
 {
 
-    [System.Serializable]
+    
     public partial class StarNode : MonoBehaviour, IRenderable, IUIable
     {
         public void Init(HolderRenderer<StarNode> renderer, Sprite Icon)
@@ -18,8 +18,6 @@ namespace Objects.Galaxy
             gameObject.name = name;
             this.Icon = Icon;
             this.starRenderer = renderer;
-            renderer.scriptSingelton = this;
-            connections = new List<StarConnection>();
         }
         public void render(int scene)
         {
@@ -30,15 +28,14 @@ namespace Objects.Galaxy
         }
 
     }
+    [System.Serializable]
     public partial class StarNode{
-     public Faction Owner;
         public int updateId{get;set;}
         public IRenderer renderHelper { get { return starRenderer; } }
         [SerializeField] public HolderRenderer<StarNode> starRenderer;
         public Sprite Icon;
         public string name;
-        [SerializeField] public List<StarConnection> _connections;
-
+        private List<StarConnection> _connections = new List<StarConnection>();
         public List<StarConnection> connections
         {
             get
@@ -53,8 +50,10 @@ namespace Objects.Galaxy
         }
         public void addConnection(StarConnection connection)
         {
-            connections.Add(connection);
-            starRenderer.addRenderables(connection);
+            if (!(connection.nodes[1] == this)){
+                connections.Add(connection);
+                starRenderer.addRenderables(connection);
+            }            
         }
         [SerializeField] private Planet[] _planets;
         public Planet[] planets {
@@ -68,7 +67,6 @@ namespace Objects.Galaxy
                 starRenderer.addRenderables(_planets);
             }
         }
-
     }
     public partial class StarNode{
         public GameObject renderIcon(){

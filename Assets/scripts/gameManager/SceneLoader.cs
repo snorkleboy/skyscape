@@ -43,16 +43,18 @@ namespace Loaders {
         }
         public static IEnumerator buildGameRoutine(){
             Debug.Log("loading screen loaded");
+            var spritesStr = AssetSingleton.bundleNames.sprites;
+            var prefabStr = AssetSingleton.bundleNames.prefabs;
+            var bundles = new Dictionary<string, AssetBundle> () { { spritesStr,null  }, { prefabStr,null }};
+
             var textEl = GameObject.Find("Text").GetComponent<Text>();
             if(!textEl){
                 Debug.LogError("startGame cant find text");
             }
             textEl.text = "loading";
             yield return "null";
-            var spritesStr = AssetSingleton.bundleNames.sprites;
-            var prefabStr = AssetSingleton.bundleNames.prefabs;
-            var bundles = new Dictionary<string, AssetBundle> () { { spritesStr,null  }, { prefabStr,null }};
 
+            Log("loading bundles",textEl);
             if (!Application.isEditor){
                 Log("loading bundles: "+spritesStr,textEl);
                 yield return loadBundle(spritesStr,bundles);
@@ -64,10 +66,11 @@ namespace Loaders {
                 Log("loading bundles: "+prefabStr,textEl);
                 loadBundleSync(prefabStr,bundles);
             }
+            yield return "null";
 
             Log("loading assets ",textEl);
             SceneLoader.loadAssets(bundles);
-            yield return "null";
+            yield return new WaitForSeconds(.1f);
 
             Log("Making Factories",textEl);
             // gameManager.shipFactory = gameManager.gameObject.AddComponent<ShipFactory>();
@@ -76,26 +79,30 @@ namespace Loaders {
             creator.SetActive(true);
             var galHolder = GameObject.Find("Galaxy");
             galHolder.transform.SetParent(gameManager.transform);
-            yield return "null";
-            Log("converting protostars to starnodes",textEl);
-            gameManager._starNodes = new StarNodeCollection(gameManager.galaxyCreator.hydrate(protoNodes));
-            yield return "null";
+            yield return new WaitForSeconds(.1f);
+
             Log("creating user faction",textEl);
             var faction = gameManager.factions.createFaction("my Faction");
             gameManager.user = new User(faction);
-            yield return "null";
+            yield return new WaitForSeconds(.1f);
+
+            Log("converting protostars to starnodes",textEl);
+            gameManager._starNodes = new StarNodeCollection(gameManager.galaxyCreator.hydrate(protoNodes));
+            yield return new WaitForSeconds(.1f);
+
             Log("setting up UI",textEl);
             gameManager.mainUI.setManager(gameManager);
             UnityEngine.SceneManagement.SceneManager.sceneLoaded += gameManager.getSceneCanvas;
-            yield return "null";
+            yield return new WaitForSeconds(.1f);
+
             Log("loading galaxy scene",textEl);
             LoadByIndex(2);
+            yield return new WaitForSeconds(.1f);
             Debug.Log("rendering galaxy");
             gameManager._starNodes.render(2);
             gameManager.mainUI.transform.gameObject.SetActive(true);
             yield return new WaitForSeconds(.1f);
         }
-
 
         public static void onStarLoaded(Scene scene, LoadSceneMode mode)
         {

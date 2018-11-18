@@ -18,8 +18,11 @@ namespace Objects.Galaxy
         }
         public Ship makeShip(){
             var prefab = shipPrefabs[0];
-            var renderer = new ShipRenderer(prefab);
-            return new Ship(renderer);
+            var ship =  new Ship();
+            var renderer = new SingleSceneRenderer<Ship>(prefab,3,ship);
+            ship.Init(renderer);
+
+            return ship;
         }
     }
 

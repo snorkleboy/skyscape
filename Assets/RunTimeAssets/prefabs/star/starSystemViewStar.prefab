@@ -38,7 +38,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4823199597850946}
   - component: {fileID: 135054182231330582}
-  - component: {fileID: 114645710401451530}
+  - component: {fileID: 114789554107124990}
   m_Layer: 9
   m_Name: starSystemViewStar
   m_TagString: Untagged
@@ -177,7 +177,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1045564151136574}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &114645710401451530
+--- !u!114 &114789554107124990
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -185,12 +185,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1187759442596460}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fdb3537ac1941744b7ebba173f211ed, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c590ab14c0b0cd42a07e564c54eb364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  starnode:
-    position: {x: 0, y: 0, z: 0}
-    _planets: []
+  renderDistance: 700
+  renderPosition: {x: 0, y: 12, z: 0}
 --- !u!123 &123060753421335518
 LensFlare:
   m_ObjectHideFlags: 1

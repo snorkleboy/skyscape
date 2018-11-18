@@ -9,7 +9,7 @@ public class PlanetOnClick : MonoBehaviour {
 	public ClickViewDetailPanel ui; 
 
 	public void Start(){
-		ui = GameManager.instance.GMcanvas.GetComponentInChildren<ClickViewDetailPanel>();
+		ui = GameManager.instance.GMcanvas.GetComponentInChildren<ClickViewDetailPanel>(true);
 		if (ui == null){
 			Debug.LogWarning("planet on click could not find a PlanetClickView");
 		}

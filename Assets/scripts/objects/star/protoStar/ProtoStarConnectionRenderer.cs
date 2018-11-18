@@ -6,7 +6,8 @@ namespace Objects.Galaxy
     public class ProtoStarConnectionRenderer : PerSceneRenderer<ProtoStarConnection>
     {
         ProtoStar[] nodes;
-        public ProtoStarConnectionRenderer(GameObject[] sceneToPrefab, ProtoStar[] nodes) : base(sceneToPrefab)
+        public override Transform parent { get; set; }
+        public ProtoStarConnectionRenderer(GameObject[] sceneToPrefab, ProtoStar[] nodes, ProtoStarConnection script) : base(sceneToPrefab,nodes[0].transform,script)
         {
             this.nodes = nodes;
         }

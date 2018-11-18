@@ -21,14 +21,17 @@ namespace Objects.Galaxy
         {
             title = Names.planetNames.getName();
             this.planetSprite = planetSprite;
+            gameObject.name = title;
             renderer.scriptSingelton = this;
             planetRenderer = renderer;
+            GameManager.instance.factions.registerPlanetToFaction(this,GameManager.instance.user.faction);
         }
 
         public void render(int scene)
         {
             if (planetRenderer.render(scene)){
                 planetRenderer.transform.Translate(position);
+                planetRenderer.transform.gameObject.name = "planet representation";
             }
         }
     }
@@ -45,8 +48,9 @@ namespace Objects.Galaxy
             var makeShipButton = new GameObject("make Fleet");
             var button = makeShipButton.AddComponent<Button>();
             button.onClick.AddListener(()=>{
-                var fleet = GameManager.instance.factions.GetFaction(this).createFleet("fleet");
-                // fleet.render(3);
+                var fleet = GameManager.instance.factions.GetFaction(this).createFleet(this);
+                Debug.Log("fleet created: " + fleet);
+                fleet.render(3);
             });
             var text = makeShipButton.AddComponent<Text>();
             text.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;

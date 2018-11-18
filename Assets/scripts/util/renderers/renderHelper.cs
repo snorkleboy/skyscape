@@ -8,15 +8,18 @@ namespace Objects
     [System.Serializable]
     public abstract class RenderHelper<ScriptSource>: IRenderer
     {
-        public ScriptSource scriptSingelton { get; set; }
         protected bool active = false;
-        public abstract void applyScript(GameObject activeGO, ScriptSource scriptSingelton);
+        public virtual void applyScript(GameObject activeGO, ScriptSource scriptSingelton){
+            
+        }
         public abstract bool render(int scene);
-        public RenderHelper()
+        public RenderHelper(ScriptSource script)
         {
+            scriptSingelton = script;
             uid = Guid.NewGuid();
         }
-        public Transform parent { get; set; }
+        public ScriptSource scriptSingelton { get; set; }
+        public abstract Transform parent { get; set; }
         protected GameObject _activeGO;
         [SerializeField]
         protected GameObject activeGO

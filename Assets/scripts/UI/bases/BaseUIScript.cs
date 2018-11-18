@@ -16,7 +16,7 @@ namespace UI
 			render();
 		}
 		public virtual void unset(){
-			transform.gameObject.SetActive(true);
+			transform.gameObject.SetActive(false);
 		}
         
 

@@ -15,8 +15,9 @@ namespace Objects.Galaxy
         }
         public ProtoStar createStar(Transform holder)
         {
-            var rep = new ProtoStarRenderer(_sceneToPrefab, holder);
-            var star = new ProtoStar(rep);
+            var star = new ProtoStar(null);
+            var rep = new HolderRenderer<ProtoStar>(_sceneToPrefab, holder,star);
+            star.renderHelper = rep;
             star.render(0);
             return star;
         }

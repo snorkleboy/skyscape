@@ -5,11 +5,13 @@ using System;
 namespace Objects.Galaxy
 {
     [System.Serializable]
-    public abstract class SingleSceneRenderer<scriptType> : RenderHelper<scriptType>
+    public class SingleSceneRenderer<scriptType> : RenderHelper<scriptType>
     {
         [SerializeField] private GameObject _prefab;
+        public override Transform parent { get; set; }
+
         private int _scene;
-        public SingleSceneRenderer(GameObject prefab, int scene) : base()
+        public SingleSceneRenderer(GameObject prefab, int scene, scriptType script) : base(script)
         {
             _prefab = prefab;
             _scene = scene;

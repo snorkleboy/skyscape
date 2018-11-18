@@ -55,8 +55,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4022755377947048}
   - component: {fileID: 135530194022189320}
-  - component: {fileID: 114084786275988432}
   - component: {fileID: 114507765083585146}
+  - component: {fileID: 114156518468933672}
   m_Layer: 9
   m_Name: galaxyViewStar
   m_TagString: Untagged
@@ -178,7 +178,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1741827966850674}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &114084786275988432
+--- !u!114 &114156518468933672
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -186,13 +186,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1911534772598746}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fdb3537ac1941744b7ebba173f211ed, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c590ab14c0b0cd42a07e564c54eb364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  starnode:
-    position: {x: 0, y: 0, z: 0}
-    Icon: {fileID: 0}
-    _planets: []
+  renderDistance: 700
+  renderPosition: {x: 0, y: 12, z: 0}
 --- !u!114 &114507765083585146
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -205,7 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 0}
-  starHolder: {fileID: 114084786275988432}
+  star: {fileID: 0}
 --- !u!123 &123215889868182444
 LensFlare:
   m_ObjectHideFlags: 1

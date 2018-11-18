@@ -10,16 +10,20 @@ namespace Objects.Galaxy
     [System.Serializable]
     public class ProtoStar:IRenderable
     {
-        public IRenderer renderHelper { get { return starRenderer; } }
+        public IRenderer renderHelper { get { return starRenderer; } 
+            set
+            {
+                starRenderer = (HolderRenderer<ProtoStar>)value;
+            }
+        }
         public HolderRenderer<ProtoStar> starRenderer;
         public Transform transform { get { return renderHelper.transform; } }
         public Vector3 position;
 
-        [SerializeField] private List<ProtoStarConnection> _connections;
+        [SerializeField] private List<ProtoStarConnection> _connections = new List<ProtoStarConnection>();
         public ProtoStar(HolderRenderer<ProtoStar> renderer)
         {
             this.starRenderer = renderer;
-            connections = new List<ProtoStarConnection>();
         }
         public List<ProtoStarConnection> connections
         {
@@ -30,7 +34,7 @@ namespace Objects.Galaxy
             set
             {
                 _connections = value;
-                starRenderer.addRenderables(_connections.ToArray());
+                starRenderer.setRenderables(_connections.ToArray());
             }
         }
         public void addConnection(ProtoStarConnection connection)
@@ -44,14 +48,6 @@ namespace Objects.Galaxy
             starRenderer.transform.position = position;
         }
 
-    }
-    class ProtoStarRenderer : HolderRenderer<ProtoStar>{
-        public ProtoStarRenderer(GameObject[] sceneToPrefab, Transform holder) : base(sceneToPrefab, holder)
-        {
-        }
-        public override void applyScript(GameObject activeGO, ProtoStar scriptSingelton){
-
-        }
     }
 
 }

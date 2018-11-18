@@ -38,6 +38,7 @@ namespace Objects
             sceneLoader.buildGame(this,protoNodes);
         }
         public void getSceneCanvas(Scene scene, LoadSceneMode mode){
+            Debug.Log("getSceneCanvas:"+ scene.buildIndex);
             sceneCanvas = CanvasProvider.canvas;
             if (sceneCanvas == null){
                 Debug.LogWarning("scene canvas not found. scene:"+ scene.buildIndex);

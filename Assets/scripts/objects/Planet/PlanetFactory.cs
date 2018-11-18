@@ -16,14 +16,14 @@ namespace Objects.Galaxy
 
         public Planet newPlanet(StarNode star)
         {
-            var rep = new PlanetRenderer(baseStarFab);
             var parent = new GameObject("planet");
             var planetHolder = star.gameObject.transform.Find("planetHolder");
             parent.transform.SetParent(planetHolder);
+            var planet = parent.AddComponent<Planet>();
+            var rep = new SingleSceneRenderer<Planet>(baseStarFab,3,planet);
 
             rep.parent = parent.transform;
             var sprite = planetSprites[Random.Range(0,planetSprites.Length-1)];
-            var planet = parent.AddComponent<Planet>();
             planet.Init(rep,sprite);
             planet.tileManager = tileFactory.makeTileManager();
             return planet;

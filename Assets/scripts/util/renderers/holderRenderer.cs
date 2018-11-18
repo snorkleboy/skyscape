@@ -4,10 +4,14 @@ using System;
 namespace Objects.Galaxy
 {
     [System.Serializable]
-    public abstract class HolderRenderer<type> : PerSceneRenderer<type>
+    public class HolderRenderer<type> : PerSceneRenderer<type>
     {
-        public Dictionary<Guid, IRenderable> renderables = new Dictionary<Guid, IRenderable>();
         private Vector3 position;
+        public Dictionary<Guid, IRenderable> renderables = new Dictionary<Guid, IRenderable>();
+        public void setRenderables(IRenderable[] renderables){
+            this.renderables = new Dictionary<Guid, IRenderable>();
+            addRenderables(renderables);
+        }
         public void addRenderables(IRenderable[] renderablesIn)
         {
             foreach (var renderable in renderablesIn)
@@ -19,7 +23,7 @@ namespace Objects.Galaxy
         {
             this.renderables[renderable.renderHelper.uid] = renderable;
         }
-        public HolderRenderer(GameObject[] sceneToPrefab, Transform parent) : base(sceneToPrefab, parent)
+        public HolderRenderer(GameObject[] sceneToPrefab, Transform parent, type script) : base(sceneToPrefab, parent,script)
         {
         }
         public bool render(int scene, Vector3 position)
@@ -43,6 +47,13 @@ namespace Objects.Galaxy
                 }
             }
             return true;
+        }
+        public override void destroy(){
+            base.destroy();
+            foreach (var item in renderables)
+            {
+                item.Value.renderHelper.destroy();
+            }
         }
     }
 }

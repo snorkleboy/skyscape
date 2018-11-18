@@ -12,9 +12,8 @@ namespace Objects.Conceptuals{
 		public Dictionary<string,Planet> ownedPlanets = new Dictionary<string,Planet>();
 		public Dictionary<string,Fleet> fleets = new Dictionary<string, Fleet>();
 		public FleetFactory fleetFactory;
-		public Fleet createFleet(string name){
-			var fleet = fleetFactory.makeFleet("fleet 1");
-			fleets[fleet.name] = fleet;
+		public Fleet createFleet(Planet planet){
+			var fleet = fleetFactory.makeFleet(this,planet.transform.parent);
 			return fleet;
 		}
 		public string factionName;
