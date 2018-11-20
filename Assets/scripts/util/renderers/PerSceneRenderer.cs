@@ -9,6 +9,7 @@ namespace Objects.Galaxy
     {
         [SerializeField] private GameObject[] _sceneToPrefab;
         public override Transform parent { get; set; }
+        public Vector3 position;
 
 
         private int activeScene = -1;
@@ -16,6 +17,7 @@ namespace Objects.Galaxy
         {
             _sceneToPrefab = sceneToPrefab;
             this.parent = parent;
+            this.position = parent.position;
         }
         public override bool render(int scene)
         {

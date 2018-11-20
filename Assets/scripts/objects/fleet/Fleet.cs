@@ -7,27 +7,70 @@ using Loaders;
 
 namespace Objects
 {
-    public class Fleet:MonoBehaviour,IViewable,IRenderable
+    public partial class Fleet:MonoBehaviour,IUIable,IViewable,IRenderable,ISelectable,IMoveable
     {
+
         public IRenderer renderHelper{get;set;} 
         public void render(int scene){
-
+            renderHelper.render(scene);
+            renderHelper.transform.position = transform.position;
         }
+        public Mover mover{get;set;}
         public ShipManager ships = new ShipManager();
         public Pop admiral;
         public string name;
-
         public Sprite icon;
         public void Init(string name, Sprite icon, HolderRenderer<Fleet> renderHelper){
             this.name = name;
             this.icon = icon;
             this.renderHelper = renderHelper;
+            var a = getIconableInfo();
+            mover = gameObject.AddComponent<Mover>();
+            Debug.Log("ICON INFO   "+a.name+" | " + a.icon+" | ");
         }
         public void Init(string name,Sprite icon,HolderRenderer<Fleet> renderHelper, List<Ship> ships){
             Init(name,icon,renderHelper);
             this.ships.addShips(ships);
         }
-        
+        public InputController getInputController(GameObject parent){
+            var controller = parent.AddComponent<InputController>();
+            
+
+            controller.Init(new List<inputAction>()
+                {
+                    new inputAction(
+                        ()=>
+                        {
+                            var down = Input.GetMouseButtonDown(1);
+                            if(!mover.targetVector.Equals(Vector3.negativeInfinity)){
+                                Debug.Log("mouseDown? " + down);
+                            }
+                            return down;
+                        },
+                        ()=>
+                        {
+                            Debug.Log("set position");
+                            Plane plane = new Plane(Vector3.up,transform.position);
+                            Ray castPoint = Camera.main.ScreenPointToRay(Input.mousePosition);
+                            RaycastHit hit;
+                            if (Physics.Raycast(castPoint, out hit, Mathf.Infinity))
+                            {
+                                var newvec = hit.point;
+                                newvec.y = 0;
+                                mover.setTarget(newvec);
+                            }else{
+                                Debug.Log("no hit");
+                            }
+
+                        }
+                    ),
+                }
+            ,this.gameObject);
+            Debug.Log("controller  " + controller);
+            return controller;
+        }
+    }
+    public partial class Fleet {
         public iconInfo getIconableInfo(){
             var info = new iconInfo();
             info.source = this;
@@ -40,21 +83,4 @@ namespace Objects
         }
     }
 
-    public class ShipManager{
-        public ShipManager(){
-
-        }
-        public ShipManager(List<Ship> ships){
-            addShips(ships);
-        }
-        public List<Ship> ships = new List<Ship>();
-        public ShipManager addShips(Ship ship){
-            this.ships.Add(ship);
-            return this;
-        }
-        public ShipManager addShips(List<Ship> ships ){
-            this.ships.AddRange(ships);
-            return this;
-        }
-    }
 }

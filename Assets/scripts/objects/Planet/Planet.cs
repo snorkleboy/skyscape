@@ -51,6 +51,7 @@ namespace Objects.Galaxy
                 var fleet = GameManager.instance.factions.GetFaction(this).createFleet(this);
                 Debug.Log("fleet created: " + fleet);
                 fleet.render(3);
+                fleet.renderHelper.transform.position = renderHelper.transform.position + new Vector3(2,2,2);
             });
             var text = makeShipButton.AddComponent<Text>();
             text.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;

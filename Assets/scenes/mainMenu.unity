@@ -9705,15 +9705,15 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1649441078614426, guid: 0867728f05f7ae5419a3245ec79503bd, type: 2}
+      propertyPath: m_Name
+      value: GameManager
+      objectReference: {fileID: 0}
     - target: {fileID: 114316972994663962, guid: 0867728f05f7ae5419a3245ec79503bd,
         type: 2}
       propertyPath: creator
       value: 
       objectReference: {fileID: 246832493}
-    - target: {fileID: 1649441078614426, guid: 0867728f05f7ae5419a3245ec79503bd, type: 2}
-      propertyPath: m_Name
-      value: GameManager
-      objectReference: {fileID: 0}
     - target: {fileID: 224886902373789412, guid: 0867728f05f7ae5419a3245ec79503bd,
         type: 2}
       propertyPath: m_LocalPosition.z

@@ -91,8 +91,8 @@ namespace Loaders {
             yield return new WaitForSeconds(.1f);
 
             Log("setting up UI",textEl);
-            gameManager.mainUI.setManager(gameManager);
-            UnityEngine.SceneManagement.SceneManager.sceneLoaded += gameManager.getSceneCanvas;
+            gameManager.UIManager.setGameManager(gameManager);
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded += gameManager.UIManager.getSceneCanvas;
             yield return new WaitForSeconds(.1f);
 
             Log("loading galaxy scene",textEl);
@@ -100,7 +100,7 @@ namespace Loaders {
             yield return new WaitForSeconds(.1f);
             Debug.Log("rendering galaxy");
             gameManager._starNodes.render(2);
-            gameManager.mainUI.transform.gameObject.SetActive(true);
+            gameManager.UIManager.mainUI.transform.gameObject.SetActive(true);
             yield return new WaitForSeconds(.1f);
         }
 

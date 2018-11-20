@@ -6,7 +6,6 @@ namespace Objects.Galaxy
     [System.Serializable]
     public class HolderRenderer<type> : PerSceneRenderer<type>
     {
-        private Vector3 position;
         public Dictionary<Guid, IRenderable> renderables = new Dictionary<Guid, IRenderable>();
         public void setRenderables(IRenderable[] renderables){
             this.renderables = new Dictionary<Guid, IRenderable>();

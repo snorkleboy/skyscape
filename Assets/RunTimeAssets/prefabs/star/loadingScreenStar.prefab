@@ -56,7 +56,6 @@ GameObject:
   - component: {fileID: 33966222717439532}
   - component: {fileID: 23883701020923004}
   - component: {fileID: 135041350376002138}
-  - component: {fileID: 114560219657903058}
   m_Layer: 0
   m_Name: loadingScreenStar
   m_TagString: Untagged
@@ -178,19 +177,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1609836176255908}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &114560219657903058
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1609836176255908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c590ab14c0b0cd42a07e564c54eb364, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  renderDistance: 700
-  renderPosition: {x: 0, y: 12, z: 0}
 --- !u!135 &135041350376002138
 SphereCollider:
   m_ObjectHideFlags: 1
