@@ -4,10 +4,12 @@ using System;
 
 namespace UI
 {
-    public interface ISelectable: IUIable{
+    public interface IControllable{
         InputController getInputController(GameObject parent);
     }
-    public struct inputAction{
+    public interface ISelectable: IControllable,IUIable{
+    }
+    public class inputAction{
         public inputAction(Func<bool> check, Action action){
             this.check = check;
             this.action = action;

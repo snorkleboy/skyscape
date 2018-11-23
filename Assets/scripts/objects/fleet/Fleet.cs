@@ -20,36 +20,20 @@ namespace Objects
         public Pop admiral;
         public string name;
         public Sprite icon;
-        public void Init(string name, Sprite icon, HolderRenderer<Fleet> renderHelper){
-            this.name = name;
-            this.icon = icon;
-            this.renderHelper = renderHelper;
-            var a = getIconableInfo();
-            mover = gameObject.AddComponent<Mover>();
-            Debug.Log("ICON INFO   "+a.name+" | " + a.icon+" | ");
-        }
-        public void Init(string name,Sprite icon,HolderRenderer<Fleet> renderHelper, List<Ship> ships){
-            Init(name,icon,renderHelper);
-            this.ships.addShips(ships);
-        }
-        public InputController getInputController(GameObject parent){
-            var controller = parent.AddComponent<InputController>();
-            
 
-            controller.Init(new List<inputAction>()
+        public List<inputAction> controls;
+        public void Awake(){
+            controls = new List<inputAction>()
                 {
                     new inputAction(
                         ()=>
                         {
                             var down = Input.GetMouseButtonDown(1);
-                            if(!mover.targetVector.Equals(Vector3.negativeInfinity)){
-                                Debug.Log("mouseDown? " + down);
-                            }
                             return down;
                         },
                         ()=>
                         {
-                            Debug.Log("set position");
+                            Debug.Log("set position " + this);
                             Plane plane = new Plane(Vector3.up,transform.position);
                             Ray castPoint = Camera.main.ScreenPointToRay(Input.mousePosition);
                             RaycastHit hit;
@@ -64,8 +48,23 @@ namespace Objects
 
                         }
                     ),
-                }
-            ,this.gameObject);
+                };
+        }
+        public void Init(string name, Sprite icon, HolderRenderer<Fleet> renderHelper){
+            this.name = name;
+            this.icon = icon;
+            this.renderHelper = renderHelper;
+            var a = getIconableInfo();
+            mover = gameObject.AddComponent<Mover>();
+            Debug.Log("ICON INFO   "+a.name+" | " + a.icon+" | ");
+        }
+        public void Init(string name,Sprite icon,HolderRenderer<Fleet> renderHelper, List<Ship> ships){
+            Init(name,icon,renderHelper);
+            this.ships.addShips(ships);
+        }
+        public InputController getInputController(GameObject parent){
+            var controller = parent.AddComponent<InputController>();
+            controller.Init(controls ,this.gameObject);
             Debug.Log("controller  " + controller);
             return controller;
         }

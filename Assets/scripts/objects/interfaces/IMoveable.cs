@@ -47,7 +47,6 @@ namespace Objects
         }
         private void moveStep(){
                 float step = speed * Time.deltaTime;
-                Debug.Log("step   " +   step + "  targetVector "  +  targetVector + " transform " + transform);
                 transform.position = Vector3.MoveTowards(transform.position, targetVector, step);
         }
     }

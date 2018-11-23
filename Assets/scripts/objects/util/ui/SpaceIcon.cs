@@ -39,8 +39,8 @@ public class SpaceIcon : MonoBehaviour {
 				setPosition();
 			}
 			if(m_Renderer.isVisible && Vector3.Distance(Camera.main.transform.position, transform.position)< renderDistance){
-				floatingIcon.SetActive(true);
 				setPosition();
+				floatingIcon.SetActive(true);
 			}else{
 				floatingIcon.SetActive(false);
 			}

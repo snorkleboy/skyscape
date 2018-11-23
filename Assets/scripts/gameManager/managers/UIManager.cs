@@ -18,7 +18,8 @@ namespace Objects
         public MainUI mainUI;
         GameManager gameManager;
 
-        public InputController inputController;
+        public InputController cameraController;
+        public InputController objectinputController;
         public void setGameManager(GameManager manager){
             gameManager = manager;
         }
@@ -32,10 +33,15 @@ namespace Objects
                 if (dragSelect = sceneCanvas.GetComponentInChildren<DragBox>()){
                     dragSelect.onMouseUp = getObjectsInBox;
                     dragSelect.onStartDrag = ()=>{
-                        Destroy(inputController);
+                        Destroy(objectinputController);
                     };
                 }
             }
+
+            Debug.Log("getSceneCameraController:"+ scene.buildIndex);
+            cameraController = Camera.main.gameObject.GetComponent<InputController>();
+            Debug.Log("controllableCamera:" +cameraController);
+
         }
         public void getObjectsInBox(Vector3 start, Vector3 end){
             Debug.Log("dragselect ONMOUSEUP vectors:  " + start + " " + end);
@@ -46,7 +52,7 @@ namespace Objects
                 var planets = util.DrawRectangle.getObjectsInBox<Planet>(bounds);
                 Debug.Log("planets.length:" + planets.Count);
             }else{
-                inputController = fleets[0].getInputController(this.gameObject);
+                objectinputController = fleets[0].getInputController(this.gameObject);
             }
         }
         

@@ -72,7 +72,7 @@ public class DragBox : MonoBehaviour {
 	}
 	void onDragEnd(){
 		clickDragEnd = Input.mousePosition;
-		if (onMouseUp != null){
+		if (onMouseUp != null && !clickDragStart.Equals(clickDragEnd)){
 			onMouseUp(clickDragStart,clickDragEnd);
 		}
 
