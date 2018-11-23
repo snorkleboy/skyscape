@@ -44,9 +44,9 @@ public class DragBox : MonoBehaviour {
         }
     }
 	private void drawSelectionbox(){
-		var rect = util.DrawRectangle.GetScreenRect( clickDragStart, clickDragEnd );
-		util.DrawRectangle.DrawScreenRect( rect,  mainColor);
-		util.DrawRectangle.DrawScreenRectBorder( rect, thickness, borderColor);
+		var rect = util.Rectangle.GetScreenRect( clickDragStart, clickDragEnd );
+		util.Rectangle.DrawScreenRect( rect,  mainColor);
+		util.Rectangle.DrawScreenRectBorder( rect, thickness, borderColor);
 	}
 
 	bool checkForDragStart(){

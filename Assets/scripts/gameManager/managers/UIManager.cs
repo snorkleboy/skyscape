@@ -45,11 +45,11 @@ namespace Objects
         }
         public void getObjectsInBox(Vector3 start, Vector3 end){
             Debug.Log("dragselect ONMOUSEUP vectors:  " + start + " " + end);
-            var bounds = util.DrawRectangle.GetViewportBounds(Camera.main,start,end);
-            var fleets = util.DrawRectangle.getObjectsInBox<Fleet>(bounds);
+            var bounds = util.Rectangle.GetViewportBounds(Camera.main,start,end);
+            var fleets = util.Rectangle.getObjectsInBox<Fleet>(bounds);
             Debug.Log("fleets.length :" + fleets.Count);
             if (fleets.Count == 0 ){
-                var planets = util.DrawRectangle.getObjectsInBox<Planet>(bounds);
+                var planets = util.Rectangle.getObjectsInBox<Planet>(bounds);
                 Debug.Log("planets.length:" + planets.Count);
             }else{
                 objectinputController = fleets[0].getInputController(this.gameObject);

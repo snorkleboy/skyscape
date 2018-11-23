@@ -34,7 +34,6 @@ namespace Objects
                         ()=>
                         {
                             Debug.Log("set position " + this);
-                            Plane plane = new Plane(Vector3.up,transform.position);
                             Ray castPoint = Camera.main.ScreenPointToRay(Input.mousePosition);
                             RaycastHit hit;
                             if (Physics.Raycast(castPoint, out hit, Mathf.Infinity))
@@ -42,6 +41,7 @@ namespace Objects
                                 var newvec = hit.point;
                                 newvec.y = 0;
                                 mover.setTarget(newvec);
+                                util.Line.DrawTempLine(transform.position,newvec,Color.green,4);
                             }else{
                                 Debug.Log("no hit");
                             }

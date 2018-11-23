@@ -39,7 +39,7 @@ namespace Objects.Galaxy
         public GameObject renderActionView(Transform parent, clickViews callbacks){
             var holder = new GameObject("planet action view");
             var layout = holder.AddComponent<VerticalLayoutGroup>();
-            holder.SetParent(parent);
+            holder.SetParent(parent,false);
             layout.childControlHeight = false;
 		    layout.childControlWidth = false;
             layout.childForceExpandHeight = false;
@@ -51,7 +51,7 @@ namespace Objects.Galaxy
                 var fleet = GameManager.instance.factions.GetFaction(this).createFleet(this);
                 Debug.Log("fleet created: " + fleet);
                 fleet.render(3);
-                fleet.renderHelper.transform.position = renderHelper.transform.position + new Vector3(2,2,2);
+                // fleet.renderHelper.transform.position = fleet.renderHelper.transform.position + new Vector3(2,0,2);
             });
             var text = makeShipButton.AddComponent<Text>();
             text.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;

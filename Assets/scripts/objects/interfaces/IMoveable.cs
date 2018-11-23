@@ -13,14 +13,9 @@ namespace Objects
     }
     public class Mover :MonoBehaviour{
         public Vector3 targetVector = Vector3.negativeInfinity;
-        public GameObject targetGO = null;
         public float distance;
-        public float speed = 1f;
-        public void setFollowTarget(GameObject gameObject, float d = .5f){
-            this.distance = d;
-            targetVector = gameObject.transform.position;
-            targetGO = gameObject;
-        }
+        public float speed = 5f;
+
         public void setTarget(Vector3 target,float d = .5f){
             Debug.Log("target vector  " + target);
             targetVector = target;
@@ -28,26 +23,23 @@ namespace Objects
         }
         
         public void Update() {
-            if (targetGO != null){
-                targetVector = targetGO.transform.position;
-            }
             if (!targetVector.Equals(Vector3.negativeInfinity)){
                 checkDistanceAndMove();
             }
         }
         private void checkDistanceAndMove(){
             if(Vector3.Distance(targetVector, transform.position) > distance){
+                Debug.Log("distence " + Vector3.Distance(targetVector, transform.position) + " transform.position" + transform.position + " targetVector "+  targetVector + " goName" + gameObject.name);
                 moveStep();
             }
             else
             {
                 targetVector = Vector3.negativeInfinity;
-                targetGO = null;
             }
         }
         private void moveStep(){
                 float step = speed * Time.deltaTime;
-                transform.position = Vector3.MoveTowards(transform.position, targetVector, step);
+                this.transform.position = Vector3.MoveTowards(transform.position, targetVector, step);
         }
     }
 }

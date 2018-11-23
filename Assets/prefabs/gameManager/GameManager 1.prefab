@@ -11,23 +11,6 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1649441078614426}
   m_IsPrefabAsset: 1
---- !u!1 &1012222815263946
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4545541325107076}
-  - component: {fileID: 33802559657276416}
-  - component: {fileID: 64555887684566846}
-  m_Layer: 0
-  m_Name: Plane
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1034970996361378
 GameObject:
   m_ObjectHideFlags: 1
@@ -683,20 +666,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4880858498192696}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4545541325107076
-Transform:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1012222815263946}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10000, y: 10000, z: 10000}
-  m_Children: []
-  m_Father: {fileID: 4880858498192696}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4880858498192696
 Transform:
@@ -708,33 +678,11 @@ Transform:
   m_LocalPosition: {x: -51.292023, y: -35.79315, z: 157.6936}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4545541325107076}
   - {fileID: 224886902373789412}
   - {fileID: 4155353869040968}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &33802559657276416
-MeshFilter:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1012222815263946}
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &64555887684566846
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1012222815263946}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &114037291269418198
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1346,7 +1294,8 @@ MonoBehaviour:
   sceneCanvas: {fileID: 0}
   GMcanvas: {fileID: 224886902373789412}
   mainUI: {fileID: 114134458750171164}
-  inputController: {fileID: 0}
+  cameraController: {fileID: 0}
+  objectinputController: {fileID: 0}
 --- !u!114 &114500471352152566
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2713,7 +2662,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0.1}
-  m_AnchoredPosition: {x: 0, y: -19.200027}
+  m_AnchoredPosition: {x: 0, y: -19.199997}
   m_SizeDelta: {x: 0, y: -38.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224285520175823986
@@ -3170,7 +3119,7 @@ RectTransform:
   - {fileID: 224619344645844860}
   - {fileID: 224746829745133036}
   m_Father: {fileID: 4880858498192696}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

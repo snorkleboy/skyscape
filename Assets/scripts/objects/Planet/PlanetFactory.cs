@@ -18,7 +18,7 @@ namespace Objects.Galaxy
         {
             var parent = new GameObject("planet");
             var planetHolder = star.gameObject.transform.Find("planetHolder");
-            parent.transform.SetParent(planetHolder);
+            parent.SetParent(planetHolder);
             var planet = parent.AddComponent<Planet>();
             var rep = new SingleSceneRenderer<Planet>(baseStarFab,3,planet);
 

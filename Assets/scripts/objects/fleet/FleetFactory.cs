@@ -24,12 +24,12 @@ namespace Objects
                 Debug.LogWarning("fleet factory did not find icon");
             }
         }
-        public Fleet makeFleet(Faction faction, Transform parent){
+        public Fleet makeFleet(Faction faction, Transform parent, Vector3 position){
             var fleetGo = new GameObject("fleet");
             fleetGo.SetParent(parent);
             var fleet = fleetGo.AddComponent<Fleet>();
             var fleetRenderer = new HolderRenderer<Fleet>(sceneToPrefab,fleetGo.transform,fleet);
-            fleetRenderer.position = parent.position;
+            fleetRenderer.position = position;
             fleet.Init("fleet" +  faction.fleets.Count,icon,fleetRenderer);
             faction.fleets[fleet.name] = fleet;
             fleetGo.name = fleet.name;
