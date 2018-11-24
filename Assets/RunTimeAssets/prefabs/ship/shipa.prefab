@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33163147972299646}
   - component: {fileID: 23459285633502142}
   - component: {fileID: 136056919112342380}
-  - component: {fileID: 114432193596090766}
+  - component: {fileID: 114922213086716206}
   m_Layer: 0
   m_Name: shipa
   m_TagString: Untagged
@@ -85,7 +85,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1416331495521226}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &114432193596090766
+--- !u!114 &114922213086716206
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,9 +93,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1416331495521226}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c4f2a3cece9fa04e896295181827bd1, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c590ab14c0b0cd42a07e564c54eb364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  renderDistance: 700
+  renderPosition: {x: 0, y: 12, z: 0}
 --- !u!136 &136056919112342380
 CapsuleCollider:
   m_ObjectHideFlags: 1

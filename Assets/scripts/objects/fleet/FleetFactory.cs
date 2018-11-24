@@ -33,6 +33,9 @@ namespace Objects
             fleet.Init("fleet" +  faction.fleets.Count,icon,fleetRenderer);
 
             shipFactory.makeShip(fleet);
+            shipFactory.makeShip(fleet);
+            shipFactory.makeShip(fleet);
+
             faction.fleets[fleet.name] = fleet;
             fleetGo.name = fleet.name;
             return fleet;
