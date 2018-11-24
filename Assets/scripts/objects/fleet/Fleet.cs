@@ -7,20 +7,38 @@ using Loaders;
 
 namespace Objects
 {
-    public partial class Fleet:MonoBehaviour,IUIable,IViewable,IRenderable,ISelectable,IMoveable
+    public partial class Fleet:MoveAbleGameObject,IViewable,ISelectable
     {
-
-        public IRenderer renderHelper{get;set;} 
-        public void render(int scene){
-            renderHelper.render(scene);
-            renderHelper.transform.position = transform.position;
+        public override IMover mover{get{return moverHelper;}}
+        private Mover moverHelper;
+        private ShipManager ships = new ShipManager();
+        public void Init(string name, Sprite icon, HolderRenderer<Fleet> renderHelper){
+            this.name = name;
+            this.icon = icon;
+            this.holderRenderer = renderHelper;
+            var a = getIconableInfo();
+            moverHelper = gameObject.AddComponent<Mover>();
+            Debug.Log("ICON INFO   "+a.name+" | " + a.icon+" | ");
         }
-        public Mover mover{get;set;}
-        public ShipManager ships = new ShipManager();
-        public Pop admiral;
-        public string name;
-        public Sprite icon;
-
+        public Fleet addShips(Ship ship){
+            this.ships.addShips(ship);
+            holderRenderer.addRenderables(ship);
+            return this;
+        }
+        public Fleet addShips(List<Ship> ships){
+            this.ships.addShips(ships) ;
+            holderRenderer.addRenderables(ships.ToArray());
+            return this;
+        }
+        public InputController getInputController(GameObject parent){
+            var controller = parent.AddComponent<InputController>();
+            controller.Init(controls ,this.gameObject);
+            Debug.Log("controller  " + controller);
+            return controller;
+        }
+    }
+    // rendering
+    public partial class Fleet{
         public List<inputAction> controls;
         public void Awake(){
             controls = new List<inputAction>()
@@ -50,27 +68,20 @@ namespace Objects
                     ),
                 };
         }
-        public void Init(string name, Sprite icon, HolderRenderer<Fleet> renderHelper){
-            this.name = name;
-            this.icon = icon;
-            this.renderHelper = renderHelper;
-            var a = getIconableInfo();
-            mover = gameObject.AddComponent<Mover>();
-            Debug.Log("ICON INFO   "+a.name+" | " + a.icon+" | ");
-        }
-        public void Init(string name,Sprite icon,HolderRenderer<Fleet> renderHelper, List<Ship> ships){
-            Init(name,icon,renderHelper);
-            this.ships.addShips(ships);
-        }
-        public InputController getInputController(GameObject parent){
-            var controller = parent.AddComponent<InputController>();
-            controller.Init(controls ,this.gameObject);
-            Debug.Log("controller  " + controller);
-            return controller;
+        public override IRenderer renderHelper{get{return holderRenderer;}} 
+        private HolderRenderer<Fleet> holderRenderer;
+        public override void render(int scene){
+            renderHelper.render(scene);
+            renderHelper.transform.position = transform.position;
+            var count = 0;
+            foreach (var renderable in holderRenderer.renderables){
+                renderable.Value.renderHelper.transform.position = transform.position + new Vector3(1 + count++,0,0);
+            }
         }
     }
+    //ui
     public partial class Fleet {
-        public iconInfo getIconableInfo(){
+        public override iconInfo getIconableInfo(){
             var info = new iconInfo();
             info.source = this;
             info.name = name;

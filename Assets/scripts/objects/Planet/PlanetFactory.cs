@@ -18,11 +18,10 @@ namespace Objects.Galaxy
         {
             var parent = new GameObject("planet");
             var planetHolder = star.gameObject.transform.Find("planetHolder");
-            parent.SetParent(planetHolder);
+            parent.SetParent(planetHolder,false);
             var planet = parent.AddComponent<Planet>();
-            var rep = new SingleSceneRenderer<Planet>(baseStarFab,3,planet);
+            var rep = new SingleSceneRenderer<Planet>(baseStarFab,3,parent.transform,planet);
 
-            rep.parent = parent.transform;
             var sprite = planetSprites[Random.Range(0,planetSprites.Length-1)];
             planet.Init(rep,sprite);
             planet.tileManager = tileFactory.makeTileManager();

@@ -11,10 +11,11 @@ namespace Objects.Galaxy
         public override Transform parent { get; set; }
 
         private int _scene;
-        public SingleSceneRenderer(GameObject prefab, int scene, scriptType script) : base(script)
+        public SingleSceneRenderer(GameObject prefab, int scene, Transform parent, scriptType script) : base(script)
         {
             _prefab = prefab;
             _scene = scene;
+            this.parent = parent;
         }
         public override bool render(int scene)
         {

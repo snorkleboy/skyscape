@@ -30,7 +30,7 @@ namespace Objects.Galaxy
         public void render(int scene)
         {
             if (planetRenderer.render(scene)){
-                planetRenderer.transform.Translate(position);
+                planetRenderer.transform.position = (position);
                 planetRenderer.transform.gameObject.name = "planet representation";
             }
         }
@@ -51,7 +51,7 @@ namespace Objects.Galaxy
                 var fleet = GameManager.instance.factions.GetFaction(this).createFleet(this);
                 Debug.Log("fleet created: " + fleet);
                 fleet.render(3);
-                // fleet.renderHelper.transform.position = fleet.renderHelper.transform.position + new Vector3(2,0,2);
+                fleet.transform.position = renderHelper.transform.position + new Vector3(2,0,2);
             });
             var text = makeShipButton.AddComponent<Text>();
             text.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;

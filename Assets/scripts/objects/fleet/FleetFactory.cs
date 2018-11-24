@@ -26,11 +26,13 @@ namespace Objects
         }
         public Fleet makeFleet(Faction faction, Transform parent, Vector3 position){
             var fleetGo = new GameObject("fleet");
-            fleetGo.SetParent(parent);
+            fleetGo.SetParent(parent, false);
             var fleet = fleetGo.AddComponent<Fleet>();
             var fleetRenderer = new HolderRenderer<Fleet>(sceneToPrefab,fleetGo.transform,fleet);
             fleetRenderer.position = position;
             fleet.Init("fleet" +  faction.fleets.Count,icon,fleetRenderer);
+
+            shipFactory.makeShip(fleet);
             faction.fleets[fleet.name] = fleet;
             fleetGo.name = fleet.name;
             return fleet;

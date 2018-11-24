@@ -28,6 +28,9 @@ namespace Objects.Galaxy
             activeGO = GameObject.Instantiate(prefab, parent);
             this.activeScene = scene;
             active = true;
+            if (position != null){
+                activeGO.transform.position = position;
+            }
  
             return active;
         }

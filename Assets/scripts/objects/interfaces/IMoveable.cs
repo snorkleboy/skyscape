@@ -7,11 +7,15 @@ using Loaders;
 
 namespace Objects
 {
+
     public interface IMoveable
     {
-        Mover mover{get;set;} 
+        IMover mover{get;} 
     }
-    public class Mover :MonoBehaviour{
+    public interface IMover{
+        void setTarget(Vector3 target, float stopDistence = .5f);
+    }
+    public class Mover :MonoBehaviour,IMover{
         public Vector3 targetVector = Vector3.negativeInfinity;
         public float distance;
         public float speed = 5f;
@@ -29,7 +33,6 @@ namespace Objects
         }
         private void checkDistanceAndMove(){
             if(Vector3.Distance(targetVector, transform.position) > distance){
-                Debug.Log("distence " + Vector3.Distance(targetVector, transform.position) + " transform.position" + transform.position + " targetVector "+  targetVector + " goName" + gameObject.name);
                 moveStep();
             }
             else
