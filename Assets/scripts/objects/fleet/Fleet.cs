@@ -7,39 +7,18 @@ using Loaders;
 
 namespace Objects
 {
-    public partial class Fleet:MoveAbleGameObject,IViewable,ISelectable
-    {
-        public override IMover mover{get{return moverHelper;}}
-        private Mover moverHelper;
-        private ShipManager ships = new ShipManager();
+    public partial class Fleet{
+
         public void Init(string name, Sprite icon, HolderRenderer<Fleet> renderHelper){
             this.name = name;
             this.icon = icon;
             this.holderRenderer = renderHelper;
             var a = getIconableInfo();
-            moverHelper = gameObject.AddComponent<Mover>();
-            Debug.Log("ICON INFO   "+a.name+" | " + a.icon+" | ");
+            var moverHelper = gameObject.AddComponent<FleetMover>();
+            ships = new ShipManager(moverHelper);
         }
-        public Fleet addShips(Ship ship){
-            this.ships.addShips(ship);
-            holderRenderer.addRenderables(ship);
-            return this;
-        }
-        public Fleet addShips(List<Ship> ships){
-            this.ships.addShips(ships) ;
-            holderRenderer.addRenderables(ships.ToArray());
-            return this;
-        }
-        public InputController getInputController(GameObject parent){
-            var controller = parent.AddComponent<InputController>();
-            controller.Init(controls ,this.gameObject);
-            Debug.Log("controller  " + controller);
-            return controller;
-        }
-    }
-    // rendering
-    public partial class Fleet{
         public List<inputAction> controls;
+
         public void Awake(){
             controls = new List<inputAction>()
                 {
@@ -59,7 +38,6 @@ namespace Objects
                                 var newvec = hit.point;
                                 newvec.y = 0;
                                 mover.setTarget(newvec);
-                                util.Line.DrawTempLine(transform.position,newvec,Color.green,4);
                             }else{
                                 Debug.Log("no hit");
                             }
@@ -68,19 +46,50 @@ namespace Objects
                     ),
                 };
         }
+    }
+    public partial class Fleet:MoveAbleGameObject,IViewable,ISelectable
+    {
+        public override IMover mover{get{return ships.mover;}}
+
+        public Vector3 fleetPosition;
+        private ShipManager ships;
+        public Vector3 getPosition(){
+            return ships.getPostion();
+        }
+        public Fleet addShips(Ship ship){
+            this.ships.addShips(ship);
+            holderRenderer.addRenderables(ship);
+            return this;
+        }
+        public Fleet addShips(List<Ship> ships){
+            this.ships.addShips(ships) ;
+            holderRenderer.addRenderables(ships.ToArray());
+            return this;
+        }
+
+    }
+    // rendering
+    public partial class Fleet{
+
         public override IRenderer renderHelper{get{return holderRenderer;}} 
         private HolderRenderer<Fleet> holderRenderer;
         public override void render(int scene){
             renderHelper.render(scene);
-            renderHelper.transform.position = transform.position;
+            renderHelper.transform.position = fleetPosition;
             var count = 0;
             foreach (var renderable in holderRenderer.renderables){
-                renderable.Value.renderHelper.transform.position = transform.position + new Vector3(1 + count++,0,0);
+                renderable.Value.renderHelper.transform.parent.position = fleetPosition + new Vector3(1 + count++,0,0);
             }
         }
     }
     //ui
     public partial class Fleet {
+        public InputController getInputController(GameObject parent){
+            var controller = parent.AddComponent<InputController>();
+            controller.Init(controls ,this.gameObject);
+            Debug.Log("controller  " + controller);
+            return controller;
+        }
         public override iconInfo getIconableInfo(){
             var info = new iconInfo();
             info.source = this;

@@ -17,7 +17,11 @@ namespace Objects.Galaxy
             moverHelper = gameObject.AddComponent<Mover>();
         }
         public override void render(int context){
+            Debug.Log("ship render " + this);
             renderHelper.render(context);
+            var pos = renderHelper.transform.position;
+            transform.position = pos;
+            renderHelper.transform.position = pos;
         }
 
     }

@@ -22,8 +22,11 @@ namespace Objects.Galaxy
         }
         public Ship makeShip(Fleet fleet){
             var prefab = shipPrefabs[0];
-            var ship = fleet.gameObject.AddComponent<Ship>();
-            var renderer = new SingleSceneRenderer<Ship>(prefab,3,null,ship);
+            var shipParent = fleet.transform.Find("ships");
+            var shipHolder= new GameObject("ship");
+            shipHolder.SetParent(shipParent,false);
+            var ship = shipHolder.AddComponent<Ship>();
+            var renderer = new SingleSceneRenderer<Ship>(prefab,3,shipHolder.transform,ship);
             ship.Init(renderer);
             fleet.addShips(ship);
             return ship;

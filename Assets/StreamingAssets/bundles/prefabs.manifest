@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3450633056
+CRC: 1494250887
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 47893b922a5e6faed8d5b2de6ebb37b0
+    Hash: c3c37543f5b10366301563c502831ae5
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 9eed4650a984a8345ad2438198e52891
+    Hash: 76ccede89b365552e413097066ca06f7
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -24,6 +24,8 @@ ClassTypes:
 - Class: 43
   Script: {instanceID: 0}
 - Class: 48
+  Script: {instanceID: 0}
+- Class: 64
   Script: {instanceID: 0}
 - Class: 102
   Script: {instanceID: 0}
@@ -58,9 +60,9 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: 7aa75bf92b51b5f4d91244c408bb042b, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: 5c4f2a3cece9fa04e896295181827bd1, type: 3}
-- Class: 114
   Script: {fileID: 11500000, guid: 7498162ec51ea4f43a9f9f1a312e2b79, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f573a5a30c1b3214fbfcb2a8fbf9096d, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 78edb6269d8577f4f9230c315f780a34, type: 3}
 - Class: 115
@@ -101,6 +103,7 @@ Assets:
 - Assets/RunTimeAssets/prefabs/UI/open_close.prefab
 - Assets/RunTimeAssets/prefabs/star/star.prefab
 - Assets/RunTimeAssets/prefabs/UI/main menu.prefab
+- Assets/RunTimeAssets/prefabs/Fleet/fleetGO.prefab
 - Assets/RunTimeAssets/prefabs/ship/shipa.prefab
 - Assets/RunTimeAssets/prefabs/UI/MainUI.prefab
 - Assets/RunTimeAssets/prefabs/UI/IconedGO.prefab

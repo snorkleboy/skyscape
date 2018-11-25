@@ -19,9 +19,9 @@ namespace Objects
             if(icon == null){
                 Debug.LogWarning("fleet factory did not find icon");
             }
-            sceneToPrefab[3] = AssetSingleton.getAsset<GameObject>(AssetSingleton.bundleNames.prefabs, "IconedGO");//.getBundledDirectory<GameObject>(AssetSingleton.bundleNames.prefabs,"ui")
+            sceneToPrefab[3] = AssetSingleton.getAsset<GameObject>(AssetSingleton.bundleNames.prefabs, "fleetGO");//.getBundledDirectory<GameObject>(AssetSingleton.bundleNames.prefabs,"ui")
             if(sceneToPrefab[3] == null){
-                Debug.LogWarning("fleet factory did not find icon");
+                Debug.LogWarning("fleet factory did not find fleet prefab");
             }
         }
         public Fleet makeFleet(Faction faction, Transform parent, Vector3 position){
@@ -31,6 +31,9 @@ namespace Objects
             var fleetRenderer = new HolderRenderer<Fleet>(sceneToPrefab,fleetGo.transform,fleet);
             fleetRenderer.position = position;
             fleet.Init("fleet" +  faction.fleets.Count,icon,fleetRenderer);
+
+            var fleetGoShipsHolder = new GameObject("ships");
+            fleetGoShipsHolder.SetParent(fleetGo);
 
             shipFactory.makeShip(fleet);
             shipFactory.makeShip(fleet);

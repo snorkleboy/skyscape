@@ -12,8 +12,8 @@ public class SpaceIcon : MonoBehaviour {
     private Renderer m_Renderer;
 	public int renderDistance =  700;
 	public System.Func<iconInfo,GameObject> iconCallBack =  UIComponents.renderIconLabel;
-	public Vector3 renderPosition = new Vector3(0,12,0);
-    public void Start(){
+	public Vector3 offset = new Vector3(0,12,0);
+    public virtual void Start(){
 		m_Renderer = gameObject.GetComponent<MeshRenderer>();
 		if (!m_Renderer){
 			m_Renderer = gameObject.GetComponentInChildren<MeshRenderer>();
@@ -38,7 +38,7 @@ public class SpaceIcon : MonoBehaviour {
 				floatingIcon.transform.SetParent(canvas.transform);
 				setPosition();
 			}
-			if(m_Renderer.isVisible && Vector3.Distance(Camera.main.transform.position, transform.position)< renderDistance){
+			if(shouldRender()){
 				setPosition();
 				floatingIcon.SetActive(true);
 			}else{
@@ -48,7 +48,14 @@ public class SpaceIcon : MonoBehaviour {
 
     }
 	private void setPosition(){
-		var pos = Camera.main.WorldToScreenPoint(transform.position+ renderPosition);
+		var pos = Camera.main.WorldToScreenPoint(getTargetPosition() + offset);
 		floatingIcon.transform.position = (pos);
+	}
+	protected virtual bool shouldRender(){
+		return m_Renderer.isVisible && Vector3.Distance(Camera.main.transform.position, transform.position)< renderDistance;
+	}
+
+	protected virtual Vector3 getTargetPosition(){
+		return transform.position;
 	}
 }
