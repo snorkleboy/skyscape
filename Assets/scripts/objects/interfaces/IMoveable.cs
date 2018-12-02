@@ -33,6 +33,7 @@ namespace Objects
                 checkDistanceAndMove();
             }
         }
+
         protected virtual void checkDistanceAndMove(){
             if(Vector3.Distance(targetVector, transform.position) > distance){
                 moveStep();

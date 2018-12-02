@@ -7,6 +7,7 @@ using Loaders;
 
 namespace Objects
 {
+    //setup
     public partial class Fleet{
 
         public void Init(string name, Sprite icon, HolderRenderer<Fleet> renderHelper){
