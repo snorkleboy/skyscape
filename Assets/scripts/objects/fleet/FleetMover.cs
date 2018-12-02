@@ -10,7 +10,9 @@ namespace Objects
         private List<IMover> subMovers = new List<IMover>();
         public Transform fleetTransform;
         public MoveFleet moveFleetBehavior;
-
+        public override Vector3 getPosition(){
+            return fleetTransform.position;
+        }
         public void addMover(IMover mover){
             subMovers.Add(mover);
         }
@@ -37,24 +39,32 @@ namespace Objects
         }
         protected override IEnumerator getEnumerator(){
             float offset = 0;
-            var enumList = new IEnumerator[subMovers.Count+2];
+            var shipsMovingBehavior = new IEnumerator[subMovers.Count];
             var count = 0;
             var towardsTarget = (target -fleetRepresentationTransform.position );
             var perpendicular = Vector3.Cross(towardsTarget,Vector3.up);
             perpendicular.Normalize();
 
             foreach(var mover in subMovers){
-                var beh = mover.setTarget(makeOffset(perpendicular,target,count));
-                subActions.Add(beh);
-                enumList[count++] = beh;
+                var subaction = mover.setTarget(makeOffset(perpendicular,target,count));
+                subActions.Add(subaction);
+                shipsMovingBehavior[count++] = subaction;
                 offset += 1;
             }
-            enumList[count++] = util.Routiner.wait(10000);
-            enumList[count++] = keepIconToAveragePosition();
-            return util.Routiner.All(enumList);
+            return util.Routiner.Any(
+                keepIconToAveragePosition(),
+                timedOutMove(shipsMovingBehavior,util.Routiner.wait(15))
+            );
+        }
+        protected IEnumerator timedOutMove(IEnumerator[] routines, IEnumerator waiter){
+            return util.Routiner.Any(
+                util.Routiner.All(routines),
+                waiter
+            );
+            
         }
         protected Vector3 makeOffset(Vector3 perpendicular,Vector3 target, int count){
-            return target + perpendicular*count;
+            return target + perpendicular*3*count;
         }
         protected IEnumerator keepIconToAveragePosition(){
             while(true){

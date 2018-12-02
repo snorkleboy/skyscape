@@ -9,8 +9,6 @@ namespace Objects
 {
     //setup
     public partial class Fleet:MoveAbleGameObject,IViewable,ISelectable{
- 
-
         public void Init(string name, Sprite icon, HolderRenderer<Fleet> renderHelper){
             this.name = name;
             this.icon = icon;
@@ -20,7 +18,6 @@ namespace Objects
             ships = new ShipManager(fleetMover);
         }
         public List<inputAction> controls;
-
         public void Awake(){
             controls = new List<inputAction>()
                 {
@@ -52,7 +49,6 @@ namespace Objects
     public partial class Fleet
     {
         public override IMover mover{get{return ships.mover;}}
-
         public Vector3 fleetPosition;
         private ShipManager ships;
         public Vector3 getPosition(){
@@ -81,7 +77,7 @@ namespace Objects
             this.ships.mover.fleetTransform = renderHelper.transform;
             var count = 0;
             foreach (var renderable in holderRenderer.renderables){
-                renderable.Value.renderHelper.transform.parent.position = fleetPosition + new Vector3(1 + count++,0,0);
+                renderable.Value.renderHelper.transform.parent.position = fleetPosition + new Vector3(1 + 3*count++,0,0);
             }
         }
     }

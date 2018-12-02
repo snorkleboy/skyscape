@@ -16,7 +16,6 @@ namespace Objects
 
     }
     public class Mover :BasicMover{
-        public float speed = 5f;
         public override Vector3 getPosition(){return transform.position;}
         public override void Init(float speed = 5f){
             this.speed = speed;
@@ -27,6 +26,5 @@ namespace Objects
             }
             return previousStateAction = new MoveTransform().Init(transform,speed,d,target);
         }
-
     }
 }

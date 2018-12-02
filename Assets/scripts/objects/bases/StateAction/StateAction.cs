@@ -6,6 +6,7 @@ namespace Objects
     [System.Serializable]
     public abstract class StateAction : IEnumerator {
         protected IEnumerator enumerator;
+        public util.Routiner routineInstance;
         protected virtual void Init(){
             enumerator = getEnumerator();
         }

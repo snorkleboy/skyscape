@@ -39,7 +39,6 @@ namespace Objects.Galaxy.ship
             var lookRotation = Quaternion.LookRotation(direction);
             controlledTransform.rotation = Quaternion.RotateTowards(controlledTransform.rotation, lookRotation, 45*Time.deltaTime);
             float angle = Quaternion.Angle(controlledTransform.rotation, lookRotation);
-            Debug.Log("controlledTransform.rotation    " +controlledTransform.rotation + " lookRotation " + lookRotation + "  angle " + angle + "   bool" +( Mathf.Abs (angle) < 1e-3f));
             return Mathf.Abs (angle) < 1e-3f;
         }
         protected IEnumerator move(){

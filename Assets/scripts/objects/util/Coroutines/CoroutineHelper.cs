@@ -6,8 +6,8 @@ namespace util
     public static class GameObjectExtensionCoRoutineHelper
     {
         public static Routiner runRoutine(this MonoBehaviour go,IEnumerator routine){
-            var wroutine =new Routiner(routine);
-            go.StartCoroutine(wroutine);
+            var wroutine = new Routiner(routine);
+            wroutine.unityRoutine = go.StartCoroutine(wroutine);
             return wroutine;
         }
     }
@@ -16,28 +16,32 @@ namespace util
 
 namespace util
 {
+    public interface IRoutinerable :IEnumerator{
+        bool finished{get;}
+    }
     public partial class Routiner {
-        public static IEnumerator All(params IEnumerator[] routines){
+        public static IRoutinerable All(params IEnumerator[] routines){
             return new All(routines);
         }
-        public static IEnumerator Any(params IEnumerator[] routines){
+        public static IRoutinerable Any(params IEnumerator[] routines){
             return new Any(routines);
         }    
-        public static IEnumerator wait(float time){
+        public static IRoutinerable wait(float time){
             return new WaitRoutine(time);
         }
     }
-    public class WaitRoutine: IEnumerator{
+    public class WaitRoutine: IRoutinerable{
         public float timeToWait;
         public float startTime;
         public float endTime;
+        public bool finished{get;set;}
         public WaitRoutine(float timeToWait){
             this.timeToWait = timeToWait;
             this.startTime = Time.time;
             this.endTime = startTime + timeToWait;
         }
         public bool MoveNext(){
-            return Time.time < endTime;
+            return finished = Time.time < endTime;
         }
         public void Reset(){
             this.startTime = Time.time;
@@ -45,12 +49,14 @@ namespace util
         }
         public object Current{get{return null;}}
     }
-    public partial class Routiner : IEnumerator
+    [System.Serializable]
+    public partial class Routiner : IRoutinerable
     {
         IEnumerator mainRoutine;
         Routiner subRoutine;
 
-        public bool finished = false;
+        public bool finished{get;set;}
+        public Coroutine unityRoutine;
         public Routiner(IEnumerator routine)
         {
             mainRoutine = routine;
@@ -84,9 +90,7 @@ namespace util
                 }
                 subRoutine = new Routiner(newSubroutine);
             }
-            if (!moved){
-                finished= true;
-            }
+            finished = moved;
             return moved;
         }
         public void Reset()
@@ -102,9 +106,11 @@ namespace util
         }
 
     }
-    public abstract class MultiRoutiner :IEnumerator{
+    public abstract class MultiRoutiner :IRoutinerable{
         public HashSet<IEnumerator> routines = new HashSet<IEnumerator>();
+        public bool finished{get;set;}
         public MultiRoutiner(params IEnumerator[] routines){
+            finished = false;
             foreach (var routine in routines)
             {
                 this.routines.Add(new util.Routiner(routine));
@@ -147,7 +153,7 @@ namespace util
         }
         public override bool MoveNext(){
             RunRoutines();
-            return routines.Count > 0;
+            return finished = routines.Count > 0;
         }
     }
     public class Any:MultiRoutiner{
@@ -157,7 +163,7 @@ namespace util
         }
         public override bool MoveNext(){
             RunRoutines();
-            return routines.Count == startCount;
+            return finished = routines.Count == startCount;
         }
     }
 }
