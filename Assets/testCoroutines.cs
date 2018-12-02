@@ -58,6 +58,13 @@ public class testCoroutines : MonoBehaviour {
 	public IEnumerator Nested(){
 		for(var i =0 ; i<5 ; i++){
 			Debug.Log("Nested " + i);
+			yield return dNested();
+		}
+	}
+
+	public IEnumerator dNested(){
+		for(var i =100 ; i<105 ; i++){
+			Debug.Log("Nested Nested" + i);
 			yield return null;
 		}
 	}
