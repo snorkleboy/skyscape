@@ -24,12 +24,10 @@ public class SpaceIcon : MonoBehaviour {
 		if (!m_Renderer){
 			Debug.LogWarning("spaceIcon couldnt get m_Renderer  " + m_Renderer);
 		}
-
         uiable = gameObject.GetComponentInParent<IUIable>();
 		if (uiable == null){
 			Debug.LogWarning("spaceIcon couldnt get uiable  " + uiable);
 		}
-
     }
     public void LateUpdate(){
 		if (GameManager.instance.UIManager.sceneCanvas && (canvas = GameManager.instance.UIManager.sceneCanvas.gameObject)){
@@ -54,7 +52,6 @@ public class SpaceIcon : MonoBehaviour {
 	protected virtual bool shouldRender(){
 		return m_Renderer.isVisible && Vector3.Distance(Camera.main.transform.position, transform.position)< renderDistance;
 	}
-
 	protected virtual Vector3 getTargetPosition(){
 		return transform.position;
 	}

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using util.Routiner;
+using util;
 public class testCoroutines : MonoBehaviour {
 
 	// Use this for initialization

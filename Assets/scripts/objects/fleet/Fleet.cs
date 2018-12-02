@@ -8,15 +8,16 @@ using Loaders;
 namespace Objects
 {
     //setup
-    public partial class Fleet{
+    public partial class Fleet:MoveAbleGameObject,IViewable,ISelectable{
+ 
 
         public void Init(string name, Sprite icon, HolderRenderer<Fleet> renderHelper){
             this.name = name;
             this.icon = icon;
             this.holderRenderer = renderHelper;
             var a = getIconableInfo();
-            var moverHelper = gameObject.AddComponent<FleetMover>();
-            ships = new ShipManager(moverHelper);
+            var fleetMover = gameObject.AddComponent<FleetMover>();
+            ships = new ShipManager(fleetMover);
         }
         public List<inputAction> controls;
 
@@ -38,7 +39,7 @@ namespace Objects
                             {
                                 var newvec = hit.point;
                                 newvec.y = 0;
-                                mover.setTarget(newvec);
+                                setStateAction(mover.setTarget(newvec));
                             }else{
                                 Debug.Log("no hit");
                             }
@@ -48,7 +49,7 @@ namespace Objects
                 };
         }
     }
-    public partial class Fleet:MoveAbleGameObject,IViewable,ISelectable
+    public partial class Fleet
     {
         public override IMover mover{get{return ships.mover;}}
 
@@ -77,6 +78,7 @@ namespace Objects
         public override void render(int scene){
             renderHelper.render(scene);
             renderHelper.transform.position = fleetPosition;
+            this.ships.mover.fleetTransform = renderHelper.transform;
             var count = 0;
             foreach (var renderable in holderRenderer.renderables){
                 renderable.Value.renderHelper.transform.parent.position = fleetPosition + new Vector3(1 + count++,0,0);

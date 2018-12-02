@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-namespace util.Routiner
+namespace util
 {
     public static class GameObjectExtensionCoRoutineHelper
     {
@@ -12,6 +11,11 @@ namespace util.Routiner
             return wroutine;
         }
     }
+    
+}
+
+namespace util
+{
     public partial class Routiner {
         public static IEnumerator All(params IEnumerator[] routines){
             return new All(routines);
@@ -19,11 +23,34 @@ namespace util.Routiner
         public static IEnumerator Any(params IEnumerator[] routines){
             return new Any(routines);
         }    
+        public static IEnumerator wait(float time){
+            return new WaitRoutine(time);
+        }
+    }
+    public class WaitRoutine: IEnumerator{
+        public float timeToWait;
+        public float startTime;
+        public float endTime;
+        public WaitRoutine(float timeToWait){
+            this.timeToWait = timeToWait;
+            this.startTime = Time.time;
+            this.endTime = startTime + timeToWait;
+        }
+        public bool MoveNext(){
+            return Time.time < endTime;
+        }
+        public void Reset(){
+            this.startTime = Time.time;
+            this.endTime = startTime + timeToWait;
+        }
+        public object Current{get{return null;}}
     }
     public partial class Routiner : IEnumerator
     {
         IEnumerator mainRoutine;
-        IEnumerator subRoutine;
+        Routiner subRoutine;
+
+        public bool finished = false;
         public Routiner(IEnumerator routine)
         {
             mainRoutine = routine;
@@ -57,6 +84,9 @@ namespace util.Routiner
                 }
                 subRoutine = new Routiner(newSubroutine);
             }
+            if (!moved){
+                finished= true;
+            }
             return moved;
         }
         public void Reset()
@@ -77,7 +107,7 @@ namespace util.Routiner
         public MultiRoutiner(params IEnumerator[] routines){
             foreach (var routine in routines)
             {
-                this.routines.Add(new Routiner(routine));
+                this.routines.Add(new util.Routiner(routine));
             }
         }
         public abstract bool MoveNext();

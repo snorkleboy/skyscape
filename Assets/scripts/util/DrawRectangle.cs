@@ -5,7 +5,7 @@ using Objects;
 namespace util
 {
     public static class Line{
-         public static void DrawTempLine(Vector3 start, Vector3 end, Color color, float duration = 0.2f)
+         public static LineRenderer DrawTempLine(Vector3 start, Vector3 end, Color color, float duration = 0.2f)
          {
              GameObject myLine = new GameObject();
              myLine.transform.position = start;
@@ -17,6 +17,7 @@ namespace util
              lr.SetPosition(0, start);
              lr.SetPosition(1, end);
              GameObject.Destroy(myLine, duration);
+             return lr;
          }
     }
     public static class Rectangle

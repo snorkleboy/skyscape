@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4292540676491916}
   - component: {fileID: 23864042027104846}
-  - component: {fileID: 114126617544778354}
+  - component: {fileID: 114063040445701510}
   m_Layer: 0
   m_Name: fleetGO
   m_TagString: Untagged
@@ -76,7 +76,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &114126617544778354
+--- !u!114 &114063040445701510
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -84,7 +84,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1934457506120980}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f573a5a30c1b3214fbfcb2a8fbf9096d, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c590ab14c0b0cd42a07e564c54eb364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   renderDistance: 700
