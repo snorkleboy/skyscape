@@ -10,11 +10,11 @@ namespace Objects.Galaxy
     public partial class Ship : MoveAbleGameObject
     {
         public override IMover mover{get{return moverHelper;}}
-        private Mover moverHelper;
+        private ShipMover moverHelper;
         public void Init(SingleSceneRenderer<Ship> renderer){
             renderHelper = renderer;
             icon = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"star")[0];
-            moverHelper = gameObject.AddComponent<Mover>();
+            moverHelper = gameObject.AddComponent<ShipMover>();
         }
         public override void render(int context){
             Debug.Log("ship render " + this);
