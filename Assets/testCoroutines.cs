@@ -11,7 +11,7 @@ public class testCoroutines : MonoBehaviour {
 		routiner = this.runRoutine(startState());
 	}
 	public void Update(){
-		// Debug.Log("UPDATE TICK");
+		Debug.Log("UPDATE TICK");
 	}
 	public IEnumerator startState()
 	{
@@ -55,7 +55,7 @@ public class testCoroutines : MonoBehaviour {
 			yield return null;
 		}
 	}
-		public IEnumerator Nested(){
+	public IEnumerator Nested(){
 		for(var i =0 ; i<5 ; i++){
 			Debug.Log("Nested " + i);
 			yield return null;

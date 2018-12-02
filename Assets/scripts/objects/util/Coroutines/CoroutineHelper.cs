@@ -6,11 +6,9 @@ namespace util.Routiner
 {
     public static class GameObjectExtensionCoRoutineHelper
     {
-
         public static Routiner runRoutine(this MonoBehaviour go,IEnumerator routine){
             var wroutine =new Routiner(routine);
             go.StartCoroutine(wroutine);
-            Debug.Log("STARTED COROTUINE");
             return wroutine;
         }
     }
