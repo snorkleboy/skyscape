@@ -6,17 +6,37 @@ using UnityEngine.UI;
 using UI;
 namespace Objects.Galaxy
 {
+    public struct PlanetModel{
+        public string name;
+        public TileModel[] tiles;
+        public int tileWidth;
+        public long id;
+        public SerializableVector3 position;
+        public PlanetModel(Planet planet){
+            tileWidth = planet.tileManager.width;
+            name = planet.name;
+            id = planet.id;
+            position = planet.position;
+            var length = planet.tileManager.tiles.Length;
+            tiles = new TileModel[length];
+            for(var i =0; i<length;i++){
+                tiles[i] = planet.tileManager.tiles[i].model;
+            }
+        }
+
+    }
 
     [System.Serializable]
-    public partial class Planet :MonoBehaviour, IViewable,IContextable,IActOnable, IRenderable
+    public partial class Planet :MonoBehaviour, IViewable,IContextable,IActOnable, IRenderable, ISaveAble<PlanetModel>
     {
-        public int updateId{get;}
+        public PlanetModel model{get{return new PlanetModel(this);}}
+        public long id;
         public IRenderer renderHelper { get { return planetRenderer; } }
-        public string title{get;set;}
+        public string title;
         private SingleSceneRenderer<Planet> planetRenderer { get; set; }
         public Sprite planetSprite;
-        [SerializeField]public Vector3 position;
-        [SerializeField]public TileManager tileManager;
+        public Vector3 position;
+        public TileManager tileManager;
         public void Init(SingleSceneRenderer<Planet> renderer,Sprite planetSprite )
         {
             title = Names.planetNames.getName();

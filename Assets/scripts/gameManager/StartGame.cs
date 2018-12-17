@@ -13,4 +13,7 @@ public class StartGame : MonoBehaviour {
     {
         gameManager.startgame(creator.starNodes);
     }
+    public void startGame(SavedGame savedGame){
+        gameManager.startgame(savedGame);
+    }
 }

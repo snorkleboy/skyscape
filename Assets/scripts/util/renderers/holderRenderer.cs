@@ -41,7 +41,6 @@ namespace Objects.Galaxy
                     if (renderable.renderHelper.parent == null){
                         renderable.renderHelper.parent = activeGO.transform;
                     }
-                    
                     renderable.render(scene);
                 }
             }

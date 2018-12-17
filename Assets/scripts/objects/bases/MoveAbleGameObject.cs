@@ -9,12 +9,47 @@ using UnityEditor;
 
 namespace Objects
 {
-    public abstract class MoveAbleGameObject:MonoBehaviour,IUIable,IRenderable,IMoveable
+     [System.Serializable]
+ public struct SerializableVector3
+ {
+     public float x;
+     public float y;
+     public float z;
+     public SerializableVector3(float rX, float rY, float rZ)
+     {
+         x = rX;
+         y = rY;
+         z = rZ;
+     }
+     public override string ToString()
+     {
+         return string.Format("[{0}, {1}, {2}]", x, y, z);
+     }
+     public static implicit operator Vector3(SerializableVector3 rValue)
+     {
+         return new Vector3(rValue.x, rValue.y, rValue.z);
+     }
+     public static implicit operator SerializableVector3(Vector3 rValue)
+     {
+         return new SerializableVector3(rValue.x, rValue.y, rValue.z);
+     }
+ }
+    public interface ISaveAble<SeriableClass>{
+        SeriableClass model{get;}
+    }
+    public abstract class GalaxyGameObject: MonoBehaviour,IUIable,IRenderable{
+        public abstract iconInfo getIconableInfo();
+        public virtual IRenderer renderHelper{get;set;} 
+        public abstract void render(int scene);
+        public abstract IMover mover{get;}
+        public Sprite icon;
+    }
+    public abstract class MoveAbleGameObject:GalaxyGameObject,IMoveable
     {
         public Objects.StateAction stateAction = null;
         public Objects.StateAction previousAction = null;
-
         public void setStateAction(StateAction action){
+            
             Debug.Log("set state action " + action);
             if(this.stateAction!= null && this.stateAction.routineInstance.unityRoutine != null){
                 var msg = "stop coroutine " + this.stateAction.routineInstance.unityRoutine + " routiner finished:" + this.stateAction.routineInstance.finished;
@@ -25,35 +60,11 @@ namespace Objects
             this.stateAction = action;
             this.stateAction.routineInstance = this.runRoutine(action);
         }
-        public virtual IRenderer renderHelper{get;set;} 
-        public abstract void render(int scene);
-        public abstract IMover mover{get;}
-        public Sprite icon;
+
         public string title;
-        public abstract iconInfo getIconableInfo();
+
 
     }
 
-[CustomEditor(typeof(MoveAbleGameObject),true)]
-public class MoveAbleGameObjectDrawer : Editor 
-{
-    public override void OnInspectorGUI()
-    {
-        MoveAbleGameObject myTarget = (MoveAbleGameObject)target;
 
-        EditorGUILayout.LabelField("stateAction", myTarget.stateAction !=null ? myTarget.stateAction.ToString() : "no state");
-        EditorGUILayout.LabelField("finished",myTarget.stateAction !=null ? myTarget.stateAction.routineInstance.finished.ToString() : "no state");
-        EditorGUILayout.LabelField("previousAction",myTarget.previousAction !=null ? myTarget.previousAction.ToString() : "no prev state");
-        EditorGUILayout.LabelField("finished",myTarget.previousAction !=null ? myTarget.previousAction.routineInstance.finished.ToString() : "no prev state");
-
-        EditorGUILayout.LabelField("renderHelper", myTarget.renderHelper.ToString());
-        EditorGUILayout.ObjectField("parent", myTarget.renderHelper.parent, typeof(Transform));
-        EditorGUILayout.ObjectField("transform:", myTarget.renderHelper.transform, typeof(Transform), true);
-        EditorGUILayout.LabelField("uid", myTarget.renderHelper.uid.ToString());
-
-        EditorGUILayout.LabelField("getPosition", myTarget.mover.getPosition().ToString());
-        EditorUtility.SetDirty(target);
-    }
-
-}
 }

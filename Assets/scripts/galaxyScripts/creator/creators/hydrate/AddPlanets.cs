@@ -19,19 +19,21 @@ namespace GalaxyCreators
                     var multiplier = 1.0;
                     for (int i = 0; i < planets.Length; i++)
                     {
-                        var planet =  planetFactory.newPlanet(starNode);
+                        multiplier = Random.Range(.8f,1.2f) * multiplier;
+                        multiplier++;
+                        var position = Vector3.right*(int)(30*multiplier);
+                        var planet =  planetFactory.newPlanet(starNode,position);
                         if (i>2){
                             multiplier++;
                         }
                         if (i>4){
                             multiplier++;
                         }
-                        multiplier = Random.Range(.8f,1.2f) * multiplier;
-                        planet.position =Vector3.right*(int)(30*multiplier);
+                        
                         planets[i] = planet;
-                        multiplier++;
+                        
                     }
-                    starNode.planets = planets;
+                    starNode.setPlanets(planets);
                 }
             }
             return starNodes;

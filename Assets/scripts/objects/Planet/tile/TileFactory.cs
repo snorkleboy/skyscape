@@ -24,23 +24,29 @@ namespace Objects.Galaxy
         }
         public Tile makeTile(int tileNum){
             var shouldMakeBuilding = Random.Range(0,10)>3;
+            Tile tile;
             if (shouldMakeBuilding){
                 var pops = makePops(Random.Range(1,10));
                 var building = makeBuilding(pops);
-                return new Tile(tileSprites[Random.Range(0,tileSprites.Length)], building,tileNum);
+                tile= new Tile(tileSprites[Random.Range(0,tileSprites.Length)], building,tileNum);
             }else{
-                return new Tile(tileSprites[Random.Range(0,tileSprites.Length)],tileNum);
+                tile =  new Tile(tileSprites[Random.Range(0,tileSprites.Length)],tileNum);
             }
+            tile.id = GameManager.idMaker.newId(tile);
+            return tile;
         }
         public Pop[] makePops(int num){
             Pop[] pops = new Pop[num];
             for(var i = 0; i<num;i++){
                 pops[i] = new Pop(popSprites[0]);
+                pops[i].id = GameManager.idMaker.newId(pops[i]);
             }
             return pops;
         }
         public Building makeBuilding(Pop[] pops){
-           return new Building(buildingSprites[0],pops);
+           var building =  new Building(buildingSprites[0],pops);
+           building.id = GameManager.idMaker.newId(building);
+           return building;
         }
     }
 }

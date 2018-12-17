@@ -7,9 +7,24 @@ namespace Objects.Galaxy
     public static class buildingNames{
         public static string[] names = new string[]{"buildinger","anotherBuil","Foo","Bar"};
     }
+    public class BuildingModel{
+        public string name;
+        public PopModel[] pops;
+        public long id;
+        public BuildingModel(Building building){
+            id = building.id;
+            name = building.name;
+            pops = new PopModel[building.pops.Count];
+            for(var i=0;i<pops.Length;i++){
+                pops[i] = building.pops[i].model;
+            }
+        }
+    }
     [System.Serializable]
-    public class Building : IIconable, IContextable
+    public class Building : IIconable, IContextable, ISaveAble<BuildingModel>
     {
+        public long id;
+        public BuildingModel model{get{return new BuildingModel(this);}}
         [SerializeField]public string name;
         public Sprite buildingSprite;
         public string title{get;}

@@ -10,12 +10,23 @@ namespace Objects.Galaxy
     public static class PopNames{
         public static string[] names = new string[]{"bob","tim","fisher","ms.disher","constilisher"};
     }
+    public struct PopModel{
+        public int money;
+        public string name;
+        public long id;
+        public PopModel(Pop pop){
+            money = pop.money;
+            name = pop.name;
+            id = pop.id;
+        }
+    }
     [System.Serializable]
-    public class Pop : IIconable
+    public partial class Pop : IIconable, ISaveAble<PopModel>
     {
+        public long id;
+        public PopModel model{get{return new PopModel(this);}}
        [SerializeField]public string name;
         [SerializeField]public int money;
-        public int updateId{get;}
         public string title{get{return name;}}
         public Sprite popSprite;
         public Pop(Sprite sprite)
@@ -24,6 +35,8 @@ namespace Objects.Galaxy
             name = PopNames.names[UnityEngine.Random.Range(0,PopNames.names.Length-1)];
             money = UnityEngine.Random.Range(0,100);
         }
+    }
+    public partial class Pop{
         public iconInfo getIconableInfo(){
             var info = new iconInfo();
             info.source = this;

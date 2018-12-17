@@ -8,24 +8,41 @@ using GalaxyCreators;
 using System.IO;
 using Objects.Conceptuals;
 using Loaders;
+using util;
 namespace Objects
 {
-    public class GameManager : MonoBehaviour
+    public class GameManagerModel{
+        public GameManagerModel(GameManager gm){
+            idMaker = GameManager.idMaker.count;
+            _starNodes = gm._starNodes.model;
+        }
+        public long idMaker;
+        public StarNodeCollectionModel _starNodes;
+
+    }
+
+    public class GameManager : MonoBehaviour, ISaveAble<GameManagerModel>
     {
         public static GameManager instance;
-        public User user;
-        public StarNodeCollection _starNodes;
-        public FactionManager factions;
-        // public Transform sceneCanvas = null;
-        // public Transform GMcanvas;
-        // public MainUI mainUI;
-        public GameObject GameCreatorPrefab;
-        public GameGalaxyCreator galaxyCreator;
-        public SceneLoader sceneLoader;
-        public UIManager UIManager;
+
+        [SerializeField]public GameObject GameCreatorPrefab;
+        [SerializeField]public GameGalaxyCreator galaxyCreator;
+        [SerializeField]public SceneLoader sceneLoader;
+        public GameManagerModel model{get{return new GameManagerModel(this);}}
+
+
+        public ObjectTable objectTable;
+        public static UniqueId idMaker;
+
+        [SerializeField]public User user;
+        [SerializeField]public StarNodeCollection _starNodes;
+        [SerializeField]public FactionManager factions;
+        [SerializeField]public UIManager UIManager;
+ 
         void Awake()
         {
             Debug.Log("game manager awake");
+            instance = this;
             factions = GetComponentInChildren<FactionManager>();
             if (!factions){
                 Debug.LogWarning("game manger couldnt find FactionManager");
@@ -34,24 +51,32 @@ namespace Objects
             if (!UIManager){
                 Debug.LogWarning("game manger couldnt find UIManager");
             }
-
         }
-        private int scene;
-        public StarNode selectedStar;
+        [SerializeField]private int scene;
+        [SerializeField]public StarNode selectedStar;
         public void startgame(Dictionary<int, List<ProtoStar>> protoNodes)
         {
-            instance = this;
             Debug.Log("Start Game Called, loading loading screen");
-            sceneLoader.buildGame(this,protoNodes);
-        }
-        // public void getSceneCanvas(Scene scene, LoadSceneMode mode){
-        //     Debug.Log("getSceneCanvas:"+ scene.buildIndex);
-        //     sceneCanvas = CanvasProvider.canvas;
-        //     if (sceneCanvas == null){
-        //         Debug.LogWarning("scene canvas not found. scene:"+ scene.buildIndex);
-        //     }
-        // }
+            sceneLoader.buildGame(this,()=>{
+                objectTable = new ObjectTable();
+                idMaker = new UniqueId(0,objectTable);
 
+                var faction = instance.factions.createFaction("my Faction");
+                instance.user = new User(faction);
+                instance._starNodes = new StarNodeCollection(instance.galaxyCreator.hydrate(protoNodes));
+            });
+        }
+        public void startgame(SavedGame savedGame){
+            sceneLoader.buildGame(this,()=>{
+                var faction = instance.factions.createFaction("my Faction");
+                instance.user = new User(faction);
+                Debug.Log("Game Manager load:" + savedGame.fileName);
+                Debug.Log("Game Manager load:" + savedGame.data);
+            });
+        } 
+        public void Save() {
+            SavedGameManager.Save(this.model);
+        }
         public void loadStarSystem(StarNode star){
             SceneLoader.loadStarSystem(star);
         }

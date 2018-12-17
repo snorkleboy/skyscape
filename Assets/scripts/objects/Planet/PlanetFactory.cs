@@ -14,7 +14,7 @@ namespace Objects.Galaxy
             planetSprites = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"planet");
         }
 
-        public Planet newPlanet(StarNode star)
+        public Planet newPlanet(StarNode star, Vector3 position)
         {
             var parent = new GameObject("planet");
             var planetHolder = star.gameObject.transform.Find("planetHolder");
@@ -25,6 +25,8 @@ namespace Objects.Galaxy
             var sprite = planetSprites[Random.Range(0,planetSprites.Length-1)];
             planet.Init(rep,sprite);
             planet.tileManager = tileFactory.makeTileManager();
+            planet.id = GameManager.idMaker.newId(planet);
+            planet.position = position;
             return planet;
         }
 

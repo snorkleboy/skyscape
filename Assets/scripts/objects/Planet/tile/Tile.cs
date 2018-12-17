@@ -7,24 +7,44 @@ using System;
 using UI;
 namespace Objects.Galaxy
 {
-    public class Tile: IContextable, IIconable, IActOnable
+    public struct TileModel{
+        public int position;
+        public long id;
+        public BuildingModel building;
+        public TileModel(Tile tile){
+            if (tile.building != null){
+                building = tile.building.model;
+            }else{
+                building = null;
+            }
+            id = tile.id;
+            position = tile.tilePosition;
+        }
+    }
+    public partial class Tile: IContextable, IIconable, IActOnable, ISaveAble<TileModel>
     {
+        public TileModel model{get{return new TileModel(this);}}
+        public long id;
         public Building building = null;
-        public int updateId{get;}
         public void setBuilding(Building building){
             this.building = building;
         }
-        private int tilePosition;
+        public int tilePosition;
         private Sprite sprite = null;
         public string title{get;}
         public Tile(Sprite texture, int tilePosition)
         {
             title = "tile";
             sprite = texture;
+            this.tilePosition = tilePosition;
         }
         public Tile(Sprite sprite, Building building, int tilePosition):this(sprite,tilePosition){
             this.building = building;
         }
+
+    }
+
+    public partial class Tile{
         public GameObject renderActionView(Transform parent,clickViews callbacks){
             var holder =  new GameObject("Tile ACTIONS");
             holder.transform.SetParent(parent, false);

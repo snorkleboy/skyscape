@@ -9,15 +9,81 @@ using Objects.Conceptuals;
 namespace Objects.Galaxy
 {
 
+    public class Planetable: ScriptableObject{
+        [SerializeField]private Planet[] _planets;
+        public Planet[] planets {
+            get
+            {
+                return _planets;
+            }
+            set
+            {
+                _planets = value;
+            }
+        }
+    }
     
-    public partial class StarNode : MonoBehaviour, IRenderable, IUIable
+    public class Connectable : ScriptableObject{
+        [SerializeField] List<StarConnection> _connections = new List<StarConnection>();
+        public List<StarConnection> connections
+        {
+            get
+            {
+                return _connections;
+            }
+            set
+            {
+                _connections = value;
+            }
+        }
+        public void addConnection(StarConnection connection)
+        {
+            connections.Add(connection);
+        }
+
+    }
+    public struct StarNodeModel{
+        public SerializableVector3 position;
+        FactoryStamp stamp;
+        public long id;
+        public StarConnectionModel[] starConnections;
+        public PlanetModel[] planets;
+
+        public StarNodeModel(StarNode node){
+            position = node.transform.position;
+            stamp = node.stamp;
+            id = node.id;
+
+            var numConn = node.connectable.connections.Count;
+            starConnections = new StarConnectionModel[numConn];
+            for(var i =0;i<numConn;i++)
+            {
+                starConnections[i] = node.connectable.connections[i].model;
+            }
+
+            var planetNum = node.planetable.planets.Length;
+            planets = new PlanetModel[planetNum];
+            for(var i =0; i<planetNum;i++){
+                planets[i] = node.planetable.planets[i].model;
+            }
+        }
+    }
+    
+    //init
+    public partial class StarNode : MonoBehaviour, IRenderable, IUIable, ISaveAble<StarNodeModel>
     {
+        public long id;
+        public StarNodeModel model{get{return new StarNodeModel(this);}}
+        public FactoryStamp stamp;
+
         public void Init(HolderRenderer<StarNode> renderer, Sprite Icon)
         {
             name = Names.starNames.getName();
             gameObject.name = name;
             this.Icon = Icon;
             this.starRenderer = renderer;
+            this.connectable = ScriptableObject.CreateInstance<Connectable>();
+            this.planetable = ScriptableObject.CreateInstance<Planetable>();
         }
         public void render(int scene)
         {
@@ -28,46 +94,28 @@ namespace Objects.Galaxy
         }
 
     }
+    //attributes
     [System.Serializable]
     public partial class StarNode{
-        public int updateId{get;set;}
         public IRenderer renderHelper { get { return starRenderer; } }
-        [SerializeField] public HolderRenderer<StarNode> starRenderer;
+        public HolderRenderer<StarNode> starRenderer;
         public Sprite Icon;
-        public string name;
-        private List<StarConnection> _connections = new List<StarConnection>();
-        public List<StarConnection> connections
-        {
-            get
-            {
-                return _connections;
-            }
-            set
-            {
-                _connections = value;
-                starRenderer.addRenderables(_connections.ToArray());
-            }
-        }
+        [SerializeField]public Connectable connectable;
         public void addConnection(StarConnection connection)
         {
-            if (!(connection.nodes[1] == this)){
-                connections.Add(connection);
+            if (connection.nodes[0] == this){
+                connectable.addConnection(connection);
                 starRenderer.addRenderables(connection);
             }            
         }
-        [SerializeField] private Planet[] _planets;
-        public Planet[] planets {
-            get
-            {
-                return _planets;
-            }
-            set
-            {
-                _planets = value;
-                starRenderer.addRenderables(_planets);
-            }
+        [SerializeField]public Planetable planetable;
+        public void setPlanets(Planet[] planets) {
+            planetable.planets = planets;
+            starRenderer.addRenderables(planets);
         }
+
     }
+    //ui
     public partial class StarNode{
         public GameObject renderIcon(){
             var star = new GameObject("StarIcon");
@@ -82,7 +130,7 @@ namespace Objects.Galaxy
             info.icon = Icon;
             var details = new iconInfo[2];
             var detail = new iconInfo();
-            detail.name = planets.Length.ToString();
+            detail.name = planetable.planets.Length.ToString();
             var bundle = AssetSingleton.bundles[AssetSingleton.bundleNames.sprites];
             var asset = bundle.LoadAsset<Sprite>("43");
             detail.icon = asset;
@@ -90,7 +138,7 @@ namespace Objects.Galaxy
 
             var otherDetail = new iconInfo();
             var popNum = 0;
-            foreach(var planet in planets){
+            foreach(var planet in planetable.planets){
                foreach(var tile in  planet.tileManager.tiles){
                    if (tile.building != null){
                        if (tile.building.pops != null){

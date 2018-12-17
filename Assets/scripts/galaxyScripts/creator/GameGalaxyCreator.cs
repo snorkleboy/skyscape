@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Objects.Galaxy;
 using Util;
-
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 namespace GalaxyCreators
 {
 
@@ -11,6 +12,27 @@ namespace GalaxyCreators
         
         [SerializeField] public new List<StarMaker> creatorStack = new List<StarMaker>();
         public StarFactory starFactory;
+        public Dictionary<int, List<StarNode>> hydrate( SavedGame savedGame)
+        {
+            var starNodes = new Dictionary<int, List<StarNode>>();
+
+            var objectArr = new Dictionary<int, Object>();
+            var json = JObject.Parse(savedGame.data);
+            var gmIdStartCount = (int)json["idMaker"];
+            Objects.GameManager.idMaker.count = gmIdStartCount;
+
+            JArray starArr = (JArray)json["_starNodes"]["starNodes"];
+
+            for(var starNum = 0; starNum < starArr.Count; starNum++){
+                var starJson = starArr[starNum];
+                objectArr[(int)starJson["id"]] =  starFactory.createBaseStar();
+            }
+            for(var starNum = 0; starNum < starArr.Count; starNum++){
+                var starJson = starArr[starNum];
+                // ((StarNode)objectArr[(int)starJson["id"]]).planetable
+            }
+            return starNodes;
+        }
         public Dictionary<int, List<StarNode>> hydrate( Dictionary<int, List<ProtoStar>> protoNodes)
         {
             var protoToStar = new Dictionary<ProtoStar,StarNode>();

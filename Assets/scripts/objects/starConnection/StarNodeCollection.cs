@@ -3,14 +3,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using util;
+using UnityEngine;
 namespace Objects.Galaxy
 {
-    public class StarNodeCollection
+    [System.Serializable]
+    public struct StarNodeCollectionModel{
+        [SerializeField]public List<StarNodeModel[]> starNodes;
+        public StarNodeCollectionModel(StarNodeCollection collection){
+            starNodes = new List<StarNodeModel[]>();
+            foreach (var keyVal in collection._starNodes)
+            {
+                var starBranch = keyVal.Value;
+                var length = starBranch.Count;
+                var branch = new StarNodeModel[length];
+                for(var i=0;i< length;i++){
+                    branch[i] = starBranch[i].model;
+                }
+                starNodes.Add(branch);
+            }
+        }
+    }
+    public class StarNodeCollection : ISaveAble<StarNodeCollectionModel>
     {
-        public Dictionary<int, List<StarNode>> _starNodes;
+        public StarNodeCollectionModel model{get{return new StarNodeCollectionModel(this);}}
+        public Dictionary<int, List<StarNode>> _starNodes = new Dictionary<int, List<StarNode>>();
 
         public StarNodeCollection(Dictionary<int, List<StarNode>> starNodes){
-            _starNodes = starNodes;
+            foreach (var item in starNodes)
+            {
+                _starNodes[item.Key] = item.Value;
+            }
         }
         public void render(int scene)
         {

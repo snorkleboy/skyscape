@@ -16,28 +16,29 @@ namespace Objects.Galaxy
                 Debug.LogError("failed to load StarIcon Sprites");
             }
         }
-
-        public virtual StarNode newStar(Transform holder)
-        {
-            return createStar(holder);
-        }
         public StarNode createStar(Transform holder, Vector3 position){
-            var node = createStar(holder);
-            node.transform.position = position;
-            return node;
+            var star = createBaseStar();
+            initBaseStar(star,holder,position);
+            return star;
+        }
+        public void initBaseStar(StarNode star, Transform holder, Vector3 position){
+            star.transform.SetParent(holder);
+            star.transform.position = position;
+            var representation = new GameObject("representation");
+            representation.transform.SetParent(star.transform.transform);
+            var rep = new HolderRenderer<StarNode>(_sceneToPrefab, representation.transform,star);
+            star.Init(rep,starIconSprites[0]);
+            star.transform.name = star.name;
+            star.stamp = new FactoryStamp("basic star");
+            star.id = GameManager.idMaker.newId(star);
         }
 
-        public StarNode createStar(Transform holder)
+        public StarNode createBaseStar()
         {
             var starGo = new GameObject("starNode");
-            starGo.transform.SetParent(holder);
             var star = starGo.AddComponent<StarNode>();
             var planetHolder = new GameObject("planetHolder");
             planetHolder.transform.SetParent(starGo.transform);
-            var representation = new GameObject("representation");
-            representation.transform.SetParent(starGo.transform);
-            var rep = new HolderRenderer<StarNode>(_sceneToPrefab, representation.transform,star);
-            star.Init(rep,starIconSprites[0]);
             starGo.name = star.name;
             return star;
         }

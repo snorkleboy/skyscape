@@ -17,9 +17,6 @@ namespace UI{
         public iconInfo[] details;
 
     }
-    public interface IUpdateable{
-        int updateId{get;}
-    }
 
     public interface IUIable {
         iconInfo getIconableInfo();

@@ -13,7 +13,7 @@ using Objects.Conceptuals;
 namespace Loaders {
     public class SceneLoader : MonoBehaviour {
         public static GameManager gameManager;
-        public static Dictionary<int, List<ProtoStar>> protoNodes;
+        System.Action hydrateCallBack;
         private static void Log(string msg, Text txt){
             Debug.Log(msg);
             txt.text = msg;
@@ -23,7 +23,7 @@ namespace Loaders {
             if (Application.isEditor)
             {
                 Debug.Log("Application.isEditor BUILD");
-                var iterator = buildGameRoutine();
+                var iterator = buildGameRoutine(hydrateCallBack);
                 iterator.MoveNext();
                 while(iterator.Current != null){
                     await Task.Delay(25);
@@ -31,17 +31,17 @@ namespace Loaders {
                 }
             }else{
                 Debug.Log("Application.isNOTEditor BUILD");
-                StartCoroutine(buildGameRoutine());
+                StartCoroutine(buildGameRoutine(hydrateCallBack));
             }
         }
 
-        public void buildGame(GameManager gameManager,Dictionary<int, List<ProtoStar>> protoNodes){
-            SceneLoader.protoNodes = protoNodes;
+        public void buildGame(GameManager gameManager, System.Action hydrateCallBack){
             SceneLoader.gameManager = gameManager;
+            this.hydrateCallBack = hydrateCallBack;
             UnityEngine.SceneManagement.SceneManager.sceneLoaded += onLoadingScreen;
             SceneLoader.LoadByIndex(1);
         }
-        public static IEnumerator buildGameRoutine(){
+        public static IEnumerator buildGameRoutine(System.Action hydrateCallBack){
             Debug.Log("loading screen loaded");
             var spritesStr = AssetSingleton.bundleNames.sprites;
             var prefabStr = AssetSingleton.bundleNames.prefabs;
@@ -81,13 +81,10 @@ namespace Loaders {
             galHolder.transform.SetParent(gameManager.transform);
             yield return new WaitForSeconds(.1f);
 
-            Log("creating user faction",textEl);
-            var faction = gameManager.factions.createFaction("my Faction");
-            gameManager.user = new User(faction);
-            yield return new WaitForSeconds(.1f);
 
-            Log("converting protostars to starnodes",textEl);
-            gameManager._starNodes = new StarNodeCollection(gameManager.galaxyCreator.hydrate(protoNodes));
+            
+            Log("Hydrating Galaxy",textEl);
+            hydrateCallBack();
             yield return new WaitForSeconds(.1f);
 
             Log("setting up UI",textEl);
