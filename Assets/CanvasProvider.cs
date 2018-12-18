@@ -6,7 +6,6 @@ public class CanvasProvider : MonoBehaviour {
 
 	public static Transform canvas;
 	public void OnLevelWasLoaded(){
-		Debug.Log("CANVAS PROVIDER AWAKE");
 		canvas = this.transform;
 	}
 

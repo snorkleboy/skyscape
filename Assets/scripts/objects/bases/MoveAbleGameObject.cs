@@ -37,10 +37,10 @@ namespace Objects
     public interface ISaveAble<SeriableClass>{
         SeriableClass model{get;}
     }
-    public abstract class GalaxyGameObject: MonoBehaviour,IUIable,IRenderable{
+    public abstract class GalaxyGameObject: MonoBehaviour,IUIable,IAppearable{
         public abstract iconInfo getIconableInfo();
-        public virtual IRenderer renderHelper{get;set;} 
-        public abstract void render(int scene);
+        public virtual IAppearer appearer{get;set;} 
+        public abstract void appear(int scene);
         public abstract IMover mover{get;}
         public Sprite icon;
     }

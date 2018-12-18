@@ -48,11 +48,12 @@ namespace GalaxyCreators
             star.transform.Translate(Vector3.up * ((int)(ranMult * starToStarDistance * .3)));
             star.transform.RotateAround(Vector3.zero, Vector3.up, ((int)(ranMult * starI * perStarAngle)+ starI));
             star.position = star.transform.position;
+            
             if (starI > 0)
             {
                 star.transform.RotateAround(starArr[starI-1].transform.position, Vector3.up, ((int)(ranMult * perStarAngle)));
             }
-
+            star.appearer.setAppearPosition(star.transform.position,0);
             return star;
         }
     }

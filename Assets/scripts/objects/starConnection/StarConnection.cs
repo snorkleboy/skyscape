@@ -12,24 +12,23 @@ namespace Objects.Galaxy
         }
         public long[] starIds;
     }
-    public class StarConnection: MonoBehaviour,IRenderable, ISaveAble<StarConnectionModel>
+    public class StarConnection: MonoBehaviour,IAppearable, ISaveAble<StarConnectionModel>
     {
         public StarConnectionModel model{get{return new StarConnectionModel(this);}}
-        public IRenderer renderHelper { get; set; }
+        public IAppearer appearer { get; set; }
         public double strength;
         public StarNode[] nodes;
 
-        public void Init(double _strength, StarNode[] _nodes, StarConnectionRenderHelper renderer)
+        public void Init(double _strength, StarNode[] _nodes, StarConnectionAppearer renderer)
         {
-            renderHelper = renderer;
-            renderer.scriptSingelton = this;
+            appearer = renderer;
+            // renderer.scriptSingelton = this;
             strength = _strength;
             nodes = _nodes;
         }
-        public void render(int scene)
+        public void appear(int scene)
         {
-            renderHelper.render(scene);
-            // this.transform.position = nodes[0].transform.position;
+            appearer.appear(scene);
         }
     }
 

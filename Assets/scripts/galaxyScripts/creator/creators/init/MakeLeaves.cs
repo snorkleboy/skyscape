@@ -41,13 +41,14 @@ namespace GalaxyCreators
         }
         private List<ProtoStar> makeLeafVein(ProtoStar star, int branchCount)
         {
+
             var originalstar = star;
             var list = new List<ProtoStar>();
             for (var i =0; i < Random.Range(1, branchCount); i++)
             {
                 var newStar = starFactory.newStar(originalstar.transform.parent);
                 list.Add(newStar);
-                newStar.render(0);
+                newStar.appear(0);
                 var ranMult = Random.Range(-.4f, .4f) + 1;
                 Transform tran = newStar.transform;
                 tran.position = star.transform.position;
@@ -55,6 +56,7 @@ namespace GalaxyCreators
                 tran.Translate(Vector3.up * (int)(ranMult*10));
                 tran.RotateAround(originalstar.transform.position, Vector3.up, (int)(ranMult*30/ branchCount * i ));
                 newStar.position = tran.position;
+                newStar.appearer.setAppearPosition(newStar.transform.position,0);
                 starFactory.makeConnection(star, newStar);
                 star = newStar;
             }

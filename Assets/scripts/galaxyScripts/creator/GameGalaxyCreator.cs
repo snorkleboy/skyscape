@@ -43,7 +43,7 @@ namespace GalaxyCreators
                 for(var i = 0; i<protoNodes[branchI].Count; i++)
                 {
                     var protoStar = protoNodes[branchI][i];
-                    var starNode = starFactory.createStar(holder.transform, protoStar.position);
+                    var starNode = starFactory.createStar(holder.transform, protoStar.appearer.getAppearPosition(0));
                     starNodes[branchI].Add(starNode);
                     protoToStar[protoStar] = starNode;
                 }

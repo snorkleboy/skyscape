@@ -78,14 +78,14 @@ namespace util
             bounds.SetMinMax( min, max );
             return bounds;
         }
-        public static List<toFind> getObjectsInBox<toFind>(Bounds bounds) where toFind : MonoBehaviour, IRenderable{
+        public static List<toFind> getObjectsInBox<toFind>(Bounds bounds) where toFind : MonoBehaviour, IAppearable{
                 var things = GameManager.instance.selectedStar.gameObject.GetComponentsInChildren<toFind>();
                 if (things != null){
                     Debug.Log(typeof(toFind) + " - things.Length: " +things.Length);
                     var bounded = new List<toFind>();
                     foreach (var item in things)
                     {
-                        if (bounds.Contains(Camera.main.WorldToViewportPoint(item.renderHelper.transform.position))){
+                        if (bounds.Contains(Camera.main.WorldToViewportPoint(item.appearer.activeGO.transform.position))){
                             bounded.Add(item);
                         }
                     }

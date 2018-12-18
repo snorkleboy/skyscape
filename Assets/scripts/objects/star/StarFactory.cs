@@ -26,7 +26,17 @@ namespace Objects.Galaxy
             star.transform.position = position;
             var representation = new GameObject("representation");
             representation.transform.SetParent(star.transform.transform);
-            var rep = new HolderRenderer<StarNode>(_sceneToPrefab, representation.transform,star);
+
+            var infos = new sceneAppearInfo[_sceneToPrefab.Length];
+            for (int i = 0; i < _sceneToPrefab.Length; i++)
+            {
+                infos[i] = new sceneAppearInfo(_sceneToPrefab[i]);
+            }
+            infos[3].appearPosition = Vector3.zero;
+            infos[2].appearPosition = position;
+            var mainrep = new MultiSceneAppearer(infos,representation.transform);
+            var rep = new HolderAppearer(mainrep);
+
             star.Init(rep,starIconSprites[0]);
             star.transform.name = star.name;
             star.stamp = new FactoryStamp("basic star");

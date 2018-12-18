@@ -27,31 +27,30 @@ namespace Objects.Galaxy
     }
 
     [System.Serializable]
-    public partial class Planet :MonoBehaviour, IViewable,IContextable,IActOnable, IRenderable, ISaveAble<PlanetModel>
+    public partial class Planet :MonoBehaviour, IViewable,IContextable,IActOnable, IAppearable, ISaveAble<PlanetModel>
     {
         public PlanetModel model{get{return new PlanetModel(this);}}
         public long id;
-        public IRenderer renderHelper { get { return planetRenderer; } }
+        public IAppearer appearer { get { return planetRenderer; } }
         public string title;
-        private SingleSceneRenderer<Planet> planetRenderer { get; set; }
+        private SingleSceneAppearer planetRenderer { get; set; }
         public Sprite planetSprite;
         public Vector3 position;
         public TileManager tileManager;
-        public void Init(SingleSceneRenderer<Planet> renderer,Sprite planetSprite )
+        public void Init(SingleSceneAppearer renderer,Sprite planetSprite )
         {
             title = Names.planetNames.getName();
             this.planetSprite = planetSprite;
             gameObject.name = title;
-            renderer.scriptSingelton = this;
+            // renderer.scriptSingelton = this;
             planetRenderer = renderer;
             GameManager.instance.factions.registerPlanetToFaction(this,GameManager.instance.user.faction);
         }
 
-        public void render(int scene)
+        public void appear(int scene)
         {
-            if (planetRenderer.render(scene)){
-                planetRenderer.transform.position = (position);
-                planetRenderer.transform.gameObject.name = "planet representation";
+            if (planetRenderer.appear(scene)){
+                planetRenderer.activeGO.name = "planet representation";
             }
         }
     }
@@ -70,7 +69,7 @@ namespace Objects.Galaxy
             button.onClick.AddListener(()=>{
                 var fleet = GameManager.instance.factions.GetFaction(this).createFleet(this);
                 Debug.Log("fleet created: " + fleet);
-                fleet.render(3);
+                fleet.appear(3);
                 // fleet.transform.position = renderHelper.transform.position + new Vector3(2,0,2);
             });
             var text = makeShipButton.AddComponent<Text>();

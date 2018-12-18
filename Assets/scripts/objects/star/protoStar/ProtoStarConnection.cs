@@ -2,20 +2,20 @@ using UnityEngine;
 
 namespace Objects.Galaxy
 {
-    public class ProtoStarConnection: IRenderable
+    public class ProtoStarConnection: IAppearable
     {
-        public IRenderer renderHelper { get; set; }
+        public IAppearer appearer { get; set; }
         public double strength;
         public ProtoStar[] nodes;
         public void Init(double _strength, ProtoStar[] _nodes, ProtoStarConnectionRenderer renderer)
         {
-            renderHelper = renderer;
+            appearer = renderer;
             strength = _strength;
             nodes = _nodes;
         }
-        public void render(int scene)
+        public void appear(int scene)
         {
-            renderHelper.render(scene);
+            appearer.appear(scene);
         }
     }
 }

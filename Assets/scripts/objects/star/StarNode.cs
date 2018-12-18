@@ -70,13 +70,13 @@ namespace Objects.Galaxy
     }
     
     //init
-    public partial class StarNode : MonoBehaviour, IRenderable, IUIable, ISaveAble<StarNodeModel>
+    public partial class StarNode : MonoBehaviour, IAppearable, IUIable, ISaveAble<StarNodeModel>
     {
         public long id;
         public StarNodeModel model{get{return new StarNodeModel(this);}}
         public FactoryStamp stamp;
 
-        public void Init(HolderRenderer<StarNode> renderer, Sprite Icon)
+        public void Init(HolderAppearer renderer, Sprite Icon)
         {
             name = Names.starNames.getName();
             gameObject.name = name;
@@ -85,11 +85,11 @@ namespace Objects.Galaxy
             this.connectable = ScriptableObject.CreateInstance<Connectable>();
             this.planetable = ScriptableObject.CreateInstance<Planetable>();
         }
-        public void render(int scene)
+        public void appear(int scene)
         {
-            starRenderer.render(scene, transform.position);
+            starRenderer.appear(scene );//,transform.position
             if (scene == 3){
-                starRenderer.transform.position = Vector3.zero;
+                starRenderer.activeGO.transform.position = Vector3.zero;
             }
         }
 
@@ -97,21 +97,21 @@ namespace Objects.Galaxy
     //attributes
     [System.Serializable]
     public partial class StarNode{
-        public IRenderer renderHelper { get { return starRenderer; } }
-        public HolderRenderer<StarNode> starRenderer;
+        public IAppearer appearer { get { return starRenderer; } }
+        public HolderAppearer starRenderer;
         public Sprite Icon;
         [SerializeField]public Connectable connectable;
         public void addConnection(StarConnection connection)
         {
             if (connection.nodes[0] == this){
                 connectable.addConnection(connection);
-                starRenderer.addRenderables(connection);
+                starRenderer.addAppearables(connection);
             }            
         }
         [SerializeField]public Planetable planetable;
         public void setPlanets(Planet[] planets) {
             planetable.planets = planets;
-            starRenderer.addRenderables(planets);
+            starRenderer.addAppearables(planets);
         }
 
     }

@@ -14,16 +14,22 @@ namespace util
         public static void warnLog(object caller,string message, params object[] additionals){
             Debug.LogWarning(makeMessage(caller,message,additionals));
         }
-
-        public static string delim = "||\t";
-        public static string makeMessage(object caller,string message, params object[] additionals){
+        public static void message(object caller,string message, params object[] additionals){
+            Debug.Log(makeMessage(caller,message,additionals));
+        }
+        public static string delim = "- - \t";
+        private static string makeMessage(object caller,string message, params object[] additionals){
             var msg = "";
             msg += caller.GetType() + " :";
-            msg += message + delim;
-            foreach (var item in additionals)
-            {
-                msg += item.GetType() + " :" + item.ToString() + delim;
+            msg += "message: " +message + delim;
+            if(additionals != null){
+                foreach (var item in additionals)
+                {
+
+                    msg += (item != null?item.ToString() : "null") + delim;
+                }
             }
+  
             return msg;
         }
 

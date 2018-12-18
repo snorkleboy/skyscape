@@ -20,7 +20,7 @@ namespace Objects.Galaxy
             var planetHolder = star.gameObject.transform.Find("planetHolder");
             parent.SetParent(planetHolder,false);
             var planet = parent.AddComponent<Planet>();
-            var rep = new SingleSceneRenderer<Planet>(baseStarFab,3,parent.transform,planet);
+            var rep = new SingleSceneAppearer(new sceneAppearInfo(baseStarFab,position),3,parent.transform);
 
             var sprite = planetSprites[Random.Range(0,planetSprites.Length-1)];
             planet.Init(rep,sprite);

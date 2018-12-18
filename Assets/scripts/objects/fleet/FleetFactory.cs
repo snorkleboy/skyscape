@@ -27,20 +27,28 @@ namespace Objects
         public Fleet makeFleet(Faction faction, Transform parent, Vector3 position){
             var fleetGo = new GameObject("fleet");
             fleetGo.SetParent(parent, false);
-            var fleet = fleetGo.AddComponent<Fleet>();
-            var fleetRenderer = new HolderRenderer<Fleet>(sceneToPrefab,fleetGo.transform,fleet);
-            fleetRenderer.position = position;
-            fleet.Init("fleet" +  faction.fleets.Count,icon,fleetRenderer);
-
             var fleetGoShipsHolder = new GameObject("ships");
             fleetGoShipsHolder.SetParent(fleetGo);
+            var fleet = fleetGo.AddComponent<Fleet>();
 
-            shipFactory.makeShip(fleet);
-            shipFactory.makeShip(fleet);
-            shipFactory.makeShip(fleet);
+            var infos = new sceneAppearInfo[sceneToPrefab.Length];
+            for (int i = 0; i < infos.Length; i++)
+            {
+                infos[i] = new sceneAppearInfo(sceneToPrefab[i]);
+            }
+            infos[3].appearPosition = position;
+            var mainrep = new MultiSceneAppearer(infos,fleetGo.transform);
+            var fleetRenderer = new HolderAppearer(mainrep);
 
+            fleet.Init("fleet" +  faction.fleets.Count,icon,fleetRenderer);
             faction.fleets[fleet.name] = fleet;
             fleetGo.name = fleet.name;
+
+
+            shipFactory.makeShip(fleet);
+            shipFactory.makeShip(fleet);
+            shipFactory.makeShip(fleet);
+
             return fleet;
         }
     }

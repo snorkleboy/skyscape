@@ -3,22 +3,19 @@ using UnityEngine;
 using System;
 namespace Objects.Galaxy
 {
-    public class ProtoStarConnectionRenderer : PerSceneRenderer<ProtoStarConnection>
+    public class ProtoStarConnectionRenderer : MultiSceneAppearer
     {
         ProtoStar[] nodes;
-        public override Transform parent { get; set; }
-        public ProtoStarConnectionRenderer(GameObject[] sceneToPrefab, ProtoStar[] nodes, ProtoStarConnection script) : base(sceneToPrefab,nodes[0].transform,script)
+        public override Transform attachementPoint { get; set; }
+        public ProtoStarConnectionRenderer(sceneAppearInfo[] sceneToPrefab, ProtoStar[] nodes) : base(sceneToPrefab,nodes[0].transform)
         {
             this.nodes = nodes;
         }
-        public override void applyScript(GameObject go, ProtoStarConnection script)
+        public override bool appear(int scene)
         {
-        }
-        public override bool render(int scene)
-        {
-            if (base.render(scene))
+            if (base.appear(scene))
             {
-                if ( scene == (int)util.Enums.sceneNames.mainMenu)
+                if ( scene == 0)
                 {
                     if ((nodes[0].transform != null && nodes[1].transform != null))
                     {

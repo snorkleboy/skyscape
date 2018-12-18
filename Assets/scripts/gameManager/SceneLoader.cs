@@ -22,7 +22,7 @@ namespace Loaders {
             UnityEngine.SceneManagement.SceneManager.sceneLoaded -= onLoadingScreen;
             if (Application.isEditor)
             {
-                Debug.Log("Application.isEditor BUILD");
+                Debug.Log("Application isEditor-build");
                 var iterator = buildGameRoutine(hydrateCallBack);
                 iterator.MoveNext();
                 while(iterator.Current != null){
@@ -30,7 +30,7 @@ namespace Loaders {
                     iterator.MoveNext();
                 }
             }else{
-                Debug.Log("Application.isNOTEditor BUILD");
+                Debug.Log("Application isNOTEditor-build ");
                 StartCoroutine(buildGameRoutine(hydrateCallBack));
             }
         }
@@ -104,7 +104,7 @@ namespace Loaders {
         public static void onStarLoaded(Scene scene, LoadSceneMode mode)
         {
             Debug.Log("OnSceneLoaded=>onStarLoaded()=>renderStar(star): scene.name:" + scene.name + " selectedStar:" + gameManager.selectedStar);
-            gameManager.selectedStar.render((int)util.Enums.sceneNames.StarSystemView);
+            gameManager.selectedStar.appear((int)util.Enums.sceneNames.StarSystemView);
             UnityEngine.SceneManagement.SceneManager.sceneLoaded -= onStarLoaded;
         }
         public static void loadStarSystem(StarNode star){

@@ -40,7 +40,7 @@ namespace Objects.Galaxy
             {
                 foreach (var star in arr)
                 {
-                    star.render(scene);
+                    star.appear(scene);
                 }
             }
         }
@@ -51,30 +51,30 @@ namespace Objects.Galaxy
             {
                 foreach (var star in keyVal.Value)
                 {
-                    star.renderHelper.destroy();
+                    star.appearer.destroy();
                 }
             }
         }
 
-        public void deactive()
-        {
-            foreach (var keyVal in _starNodes)
-            {
-                foreach (var star in keyVal.Value)
-                {
-                    star.renderHelper.disable();
-                }
-            }
-        }
-        public void active()
-        {
-            foreach (var keyVal in _starNodes)
-            {
-                foreach (var star in keyVal.Value)
-                {
-                    star.renderHelper.enable();
-                }
-            }
-        }
+        // public void deactive()
+        // {
+        //     foreach (var keyVal in _starNodes)
+        //     {
+        //         foreach (var star in keyVal.Value)
+        //         {
+        //             star.appearable.disable();
+        //         }
+        //     }
+        // }
+        // public void active()
+        // {
+        //     foreach (var keyVal in _starNodes)
+        //     {
+        //         foreach (var star in keyVal.Value)
+        //         {
+        //             star.appearable.enable();
+        //         }
+        //     }
+        // }
     }
 }

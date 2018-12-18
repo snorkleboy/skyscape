@@ -11,17 +11,17 @@ namespace Objects.Galaxy
     {
         public override IMover mover{get{return moverHelper;}}
         private ShipMover moverHelper;
-        public void Init(SingleSceneRenderer<Ship> renderer){
-            renderHelper = renderer;
+        public void Init(SingleSceneAppearer renderer){
+            appearer = renderer;
             icon = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"star")[0];
             moverHelper = gameObject.AddComponent<ShipMover>();
         }
-        public override void render(int context){
+        public override void appear(int context){
             Debug.Log("ship render " + this);
-            renderHelper.render(context);
-            var pos = renderHelper.transform.position;
+            appearer.appear(context);
+            var pos = appearer.activeGO.transform.position;
             transform.position = pos;
-            renderHelper.transform.position = pos;
+            appearer.activeGO.transform.position = pos;
         }
 
     }

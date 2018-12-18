@@ -9,10 +9,10 @@ namespace Objects
 {
     //setup
     public partial class Fleet:MoveAbleGameObject,IViewable,ISelectable{
-        public void Init(string name, Sprite icon, HolderRenderer<Fleet> renderHelper){
+        public void Init(string name, Sprite icon, HolderAppearer renderHelper){
             this.name = name;
             this.icon = icon;
-            this.holderRenderer = renderHelper;
+            this._appearer = renderHelper;
             var a = getIconableInfo();
             var fleetMover = gameObject.AddComponent<FleetMover>();
             ships = new ShipManager(fleetMover);
@@ -56,29 +56,29 @@ namespace Objects
         }
         public Fleet addShips(Ship ship){
             this.ships.addShips(ship);
-            holderRenderer.addRenderables(ship);
+            _appearer.addAppearables(ship);
             return this;
         }
         public Fleet addShips(List<Ship> ships){
             this.ships.addShips(ships) ;
-            holderRenderer.addRenderables(ships.ToArray());
+            _appearer.addAppearables(ships.ToArray());
             return this;
         }
 
     }
     // rendering
     public partial class Fleet{
-
-        public override IRenderer renderHelper{get{return holderRenderer;}} 
-        private HolderRenderer<Fleet> holderRenderer;
-        public override void render(int scene){
-            renderHelper.render(scene);
-            renderHelper.transform.position = fleetPosition;
-            this.ships.mover.fleetTransform = renderHelper.transform;
+        public override IAppearer appearer{get{return _appearer;}} 
+        private HolderAppearer _appearer;
+        public override void appear(int scene){
             var count = 0;
-            foreach (var renderable in holderRenderer.renderables){
-                renderable.Value.renderHelper.transform.parent.position = fleetPosition + new Vector3(1 + 3*count++,0,0);
+            foreach (var appearable in _appearer.appearables){
+                var appearPos = fleetPosition + new Vector3(1 + 3*count++,0,0);
+                appearable.appearer.setAppearPosition(appearPos,3);
             }
+            appearer.appear(scene);
+            appearer.activeGO.transform.position = fleetPosition;
+            this.ships.mover.fleetTransform = appearer.activeGO.transform;
         }
     }
     //ui

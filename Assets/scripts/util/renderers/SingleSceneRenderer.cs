@@ -5,32 +5,46 @@ using System;
 namespace Objects.Galaxy
 {
     [System.Serializable]
-    public class SingleSceneRenderer<scriptType> : RenderHelper<scriptType>
+    public class SingleSceneAppearer : BaseAppearable
     {
         [SerializeField] private GameObject _prefab;
-        public override Transform parent { get; set; }
-
-        private int _scene;
-        public SingleSceneRenderer(GameObject prefab, int scene, Transform parent, scriptType script) : base(script)
-        {
-            _prefab = prefab;
+        public override void setAppearPosition(Vector3 position, int scene){
+            _appearPosition = position;
             _scene = scene;
-            this.parent = parent;
         }
-        public override bool render(int scene)
+        private int _scene;
+        public SingleSceneAppearer(sceneAppearInfo info, int scene, Transform parent)
         {
+            _prefab = info.prefab;
+            _scene = scene;
+            this.attachementPoint = parent;
+            this._appearPosition = info.appearPosition;
+        }
+
+        private int activeScene = -1;
+        public override bool appear(int scene)
+        {
+            activeScene = scene;
+            destroy();
             if (scene == _scene){
-                if(parent){
-                    activeGO = GameObject.Instantiate(_prefab, parent);
+                if(attachementPoint){
+                    activeGO = GameObject.Instantiate(_prefab, attachementPoint);
                 }else{
+                    util.Log.warnLog(this,"appearing object without an attachement point",_prefab,_scene);
                     activeGO = GameObject.Instantiate(_prefab);
                 }
                 active = true;
-                return true;
+                activeGO.transform.position = _appearPosition;
+                return active;
             }else{
-                destroy();
-                return false;
+                return active;
             }
         }
+        public override void destroy(){
+            if(activeScene != _scene){
+                base.destroy();
+            }
+        }
+
     }
 }

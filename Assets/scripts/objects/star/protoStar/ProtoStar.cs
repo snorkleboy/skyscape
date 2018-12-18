@@ -8,20 +8,20 @@ using Loaders;
 namespace Objects.Galaxy
 {
     [System.Serializable]
-    public class ProtoStar:IRenderable
+    public class ProtoStar:IAppearable
     {
-        public IRenderer renderHelper { get { return starRenderer; } 
+        public IAppearer appearer { get { return starRenderer; } 
             set
             {
-                starRenderer = (HolderRenderer<ProtoStar>)value;
+                starRenderer = (HolderAppearer)value;
             }
         }
-        public HolderRenderer<ProtoStar> starRenderer;
-        public Transform transform { get { return renderHelper.transform; } }
+        public HolderAppearer starRenderer;
+        public Transform transform { get { return appearer.activeGO.transform; } }
         public Vector3 position;
 
         [SerializeField] private List<ProtoStarConnection> _connections = new List<ProtoStarConnection>();
-        public ProtoStar(HolderRenderer<ProtoStar> renderer)
+        public ProtoStar(HolderAppearer renderer)
         {
             this.starRenderer = renderer;
         }
@@ -34,18 +34,18 @@ namespace Objects.Galaxy
             set
             {
                 _connections = value;
-                starRenderer.setRenderables(_connections.ToArray());
+                starRenderer.setAppearables(_connections.ToArray());
             }
         }
         public void addConnection(ProtoStarConnection connection)
         {
             connections.Add(connection);
-            starRenderer.addRenderables(connections.ToArray());
+            starRenderer.addAppearables(connections.ToArray());
         }
-        public void render(int scene)
+        public void appear(int scene)
         {
-            starRenderer.render(scene, position);
-            starRenderer.transform.position = position;
+            starRenderer.appear(scene);//,position
+            starRenderer.activeGO.transform.position = position;
         }
 
     }
