@@ -27,7 +27,7 @@ namespace Objects.Galaxy
             infos[2].appearPosition = a.appearer.getAppearPosition(2);
             infos[3].appearPosition = Vector3.zero;
             
-            var renderer = new StarConnectionAppearer(infos, starNodes);
+            var renderer = new StarConnectionAppearer(infos, conn,starNodes);
             conn.Init(Random.Range(.01f, .99f), starNodes, renderer);
             a.addConnection(conn);
             b.addConnection(conn);
