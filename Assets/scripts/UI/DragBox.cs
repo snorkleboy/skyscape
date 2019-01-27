@@ -67,7 +67,9 @@ public class DragBox : MonoBehaviour {
 	void onDragStart(){
 		clickDragStart = Input.mousePosition;
 		clickDragEnd = clickDragStart;
-		onStartDrag();
+		if(onStartDrag != null){
+			onStartDrag();		
+		}
 		_isDragging = true;
 	}
 	void onDragEnd(){

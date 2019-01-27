@@ -27,7 +27,7 @@ namespace GalaxyCreators
                 foreach(var starModel in branchSaved){
                     var star = starFactory.createStar(holder.transform,starModel);
 
-                    star.setPlanets(new Reference<Planet>[0]);
+
                     branch.Add(star);
                 }
                 starNodes[branchI] = branch;

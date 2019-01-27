@@ -41,6 +41,7 @@ public class LoadGameView : MonoBehaviour {
 	public void onSavedGameClick(SavedGame savedGame){
 		savedGame.loadData();
 		gameStarter.startGame(savedGame);
+		listGo.transform.parent.gameObject.SetActive(false);
 	}
 
 }

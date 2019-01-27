@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Loaders;
+using Objects;
 namespace Objects.Galaxy
 {
     public class StarFactory : MonoBehaviour
@@ -27,6 +28,12 @@ namespace Objects.Galaxy
                 var starRef = new Reference<StarNode>(otherId);
                 makeConnection(star,starRef);
             }
+            var planets = new Reference<Planet>[model.planets.Length];
+            var count = 0;
+            foreach(var planetModel in model.planets){
+                planets[count++] = new Reference<Planet>(planetfactory.makePlanet(star,planetModel));
+            }
+            star.setPlanets(planets);
             return star;
         }
         public StarNode createStar(Transform holder, Vector3 position){

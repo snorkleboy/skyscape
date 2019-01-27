@@ -40,11 +40,16 @@ namespace Objects.Galaxy
         public Sprite planetSprite;
         public Vector3 position;
         public TileManager tileManager;
-        public void Init(SingleSceneAppearer renderer,Sprite planetSprite )
+        public void Init(SingleSceneAppearer renderer,Sprite planetSprite,PlanetModel model = null)
         {
-            title = Names.planetNames.getName();
-            this.planetSprite = planetSprite;
+            if(model !=null){
+                title = model.name;
+            }else{
+                title = Names.planetNames.getName();
+            }
             gameObject.name = title;
+
+            this.planetSprite = planetSprite;
             planetRenderer = renderer;
             GameManager.instance.factions.registerPlanetToFaction(this,GameManager.instance.user.faction);
         }

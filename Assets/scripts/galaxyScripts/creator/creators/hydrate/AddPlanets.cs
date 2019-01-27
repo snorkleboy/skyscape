@@ -22,7 +22,7 @@ namespace GalaxyCreators
                         multiplier = Random.Range(.8f,1.2f) * multiplier;
                         multiplier++;
                         var position = Vector3.right*(int)(30*multiplier);
-                        var planet =  planetFactory.newPlanet(starNode,position);
+                        var planet =  planetFactory.makePlanet(starNode,position);
                         if (i>2){
                             multiplier++;
                         }

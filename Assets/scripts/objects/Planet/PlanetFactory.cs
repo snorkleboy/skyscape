@@ -13,8 +13,11 @@ namespace Objects.Galaxy
         public void Start(){
             planetSprites = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"planet");
         }
-
-        public Planet newPlanet(StarNode star, Vector3 position)
+        public Planet makePlanet(StarNode star, PlanetModel model){
+            var planet = makePlanet(star,model.position,model);
+            return planet;
+        }
+        public Planet makePlanet(StarNode star, Vector3 position,PlanetModel model = null)
         {
             var parent = new GameObject("planet");
             var planetHolder = star.gameObject.transform.Find("planetHolder");
@@ -23,10 +26,15 @@ namespace Objects.Galaxy
             var rep = new SingleSceneAppearer(new sceneAppearInfo(baseStarFab,position),3,parent.transform);
 
             var sprite = planetSprites[Random.Range(0,planetSprites.Length-1)];
-            planet.Init(rep,sprite);
+            planet.Init(rep,sprite,model);
             planet.tileManager = tileFactory.makeTileManager();
-            planet.id = GameManager.idMaker.newId(planet);
             planet.position = position;
+            if(model == null){
+                planet.id = GameManager.idMaker.newId(planet);
+            }else{
+                planet.id = GameManager.idMaker.insertObject(planet,model.id);
+            }
+
             return planet;
         }
 

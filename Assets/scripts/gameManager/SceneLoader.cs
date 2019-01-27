@@ -14,6 +14,7 @@ namespace Loaders {
     public class SceneLoader : MonoBehaviour {
         public static GameManager gameManager;
         System.Action hydrateCallBack;
+        private static Dictionary<string, AssetBundle> bundles = null;
         private static void Log(string msg, Text txt){
             Debug.Log(msg);
             txt.text = msg;
@@ -37,15 +38,20 @@ namespace Loaders {
 
         public void buildGame(GameManager gameManager, System.Action hydrateCallBack){
             SceneLoader.gameManager = gameManager;
+            if(gameManager.UIManager != null){
+                UnityEngine.SceneManagement.SceneManager.sceneLoaded -= gameManager.UIManager.getSceneCanvas;
+            }
             this.hydrateCallBack = hydrateCallBack;
             UnityEngine.SceneManagement.SceneManager.sceneLoaded += onLoadingScreen;
             SceneLoader.LoadByIndex(1);
         }
         public static IEnumerator buildGameRoutine(System.Action hydrateCallBack){
             Debug.Log("loading screen loaded");
+
+            unloadBundlesSync();
             var spritesStr = AssetSingleton.bundleNames.sprites;
             var prefabStr = AssetSingleton.bundleNames.prefabs;
-            var bundles = new Dictionary<string, AssetBundle> () { { spritesStr,null  }, { prefabStr,null }};
+            bundles = new Dictionary<string, AssetBundle> () { { spritesStr,null  }, { prefabStr,null }};
 
             var textEl = GameObject.Find("Text").GetComponent<Text>();
             if(!textEl){
@@ -57,19 +63,19 @@ namespace Loaders {
             Log("loading bundles",textEl);
             if (!Application.isEditor){
                 Log("loading bundles: "+spritesStr,textEl);
-                yield return loadBundle(spritesStr,bundles);
+                yield return loadBundle(spritesStr);
                 Log("loading bundles: "+prefabStr,textEl);
-                yield return loadBundle(prefabStr,bundles);
+                yield return loadBundle(prefabStr);
             }else{
                 Log("loading bundles: "+spritesStr,textEl);
-                loadBundleSync(spritesStr,bundles);
+                loadBundleSync(spritesStr);
                 Log("loading bundles: "+prefabStr,textEl);
-                loadBundleSync(prefabStr,bundles);
+                loadBundleSync(prefabStr);
             }
             yield return "null";
 
             Log("loading assets ",textEl);
-            SceneLoader.loadAssets(bundles);
+            SceneLoader.loadAssets();
             yield return new WaitForSeconds(.1f);
 
             Log("Making Factories",textEl);
@@ -91,7 +97,6 @@ namespace Loaders {
             gameManager.UIManager.setGameManager(gameManager);
             UnityEngine.SceneManagement.SceneManager.sceneLoaded += gameManager.UIManager.getSceneCanvas;
             yield return new WaitForSeconds(.1f);
-
             Log("loading galaxy scene",textEl);
             LoadByIndex(2);
             yield return new WaitForSeconds(.1f);
@@ -122,7 +127,7 @@ namespace Loaders {
             SceneManager.LoadScene (sceneIndex);
         }
 
-        private static IEnumerator loadBundle (string name, Dictionary<string, AssetBundle> bundles) {
+        private static IEnumerator loadBundle (string name) {
             string path;
             path = Application.dataPath+"/" +"StreamingAssets/bundles/"+name;
 
@@ -134,7 +139,7 @@ namespace Loaders {
             }
             bundles[name] = bundle;
         }
-        private static AssetBundle loadBundleSync(string name, Dictionary<string, AssetBundle> bundles) {
+        private static AssetBundle loadBundleSync(string name) {
             string path;
             path = Application.dataPath+"/" +"StreamingAssets/bundles/"+name;
 
@@ -145,7 +150,15 @@ namespace Loaders {
             bundles[name] = bundle;
             return bundle;
         }
-        public static void loadAssets (Dictionary<string, AssetBundle> bundles) {
+        private static void unloadBundlesSync() {
+            if(bundles != null){
+                foreach(var keyVal in bundles){
+                    keyVal.Value.Unload(false);
+                }
+            }
+            
+        }
+        public static void loadAssets () {
             foreach (var bundle in bundles) {
                 AssetSingleton.addBundle (bundle.Key, bundle.Value);
             }

@@ -59,6 +59,7 @@ namespace Objects
         [SerializeField]public StarNode selectedStar;
         public void startgame(Dictionary<int, List<ProtoStar>> protoNodes)
         {
+            scrub();
             Debug.Log("Start Game Called, loading loading screen");
             sceneLoader.buildGame(this,()=>{
                 objectTable = new ObjectTable();
@@ -70,6 +71,7 @@ namespace Objects
             });
         }
         public void startgame(SavedGame savedGame){
+            scrub();     
             sceneLoader.buildGame(this,()=>{
                 savedGame.deserialize();
                 objectTable = new ObjectTable();
@@ -85,6 +87,16 @@ namespace Objects
         } 
         public void Save() {
             SavedGameManager.Save(this.model);
+        }
+        private void scrub(){
+            if(_starNodes != null){
+                _starNodes.destroy();
+                foreach(Transform child in GameManager.instance.gameObject.transform){
+                    if(child.gameObject.name == "Galaxy"){
+                        GameObject.Destroy(child.gameObject);
+                    }
+                }
+            }
         }
         public void loadStarSystem(StarNode star){
             SceneLoader.loadStarSystem(star);
