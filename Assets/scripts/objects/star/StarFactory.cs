@@ -22,7 +22,6 @@ namespace Objects.Galaxy
             initBaseStar(star,holder,model.position,model.id);
             star.name = model.name;
             star.gameObject.name = model.name;
-            Debug.Log("init star " + star.id);
             foreach(var connection in model.starConnections){
                 var otherId = model.id == connection.starIds[0]? connection.starIds[1] : connection.starIds[0];
                 var starRef = new Reference<StarNode>(otherId);

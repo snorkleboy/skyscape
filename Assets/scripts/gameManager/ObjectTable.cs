@@ -87,7 +87,7 @@ public class ObjectTable{
         public object get(long id){
             object test = null;
             if(!objects.TryGetValue(id, out test)){
-                Log.warnLog(this,"requested id returned null",id);
+                // Log.warnLog(this,"requested id returned null",id);
             }
             return test;
         }

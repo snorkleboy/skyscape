@@ -13,7 +13,7 @@ using Objects.Conceptuals;
 namespace Loaders {
     public class SceneLoader : MonoBehaviour {
         public static GameManager gameManager;
-        System.Action hydrateCallBack;
+        IEnumerator hydrateCallBack;
         private static Dictionary<string, AssetBundle> bundles = null;
         private static void Log(string msg, Text txt){
             Debug.Log(msg);
@@ -21,22 +21,10 @@ namespace Loaders {
         }
         public async void onLoadingScreen(Scene scene, LoadSceneMode mode){
             UnityEngine.SceneManagement.SceneManager.sceneLoaded -= onLoadingScreen;
-            if (Application.isEditor)
-            {
-                Debug.Log("Application isEditor-build");
-                var iterator = buildGameRoutine(hydrateCallBack);
-                iterator.MoveNext();
-                while(iterator.Current != null){
-                    await Task.Delay(25);
-                    iterator.MoveNext();
-                }
-            }else{
-                Debug.Log("Application isNOTEditor-build ");
-                StartCoroutine(buildGameRoutine(hydrateCallBack));
-            }
+            StartCoroutine(buildGameRoutine(hydrateCallBack));
         }
 
-        public void buildGame(GameManager gameManager, System.Action hydrateCallBack){
+        public void buildGame(GameManager gameManager, IEnumerator hydrateCallBack){
             SceneLoader.gameManager = gameManager;
             if(gameManager.UIManager != null){
                 UnityEngine.SceneManagement.SceneManager.sceneLoaded -= gameManager.UIManager.getSceneCanvas;
@@ -45,7 +33,7 @@ namespace Loaders {
             UnityEngine.SceneManagement.SceneManager.sceneLoaded += onLoadingScreen;
             SceneLoader.LoadByIndex(1);
         }
-        public static IEnumerator buildGameRoutine(System.Action hydrateCallBack){
+        public static IEnumerator buildGameRoutine(IEnumerator hydrateCallBack){
             Debug.Log("loading screen loaded");
 
             unloadBundlesSync();
@@ -58,7 +46,7 @@ namespace Loaders {
                 Debug.LogError("startGame cant find text");
             }
             textEl.text = "loading";
-            yield return "null";
+            yield return new WaitForSeconds(.1f);
 
             Log("loading bundles",textEl);
             if (!Application.isEditor){
@@ -72,7 +60,7 @@ namespace Loaders {
                 Log("loading bundles: "+prefabStr,textEl);
                 loadBundleSync(prefabStr);
             }
-            yield return "null";
+            yield return new WaitForSeconds(.1f);
 
             Log("loading assets ",textEl);
             SceneLoader.loadAssets();
@@ -86,11 +74,10 @@ namespace Loaders {
             var galHolder = GameObject.Find("Galaxy");
             galHolder.transform.SetParent(gameManager.transform);
             yield return new WaitForSeconds(.1f);
-
-
             
             Log("Hydrating Galaxy",textEl);
-            hydrateCallBack();
+            yield return new WaitForSeconds(.1f);
+            yield return hydrateCallBack;
             yield return new WaitForSeconds(.1f);
 
             Log("setting up UI",textEl);

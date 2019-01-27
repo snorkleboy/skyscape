@@ -27,11 +27,12 @@ namespace Objects.Galaxy
 
             var sprite = planetSprites[Random.Range(0,planetSprites.Length-1)];
             planet.Init(rep,sprite,model);
-            planet.tileManager = tileFactory.makeTileManager();
             planet.position = position;
             if(model == null){
+                planet.tileManager = tileFactory.makeTileManager();
                 planet.id = GameManager.idMaker.newId(planet);
             }else{
+                planet.tileManager = tileFactory.makeTileManager(model.tiles,model.tileWidth);
                 planet.id = GameManager.idMaker.insertObject(planet,model.id);
             }
 

@@ -32,6 +32,13 @@ namespace Objects.Galaxy
         private List<Pop> _pops = new List<Pop>();
         public List<Pop> pops{get{return _pops;}}
         public int updateId{get;}
+        public Building(Sprite icon,Pop[] startPops, BuildingModel model){
+            title = "building";
+            buildingSprite = icon;
+            name = model.name;
+            pops.AddRange(startPops);
+
+        }
         public Building(Sprite icon)
         {
             title = "building";

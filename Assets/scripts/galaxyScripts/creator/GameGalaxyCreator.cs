@@ -14,30 +14,29 @@ namespace GalaxyCreators
         
         [SerializeField] public new List<StarMaker> creatorStack = new List<StarMaker>();
         public StarFactory starFactory;
-        public Dictionary<int, List<StarNode>> hydrate( Dictionary<int, List<StarNodeModel>> savedModels)
+        public IEnumerator hydrate( Dictionary<int, List<StarNodeModel>> savedModels,Dictionary<int, List<StarNode>> starNodes)
         {
-            var starNodes = new Dictionary<int, List<StarNode>>();
+            yield return null;
             foreach(var branchThing in savedModels)
             {
                 var branchSaved = branchThing.Value;
                 var branchI = branchThing.Key;
-
                 var branch = new List<StarNode>();
-
                 foreach(var starModel in branchSaved){
                     var star = starFactory.createStar(holder.transform,starModel);
-
-
                     branch.Add(star);
+                    yield return new WaitForSeconds(.1f);
+                    Debug.Log("created " + star + " " + star.id);
                 }
                 starNodes[branchI] = branch;
+                yield return new WaitForSeconds(.1f);
+
             }
-            return starNodes;
         }
-        public Dictionary<int, List<StarNode>> hydrate( Dictionary<int, List<ProtoStar>> protoNodes)
+        public IEnumerator hydrate( Dictionary<int, List<ProtoStar>> protoNodes,Dictionary<int, List<StarNode>> starNodes)
         {
+            yield return null;
             var protoToStar = new Dictionary<ProtoStar,StarNode>();
-            var starNodes = new Dictionary<int, List<StarNode>>();
             foreach(var branchI in protoNodes.Keys)
             {
                 starNodes[branchI] = new List<StarNode>();
@@ -48,6 +47,7 @@ namespace GalaxyCreators
                     starNodes[branchI].Add(starNode);
                     protoToStar[protoStar] = starNode;
                 }
+                yield return null;
             }
 
             foreach(var branchI in protoNodes.Keys)
@@ -62,12 +62,15 @@ namespace GalaxyCreators
                         var otherproto = a == protoStar ? b : a;
                         var otherStarNode = protoToStar[otherproto];
                         starFactory.makeConnection(starNode,otherStarNode );
+                        Debug.Log("created " + starNode + " " + starNode.id);
+
                     };
+                    yield return null;
                 }
             }
 
             buildUpGalaxy(starNodes);
-            return starNodes;
+            yield return null;
         }
         public void buildUpGalaxy(Dictionary<int, List<StarNode>> starNodes){
             foreach (ICreator<StarNode> creator in creatorStack)

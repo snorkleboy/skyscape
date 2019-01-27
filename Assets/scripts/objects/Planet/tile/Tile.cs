@@ -33,6 +33,13 @@ namespace Objects.Galaxy
         public int tilePosition;
         private Sprite sprite = null;
         public string title{get;}
+        public Tile(Sprite texture, Building building, TileModel model)
+        {
+            title = "tile";
+            sprite = texture;
+            this.tilePosition = model.position;
+            this.building = building;
+        }
         public Tile(Sprite texture, int tilePosition)
         {
             title = "tile";

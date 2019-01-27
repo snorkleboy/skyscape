@@ -30,6 +30,12 @@ namespace Objects.Galaxy
         [SerializeField]public int money;
         public string title{get{return name;}}
         public Sprite popSprite;
+        public Pop(Sprite sprite,PopModel model)
+        {
+            popSprite = sprite;
+            name = model.name;
+            money = model.money;
+        }
         public Pop(Sprite sprite)
         {
             popSprite = sprite;

@@ -61,30 +61,37 @@ namespace Objects
         {
             scrub();
             Debug.Log("Start Game Called, loading loading screen");
-            sceneLoader.buildGame(this,()=>{
-                objectTable = new ObjectTable();
-                idMaker = new UniqueIdMaker(0,objectTable);
+            sceneLoader.buildGame(this,buildFromProtoStars(protoNodes));
+        }
+        
+        private IEnumerator buildFromProtoStars(Dictionary<int,List<ProtoStar>> protoNodes){
+            yield return null;
+            Debug.Log("HERE");
+            objectTable = new ObjectTable();
+            idMaker = new UniqueIdMaker(0,objectTable);
 
-                var faction = instance.factions.createFaction("my Faction");
-                instance.user = new User(faction);
-                instance._starNodes = new StarNodeCollection(instance.galaxyCreator.hydrate(protoNodes));
-            });
+            var faction = instance.factions.createFaction("my faction");
+            instance.user = new User(faction);
+            var collection = new Dictionary<int, List<StarNode>>();
+            yield return instance.galaxyCreator.hydrate(protoNodes,collection);
+            instance._starNodes = new StarNodeCollection(collection);
         }
         public void startgame(SavedGame savedGame){
             scrub();     
-            sceneLoader.buildGame(this,()=>{
-                savedGame.deserialize();
-                objectTable = new ObjectTable();
-                idMaker = new UniqueIdMaker(savedGame.loadedModel.idMaker,objectTable);
-
-                var faction = instance.factions.createFaction("my Faction");
-                instance.user = new User(faction);
-                instance._starNodes = new StarNodeCollection(instance.galaxyCreator.hydrate(savedGame.loadedModel._starNodes.starNodes));
-
-                Debug.Log("Game Manager load:" + savedGame.fileName);
-                Debug.Log("Game Manager load:" + savedGame.data);
-            });
+            sceneLoader.buildGame(this,buildGameFromSave(savedGame));
         } 
+        private IEnumerator buildGameFromSave(SavedGame savedGame){
+            yield return null;
+            savedGame.deserialize();
+            objectTable = new ObjectTable();
+            idMaker = new UniqueIdMaker(savedGame.loadedModel.idMaker,objectTable);
+
+            var faction = instance.factions.createFaction("my Faction");
+            instance.user = new User(faction);
+            var collection = new Dictionary<int, List<StarNode>>();
+            yield return instance.galaxyCreator.hydrate(savedGame.loadedModel._starNodes.starNodes,collection);
+            instance._starNodes = new StarNodeCollection(collection);
+        }
         public void Save() {
             SavedGameManager.Save(this.model);
         }

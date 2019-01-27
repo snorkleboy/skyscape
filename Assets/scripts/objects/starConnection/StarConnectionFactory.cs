@@ -34,8 +34,6 @@ namespace Objects.Galaxy
                 conn = _makeConnection(nodeInstance,referencedStarNode);
             }
             nodeInstance.addConnection(conn);
-            Debug.Log("connection make " + existed + " refId:" +referencedStarNode.getId() + "instId:"+nodeInstance.id + " conn==null=" + (conn==null));
-            Debug.Log(("connection make " + conn.nodes[0].getId() + " " + conn.nodes[1].getId()));
             return conn;
         }
         private StarConnection _makeConnection(StarNode nodeInstance,Reference<StarNode> referencedStarNode){
@@ -49,7 +47,6 @@ namespace Objects.Galaxy
             var conn = nodeInstance.gameObject.AddComponent<StarConnection>();
             var renderer = new StarConnectionAppearer(infos, conn,starNodes);
             conn.Init(Random.Range(.01f, .99f), starNodes, renderer);
-            Debug.Log("connection make ___INIT__" + " refId:" +referencedStarNode.getId() + "instId:"+nodeInstance.id + " conn==null =" + (conn==null));
             return conn;
         }
     }
