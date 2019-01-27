@@ -7,15 +7,12 @@ namespace Objects.Galaxy
     public struct sceneAppearInfo{
         public sceneAppearInfo(GameObject prefab){
             this.prefab = prefab;
-
             this.appearPosition = Vector3.negativeInfinity;
         }
         public sceneAppearInfo(GameObject prefab,Vector3 pos){
             this.prefab = prefab;
-
             this.appearPosition = pos;
         }
-
         public GameObject prefab;
         public Vector3 appearPosition;
     }
@@ -48,9 +45,9 @@ namespace Objects.Galaxy
         }
         public override Transform attachementPoint { get; set; }
         private int activeScene = -1;
-        private SingleSceneAppearer[] sceneRenderers;
+        [SerializeField]private SingleSceneAppearer[] sceneRenderers;
 
-        public override bool appear(int scene)
+        protected override bool _appearImplimentation(int scene)
         {
             this.activeScene = scene;
             if(active){
@@ -60,11 +57,10 @@ namespace Objects.Galaxy
             if(ren != null){
                 active = sceneRenderers[scene].appear(scene);
                 activeGO = sceneRenderers[scene].activeGO;
+                _appearPosition = sceneRenderers[scene].getAppearPosition(scene);
             }
             return active;
-
         }
-        public GameObject _activeGO;
         public override GameObject activeGO{
             get{
                 return _activeGO;           

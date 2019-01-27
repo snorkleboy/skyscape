@@ -1,9 +1,13 @@
+using UnityEngine;
 namespace Objects
 {
-    public class UniqueId
+    public interface IIded{
+        long getId();
+    }
+    public class UniqueIdMaker
     {
         ObjectTable table;
-        public UniqueId(long startcount, ObjectTable table){
+        public UniqueIdMaker(long startcount, ObjectTable table){
             count = startcount;
             this.table = table;
         }
@@ -12,6 +16,13 @@ namespace Objects
             var num = count++;
             table.set(num,obj);
             return num;
+        }
+        public long insertObject(object obj, long id){
+            if(table.get(id) != null){
+                Debug.LogError("insertObject is attempting to overwriting object in id table, id="+id);
+            }
+            table.set(id,obj);
+            return id;
         }
     }
 }

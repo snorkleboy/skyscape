@@ -6,12 +6,13 @@ using UnityEngine.UI;
 using UI;
 namespace Objects.Galaxy
 {
-    public struct PlanetModel{
+    public class PlanetModel{
         public string name;
         public TileModel[] tiles;
         public int tileWidth;
         public long id;
         public SerializableVector3 position;
+        public PlanetModel(){}
         public PlanetModel(Planet planet){
             tileWidth = planet.tileManager.width;
             name = planet.name;
@@ -25,15 +26,17 @@ namespace Objects.Galaxy
         }
 
     }
-
     [System.Serializable]
-    public partial class Planet :MonoBehaviour, IViewable,IContextable,IActOnable, IAppearable, ISaveAble<PlanetModel>
+    public partial class Planet :MonoBehaviour, IViewable,IContextable,IActOnable, IAppearable, ISaveAble<PlanetModel>, IIded
     {
         public PlanetModel model{get{return new PlanetModel(this);}}
         public long id;
+        public long getId(){
+            return id;
+        }
         public IAppearer appearer { get { return planetRenderer; } }
         public string title;
-        private SingleSceneAppearer planetRenderer { get; set; }
+        [SerializeField]private SingleSceneAppearer planetRenderer { get; set; }
         public Sprite planetSprite;
         public Vector3 position;
         public TileManager tileManager;
@@ -42,7 +45,6 @@ namespace Objects.Galaxy
             title = Names.planetNames.getName();
             this.planetSprite = planetSprite;
             gameObject.name = title;
-            // renderer.scriptSingelton = this;
             planetRenderer = renderer;
             GameManager.instance.factions.registerPlanetToFaction(this,GameManager.instance.user.faction);
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Objects.Galaxy;
 using UnityEngine.UI;
-
+using Objects;
 namespace GalaxyCreators
 {
     class AddPlanets: StarMaker
@@ -15,7 +15,7 @@ namespace GalaxyCreators
             {
                 foreach (var starNode in starList)
                 {
-                    Planet[] planets = new Planet[Random.Range(0, 10)];
+                    var planets = new Reference<Planet>[Random.Range(0, 10)];
                     var multiplier = 1.0;
                     for (int i = 0; i < planets.Length; i++)
                     {
@@ -29,10 +29,11 @@ namespace GalaxyCreators
                         if (i>4){
                             multiplier++;
                         }
-                        
-                        planets[i] = planet;
+                        var refa = new Reference<Planet>(planet);
+                        planets[i] = refa;
                         
                     }
+                
                     starNode.setPlanets(planets);
                 }
             }

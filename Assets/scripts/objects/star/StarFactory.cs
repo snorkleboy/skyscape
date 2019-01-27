@@ -16,12 +16,25 @@ namespace Objects.Galaxy
                 Debug.LogError("failed to load StarIcon Sprites");
             }
         }
+        public StarNode createStar(Transform holder, StarNodeModel model){
+            var star = createBaseStar();
+            initBaseStar(star,holder,model.position,model.id);
+            star.name = model.name;
+            star.gameObject.name = model.name;
+            Debug.Log("init star " + star.id);
+            foreach(var connection in model.starConnections){
+                var otherId = model.id == connection.starIds[0]? connection.starIds[1] : connection.starIds[0];
+                var starRef = new Reference<StarNode>(otherId);
+                makeConnection(star,starRef);
+            }
+            return star;
+        }
         public StarNode createStar(Transform holder, Vector3 position){
             var star = createBaseStar();
             initBaseStar(star,holder,position);
             return star;
         }
-        public void initBaseStar(StarNode star, Transform holder, Vector3 position){
+        public void initBaseStar(StarNode star, Transform holder, Vector3 position,long id = -1){
             star.transform.SetParent(holder);
             star.transform.position = position;
             var representation = new GameObject("representation");
@@ -40,7 +53,11 @@ namespace Objects.Galaxy
             star.Init(rep,starIconSprites[0]);
             star.transform.name = star.name;
             star.stamp = new FactoryStamp("basic star");
-            star.id = GameManager.idMaker.newId(star);
+            if(id==-1){
+                star.id = GameManager.idMaker.newId(star);
+            }else{
+                star.id = GameManager.idMaker.insertObject(star,id);
+            }
         }
 
         public StarNode createBaseStar()
@@ -53,6 +70,10 @@ namespace Objects.Galaxy
             return star;
         }
         public virtual StarConnection makeConnection(StarNode a, StarNode b)
+        {
+            return starConnectionFactory.makeConnection(a, b);
+        }
+        public virtual StarConnection makeConnection(StarNode a, Reference<StarNode> b)
         {
             return starConnectionFactory.makeConnection(a, b);
         }

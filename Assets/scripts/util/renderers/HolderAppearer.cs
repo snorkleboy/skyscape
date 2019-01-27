@@ -2,10 +2,12 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
+
 namespace Objects.Galaxy
 {
     [System.Serializable]
-    public partial class HolderAppearer: BaseAppearable{
+    public partial class HolderAppearer: BaseAppearable, ISerializationCallbackReceiver{
         public HolderAppearer(IAppearer appearer){
             this.thisAppearer = appearer;
         }
@@ -19,13 +21,14 @@ namespace Objects.Galaxy
 
     public partial class HolderAppearer{
         private IAppearer thisAppearer;
+        
         public override Transform attachementPoint{get{return thisAppearer.attachementPoint;}}
         public List<IAppearable> appearables = new List<IAppearable>();
-        public void setAppearables(IAppearable[] renderables){
+        public void setAppearables(IEnumerable<IAppearable> renderables){
             this.appearables = new List<IAppearable>();
             addAppearables(renderables);
         }
-        public void addAppearables(IAppearable[] renderablesIn)
+        public void addAppearables(IEnumerable<IAppearable> renderablesIn)
         {
             this.appearables.AddRange(renderablesIn);
         }
@@ -33,10 +36,7 @@ namespace Objects.Galaxy
         {
             this.appearables.Add(renderable);
         }
-    }
-    public partial class HolderAppearer
-    {
-        public override bool appear(int scene){
+        protected override bool _appearImplimentation(int scene){
             active = thisAppearer.appear(scene);
 
             foreach (var appearable in appearables)
@@ -62,5 +62,31 @@ namespace Objects.Galaxy
                 item.appearer.destroy();
             }
         }
+
+
+        public void OnBeforeSerialize()
+        {
+            this._appearPosition = thisAppearer.getAppearPosition(SceneManager.GetActiveScene().buildIndex);
+            this.activeGO = thisAppearer.activeGO;
+            _activeGoes = new List<GameObject>();
+            _appearPositions =  new List<SerializableVector3>(); 
+            _actives = new List<bool>();
+            foreach (var item in this.appearables)
+            {
+                _activeGoes.Add(item.appearer.activeGO);
+                _appearPositions.Add(item.appearer.getAppearPosition(SceneManager.GetActiveScene().buildIndex));
+                _actives.Add(item.appearer.isActive);
+            } 
+        }
+        public void OnAfterDeserialize()
+        {
+            _activeGoes = null;
+            _appearPositions = null;     
+            _actives= null;
+        }
+
+        [SerializeField]private List<bool> _actives;
+        [SerializeField]private List<GameObject> _activeGoes;
+        [SerializeField]private List<SerializableVector3> _appearPositions;
     }
 }

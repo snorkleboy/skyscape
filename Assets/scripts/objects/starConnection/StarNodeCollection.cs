@@ -8,18 +8,19 @@ namespace Objects.Galaxy
 {
     [System.Serializable]
     public struct StarNodeCollectionModel{
-        [SerializeField]public List<StarNodeModel[]> starNodes;
+        [SerializeField]public Dictionary<int, List<StarNodeModel>> starNodes;
         public StarNodeCollectionModel(StarNodeCollection collection){
-            starNodes = new List<StarNodeModel[]>();
+            starNodes = new Dictionary<int, List<StarNodeModel>>();
             foreach (var keyVal in collection._starNodes)
             {
+                var branchI = keyVal.Key;
                 var starBranch = keyVal.Value;
                 var length = starBranch.Count;
-                var branch = new StarNodeModel[length];
+                var branch = new List<StarNodeModel>();
                 for(var i=0;i< length;i++){
-                    branch[i] = starBranch[i].model;
+                    branch.Add(starBranch[i].model);
                 }
-                starNodes.Add(branch);
+                starNodes.Add(branchI,branch);
             }
         }
     }

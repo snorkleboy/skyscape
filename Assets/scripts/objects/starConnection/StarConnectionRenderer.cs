@@ -7,24 +7,26 @@ namespace Objects.Galaxy
         [System.Serializable]
     public class StarConnectionAppearer : MultiSceneAppearer
     {
-        StarNode[] nodes;
+        Reference<StarNode>[] nodes;
         public override Transform attachementPoint { get; set; }
         StarConnection conn;
-        public StarConnectionAppearer(sceneAppearInfo[] sceneToPrefab, StarConnection conn,StarNode[] nodes) : base(sceneToPrefab,nodes[0].appearer.attachementPoint)
+        public StarConnectionAppearer(sceneAppearInfo[] sceneToPrefab, StarConnection conn,Reference<StarNode>[] nodes) : base(sceneToPrefab,nodes[0].value.appearer.attachementPoint)
         {
             this.nodes = nodes;
             this.conn = conn;
+            this.preAppear = preAppearFunc;
+            this.postAppear = postAppearFunc;
         }
         private StarNode setPositionForStarView(){
             var selectedStar = GameManager.instance.selectedStar;
             StarNode starAt;
             StarNode OtherStar;
-            if(nodes[0] == selectedStar){
-                starAt = nodes[0];
-                OtherStar = nodes[1]; 			
+            if(nodes[0].value == selectedStar){
+                starAt = nodes[0].value;
+                OtherStar = nodes[1].value; 			
             }else{
-                starAt = nodes[1];
-                OtherStar = nodes[0]; 			
+                starAt = nodes[1].value;
+                OtherStar = nodes[0].value; 			
             }
             
             Vector3 direction = OtherStar.appearer.getAppearPosition(2) - starAt.appearer.getAppearPosition(2);
@@ -34,31 +36,26 @@ namespace Objects.Galaxy
             return starAt;
         }
         private void drawLineForGalaxyView(){
-            if(nodes[0].appearer.activeGO != null && nodes[1].appearer.activeGO != null){
+            if(nodes[0].value.appearer.activeGO != null && nodes[1].value.appearer.activeGO != null){
                 var line = activeGO.GetComponent<DrawLineBetweenPoints>();
-                line.setTarget(nodes[0].appearer.activeGO, 0);
-                line.setTarget(nodes[1].appearer.activeGO, 1);
+                line.setTarget(nodes[0].value.appearer.activeGO, 0);
+                line.setTarget(nodes[1].value.appearer.activeGO, 1);
                 line.draw();
             }
         }
-        public override bool appear(int scene)
-        {
-            StarNode starAt;
+        private void preAppearFunc(int scene){
             if (scene == 3){
-                starAt = setPositionForStarView();
+                setPositionForStarView();
             }
-            if (base.appear(scene))
+        }
+        private void postAppearFunc(int scene){
+            if (scene == (int)util.Enums.sceneNames.GalaxyView || scene == (int)util.Enums.sceneNames.mainMenu)
             {
-                if (scene == (int)util.Enums.sceneNames.GalaxyView || scene == (int)util.Enums.sceneNames.mainMenu)
-                {
-                    drawLineForGalaxyView();
-                }
-                if(scene == 3){
-                    activeGO.GetComponent<starNodeConnectionController>().set(conn);
-                }
-                return true;
+                drawLineForGalaxyView();
             }
-            return false;
+            if(scene == 3){
+                activeGO.GetComponent<starNodeConnectionController>().set(conn);
+            }
         }
         public override void destroy(){
             base.destroy();

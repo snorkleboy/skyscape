@@ -11,9 +11,9 @@ namespace Objects.Galaxy
         {
             this.nodes = nodes;
         }
-        public override bool appear(int scene)
+        protected override bool _appearImplimentation(int scene)
         {
-            if (base.appear(scene))
+            if (base._appearImplimentation(scene))
             {
                 if ( scene == 0)
                 {

@@ -5,6 +5,8 @@ using Objects.Galaxy;
 using Util;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Objects;
+
 namespace GalaxyCreators
 {
 
@@ -12,24 +14,23 @@ namespace GalaxyCreators
         
         [SerializeField] public new List<StarMaker> creatorStack = new List<StarMaker>();
         public StarFactory starFactory;
-        public Dictionary<int, List<StarNode>> hydrate( SavedGame savedGame)
+        public Dictionary<int, List<StarNode>> hydrate( Dictionary<int, List<StarNodeModel>> savedModels)
         {
             var starNodes = new Dictionary<int, List<StarNode>>();
+            foreach(var branchThing in savedModels)
+            {
+                var branchSaved = branchThing.Value;
+                var branchI = branchThing.Key;
 
-            var objectArr = new Dictionary<int, Object>();
-            var json = JObject.Parse(savedGame.data);
-            var gmIdStartCount = (int)json["idMaker"];
-            Objects.GameManager.idMaker.count = gmIdStartCount;
+                var branch = new List<StarNode>();
 
-            JArray starArr = (JArray)json["_starNodes"]["starNodes"];
+                foreach(var starModel in branchSaved){
+                    var star = starFactory.createStar(holder.transform,starModel);
 
-            for(var starNum = 0; starNum < starArr.Count; starNum++){
-                var starJson = starArr[starNum];
-                objectArr[(int)starJson["id"]] =  starFactory.createBaseStar();
-            }
-            for(var starNum = 0; starNum < starArr.Count; starNum++){
-                var starJson = starArr[starNum];
-                // ((StarNode)objectArr[(int)starJson["id"]]).planetable
+                    star.setPlanets(new Reference<Planet>[0]);
+                    branch.Add(star);
+                }
+                starNodes[branchI] = branch;
             }
             return starNodes;
         }

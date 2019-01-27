@@ -11,6 +11,7 @@ namespace Objects.Galaxy
         public string name;
         public PopModel[] pops;
         public long id;
+        public BuildingModel(){}
         public BuildingModel(Building building){
             id = building.id;
             name = building.name;

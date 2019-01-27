@@ -14,6 +14,7 @@ namespace Objects.Conceptuals{
 		public FleetFactory fleetFactory;
 		public Fleet createFleet(Planet planet){
 			var fleet = fleetFactory.makeFleet(this,planet.transform.parent, planet.transform.position + new Vector3(2,0,2));
+			planet.GetComponentInParent<StarNode>().enterStar(fleet);
 			fleet.fleetPosition = planet.appearer.activeGO.transform.position + new Vector3(2,0,2);
 			return fleet;
 		}

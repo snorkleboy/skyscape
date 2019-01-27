@@ -7,10 +7,11 @@ using System;
 using UI;
 namespace Objects.Galaxy
 {
-    public struct TileModel{
+    public class TileModel{
         public int position;
         public long id;
         public BuildingModel building;
+        public TileModel(){}
         public TileModel(Tile tile){
             if (tile.building != null){
                 building = tile.building.model;

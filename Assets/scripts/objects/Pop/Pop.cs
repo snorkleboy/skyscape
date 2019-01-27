@@ -10,10 +10,11 @@ namespace Objects.Galaxy
     public static class PopNames{
         public static string[] names = new string[]{"bob","tim","fisher","ms.disher","constilisher"};
     }
-    public struct PopModel{
+    public class PopModel{
         public int money;
         public string name;
         public long id;
+        public PopModel(){}
         public PopModel(Pop pop){
             money = pop.money;
             name = pop.name;

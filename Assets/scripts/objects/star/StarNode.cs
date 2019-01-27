@@ -6,54 +6,25 @@ using UI;
 using UnityEngine.UI;
 using Loaders;
 using Objects.Conceptuals;
+using UnityEditor;
+using System.Linq;
 namespace Objects.Galaxy
 {
 
-    public class Planetable: ScriptableObject{
-        [SerializeField]private Planet[] _planets;
-        public Planet[] planets {
-            get
-            {
-                return _planets;
-            }
-            set
-            {
-                _planets = value;
-            }
-        }
-    }
-    
-    public class Connectable : ScriptableObject{
-        [SerializeField] List<StarConnection> _connections = new List<StarConnection>();
-        public List<StarConnection> connections
-        {
-            get
-            {
-                return _connections;
-            }
-            set
-            {
-                _connections = value;
-            }
-        }
-        public void addConnection(StarConnection connection)
-        {
-            connections.Add(connection);
-        }
 
-    }
-    public struct StarNodeModel{
+    public class StarNodeModel{
         public SerializableVector3 position;
         FactoryStamp stamp;
         public long id;
+        public string name;
         public StarConnectionModel[] starConnections;
         public PlanetModel[] planets;
-
+        public StarNodeModel(){}
         public StarNodeModel(StarNode node){
             position = node.transform.position;
             stamp = node.stamp;
             id = node.id;
-
+            name=node.name;
             var numConn = node.connectable.connections.Count;
             starConnections = new StarConnectionModel[numConn];
             for(var i =0;i<numConn;i++)
@@ -64,15 +35,18 @@ namespace Objects.Galaxy
             var planetNum = node.planetable.planets.Length;
             planets = new PlanetModel[planetNum];
             for(var i =0; i<planetNum;i++){
-                planets[i] = node.planetable.planets[i].model;
+                planets[i] = node.planetable.planets[i].value.model;
             }
         }
     }
     
     //init
-    public partial class StarNode : MonoBehaviour, IAppearable, IUIable, ISaveAble<StarNodeModel>
+    public partial class StarNode : MonoBehaviour, IAppearable, IUIable, ISaveAble<StarNodeModel>,IIded
     {
         public long id;
+        public long getId(){
+            return id;
+        }
         public StarNodeModel model{get{return new StarNodeModel(this);}}
         public FactoryStamp stamp;
 
@@ -81,39 +55,52 @@ namespace Objects.Galaxy
             name = Names.starNames.getName();
             gameObject.name = name;
             this.Icon = Icon;
-            this.starRenderer = renderer;
+            this.starAppearer = renderer;
             this.connectable = ScriptableObject.CreateInstance<Connectable>();
             this.planetable = ScriptableObject.CreateInstance<Planetable>();
         }
         public void appear(int scene)
         {
-            starRenderer.appear(scene );//,transform.position
+            starAppearer.appear(scene );//,transform.position
             if (scene == 3){
-                starRenderer.activeGO.transform.position = Vector3.zero;
+                starAppearer.activeGO.transform.position = Vector3.zero;
             }
         }
-
     }
     //attributes
     [System.Serializable]
     public partial class StarNode{
-        public IAppearer appearer { get { return starRenderer; } }
-        public HolderAppearer starRenderer;
+        public IAppearer appearer { get { return starAppearer; } }
+        public HolderAppearer starAppearer;
         public Sprite Icon;
         [SerializeField]public Connectable connectable;
         public void addConnection(StarConnection connection)
         {
-            if (connection.nodes[0] == this){
+            bool alreadyAdded = connectable.connections.Any(existingConnection=>(
+                existingConnection.nodes.Any(node=>node.getId() == existingConnection.nodes[0].getId()) && 
+                existingConnection.nodes.Any(node=>node.getId() == existingConnection.nodes[1].getId())
+            ));
+            if (!alreadyAdded){
                 connectable.addConnection(connection);
-                starRenderer.addAppearables(connection);
-            }            
+                enterStar(connection);
+            }
+            
         }
         [SerializeField]public Planetable planetable;
-        public void setPlanets(Planet[] planets) {
+        public void setPlanets(Reference<Planet>[] planets) {
             planetable.planets = planets;
-            starRenderer.addAppearables(planets);
+            enterStar(planets.getAllReferenced());
         }
 
+
+        public void enterStar(IAppearable appearable){
+            starAppearer.addAppearables(appearable);
+        }
+        public void enterStar(IEnumerable<IAppearable> appearables){
+            starAppearer.addAppearables(appearables);
+        }
+        public void exitStar(IAppearable appearable){
+        }
     }
     //ui
     public partial class StarNode{
@@ -139,7 +126,7 @@ namespace Objects.Galaxy
             var otherDetail = new iconInfo();
             var popNum = 0;
             foreach(var planet in planetable.planets){
-               foreach(var tile in  planet.tileManager.tiles){
+               foreach(var tile in  planet.value.tileManager.tiles){
                    if (tile.building != null){
                        if (tile.building.pops != null){
                            popNum += tile.building.pops.Count;
@@ -155,5 +142,4 @@ namespace Objects.Galaxy
             return info;
         }
     }
-
 }

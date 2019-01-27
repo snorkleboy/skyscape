@@ -12,9 +12,14 @@ public class SavedGame{
 	public string fileName;
 	public string displayName;
 	public string data = null;
+	public GameManagerModel loadedModel{get;private set;}
 	public void loadData(){
 		data = System.IO.File.ReadAllText(fileName);
 	}
+	public void deserialize(){
+		loadedModel = JsonConvert.DeserializeObject<GameManagerModel>(data);
+	}
+	
 }
 public static class SavedGameManager {
 	public static SavedGame[] getSavedGames(){
@@ -41,5 +46,6 @@ public static class SavedGameManager {
 			Debug.Log("writing file done");
 		});
 	}
+
 
 }

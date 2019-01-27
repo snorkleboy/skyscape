@@ -22,7 +22,7 @@ namespace Objects.Galaxy
         }
 
         private int activeScene = -1;
-        public override bool appear(int scene)
+        protected override bool _appearImplimentation(int scene)
         {
             activeScene = scene;
             destroy();
