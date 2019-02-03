@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Loaders;
 using Objects;
+using Objects.Conceptuals;
 namespace Objects.Galaxy
 {
     public class StarFactory : MonoBehaviour
@@ -33,6 +34,11 @@ namespace Objects.Galaxy
                 planets[count++] = new Reference<Planet>(planetfactory.makePlanet(star,planetModel));
             }
             star.setPlanets(planets);
+
+            foreach(var fleetModel in model.fleets){
+                var faction = fleetModel.factionId.dereference<Faction>();
+                var fleet = faction.createFleet(fleetModel,star);
+            }
             return star;
         }
         public StarNode createStar(Transform holder, Vector3 position){

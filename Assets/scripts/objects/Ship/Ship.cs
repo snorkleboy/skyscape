@@ -32,11 +32,13 @@ namespace Objects.Galaxy
             moverHelper = gameObject.AddComponent<ShipMover>();
         }
         public override void appear(int context){
-            Debug.Log("ship render " + this);
-            appearer.appear(context);
-            var pos = appearer.activeGO.transform.position;
-            transform.position = pos;
-            appearer.activeGO.transform.position = pos;
+            if(appearer.appear(context)){
+                var pos = appearer.activeGO.transform.position;
+                transform.position = pos;
+                appearer.activeGO.transform.position = pos;
+            }
+
+
         }
 
     }

@@ -16,6 +16,17 @@ namespace Objects
 
             return returnList;
         }
+        public static T dereference<T>(this long id){
+            var obj = GameManager.instance.objectTable.get(id);
+            if (obj == null){
+                Debug.LogError("derefernce returned null for id:"+id);
+            }
+            var Tthing = (T)obj;
+            if(Tthing == null){
+                Debug.LogError("derefernce failed to cast to type:"+typeof(T) + " for id:"+id);
+            }
+            return Tthing;
+        }
     }
     [System.Serializable]
     public class Reference<T> where T : class{

@@ -4,12 +4,13 @@ using UnityEngine;
 using Objects.Galaxy;
 using UI;
 using Loaders;
-
+using Objects.Conceptuals;
 namespace Objects
 {
     public class FleetModel{
         public FleetModel(){}
         public FleetModel(Fleet fleet){
+
             position = fleet.fleetPosition;
             var ships = fleet.GetShips();
             var models = new List<ShipModel>();
@@ -19,8 +20,12 @@ namespace Objects
             }
             shipModels = models.ToArray();
             id=fleet.id;
+            factionId = fleet.owningFaction.id;
+            name = fleet.name;
         }
         public SerializableVector3 position;
+        public string name;
+        public long factionId;
         public long id;
         public ShipModel[] shipModels;
 
@@ -29,14 +34,16 @@ namespace Objects
     public partial class Fleet:MoveAbleGameObject,ISaveAble<FleetModel>,IViewable,ISelectable,IIded{
         public FleetModel model{get{return new FleetModel(this);}}
         public long id;
+        public Faction owningFaction;
         public long getId(){return id;}
-        public void Init(string name, Sprite icon, LinkedAppearer renderHelper,Vector3 position){
+        public void Init(string name, Sprite icon, LinkedAppearer renderHelper,Vector3 position,Faction faction){
             this.name = name;
             this.icon = icon;
             this.fleetPosition = position;
             this._appearer = renderHelper;
             var fleetMover = gameObject.AddComponent<FleetMover>();
             ships = new ShipManager(fleetMover);
+            owningFaction = faction;
         }
         public List<inputAction> controls;
         public void Awake(){
@@ -98,9 +105,11 @@ namespace Objects
                 var appearPos = fleetPosition + new Vector3(1 + 3*count++,0,0);
                 appearable.appearer.setAppearPosition(appearPos,3);
             }
-            appearer.appear(scene);
-            appearer.activeGO.transform.position = fleetPosition;
-            this.ships.mover.fleetTransform = appearer.activeGO.transform;
+            if(appearer.appear(scene)){
+                appearer.activeGO.transform.position = fleetPosition;
+                this.ships.mover.fleetTransform = appearer.activeGO.transform;
+            }
+
         }
     }
     //ui

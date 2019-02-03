@@ -110,13 +110,19 @@ namespace Loaders {
             UnityEngine.SceneManagement.SceneManager.sceneLoaded += onStarLoaded;
         }
         public static void renderGalaxyView(){
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded += onGalaxyLoaded;
+            gameManager.selectedStar = null;
             SceneLoader.LoadByIndex(2);
-            gameManager._starNodes.render(2);
         }
         public static void LoadByIndex (int sceneIndex) {
             SceneManager.LoadScene (sceneIndex);
         }
-
+        public static void onGalaxyLoaded(Scene scene, LoadSceneMode mode)
+        {
+            Debug.Log("OnSceneLoaded=>onGalaxyLoaded()=>renderAll: scene.name:" + scene.name);
+            gameManager._starNodes.render(2);
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded -= onGalaxyLoaded;
+        }
         private static IEnumerator loadBundle (string name) {
             string path;
             path = Application.dataPath+"/" +"StreamingAssets/bundles/"+name;

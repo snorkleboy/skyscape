@@ -38,9 +38,7 @@ namespace Objects
                 }
             }
 
-            Debug.Log("getSceneCameraController:"+ scene.buildIndex);
             cameraController = Camera.main.gameObject.GetComponent<InputController>();
-            Debug.Log("controllableCamera:" +cameraController);
 
         }
         public void getObjectsInBox(Vector3 start, Vector3 end){

@@ -68,7 +68,6 @@ namespace Objects.Galaxy
             thisAppearer.destroy();
             foreach (var item in appearables)
             {
-                Debug.Log("DESTROY");
                 item.appearer.destroy();
             }
         }

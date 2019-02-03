@@ -32,7 +32,6 @@ namespace Objects.Galaxy
             Vector3 direction = OtherStar.appearer.getAppearPosition(2) - starAt.appearer.getAppearPosition(2);
             var pos = Vector3.MoveTowards(selectedStar.appearer.getAppearPosition(3),selectedStar.appearer.getAppearPosition(3)+direction.normalized*500,500);
             setAppearPosition(pos,3);// 
-            Debug.Log(pos + " pos|" + direction + " direction| "  + " " + selectedStar.appearer.getAppearPosition(3) + " selectedStar.appearer.getAppearPosition(3)|" + OtherStar.appearer.getAppearPosition(2) + " OtherStar.appearer.getAppearPosition(2)|" + " " + starAt.appearer.getAppearPosition(2) + " starAt.appearer.getAppearPosition(2) |"  );
             return starAt;
         }
         private void drawLineForGalaxyView(){

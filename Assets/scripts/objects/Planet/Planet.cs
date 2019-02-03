@@ -4,6 +4,7 @@ using System;
 using Objects.Galaxy;
 using UnityEngine.UI;
 using UI;
+using Objects.Conceptuals;
 namespace Objects.Galaxy
 {
     public class PlanetModel{
@@ -12,6 +13,7 @@ namespace Objects.Galaxy
         public int tileWidth;
         public long id;
         public SerializableVector3 position;
+        public long factionId;
         public PlanetModel(){}
         public PlanetModel(Planet planet){
             tileWidth = planet.tileManager.width;
@@ -23,6 +25,7 @@ namespace Objects.Galaxy
             for(var i =0; i<length;i++){
                 tiles[i] = planet.tileManager.tiles[i].model;
             }
+            factionId = planet.owningFaction.id;
         }
 
     }
@@ -41,18 +44,22 @@ namespace Objects.Galaxy
         public Sprite planetSprite;
         public Vector3 position;
         public TileManager tileManager;
+        public Faction owningFaction;
         public void Init(SingleSceneAppearer renderer,Sprite planetSprite,Reference<StarNode> star,PlanetModel model = null)
         {
             if(model !=null){
                 title = model.name;
+                owningFaction = model.factionId.dereference<Faction>();
             }else{
                 title = Names.planetNames.getName();
+                owningFaction = GameManager.instance.user.faction;
+                GameManager.instance.factions.registerPlanetToFaction(this,owningFaction);
             }
             gameObject.name = title;
             parentStar = star;
             this.planetSprite = planetSprite;
             planetRenderer = renderer;
-            GameManager.instance.factions.registerPlanetToFaction(this,GameManager.instance.user.faction);
+
         }
 
         public void appear(int scene)

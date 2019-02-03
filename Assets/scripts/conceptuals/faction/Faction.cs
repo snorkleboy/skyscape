@@ -4,17 +4,34 @@ using UnityEngine;
 using Objects.Galaxy;
 using UI;
 using Loaders;
-
+using Objects;
 namespace Objects.Conceptuals{
 	[System.Serializable]
-	public class Faction :MonoBehaviour,IViewable{
+	public class FactionModel
+	{
+		public FactionModel(){}
+		public FactionModel(Faction faction){
+			id=faction.id;
+			name=faction.name;
+		}
+		public long id;
+		public string name;
+	}
+	public class Faction :MonoBehaviour,ISaveAble<FactionModel>,IIded,IViewable
+	{
 		private iconInfo baseInfo;
+		public long id;
+		public FactionModel model{get{return new FactionModel(this);}}
+		public long getId(){return id;}
 		public Dictionary<string,Planet> ownedPlanets = new Dictionary<string,Planet>();
 		public Dictionary<string,Fleet> fleets = new Dictionary<string, Fleet>();
 		public FleetFactory fleetFactory;
 		public Fleet createFleet(Planet planet){
 			var fleet = fleetFactory.makeFleet(this,planet.parentStar.value, planet.appearer.activeGO.transform.position + new Vector3(2,0,2));
-			planet.GetComponentInParent<StarNode>().addAppearable(fleet);
+			return fleet;
+		}
+		public Fleet createFleet(FleetModel model, StarNode star){
+			var fleet = fleetFactory.makeFleet(this,star, model);
 			return fleet;
 		}
 		public string factionName;

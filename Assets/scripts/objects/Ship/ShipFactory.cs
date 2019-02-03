@@ -20,16 +20,25 @@ namespace Objects.Galaxy
                 Debug.LogWarning("ship factory did not find icon");
             }
         }
-        public Ship makeShip(Fleet fleet){
+        private Ship _makeShip(Fleet fleet){
             var prefab = shipPrefabs[0];
             var shipParent = fleet.transform.Find("ships");
             var shipHolder= new GameObject("ship");
             shipHolder.SetParent(shipParent,false);
             var ship = shipHolder.AddComponent<Ship>();
-            ship.id = GameManager.idMaker.newId(ship);
             var renderer = new SingleSceneAppearer(new sceneAppearInfo(prefab),3,shipHolder.transform);
             ship.Init(renderer);
             fleet.addShips(ship);
+            return ship;
+        }
+        public Ship makeShip(Fleet fleet){
+            var ship = _makeShip(fleet);
+            ship.id = GameManager.idMaker.newId(ship);
+            return ship;
+        }
+        public Ship makeShip(Fleet fleet, ShipModel model){
+            var ship = _makeShip(fleet);
+            ship.id = GameManager.idMaker.insertObject(ship,model.id);
             return ship;
         }
     }

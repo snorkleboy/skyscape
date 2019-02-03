@@ -38,6 +38,10 @@ namespace Objects.Galaxy
             for(var i =0; i<planetNum;i++){
                 planets[i] = node.planetable.planets[i].value.model;
             }
+            fleets = new FleetModel[node.fleets.Count];
+            for(var i =0;i<node.fleets.Count;i++){
+                fleets[i] = new FleetModel(node.fleets[i].value);
+            }
         }
     }
     
