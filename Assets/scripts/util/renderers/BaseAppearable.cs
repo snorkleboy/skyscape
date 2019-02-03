@@ -10,6 +10,7 @@ namespace Objects
     public abstract class BaseAppearable: IAppearer
     {
         protected System.Action<int> preAppear = null;
+        protected int sceneI = -1;
         public void withPreAppearHook(System.Action<int> pre){
             preAppear = pre;
         }
@@ -26,7 +27,8 @@ namespace Objects
             _appearPosition = position;
         }
         [SerializeField]protected GameObject _activeGO;
-        [SerializeField]public virtual Transform attachementPoint { get; set; }
+
+        [SerializeField]public virtual Transform appearTransform { get; set; }
         [SerializeField]protected bool active = false;
         [SerializeField]public virtual GameObject activeGO
         {
@@ -43,6 +45,7 @@ namespace Objects
             if(appeared && postAppear !=null){
                 postAppear(scene);
             }
+            sceneI= scene;
             return appeared;
         }
         protected abstract bool _appearImplimentation(int scene);

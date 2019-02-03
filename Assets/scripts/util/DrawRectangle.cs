@@ -80,12 +80,13 @@ namespace util
         }
         public static List<toFind> getObjectsInBox<toFind>(Bounds bounds) where toFind : MonoBehaviour, IAppearable{
                 var things = GameManager.instance.selectedStar.gameObject.GetComponentsInChildren<toFind>();
-                if (things != null){
+                if (things != null ){
                     Debug.Log(typeof(toFind) + " - things.Length: " +things.Length);
                     var bounded = new List<toFind>();
                     foreach (var item in things)
                     {
-                        if (bounds.Contains(Camera.main.WorldToViewportPoint(item.appearer.activeGO.transform.position))){
+                        var positionToCheck = Camera.main.WorldToViewportPoint(item.appearer.activeGO.transform.position);
+                        if (bounds.Contains(positionToCheck)){
                             bounded.Add(item);
                         }
                     }

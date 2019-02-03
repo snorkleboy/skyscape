@@ -15,6 +15,7 @@ public class SavedGame{
 	public GameManagerModel loadedModel{get;private set;}
 	public void loadData(){
 		data = System.IO.File.ReadAllText(fileName);
+		deserialize();
 	}
 	public void deserialize(){
 		loadedModel = JsonConvert.DeserializeObject<GameManagerModel>(data);

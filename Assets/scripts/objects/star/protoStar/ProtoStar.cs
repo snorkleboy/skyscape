@@ -13,15 +13,15 @@ namespace Objects.Galaxy
         public IAppearer appearer { get { return starRenderer; } 
             set
             {
-                starRenderer = (HolderAppearer)value;
+                starRenderer = (LinkedAppearer)value;
             }
         }
-        public HolderAppearer starRenderer;
+        public LinkedAppearer starRenderer;
         public Transform transform { get { return appearer.activeGO.transform; } }
         public Vector3 position;
 
         [SerializeField] private List<ProtoStarConnection> _connections = new List<ProtoStarConnection>();
-        public ProtoStar(HolderAppearer renderer)
+        public ProtoStar(LinkedAppearer renderer)
         {
             this.starRenderer = renderer;
         }

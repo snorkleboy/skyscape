@@ -20,13 +20,13 @@ namespace Objects.Galaxy
         public Planet makePlanet(StarNode star, Vector3 position,PlanetModel model = null)
         {
             var parent = new GameObject("planet");
-            var planetHolder = star.gameObject.transform.Find("planetHolder");
+            var planetHolder = star.getChildrenTransform();
             parent.SetParent(planetHolder,false);
             var planet = parent.AddComponent<Planet>();
             var rep = new SingleSceneAppearer(new sceneAppearInfo(baseStarFab,position),3,parent.transform);
 
             var sprite = planetSprites[Random.Range(0,planetSprites.Length-1)];
-            planet.Init(rep,sprite,model);
+            planet.Init(rep,sprite,new Reference<StarNode>(star),model);
             planet.position = position;
             if(model == null){
                 planet.tileManager = tileFactory.makeTileManager();

@@ -33,11 +33,11 @@ namespace Objects.Galaxy
         }
     }
 
-    [CustomEditor(typeof(Planetable),true)]
+    [CustomEditor(typeof(Spaceable),true)]
     public class PlanetableEditor : Editor 
     {
         public override void OnInspectorGUI() {
-            Planetable myTarget = (Planetable)target;
+            Spaceable myTarget = (Spaceable)target;
             EditorGUILayout.LabelField("planets: ");
             EditorGUILayout.BeginVertical ();
             foreach (var planet in myTarget.planets.getAllReferenced())

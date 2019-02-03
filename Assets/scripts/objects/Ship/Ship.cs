@@ -7,8 +7,23 @@ using Loaders;
 using UI;
 namespace Objects.Galaxy
 {
-    public partial class Ship : MoveAbleGameObject
+    public class ShipModel{
+        public ShipModel(){}
+
+        public ShipModel(Ship ship){
+            id=ship.id;
+            position = ship.mover.getPosition();
+        }
+        public long id;
+
+        public SerializableVector3 position;
+
+    }
+    public partial class Ship : MoveAbleGameObject,ISaveAble<ShipModel>,IIded
     {
+        public long id;
+        public long getId(){return id;}
+        public ShipModel model{get{return new ShipModel(this);}}
         public override IMover mover{get{return moverHelper;}}
         private ShipMover moverHelper;
         public void Init(SingleSceneAppearer renderer){

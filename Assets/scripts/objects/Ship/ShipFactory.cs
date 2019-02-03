@@ -26,6 +26,7 @@ namespace Objects.Galaxy
             var shipHolder= new GameObject("ship");
             shipHolder.SetParent(shipParent,false);
             var ship = shipHolder.AddComponent<Ship>();
+            ship.id = GameManager.idMaker.newId(ship);
             var renderer = new SingleSceneAppearer(new sceneAppearInfo(prefab),3,shipHolder.transform);
             ship.Init(renderer);
             fleet.addShips(ship);

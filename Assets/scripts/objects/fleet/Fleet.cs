@@ -7,13 +7,34 @@ using Loaders;
 
 namespace Objects
 {
+    public class FleetModel{
+        public FleetModel(){}
+        public FleetModel(Fleet fleet){
+            position = fleet.fleetPosition;
+            var ships = fleet.GetShips();
+            var models = new List<ShipModel>();
+            foreach (var ship in ships)
+            {
+                models.Add(new ShipModel(ship));
+            }
+            shipModels = models.ToArray();
+            id=fleet.id;
+        }
+        public SerializableVector3 position;
+        public long id;
+        public ShipModel[] shipModels;
+
+    }
     //setup
-    public partial class Fleet:MoveAbleGameObject,IViewable,ISelectable{
-        public void Init(string name, Sprite icon, HolderAppearer renderHelper){
+    public partial class Fleet:MoveAbleGameObject,ISaveAble<FleetModel>,IViewable,ISelectable,IIded{
+        public FleetModel model{get{return new FleetModel(this);}}
+        public long id;
+        public long getId(){return id;}
+        public void Init(string name, Sprite icon, LinkedAppearer renderHelper,Vector3 position){
             this.name = name;
             this.icon = icon;
+            this.fleetPosition = position;
             this._appearer = renderHelper;
-            var a = getIconableInfo();
             var fleetMover = gameObject.AddComponent<FleetMover>();
             ships = new ShipManager(fleetMover);
         }
@@ -64,12 +85,13 @@ namespace Objects
             _appearer.addAppearables(ships.ToArray());
             return this;
         }
+        public IEnumerable<Ship> GetShips(){return ships.ships;}
 
     }
     // rendering
     public partial class Fleet{
         public override IAppearer appearer{get{return _appearer;}} 
-        private HolderAppearer _appearer;
+        private LinkedAppearer _appearer;
         public override void appear(int scene){
             var count = 0;
             foreach (var appearable in _appearer.appearables){

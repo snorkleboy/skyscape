@@ -21,7 +21,7 @@ namespace Objects.Galaxy
     {
         public MultiSceneAppearer(sceneAppearInfo[] appearInfo, Transform parent)
         {
-            this.attachementPoint = parent;
+            this.appearTransform = parent;
             sceneRenderers = new SingleSceneAppearer[appearInfo.Length];
             for(var i =0; i<appearInfo.Length;i++){
                 sceneRenderers[i] = new SingleSceneAppearer(appearInfo[i],i,parent);
@@ -43,7 +43,7 @@ namespace Objects.Galaxy
                 return Vector3.negativeInfinity;
             }
         }
-        public override Transform attachementPoint { get; set; }
+        public override Transform appearTransform { get; set; }
         private int activeScene = -1;
         [SerializeField]private SingleSceneAppearer[] sceneRenderers;
 

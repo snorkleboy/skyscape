@@ -20,7 +20,7 @@ public class MoveAbleGameObjectDrawer : Editor
         EditorGUILayout.LabelField("finished",myTarget.previousAction !=null ? myTarget.previousAction.routineInstance.finished.ToString() : "no prev state");
 
         EditorGUILayout.LabelField("renderHelper", myTarget.appearer.ToString());
-        EditorGUILayout.ObjectField("parent", myTarget.appearer.attachementPoint, typeof(Transform));
+        EditorGUILayout.ObjectField("parent", myTarget.appearer.appearTransform, typeof(Transform));
         EditorGUILayout.ObjectField("transform:", myTarget.appearer.activeGO.transform, typeof(Transform), true);
 
         EditorGUILayout.LabelField("getPosition", myTarget.mover.getPosition().ToString());

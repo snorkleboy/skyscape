@@ -10,27 +10,25 @@ namespace Objects.Galaxy
         [SerializeField] private GameObject _prefab;
         public override void setAppearPosition(Vector3 position, int scene){
             _appearPosition = position;
-            _scene = scene;
+            _sceneToAppearOn = scene;
         }
-        private int _scene;
+        private int _sceneToAppearOn;
         public SingleSceneAppearer(sceneAppearInfo info, int scene, Transform parent)
         {
             _prefab = info.prefab;
-            _scene = scene;
-            this.attachementPoint = parent;
+            _sceneToAppearOn = scene;
+            this.appearTransform = parent;
             this._appearPosition = info.appearPosition;
         }
 
-        private int activeScene = -1;
         protected override bool _appearImplimentation(int scene)
         {
-            activeScene = scene;
             destroy();
-            if (scene == _scene){
-                if(attachementPoint){
-                    activeGO = GameObject.Instantiate(_prefab, attachementPoint);
+            if (scene == _sceneToAppearOn){
+                if(appearTransform){
+                    activeGO = GameObject.Instantiate(_prefab, appearTransform);
                 }else{
-                    util.Log.warnLog(this,"appearing object without an attachement point",_prefab,_scene);
+                    util.Log.warnLog(this,"appearing object without an attachement point",_prefab,_sceneToAppearOn);
                     activeGO = GameObject.Instantiate(_prefab);
                 }
                 active = true;
@@ -41,9 +39,7 @@ namespace Objects.Galaxy
             }
         }
         public override void destroy(){
-            if(activeScene != _scene){
-                base.destroy();
-            }
+            base.destroy();
         }
 
     }

@@ -6,7 +6,7 @@ namespace Objects.Galaxy
     public class ProtoStarConnectionRenderer : MultiSceneAppearer
     {
         ProtoStar[] nodes;
-        public override Transform attachementPoint { get; set; }
+        public override Transform appearTransform { get; set; }
         public ProtoStarConnectionRenderer(sceneAppearInfo[] sceneToPrefab, ProtoStar[] nodes) : base(sceneToPrefab,nodes[0].transform)
         {
             this.nodes = nodes;

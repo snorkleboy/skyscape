@@ -13,9 +13,8 @@ namespace Objects.Conceptuals{
 		public Dictionary<string,Fleet> fleets = new Dictionary<string, Fleet>();
 		public FleetFactory fleetFactory;
 		public Fleet createFleet(Planet planet){
-			var fleet = fleetFactory.makeFleet(this,planet.transform.parent, planet.transform.position + new Vector3(2,0,2));
-			planet.GetComponentInParent<StarNode>().enterStar(fleet);
-			fleet.fleetPosition = planet.appearer.activeGO.transform.position + new Vector3(2,0,2);
+			var fleet = fleetFactory.makeFleet(this,planet.parentStar.value, planet.appearer.activeGO.transform.position + new Vector3(2,0,2));
+			planet.GetComponentInParent<StarNode>().addAppearable(fleet);
 			return fleet;
 		}
 		public string factionName;

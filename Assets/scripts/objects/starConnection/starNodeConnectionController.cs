@@ -11,7 +11,7 @@ public class starNodeConnectionController : MonoBehaviour {
 	StarNode other;
 	public TextMesh text;
 	public void set (StarConnection starConnection) {
-		starNode = GetComponentInParent<StarNode>();
+		starNode = GameManager.instance.selectedStar;
 		if(starNode == null){
 			Debug.Log("starNode not found in starconnection");
 		}

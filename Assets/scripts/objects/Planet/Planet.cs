@@ -36,11 +36,12 @@ namespace Objects.Galaxy
         }
         public IAppearer appearer { get { return planetRenderer; } }
         public string title;
+        public Reference<StarNode> parentStar;
         [SerializeField]private SingleSceneAppearer planetRenderer { get; set; }
         public Sprite planetSprite;
         public Vector3 position;
         public TileManager tileManager;
-        public void Init(SingleSceneAppearer renderer,Sprite planetSprite,PlanetModel model = null)
+        public void Init(SingleSceneAppearer renderer,Sprite planetSprite,Reference<StarNode> star,PlanetModel model = null)
         {
             if(model !=null){
                 title = model.name;
@@ -48,7 +49,7 @@ namespace Objects.Galaxy
                 title = Names.planetNames.getName();
             }
             gameObject.name = title;
-
+            parentStar = star;
             this.planetSprite = planetSprite;
             planetRenderer = renderer;
             GameManager.instance.factions.registerPlanetToFaction(this,GameManager.instance.user.faction);
@@ -76,8 +77,6 @@ namespace Objects.Galaxy
             button.onClick.AddListener(()=>{
                 var fleet = GameManager.instance.factions.GetFaction(this).createFleet(this);
                 Debug.Log("fleet created: " + fleet);
-                fleet.appear(3);
-                // fleet.transform.position = renderHelper.transform.position + new Vector3(2,0,2);
             });
             var text = makeShipButton.AddComponent<Text>();
             text.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;

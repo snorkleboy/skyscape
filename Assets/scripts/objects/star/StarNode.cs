@@ -19,6 +19,7 @@ namespace Objects.Galaxy
         public string name;
         public StarConnectionModel[] starConnections;
         public PlanetModel[] planets;
+        public FleetModel[] fleets;
         public StarNodeModel(){}
         public StarNodeModel(StarNode node){
             position = node.transform.position;
@@ -32,7 +33,7 @@ namespace Objects.Galaxy
                 starConnections[i] = node.connectable.connections[i].model;
             }
 
-            var planetNum = node.planetable.planets.Length;
+            var planetNum = node.planetable.planets.Count;
             planets = new PlanetModel[planetNum];
             for(var i =0; i<planetNum;i++){
                 planets[i] = node.planetable.planets[i].value.model;
@@ -47,17 +48,19 @@ namespace Objects.Galaxy
         public long getId(){
             return id;
         }
+        public Transform getChildrenTransform(){return this.transform.Find("children");}
+        public Transform getRepresentationTransform(){return appearer.appearTransform;}
         public StarNodeModel model{get{return new StarNodeModel(this);}}
         public FactoryStamp stamp;
 
-        public void Init(HolderAppearer renderer, Sprite Icon)
+        public void Init(LinkedAppearer renderer, Sprite Icon)
         {
             name = Names.starNames.getName();
             gameObject.name = name;
             this.Icon = Icon;
             this.starAppearer = renderer;
             this.connectable = ScriptableObject.CreateInstance<Connectable>();
-            this.planetable = ScriptableObject.CreateInstance<Planetable>();
+            this.planetable = ScriptableObject.CreateInstance<Spaceable>();
         }
         public void appear(int scene)
         {
@@ -70,8 +73,9 @@ namespace Objects.Galaxy
     //attributes
     [System.Serializable]
     public partial class StarNode{
+        public List<Reference<Fleet>> fleets = new List<Reference<Fleet>>();
         public IAppearer appearer { get { return starAppearer; } }
-        public HolderAppearer starAppearer;
+        public LinkedAppearer starAppearer;
         public Sprite Icon;
         [SerializeField]public Connectable connectable;
         public void addConnection(StarConnection connection)
@@ -82,21 +86,29 @@ namespace Objects.Galaxy
             ));
             if (!alreadyAdded){
                 connectable.addConnection(connection);
-                enterStar(connection);
+                addAppearable(connection);
             }
             
         }
-        [SerializeField]public Planetable planetable;
+        [SerializeField]public Spaceable planetable;
         public void setPlanets(Reference<Planet>[] planets) {
-            planetable.planets = planets;
-            enterStar(planets.getAllReferenced());
+            planetable.planets = planets.ToList();
+            addAppearable(planets.getAllReferenced());
         }
-
+        public void fleetEnter(Fleet fleet){
+            enterStar(fleet);
+            fleets.Add(new Reference<Fleet>(fleet));
+        }
 
         public void enterStar(IAppearable appearable){
-            starAppearer.addAppearables(appearable);
+            appearable.appearer.appearTransform.SetParent(getChildrenTransform());
+            addAppearable(appearable);
         }
-        public void enterStar(IEnumerable<IAppearable> appearables){
+        public void addAppearable(IAppearable appearable){
+            starAppearer.addAppearables(appearable);
+            
+        }
+        public void addAppearable(IEnumerable<IAppearable> appearables){
             starAppearer.addAppearables(appearables);
         }
         public void exitStar(IAppearable appearable){
@@ -117,7 +129,7 @@ namespace Objects.Galaxy
             info.icon = Icon;
             var details = new iconInfo[2];
             var detail = new iconInfo();
-            detail.name = planetable.planets.Length.ToString();
+            detail.name = planetable.planets.Count.ToString();
             var bundle = AssetSingleton.bundles[AssetSingleton.bundleNames.sprites];
             var asset = bundle.LoadAsset<Sprite>("43");
             detail.icon = asset;

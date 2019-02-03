@@ -54,7 +54,7 @@ namespace Objects.Galaxy
             infos[3].appearPosition = Vector3.zero;
             infos[2].appearPosition = position;
             var mainrep = new MultiSceneAppearer(infos,representation.transform);
-            var rep = new HolderAppearer(mainrep);
+            var rep = new LinkedAppearer(mainrep);
 
             star.Init(rep,starIconSprites[0]);
             star.transform.name = star.name;
@@ -70,7 +70,7 @@ namespace Objects.Galaxy
         {
             var starGo = new GameObject("starNode");
             var star = starGo.AddComponent<StarNode>();
-            var planetHolder = new GameObject("planetHolder");
+            var planetHolder = new GameObject("children");
             planetHolder.transform.SetParent(starGo.transform);
             starGo.name = star.name;
             return star;

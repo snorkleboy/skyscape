@@ -23,7 +23,7 @@ namespace Objects.Galaxy
             infos[0].appearPosition = a.appearer.getAppearPosition(0);
             var renderer = new ProtoStarConnectionRenderer(infos, starNodes);
             conn.Init(Random.Range(.01f, .99f), starNodes, renderer);
-            renderer.attachementPoint = a.transform;
+            renderer.appearTransform = a.transform;
 
 
             conn.appear(0);

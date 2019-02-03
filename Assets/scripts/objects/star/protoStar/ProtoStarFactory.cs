@@ -16,7 +16,7 @@ namespace Objects.Galaxy
         public ProtoStar createStar(Transform holder)
         {
             var mainAppearer = new SingleSceneAppearer(new sceneAppearInfo(_sceneToPrefab[0],Vector3.zero),0,holder);
-            var rep = new HolderAppearer(mainAppearer);
+            var rep = new LinkedAppearer(mainAppearer);
             var star = new ProtoStar(rep);
             star.appear(0);
             return star;

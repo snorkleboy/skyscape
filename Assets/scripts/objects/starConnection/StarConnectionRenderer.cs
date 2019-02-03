@@ -8,9 +8,9 @@ namespace Objects.Galaxy
     public class StarConnectionAppearer : MultiSceneAppearer
     {
         Reference<StarNode>[] nodes;
-        public override Transform attachementPoint { get; set; }
+        public override Transform appearTransform { get; set; }
         StarConnection conn;
-        public StarConnectionAppearer(sceneAppearInfo[] sceneToPrefab, StarConnection conn,Reference<StarNode>[] nodes) : base(sceneToPrefab,nodes[0].value.appearer.attachementPoint)
+        public StarConnectionAppearer(sceneAppearInfo[] sceneToPrefab, StarConnection conn,Reference<StarNode>[] nodes) : base(sceneToPrefab,nodes[0].value.appearer.appearTransform)
         {
             this.nodes = nodes;
             this.conn = conn;

@@ -8,7 +8,7 @@ namespace Objects
         Vector3 getAppearPosition(int scene);
 
         GameObject activeGO { get; }
-        Transform attachementPoint { set;get; }
+        Transform appearTransform { set;get; }
         bool isActive{get;}
         bool appear(int scene);
         void destroy();
@@ -16,6 +16,7 @@ namespace Objects
     public interface IAppearable
     {
         IAppearer appearer {get;}
+        Transform transform{get;}
         void appear(int context);
     }
 }

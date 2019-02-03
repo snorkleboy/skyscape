@@ -82,7 +82,6 @@ namespace Objects
         } 
         private IEnumerator buildGameFromSave(SavedGame savedGame){
             yield return null;
-            savedGame.deserialize();
             objectTable = new ObjectTable();
             idMaker = new UniqueIdMaker(savedGame.loadedModel.idMaker,objectTable);
 

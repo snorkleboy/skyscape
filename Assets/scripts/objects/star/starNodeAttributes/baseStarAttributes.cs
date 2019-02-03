@@ -9,19 +9,9 @@ using Objects.Conceptuals;
 using UnityEditor;
 namespace Objects.Galaxy
 {
-    public class Planetable: ScriptableObject{
-        [SerializeField]private Reference<Planet>[] _planets;
-        public Reference<Planet>[] planets {
-            get
-            {
-                return _planets;
-            }
-            set
-            {
-                _planets = value;
-            }
-        }
-
+    public class Spaceable: ScriptableObject{
+        public List<Reference<Planet>> planets;
+        public List<Reference<Fleet>> fleets;
     }
 
     public class Connectable : ScriptableObject{
@@ -39,7 +29,6 @@ namespace Objects.Galaxy
         }
         public StarConnection getConnection(long id){
             foreach(var connection in _connections){
-                Debug.Log("SEARCHING THROUGH CONNECTIONS FOR " + id + " " + connection.nodes[0].getId() + " " + connection.nodes[1].getId());
                 if(connection.nodes[0].getId() == id || connection.nodes[1].getId() == id){
                     return connection;
                 }

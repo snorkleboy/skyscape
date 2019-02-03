@@ -7,22 +7,22 @@ using UnityEngine.SceneManagement;
 namespace Objects.Galaxy
 {
     [System.Serializable]
-    public partial class HolderAppearer: BaseAppearable, ISerializationCallbackReceiver{
-        public HolderAppearer(IAppearer appearer){
+    public partial class LinkedAppearer: BaseAppearable, ISerializationCallbackReceiver{
+        public LinkedAppearer(IAppearer appearer){
             this.thisAppearer = appearer;
         }
-        public HolderAppearer(IAppearer appearer,IAppearable appearable):this(appearer){
+        public LinkedAppearer(IAppearer appearer,IAppearable appearable):this(appearer){
             this.appearables.Add(appearable);
         }
-        public HolderAppearer(IAppearer appearer,IAppearable[] appearables):this(appearer){
+        public LinkedAppearer(IAppearer appearer,IAppearable[] appearables):this(appearer){
             this.appearables.AddRange(appearables);
         }     
     }
 
-    public partial class HolderAppearer{
+    public partial class LinkedAppearer{
         private IAppearer thisAppearer;
         
-        public override Transform attachementPoint{get{return thisAppearer.attachementPoint;}}
+        public override Transform appearTransform{get{return thisAppearer.appearTransform;}}
         public List<IAppearable> appearables = new List<IAppearable>();
         public void setAppearables(IEnumerable<IAppearable> renderables){
             this.appearables = new List<IAppearable>();
@@ -31,14 +31,23 @@ namespace Objects.Galaxy
         public void addAppearables(IEnumerable<IAppearable> renderablesIn)
         {
             this.appearables.AddRange(renderablesIn);
+            if(active){
+                foreach(var appearable in renderablesIn){
+                    appearable.appear(sceneI);
+                }
+            }
         }
         public void addAppearables(IAppearable renderable)
         {
             this.appearables.Add(renderable);
+            if(active){
+                renderable.appear(sceneI);
+            }
         }
         protected override bool _appearImplimentation(int scene){
+            sceneI = scene;
             active = thisAppearer.appear(scene);
-
+            
             foreach (var appearable in appearables)
             {
                 appearable.appear(scene);
@@ -59,6 +68,7 @@ namespace Objects.Galaxy
             thisAppearer.destroy();
             foreach (var item in appearables)
             {
+                Debug.Log("DESTROY");
                 item.appearer.destroy();
             }
         }

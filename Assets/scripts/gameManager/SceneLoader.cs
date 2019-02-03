@@ -46,9 +46,9 @@ namespace Loaders {
                 Debug.LogError("startGame cant find text");
             }
             textEl.text = "loading";
+            Log("loading bundles",textEl);
             yield return new WaitForSeconds(.1f);
 
-            Log("loading bundles",textEl);
             if (!Application.isEditor){
                 Log("loading bundles: "+spritesStr,textEl);
                 yield return loadBundle(spritesStr);
@@ -56,17 +56,19 @@ namespace Loaders {
                 yield return loadBundle(prefabStr);
             }else{
                 Log("loading bundles: "+spritesStr,textEl);
+                yield return new WaitForSeconds(.1f);
                 loadBundleSync(spritesStr);
                 Log("loading bundles: "+prefabStr,textEl);
+                yield return new WaitForSeconds(.1f);
                 loadBundleSync(prefabStr);
             }
-            yield return new WaitForSeconds(.1f);
-
             Log("loading assets ",textEl);
-            SceneLoader.loadAssets();
             yield return new WaitForSeconds(.1f);
+            SceneLoader.loadAssets();
 
             Log("Making Factories",textEl);
+            yield return new WaitForSeconds(.1f);
+
             // gameManager.shipFactory = gameManager.gameObject.AddComponent<ShipFactory>();
             var creator = GameObject.Instantiate(gameManager.GameCreatorPrefab);
             gameManager.galaxyCreator = creator.GetComponentInChildren<GameGalaxyCreator>();
@@ -81,10 +83,11 @@ namespace Loaders {
             yield return new WaitForSeconds(.1f);
 
             Log("setting up UI",textEl);
+            yield return new WaitForSeconds(.1f);
             gameManager.UIManager.setGameManager(gameManager);
             UnityEngine.SceneManagement.SceneManager.sceneLoaded += gameManager.UIManager.getSceneCanvas;
-            yield return new WaitForSeconds(.1f);
             Log("loading galaxy scene",textEl);
+            yield return new WaitForSeconds(.1f);
             LoadByIndex(2);
             yield return new WaitForSeconds(.1f);
             Debug.Log("rendering galaxy");

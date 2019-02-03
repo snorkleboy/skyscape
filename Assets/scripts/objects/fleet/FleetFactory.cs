@@ -24,13 +24,12 @@ namespace Objects
                 Debug.LogWarning("fleet factory did not find fleet prefab");
             }
         }
-        public Fleet makeFleet(Faction faction, Transform parent, Vector3 position){
+        public Fleet makeFleet(Faction faction, StarNode parent, Vector3 position){
             var fleetGo = new GameObject("fleet");
-            fleetGo.SetParent(parent, false);
             var fleetGoShipsHolder = new GameObject("ships");
             fleetGoShipsHolder.SetParent(fleetGo);
             var fleet = fleetGo.AddComponent<Fleet>();
-
+            fleet.id = GameManager.idMaker.newId(fleet);
             var infos = new sceneAppearInfo[sceneToPrefab.Length];
             for (int i = 0; i < infos.Length; i++)
             {
@@ -38,17 +37,16 @@ namespace Objects
             }
             infos[3].appearPosition = position;
             var mainrep = new MultiSceneAppearer(infos,fleetGo.transform);
-            var fleetRenderer = new HolderAppearer(mainrep);
+            var fleetRenderer = new LinkedAppearer(mainrep);
 
-            fleet.Init("fleet" +  faction.fleets.Count,icon,fleetRenderer);
+            fleet.Init("fleet" +  faction.fleets.Count,icon,fleetRenderer,position);
             faction.fleets[fleet.name] = fleet;
             fleetGo.name = fleet.name;
 
-
             shipFactory.makeShip(fleet);
             shipFactory.makeShip(fleet);
             shipFactory.makeShip(fleet);
-
+            parent.enterStar(fleet);
             return fleet;
         }
     }
