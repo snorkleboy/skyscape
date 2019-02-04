@@ -20,16 +20,17 @@ namespace Objects
 
         public InputController cameraController;
         public InputController objectinputController;
+        public DragBox dragSelect;
         public void setGameManager(GameManager manager){
             gameManager = manager;
         }
         public void getSceneCanvas(Scene scene, LoadSceneMode mode){
-            Debug.Log("getSceneCanvas:"+ scene.buildIndex);
+            Debug.Log("UIMANAGER:getSceneCanvas:"+ scene.buildIndex);
             sceneCanvas = CanvasProvider.canvas;
             if (sceneCanvas == null){
                 Debug.LogWarning("scene canvas not found. scene:"+ scene.buildIndex);
             }else{
-                DragBox dragSelect;
+                dragSelect = null;
                 if (dragSelect = sceneCanvas.GetComponentInChildren<DragBox>()){
                     dragSelect.onMouseUp = getObjectsInBox;
                     dragSelect.onStartDrag = ()=>{
@@ -37,7 +38,6 @@ namespace Objects
                     };
                 }
             }
-
             cameraController = Camera.main.gameObject.GetComponent<InputController>();
 
         }

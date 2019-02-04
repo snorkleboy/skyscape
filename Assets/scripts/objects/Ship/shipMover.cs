@@ -14,10 +14,10 @@ namespace Objects
             this.speed = speed;
         }
         public override StateAction setTarget(Vector3 target,float d = .5f){
-            if(previousStateAction !=null){
-                previousStateAction.Destroy();
+            if(StateAction !=null){
+                StateAction.Destroy();
             }
-            return previousStateAction = new Objects.Galaxy.ship.MoveToPoint().Init(transform,speed,d,target);
+            return StateAction = new Objects.Galaxy.ship.MoveToPoint().Init(transform,speed,d,target);
         }
 
     }

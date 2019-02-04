@@ -82,7 +82,6 @@ namespace Objects
         } 
         private IEnumerator buildFromProtoStars(Dictionary<int,List<ProtoStar>> protoNodes){
             yield return null;
-            Debug.Log("HERE");
             objectTable = new ObjectTable();
             idMaker = new UniqueIdMaker(0,objectTable);
 

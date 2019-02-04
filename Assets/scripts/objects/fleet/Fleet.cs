@@ -22,12 +22,14 @@ namespace Objects
             id=fleet.id;
             factionId = fleet.owningFaction.id;
             name = fleet.name;
+            stateAction = fleet.stateAction.model;
         }
         public SerializableVector3 position;
         public string name;
         public long factionId;
         public long id;
         public ShipModel[] shipModels;
+        public StateActionModel stateAction;
 
     }
     //setup
@@ -49,36 +51,32 @@ namespace Objects
         public void Awake(){
             controls = new List<inputAction>()
                 {
-                    new inputAction(
-                        ()=>
-                        {
-                            var down = Input.GetMouseButtonDown(1);
-                            return down;
-                        },
-                        ()=>
-                        {
-                            Debug.Log("set position " + this);
-                            Ray castPoint = Camera.main.ScreenPointToRay(Input.mousePosition);
-                            RaycastHit hit;
-                            if (Physics.Raycast(castPoint, out hit, Mathf.Infinity))
-                            {
-                                var newvec = hit.point;
-                                newvec.y = 0;
-                                setStateAction(mover.setTarget(newvec));
-                            }else{
-                                Debug.Log("no hit");
-                            }
-
-                        }
-                    ),
+                    new inputAction(checkClick,moveTo),
                 };
+        }
+        public bool checkClick(){
+            var down = Input.GetMouseButtonDown(1);
+            return down;
+        }
+        public void moveTo(){
+            Debug.Log("set position " + this);
+            Ray castPoint = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(castPoint, out hit, Mathf.Infinity))
+            {
+                var newvec = hit.point;
+                newvec.y = 0;
+                setStateAction(FleetStateActions.moveFleet(this,newvec));
+            }else{
+                Debug.Log("no hit");
+            }
         }
     }
     public partial class Fleet
     {
         public override IMover mover{get{return ships.mover;}}
         public Vector3 fleetPosition;
-        private ShipManager ships;
+        public ShipManager ships;
         public Vector3 getPosition(){
             return ships.getPostion();
         }
@@ -117,7 +115,6 @@ namespace Objects
         public InputController getInputController(GameObject parent){
             var controller = parent.AddComponent<InputController>();
             controller.Init(controls ,this.gameObject);
-            Debug.Log("controller  " + controller);
             return controller;
         }
         public override iconInfo getIconableInfo(){
@@ -129,6 +126,15 @@ namespace Objects
         }
         public GameObject renderUIView(Transform parent, clickViews callbacks){
             return new GameObject();
+        }
+
+        public static class FleetStateActions{
+            public static StateAction moveFleet(Fleet fleet,Vector3 target){
+                return new MoveFleet().Init(fleet, target);
+            }
+            public static StateAction moveFleet(Fleet fleet,MoveFleetModel model){
+                return new MoveFleet().Init(fleet, model.target);
+            }
         }
     }
 

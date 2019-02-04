@@ -52,18 +52,18 @@ namespace Objects
             
             Debug.Log("set state action " + action);
             if(this.stateAction!= null && this.stateAction.routineInstance.unityRoutine != null){
-                var msg = "stop coroutine " + this.stateAction.routineInstance.unityRoutine + " routiner finished:" + this.stateAction.routineInstance.finished;
-                Debug.Log(msg);
-                StopCoroutine(this.stateAction.routineInstance.unityRoutine);
-                previousAction = stateAction;
+                stopPreviousAction();
             }
             this.stateAction = action;
             this.stateAction.routineInstance = this.runRoutine(action);
         }
-
+        private void stopPreviousAction(){
+                var msg = "stop coroutine " + this.stateAction.routineInstance.unityRoutine + " routiner finished:" + this.stateAction.routineInstance.finished;
+                Debug.Log(msg);
+                previousAction = stateAction;
+                StopCoroutine(previousAction.routineInstance.unityRoutine);
+        }
         public string title;
-
-
     }
 
 

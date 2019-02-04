@@ -408,7 +408,7 @@ GameObject:
   - component: {fileID: 1849367452}
   - component: {fileID: 1849367453}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: dragBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

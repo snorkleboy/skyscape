@@ -7,9 +7,9 @@ namespace Objects
     [System.Serializable]
     public class FleetMover : Mover
     {
-        private List<IMover> subMovers = new List<IMover>();
+        public List<IMover> subMovers = new List<IMover>();
         public Transform fleetTransform;
-        public MoveFleet moveFleetBehavior;
+        public Fleet fleet;
         public override Vector3 getPosition(){
             return fleetTransform.position;
         }
@@ -21,23 +21,61 @@ namespace Objects
         }
 
         public override StateAction setTarget(UnityEngine.Vector3 target, float d = 0.5f){
-            return moveFleetBehavior = new MoveFleet().Init(subMovers, target, fleetTransform);
+            return Fleet.FleetStateActions.moveFleet(fleet, target);
         }
     }
     [System.Serializable]
+    public class MoveFleetModel :StateActionModel{
+        public MoveFleetModel(){}
+        public MoveFleetModel(MoveFleet action){
+            target = action.target;
+            constructorName = nameof(Fleet.FleetStateActions.moveFleet);
+        }
+        public override Objects.StateAction hydrate<T>(T stateSource){
+            Fleet fleet= stateSource as Fleet;
+            if (fleet == null){
+                Debug.LogError("couldnt cast stateSource to fleet");
+                return null;
+            }else{
+                return new MoveFleet().Init(fleet, target);
+            }
+
+        }
+        public SerializableVector3 target;
+
+    }
+    [System.Serializable]
     public class MoveFleet : Objects.StateAction{
+        public override StateActionModel model{get{return new MoveFleetModel(this);}}
         List<IMover> subMovers;
-        List<StateAction> subActions = new List<StateAction>();
-        Vector3 target;
+        [SerializeField] List<StateAction> subActions = new List<StateAction>();
+        public Vector3 target;
         Transform fleetRepresentationTransform;
-        public MoveFleet Init(List<IMover> subMovers, Vector3 target, Transform fleetIcon){
-            this.subMovers = subMovers;
+        bool tempActive = true;
+        Fleet tempFleet;
+        public MoveFleet Init(Fleet fleet, Vector3 target){
+
+            this.subMovers = fleet.ships.mover.subMovers;
             this.target = target;
-            this.fleetRepresentationTransform = fleetIcon;
-            base.Init();
+            if(fleet.appearer.isActive){
+                this.fleetRepresentationTransform = fleet.appearer.activeGO.transform;
+            }else{
+                tempActive = false; 
+                tempFleet = fleet;
+            }
+            base._Init();
             return this;
         }
         protected override IEnumerator getEnumerator(){
+            while(!tempActive){
+                Debug.Log("is active check");
+                yield return util.Routiner.wait(2);
+                if(tempFleet.appearer.isActive){
+                    Debug.Log("active");
+                    tempActive = true;
+                    Init(tempFleet,target);
+                }
+            }
             float offset = 0;
             var shipsMovingBehavior = new IEnumerator[subMovers.Count];
             var count = 0;
@@ -51,7 +89,7 @@ namespace Objects
                 shipsMovingBehavior[count++] = subaction;
                 offset += 1;
             }
-            return util.Routiner.Any(
+            yield return util.Routiner.Any(
                 keepIconToAveragePosition(),
                 timedOutMove(shipsMovingBehavior,util.Routiner.wait(15))
             );

@@ -66,6 +66,9 @@ namespace Objects
                 var ship = shipFactory.makeShip(fleet,shipModel);
             }
             parent.fleetEnter(fleet);
+            if(model.stateAction != null){
+                fleet.setStateAction(model.stateAction.hydrate(fleet));
+            }
             return fleet;
         }
     }

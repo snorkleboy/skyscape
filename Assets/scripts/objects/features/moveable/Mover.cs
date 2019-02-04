@@ -10,7 +10,7 @@ namespace Objects
     public abstract class BasicMover :MonoBehaviour, IMover{
         public float speed = 5f;
         public virtual Vector3 getPosition(){return transform.position;}
-        public StateAction previousStateAction;
+        public StateAction StateAction;
         public abstract void Init(float speed = 5f);
         public abstract StateAction setTarget(Vector3 target,float d = .5f);
 
@@ -21,10 +21,10 @@ namespace Objects
             this.speed = speed;
         }
         public override StateAction setTarget(Vector3 target,float d = .5f){
-            if(previousStateAction !=null){
-                previousStateAction.Destroy();
+            if(StateAction !=null){
+                StateAction.Destroy();
             }
-            return previousStateAction = new MoveTransform().Init(transform,speed,d,target);
+            return StateAction = new MoveTransform().Init(transform,speed,d,target);
         }
     }
 }

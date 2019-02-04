@@ -19,7 +19,7 @@ namespace Objects.Galaxy.ship
             this.speed = speed;
             this.controlledTransform = controlledTransform;
             lineRenderer = util.Line.DrawTempLine(controlledTransform.position,targetVector,Color.green,3);
-            base.Init();
+            base._Init();
             return this;
         }
         protected override IEnumerator getEnumerator(){

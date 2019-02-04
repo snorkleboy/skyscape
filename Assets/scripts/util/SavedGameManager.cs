@@ -18,7 +18,11 @@ public class SavedGame{
 		deserialize();
 	}
 	public void deserialize(){
-		loadedModel = JsonConvert.DeserializeObject<GameManagerModel>(data);
+		var settings = new JsonSerializerSettings
+		{
+			TypeNameHandling = TypeNameHandling.Auto
+		};
+		loadedModel = JsonConvert.DeserializeObject<GameManagerModel>(data,settings);
 	}
 	
 }
@@ -40,8 +44,12 @@ public static class SavedGameManager {
 		return list;
 	}
 	public static void Save(GameManagerModel gmModel) {
+		var settings = new JsonSerializerSettings
+		{
+			TypeNameHandling = TypeNameHandling.Auto
+		};
 		Debug.Log("writing file");
-		var gameJson = JsonConvert.SerializeObject(gmModel, Formatting.Indented);
+		var gameJson = JsonConvert.SerializeObject(gmModel, Formatting.Indented,settings);
 		Task.Run(()=>{
 			File.WriteAllText(Constants.Paths.SavedGamePath + "\\savedGame.json",gameJson);
 			Debug.Log("writing file done");
