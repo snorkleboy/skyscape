@@ -10,8 +10,6 @@ using UnityEditor;
 using System.Linq;
 namespace Objects.Galaxy
 {
-
-
     public class StarNodeModel{
         public SerializableVector3 position;
         FactoryStamp stamp;

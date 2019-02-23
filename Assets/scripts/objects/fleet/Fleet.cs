@@ -25,6 +25,7 @@ namespace Objects
             stateAction = fleet.stateAction.model;
         }
         public SerializableVector3 position;
+        public SerializableQuaternion rotation;
         public string name;
         public long factionId;
         public long id;

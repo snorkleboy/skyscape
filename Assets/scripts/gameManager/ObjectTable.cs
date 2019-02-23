@@ -4,7 +4,7 @@ using UnityEngine;
 using Objects.Galaxy;
 using util;
 using System.Linq;
-
+using Newtonsoft.Json;
 namespace Objects
 {
     public static class ReferenceExtension{
@@ -31,7 +31,7 @@ namespace Objects
     [System.Serializable]
     public class Reference<T> where T : class{
 
-        [SerializeField]long id;
+        public long id;
         public long getId(){
             return id;
         }
@@ -39,22 +39,22 @@ namespace Objects
             if (_value != null){
                 return true;
             }
-            trySetSingletonValue();
+            trySetValue();
             if (_value != null){
                 return true;
             }
             return false;
         }
         private T _value;
-        public T value{
+        [JsonIgnore]public T value{
             get{
                 if(_value == null){
-                    setSingletonValue();
+                    setValue();
                 }
                 return _value;
             }
         }
-        private T setSingletonValue(){
+        private T setValue(){
             var thing = GameManager.instance.objectTable.get(id);
 
             if (thing == null){
@@ -66,7 +66,7 @@ namespace Objects
             }
             return _value;
         }
-        private T trySetSingletonValue(){
+        private T trySetValue(){
             var thing = GameManager.instance.objectTable.get(id);
             if (thing != null){
                 _value = thing as T;
@@ -76,7 +76,7 @@ namespace Objects
         public Reference(long id, bool instaLoad = false){
             this.id = id;
             if (instaLoad){
-                setSingletonValue();
+                setValue();
             }
         }
         public Reference(IIded obj){
@@ -86,6 +86,7 @@ namespace Objects
                 Debug.LogError(this + ": coulnt make " + obj + " into " + typeof(T));
             }
         }
+        public Reference(){}
 
     }
 public class ObjectTable{

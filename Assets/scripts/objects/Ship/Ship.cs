@@ -9,15 +9,13 @@ namespace Objects.Galaxy
 {
     public class ShipModel{
         public ShipModel(){}
-
         public ShipModel(Ship ship){
             id=ship.id;
             position = ship.mover.getPosition();
         }
         public long id;
-
         public SerializableVector3 position;
-
+        public SerializableQuaternion rotation;
     }
     public partial class Ship : MoveAbleGameObject,ISaveAble<ShipModel>,IIded
     {
@@ -37,10 +35,7 @@ namespace Objects.Galaxy
                 transform.position = pos;
                 appearer.activeGO.transform.position = pos;
             }
-
-
         }
-
     }
 
     public partial class Ship{
