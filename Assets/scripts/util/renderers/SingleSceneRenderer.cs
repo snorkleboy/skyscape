@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Objects.Galaxy.State;
 
 namespace Objects.Galaxy
 {
@@ -8,34 +9,35 @@ namespace Objects.Galaxy
     public class SingleSceneAppearer : BaseAppearable
     {
         [SerializeField] private GameObject _prefab;
-        public override void setAppearPosition(Vector3 position, int scene){
-            _appearPosition = position;
-            _sceneToAppearOn = scene;
-        }
         private int _sceneToAppearOn;
-        public SingleSceneAppearer(sceneAppearInfo info, int scene, Transform parent)
+        private sceneAppearInfo _info;
+        public SingleSceneAppearer(sceneAppearInfo info, int scene, Transform parent,AppearableState state):base(state)
         {
             _prefab = info.prefab;
             _sceneToAppearOn = scene;
-            this.appearTransform = parent;
-            this._appearPosition = info.appearPosition;
         }
 
         protected override bool _appearImplimentation(int scene)
         {
             destroy();
             if (scene == _sceneToAppearOn){
-                if(appearTransform){
-                    activeGO = GameObject.Instantiate(_prefab, appearTransform);
+                //todo improve
+                if(_info.positionOverride != null && _info.positionOverride !=  Vector3.negativeInfinity){
+                    state.position = _info.positionOverride;
+                }else{
+                    state.position = state.position;
+                }
+                if(state.appearTransform){
+                    GameObject.Instantiate(_prefab, state.appearTransform);
                 }else{
                     util.Log.warnLog(this,"appearing object without an attachement point",_prefab,_sceneToAppearOn);
-                    activeGO = GameObject.Instantiate(_prefab);
+                    GameObject.Instantiate(_prefab);
                 }
-                active = true;
-                activeGO.transform.position = _appearPosition;
-                return active;
+                state.isActive = true;
+
+                return state.isActive;
             }else{
-                return active;
+                return state.isActive;
             }
         }
         public override void destroy(){

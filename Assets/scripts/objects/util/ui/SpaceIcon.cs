@@ -11,7 +11,7 @@ public class SpaceIcon : MonoBehaviour {
     public IUIable uiable;
     private Renderer m_Renderer;
 	public int renderDistance =  700;
-	public System.Func<iconInfo,GameObject> iconCallBack =  UIComponents.renderIconLabel;
+	public System.Func<IconInfo,GameObject> iconCallBack =  UIComponents.renderIconLabel;
 	public Vector3 offset = new Vector3(0,12,0);
     public virtual void Start(){
 		m_Renderer = gameObject.GetComponent<MeshRenderer>();

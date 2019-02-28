@@ -39,8 +39,8 @@ namespace Objects.Galaxy
     }
 
     public partial class Ship{
-        public override iconInfo getIconableInfo(){
-            return new iconInfo();
+        public override IconInfo getIconableInfo(){
+            return new IconInfo();
         }
     }
 

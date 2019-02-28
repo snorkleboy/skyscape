@@ -3,9 +3,9 @@ using UnityEngine;
 using System;
 namespace UI{
 
-    
-    public struct iconInfo{
-        public iconInfo(string name,Sprite icon,IUIable source = null, iconInfo[] details=null){
+
+    public struct IconInfo{
+        public IconInfo(string name,Sprite icon,IUIable source = null, IconInfo[] details=null){
             this.source = source;
             this.name = name;
             this.icon = icon;
@@ -14,12 +14,14 @@ namespace UI{
         public IUIable source;
         public string name;
         public Sprite icon;
-        public iconInfo[] details;
+        public IconInfo[] details;
 
     }
 
+
+
     public interface IUIable {
-        iconInfo getIconableInfo();
+        IconInfo getIconableInfo();
 
     }
 

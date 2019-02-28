@@ -4,6 +4,8 @@ using UnityEngine;
 using Loaders;
 using Objects;
 using Objects.Conceptuals;
+using Objects.Galaxy.State;
+
 namespace Objects.Galaxy
 {
     public class StarFactory : MonoBehaviour
@@ -19,9 +21,8 @@ namespace Objects.Galaxy
             }
         }
         public StarNode createStar(Transform holder, StarNodeModel model){
-            var star = createBaseStar();
-            initBaseStar(star,holder,model.position,model.id);
-            star.name = model.name;
+            var star = initBaseStar(holder,model.position);//model.id
+            star.state.namedState.name = model.name;
             star.gameObject.name = model.name;
             foreach(var connection in model.starConnections){
                 var otherId = model.id == connection.starIds[0]? connection.starIds[1] : connection.starIds[0];
@@ -33,7 +34,7 @@ namespace Objects.Galaxy
             foreach(var planetModel in model.planets){
                 planets[count++] = new Reference<Planet>(planetfactory.makePlanet(star,planetModel));
             }
-            star.setPlanets(planets);
+            star.state.asContainerState.setPlanets(planets);
 
             foreach(var fleetModel in model.fleets){
                 var faction = fleetModel.factionId.dereference<Faction>();
@@ -42,44 +43,51 @@ namespace Objects.Galaxy
             return star;
         }
         public StarNode createStar(Transform holder, Vector3 position){
-            var star = createBaseStar();
-            initBaseStar(star,holder,position);
+            var star = initBaseStar(holder,position);
             return star;
         }
-        public void initBaseStar(StarNode star, Transform holder, Vector3 position,long id = -1){
+        private StarNode initBaseStar(Transform holder, Vector3 position){
+            Transform representationTransform;
+            Transform ChildrenTransform;
+            var star = makeTransforms(holder,out representationTransform,out ChildrenTransform);   
+            var starState = makeBaseState(star,position,representationTransform,ChildrenTransform,name);
+            var appearer = makeAppearer(starState.asContainerState,starState.positionState);
+            star.Init(appearer,starState);
+            return star;
+        }
+        private StarNode makeTransforms(Transform holder,out Transform representationTransform,out Transform childrenTransform){
+            var starGo = new GameObject("starNode");
+            var star = starGo.AddComponent<StarNode>();
             star.transform.SetParent(holder);
-            star.transform.position = position;
+            var childrenHolder = new GameObject("children");
+            childrenHolder.transform.SetParent(starGo.transform);
+            childrenTransform = childrenHolder.transform;
             var representation = new GameObject("representation");
             representation.transform.SetParent(star.transform.transform);
+            representationTransform = representation.transform;
+            return star;
+        }
+        private StarNodeState makeBaseState(StarNode node,Vector3 position,Transform representationTransform,Transform childrenTransform, string name){
+            return new StarNodeState()
+            {
+                positionState = new AppearableState(appearTransform:representationTransform,position:position,star:node,isActive:false),
+                asContainerState = new StarAsContainerState(childrenTransform),
 
+                namedState = new NamedState(Names.starNames.getName()),
+                stamp = new FactoryStamp("basic star"),
+                id = GameManager.idMaker.newId(node),
+                icon = starIconSprites[0]
+            };
+        }
+        private LinkedAppearer makeAppearer(AppearableContainerState containerState, AppearableState appearableState){
             var infos = new sceneAppearInfo[_sceneToPrefab.Length];
             for (int i = 0; i < _sceneToPrefab.Length; i++)
             {
                 infos[i] = new sceneAppearInfo(_sceneToPrefab[i]);
             }
-            infos[3].appearPosition = Vector3.zero;
-            infos[2].appearPosition = position;
-            var mainrep = new MultiSceneAppearer(infos,representation.transform);
-            var rep = new LinkedAppearer(mainrep);
-
-            star.Init(rep,starIconSprites[0]);
-            star.transform.name = star.name;
-            star.stamp = new FactoryStamp("basic star");
-            if(id==-1){
-                star.id = GameManager.idMaker.newId(star);
-            }else{
-                star.id = GameManager.idMaker.insertObject(star,id);
-            }
-        }
-
-        public StarNode createBaseStar()
-        {
-            var starGo = new GameObject("starNode");
-            var star = starGo.AddComponent<StarNode>();
-            var planetHolder = new GameObject("children");
-            planetHolder.transform.SetParent(starGo.transform);
-            starGo.name = star.name;
-            return star;
+            infos[3].positionOverride = Vector3.zero;
+            var mainrep = new MultiSceneAppearer(infos,appearableState);
+            return new LinkedAppearer(mainrep,containerState,appearableState);
         }
         public virtual StarConnection makeConnection(StarNode a, StarNode b)
         {

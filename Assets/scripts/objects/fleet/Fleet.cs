@@ -7,6 +7,10 @@ using Loaders;
 using Objects.Conceptuals;
 namespace Objects
 {
+    public class FleetState{
+        public AppearableState positionState{get;set;}
+        public StateActionState stateActionState{get;set;}
+    }
     public class FleetModel{
         public FleetModel(){}
         public FleetModel(Fleet fleet){
@@ -33,8 +37,9 @@ namespace Objects
         public StateActionModel stateAction;
 
     }
+
     //setup
-    public partial class Fleet:MoveAbleGameObject,ISaveAble<FleetModel>,IViewable,ISelectable,IIded{
+    public partial class Fleet:MoveAbleGameObject<FleetState> ,ISaveAble<FleetModel>,IViewable,ISelectable,IIded{
         public FleetModel model{get{return new FleetModel(this);}}
         public long id;
         public Faction owningFaction;
@@ -118,8 +123,8 @@ namespace Objects
             controller.Init(controls ,this.gameObject);
             return controller;
         }
-        public override iconInfo getIconableInfo(){
-            var info = new iconInfo();
+        public override IconInfo getIconableInfo(){
+            var info = new IconInfo();
             info.source = this;
             info.name = name;
             info.icon = icon;

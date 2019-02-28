@@ -85,7 +85,7 @@ namespace util
                     var bounded = new List<toFind>();
                     foreach (var item in things)
                     {
-                        var positionToCheck = Camera.main.WorldToViewportPoint(item.appearer.activeGO.transform.position);
+                        var positionToCheck = Camera.main.WorldToViewportPoint(item.appearer.state.position);
                         if (bounds.Contains(positionToCheck)){
                             bounded.Add(item);
                         }

@@ -44,7 +44,7 @@ namespace UI
             return holder;
         }
 
-        public static GameObject renderIconLabel(iconInfo info){
+        public static GameObject renderIconLabel(IconInfo info){
             var holder = new GameObject("galaxyViewIcon" + info.name);
 
             var layout = holder.AddComponent<HorizontalLayoutGroup>();
@@ -65,7 +65,7 @@ namespace UI
 
             return holder;
         }
-        public static GameObject renderIconUI(iconInfo info)
+        public static GameObject renderIconUI(IconInfo info)
         {
             var holder = new GameObject("icon " + info.name);
             holder.AddComponent<HorizontalLayoutGroup>();

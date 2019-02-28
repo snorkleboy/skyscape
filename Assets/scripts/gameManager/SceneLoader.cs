@@ -99,7 +99,7 @@ namespace Loaders {
         public static void onStarLoaded(Scene scene, LoadSceneMode mode)
         {
             Debug.Log("OnSceneLoaded=>onStarLoaded()=>renderStar(star): scene.name:" + scene.name + " selectedStar:" + gameManager.selectedStar);
-            gameManager.selectedStar.appear((int)util.Enums.sceneNames.StarSystemView);
+            gameManager.selectedStar.appearer.appear((int)util.Enums.sceneNames.StarSystemView);
             UnityEngine.SceneManagement.SceneManager.sceneLoaded -= onStarLoaded;
         }
         public static void loadStarSystem(StarNode star){

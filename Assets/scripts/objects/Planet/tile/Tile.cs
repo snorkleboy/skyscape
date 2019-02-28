@@ -92,8 +92,8 @@ namespace Objects.Galaxy
             }
             return holder; 
         }
-        public iconInfo getIconableInfo(){
-            var info = new iconInfo();
+        public IconInfo getIconableInfo(){
+            var info = new IconInfo();
             info.source = this;
             info.name = "tile " +tilePosition;
             info.icon = sprite;

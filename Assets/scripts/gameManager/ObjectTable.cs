@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ using Newtonsoft.Json;
 namespace Objects
 {
     public static class ReferenceExtension{
-        public static List<T> getAllReferenced<T>(this IEnumerable<Reference<T>> list) where T: class{
+        public static List<T> getAllReferenced<T>(this IEnumerable<Reference<T>> list) where T: class,IIded{
             var returnList = new List<T>();
             foreach(var thing in list){
                 returnList.Add(thing.value);
@@ -29,7 +30,7 @@ namespace Objects
         }
     }
     [System.Serializable]
-    public class Reference<T> where T : class{
+    public class Reference<T>:IEquatable<Reference<T>> where T : class,IIded{
 
         public long id;
         public long getId(){
@@ -66,6 +67,14 @@ namespace Objects
             }
             return _value;
         }
+        public bool Equals(Reference<T> other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            return other.id == this.id;
+        }
         private T trySetValue(){
             var thing = GameManager.instance.objectTable.get(id);
             if (thing != null){
@@ -79,12 +88,9 @@ namespace Objects
                 setValue();
             }
         }
-        public Reference(IIded obj){
+        public Reference(T obj){
             this.id = obj.getId();
-            _value = (T)obj;
-            if(_value == null){
-                Debug.LogError(this + ": coulnt make " + obj + " into " + typeof(T));
-            }
+            _value = obj;
         }
         public Reference(){}
 

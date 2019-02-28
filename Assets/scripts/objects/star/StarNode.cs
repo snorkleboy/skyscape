@@ -1,3 +1,4 @@
+using System.Data;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +9,14 @@ using Loaders;
 using Objects.Conceptuals;
 using UnityEditor;
 using System.Linq;
+using Objects.Galaxy.State;
+
 namespace Objects.Galaxy
 {
+    public class StarNodeState:GalaxyGameObjectState{
+        public StarAsContainerState asContainerState;
+
+    }
     public class StarNodeModel{
         public SerializableVector3 position;
         FactoryStamp stamp;
@@ -21,125 +28,62 @@ namespace Objects.Galaxy
         public StarNodeModel(){}
         public StarNodeModel(StarNode node){
             position = node.transform.position;
-            stamp = node.stamp;
-            id = node.id;
+            stamp = node.state.stamp;
+            id = node.state.id;
             name=node.name;
-            var numConn = node.connectable.connections.Count;
+            var numConn = node.state.asContainerState.connections.Count;
             starConnections = new StarConnectionModel[numConn];
             for(var i =0;i<numConn;i++)
             {
-                starConnections[i] = node.connectable.connections[i].model;
+                starConnections[i] = node.state.asContainerState.connections[i].model;
             }
 
-            var planetNum = node.planetable.planets.Count;
+            var planetNum = node.state.asContainerState.planets.Count;
             planets = new PlanetModel[planetNum];
             for(var i =0; i<planetNum;i++){
-                planets[i] = node.planetable.planets[i].value.model;
+                planets[i] = node.state.asContainerState.planets[i].value.model;
             }
-            fleets = new FleetModel[node.fleets.Count];
-            for(var i =0;i<node.fleets.Count;i++){
-                fleets[i] = new FleetModel(node.fleets[i].value);
+            fleets = new FleetModel[node.state.asContainerState.fleets.Count];
+            for(var i =0;i<node.state.asContainerState.fleets.Count;i++){
+                fleets[i] = new FleetModel(node.state.asContainerState.fleets[i].value);
             }
         }
     }
-    
-    //init
-    public partial class StarNode : MonoBehaviour, IAppearable, IUIable, ISaveAble<StarNodeModel>,IIded
+
+    public partial class StarNode : GalaxyGameObject<StarNodeState>, IAppearable, IUIable, ISaveAble<StarNodeModel>,IIded
     {
-        public long id;
-        public long getId(){
-            return id;
-        }
-        public Transform getChildrenTransform(){return this.transform.Find("children");}
-        public Transform getRepresentationTransform(){return appearer.appearTransform;}
         public StarNodeModel model{get{return new StarNodeModel(this);}}
-        public FactoryStamp stamp;
-
-        public void Init(LinkedAppearer renderer, Sprite Icon)
+        public void Init(LinkedAppearer renderer,StarNodeState state)
         {
-            name = Names.starNames.getName();
-            gameObject.name = name;
-            this.Icon = Icon;
+            this.state = state;
             this.starAppearer = renderer;
-            this.connectable = ScriptableObject.CreateInstance<Connectable>();
-            this.planetable = ScriptableObject.CreateInstance<Spaceable>();
         }
-        public void appear(int scene)
-        {
-            starAppearer.appear(scene );//,transform.position
-            if (scene == 3){
-                starAppearer.activeGO.transform.position = Vector3.zero;
-            }
-        }
-    }
-    //attributes
-    [System.Serializable]
-    public partial class StarNode{
-        public List<Reference<Fleet>> fleets = new List<Reference<Fleet>>();
-        public IAppearer appearer { get { return starAppearer; } }
+        public override IAppearer appearer { get { return starAppearer; } }
         public LinkedAppearer starAppearer;
-        public Sprite Icon;
-        [SerializeField]public Connectable connectable;
-        public void addConnection(StarConnection connection)
-        {
-            bool alreadyAdded = connectable.connections.Any(existingConnection=>(
-                existingConnection.nodes.Any(node=>node.getId() == existingConnection.nodes[0].getId()) && 
-                existingConnection.nodes.Any(node=>node.getId() == existingConnection.nodes[1].getId())
-            ));
-            if (!alreadyAdded){
-                connectable.addConnection(connection);
-                addAppearable(connection);
-            }
-            
-        }
-        [SerializeField]public Spaceable planetable;
-        public void setPlanets(Reference<Planet>[] planets) {
-            planetable.planets = planets.ToList();
-            addAppearable(planets.getAllReferenced());
-        }
-        public void fleetEnter(Fleet fleet){
-            enterStar(fleet);
-            fleets.Add(new Reference<Fleet>(fleet));
-        }
-
-        public void enterStar(IAppearable appearable){
-            appearable.appearer.appearTransform.SetParent(getChildrenTransform());
-            addAppearable(appearable);
-        }
-        public void addAppearable(IAppearable appearable){
-            starAppearer.addAppearables(appearable);
-            
-        }
-        public void addAppearable(IEnumerable<IAppearable> appearables){
-            starAppearer.addAppearables(appearables);
-        }
-        public void exitStar(IAppearable appearable){
-        }
     }
-    //ui
     public partial class StarNode{
         public GameObject renderIcon(){
             var star = new GameObject("StarIcon");
             var image = star.AddComponent<Image>();
-            image.sprite = Icon;
+            image.sprite = state.icon;
             return star;
         }
-        public iconInfo getIconableInfo(){
-            var info = new iconInfo();
+        public override IconInfo getIconableInfo(){
+            var info = new IconInfo();
             info.source = this;
             info.name = name;
-            info.icon = Icon;
-            var details = new iconInfo[2];
-            var detail = new iconInfo();
-            detail.name = planetable.planets.Count.ToString();
+            info.icon = state.icon;
+            var details = new IconInfo[2];
+            var detail = new IconInfo();
+            detail.name = state.asContainerState.planets.Count.ToString();
             var bundle = AssetSingleton.bundles[AssetSingleton.bundleNames.sprites];
             var asset = bundle.LoadAsset<Sprite>("43");
             detail.icon = asset;
             details[0] = detail;
 
-            var otherDetail = new iconInfo();
+            var otherDetail = new IconInfo();
             var popNum = 0;
-            foreach(var planet in planetable.planets){
+            foreach(var planet in state.asContainerState.planets){
                foreach(var tile in  planet.value.tileManager.tiles){
                    if (tile.building != null){
                        if (tile.building.pops != null){

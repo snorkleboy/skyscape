@@ -108,8 +108,8 @@ namespace Objects.Galaxy
             text.transform.SetParent(holder.transform,false);
             return holder;
         }
-        public iconInfo getIconableInfo(){
-            var info = new iconInfo();
+        public IconInfo getIconableInfo(){
+            var info = new IconInfo();
             info.source = this;
             info.name = title;
             info.icon = planetSprite;

@@ -20,7 +20,7 @@ namespace Objects.Galaxy
         public Planet makePlanet(StarNode star, Vector3 position,PlanetModel model = null)
         {
             var parent = new GameObject("planet");
-            var planetHolder = star.getChildrenTransform();
+            var planetHolder = star.state.asContainerState.childrenTransform;
             parent.SetParent(planetHolder,false);
             var planet = parent.AddComponent<Planet>();
             var rep = new SingleSceneAppearer(new sceneAppearInfo(baseStarFab,position),3,parent.transform);
