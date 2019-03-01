@@ -1,48 +1,51 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Objects.Galaxy.State;
 
 namespace Objects.Galaxy
 {
-        [System.Serializable]
+[System.Serializable]
     public class StarConnectionAppearer : MultiSceneAppearer
     {
-        Reference<StarNode>[] nodes;
-        public override Transform appearTransform { get; set; }
+        StarConnectionState connectionState;
         StarConnection conn;
-        public StarConnectionAppearer(sceneAppearInfo[] sceneToPrefab, StarConnection conn,Reference<StarNode>[] nodes) : base(sceneToPrefab,nodes[0].value.appearer.appearTransform)
+        public StarConnectionAppearer(StarConnection conn, sceneAppearInfo[] sceneToPrefab, StarConnectionState connectionState, AppearableState appearableState) : base(sceneToPrefab, appearableState)
         {
-            this.nodes = nodes;
-            this.conn = conn;
             this.preAppear = preAppearFunc;
             this.postAppear = postAppearFunc;
+            this.connectionState = connectionState;
+            //TODO have connection be gotten on awake in go;
+            this.conn = conn;
         }
         private StarNode setPositionForStarView(){
             var selectedStar = GameManager.instance.selectedStar;
             StarNode starAt;
             StarNode OtherStar;
-            if(nodes[0].value == selectedStar){
-                starAt = nodes[0].value;
-                OtherStar = nodes[1].value; 			
+            if(connectionState.nodes[0].value == selectedStar){
+                starAt = connectionState.nodes[0].value;
+                OtherStar = connectionState.nodes[1].value; 			
             }else{
-                starAt = nodes[1].value;
-                OtherStar = nodes[0].value; 			
+                starAt = connectionState.nodes[1].value;
+                OtherStar = connectionState.nodes[0].value; 			
             }
             
-            Vector3 direction = OtherStar.appearer.getAppearPosition(2) - starAt.appearer.getAppearPosition(2);
-            var pos = Vector3.MoveTowards(selectedStar.appearer.getAppearPosition(3),selectedStar.appearer.getAppearPosition(3)+direction.normalized*500,500);
-            setAppearPosition(pos,3);// 
+            Vector3 direction = OtherStar.appearer.state.position - starAt.appearer.state.position;
+            state.position  = Vector3.MoveTowards(Vector3.zero,Vector3.zero+direction.normalized*500,500);
             return starAt;
         }
         private void drawLineForGalaxyView(){
-            if(nodes[0].value.appearer.activeGO != null && nodes[1].value.appearer.activeGO != null){
-                var line = activeGO.GetComponent<DrawLineBetweenPoints>();
-                line.setTarget(nodes[0].value.appearer.activeGO, 0);
-                line.setTarget(nodes[1].value.appearer.activeGO, 1);
+            var goA = connectionState.nodes[0].value.appearer.state.appearTransform.gameObject;
+            var goB = connectionState.nodes[1].value.appearer.state.appearTransform.gameObject;
+            if(goA != null && goB != null){
+                var line = state.appearTransform.GetComponent<DrawLineBetweenPoints>();
+                line.setTarget(goA, 0);
+                line.setTarget(goB, 1);
                 line.draw();
             }
         }
         private void preAppearFunc(int scene){
+            //todo reset appearstate between nodes depending on active star
             if (scene == 3){
                 setPositionForStarView();
             }
@@ -53,7 +56,7 @@ namespace Objects.Galaxy
                 drawLineForGalaxyView();
             }
             if(scene == 3){
-                activeGO.GetComponent<starNodeConnectionController>().set(conn);
+                state.appearTransform.gameObject.GetComponent<starNodeConnectionController>().set(conn);
             }
         }
         public override void destroy(){

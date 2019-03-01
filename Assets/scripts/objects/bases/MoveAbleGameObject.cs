@@ -18,12 +18,18 @@ namespace Objects
     }
     
     public class GalaxyGameObjectState{
+        public GalaxyGameObjectState(){}
+        public GalaxyGameObjectState(Sprite icon,long id,FactoryStamp stamp,NamedState namedState,AppearableState positionState){
+            this.icon = icon;
+            this.id = id;
+            this.stamp = stamp;
+            this.namedState = namedState;
+            this.positionState = positionState;
+        }
         public Sprite icon;
         public long id;
         public FactoryStamp stamp;
-
         public NamedState namedState;
-        public FactionOwnedState factionOwnedState;
         public AppearableState positionState;
 
     }
@@ -33,14 +39,15 @@ namespace Objects
         public long getId(){
             return state.id;
         }
+        //todo move model stuff into state and make state private-ish
         public StateModel state{get;set;}
         public abstract IconInfo getIconableInfo();
-        public abstract IAppearer appearer{get;} 
+        public virtual IAppearer appearer{get;} 
     }
     public abstract class MoveAbleGameObject<StateModel>:GalaxyGameObject<StateModel>,IStateActionable,IMoveable where StateModel:GalaxyGameObjectState
     {
         public IStateActionManager stateActionManager{get;}
-        public abstract IMover mover{get;}
+        public virtual IMover mover{get;}
     }
     
 

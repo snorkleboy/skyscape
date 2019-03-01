@@ -7,8 +7,7 @@ using Loaders;
 using Objects.Conceptuals;
 namespace Objects
 {
-    public class FleetState{
-        public AppearableState positionState{get;set;}
+    public class FleetState:GalaxyGameObjectState{
         public StateActionState stateActionState{get;set;}
     }
     public class FleetModel{
@@ -26,7 +25,7 @@ namespace Objects
             id=fleet.id;
             factionId = fleet.owningFaction.id;
             name = fleet.name;
-            stateAction = fleet.stateAction.model;
+            // stateAction = fleet.stateAction.model;
         }
         public SerializableVector3 position;
         public SerializableQuaternion rotation;
@@ -43,10 +42,9 @@ namespace Objects
         public FleetModel model{get{return new FleetModel(this);}}
         public long id;
         public Faction owningFaction;
-        public long getId(){return id;}
         public void Init(string name, Sprite icon, LinkedAppearer renderHelper,Vector3 position,Faction faction){
             this.name = name;
-            this.icon = icon;
+            this.state.icon = icon;
             this.fleetPosition = position;
             this._appearer = renderHelper;
             var fleetMover = gameObject.AddComponent<FleetMover>();
@@ -72,7 +70,7 @@ namespace Objects
             {
                 var newvec = hit.point;
                 newvec.y = 0;
-                setStateAction(FleetStateActions.moveFleet(this,newvec));
+                // setStateAction(FleetStateActions.moveFleet(this,newvec));
             }else{
                 Debug.Log("no hit");
             }
@@ -88,12 +86,12 @@ namespace Objects
         }
         public Fleet addShips(Ship ship){
             this.ships.addShips(ship);
-            _appearer.addAppearables(ship);
+            // _appearer.addAppearables(ship);
             return this;
         }
         public Fleet addShips(List<Ship> ships){
             this.ships.addShips(ships) ;
-            _appearer.addAppearables(ships.ToArray());
+            // _appearer.addAppearables(ships.ToArray());
             return this;
         }
         public IEnumerable<Ship> GetShips(){return ships.ships;}
@@ -103,16 +101,16 @@ namespace Objects
     public partial class Fleet{
         public override IAppearer appearer{get{return _appearer;}} 
         private LinkedAppearer _appearer;
-        public override void appear(int scene){
+        public void appear(int scene){
             var count = 0;
-            foreach (var appearable in _appearer.appearables){
-                var appearPos = fleetPosition + new Vector3(1 + 3*count++,0,0);
-                appearable.appearer.setAppearPosition(appearPos,3);
-            }
-            if(appearer.appear(scene)){
-                appearer.activeGO.transform.position = fleetPosition;
-                this.ships.mover.fleetTransform = appearer.activeGO.transform;
-            }
+            // foreach (var appearable in _appearer.appearables){
+                // var appearPos = fleetPosition + new Vector3(1 + 3*count++,0,0);
+                // appearable.appearer.setAppearPosition(appearPos,3);
+            // }
+            // if(appearer.appear(scene)){
+                // appearer.activeGO.transform.position = fleetPosition;
+                // this.ships.mover.fleetTransform = appearer.activeGO.transform;
+            // }
 
         }
     }
@@ -127,7 +125,7 @@ namespace Objects
             var info = new IconInfo();
             info.source = this;
             info.name = name;
-            info.icon = icon;
+            // info.icon = icon;
             return info;
         }
         public GameObject renderUIView(Transform parent, clickViews callbacks){

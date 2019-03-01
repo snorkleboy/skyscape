@@ -57,12 +57,12 @@ namespace Objects
 
             this.subMovers = fleet.ships.mover.subMovers;
             this.target = target;
-            if(fleet.appearer.isActive){
-                this.fleetRepresentationTransform = fleet.appearer.activeGO.transform;
-            }else{
-                tempActive = false; 
-                tempFleet = fleet;
-            }
+            // if(fleet.appearer.isActive){
+                // this.fleetRepresentationTransform = fleet.appearer.activeGO.transform;
+            // }else{
+                // tempActive = false; 
+                // tempFleet = fleet;
+            // }
             base._Init();
             return this;
         }
@@ -70,11 +70,11 @@ namespace Objects
             while(!tempActive){
                 Debug.Log("is active check");
                 yield return util.Routiner.wait(2);
-                if(tempFleet.appearer.isActive){
-                    Debug.Log("active");
-                    tempActive = true;
-                    Init(tempFleet,target);
-                }
+                // if(tempFleet.appearer.isActive){
+                    // Debug.Log("active");
+                    // tempActive = true;
+                    // Init(tempFleet,target);
+                // }
             }
             float offset = 0;
             var shipsMovingBehavior = new IEnumerator[subMovers.Count];

@@ -34,7 +34,7 @@ namespace GalaxyCreators
                         
                     }
                 
-                    starNode.setPlanets(planets);
+                    starNode.enterable.setPlanets(planets);
                 }
             }
             return starNodes;

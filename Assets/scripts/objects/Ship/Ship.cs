@@ -17,24 +17,24 @@ namespace Objects.Galaxy
         public SerializableVector3 position;
         public SerializableQuaternion rotation;
     }
-    public partial class Ship : MoveAbleGameObject,ISaveAble<ShipModel>,IIded
+
+    public partial class Ship : MoveAbleGameObject<GalaxyGameObjectState>,ISaveAble<ShipModel>,IIded
     {
         public long id;
-        public long getId(){return id;}
         public ShipModel model{get{return new ShipModel(this);}}
         public override IMover mover{get{return moverHelper;}}
         private ShipMover moverHelper;
         public void Init(SingleSceneAppearer renderer){
-            appearer = renderer;
-            icon = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"star")[0];
-            moverHelper = gameObject.AddComponent<ShipMover>();
+        //     appearer = renderer;
+        //     icon = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"star")[0];
+        //     moverHelper = gameObject.AddComponent<ShipMover>();
         }
-        public override void appear(int context){
-            if(appearer.appear(context)){
-                var pos = appearer.activeGO.transform.position;
-                transform.position = pos;
-                appearer.activeGO.transform.position = pos;
-            }
+        public void appear(int context){
+        //     if(appearer.appear(context)){
+        //         var pos = appearer.activeGO.transform.position;
+        //         transform.position = pos;
+        //         appearer.activeGO.transform.position = pos;
+        //     }
         }
     }
 

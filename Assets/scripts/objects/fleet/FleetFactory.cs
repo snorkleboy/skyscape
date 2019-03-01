@@ -39,12 +39,12 @@ namespace Objects
             {
                 infos[i] = new sceneAppearInfo(sceneToPrefab[i]);
             }
-            infos[3].appearPosition = position;
-            // var mainrep = new MultiSceneAppearer(infos,fleetGo.transform);
-            var mainRep = new SingleSceneAppearer( infos[3],3,fleetGo.transform);
-            var fleetRenderer = new LinkedAppearer(mainRep);
+            // infos[3].appearPosition = position;
+            // // var mainrep = new MultiSceneAppearer(infos,fleetGo.transform);
+            // var mainRep = new SingleSceneAppearer( infos[3],3,fleetGo.transform);
+            // var fleetRenderer = new LinkedAppearer(mainRep);
 
-            fleet.Init(name,icon,fleetRenderer,position, faction);
+            // fleet.Init(name,icon,fleetRenderer,position, faction);
             faction.fleets[fleet.name] = fleet;
             fleetGo.name = fleet.name;
             return fleet;
@@ -54,7 +54,7 @@ namespace Objects
             shipFactory.makeShip(fleet);
             shipFactory.makeShip(fleet);
             shipFactory.makeShip(fleet);
-            parent.fleetEnter(fleet);
+            // parent.fleetEnter(fleet);
             return fleet;
         }
         public Fleet makeFleet(Faction faction, StarNode parent, FleetModel model){
@@ -65,10 +65,10 @@ namespace Objects
             foreach(var shipModel in model.shipModels){
                 var ship = shipFactory.makeShip(fleet,shipModel);
             }
-            parent.fleetEnter(fleet);
-            if(model.stateAction != null){
-                fleet.setStateAction(model.stateAction.hydrate(fleet));
-            }
+            // parent.fleetEnter(fleet);
+            // if(model.stateAction != null){
+            //     fleet.setStateAction(model.stateAction.hydrate(fleet));
+            // }
             return fleet;
         }
     }

@@ -1,15 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Objects.Galaxy.State;
 namespace Objects.Galaxy
 {
+    public class ProtoStarConnectionState{
+        public ProtoStar[] nodes = new ProtoStar[2];
+    }
     public class ProtoStarConnectionRenderer : MultiSceneAppearer
     {
-        ProtoStar[] nodes;
-        public override Transform appearTransform { get; set; }
-        public ProtoStarConnectionRenderer(sceneAppearInfo[] sceneToPrefab, ProtoStar[] nodes) : base(sceneToPrefab,nodes[0].transform)
+        ProtoStarConnectionState connectionState;
+        public ProtoStarConnectionRenderer(sceneAppearInfo[] sceneToPrefab,ProtoStarConnectionState connectionState ,AppearableState appearableState) : base(sceneToPrefab,appearableState)
         {
-            this.nodes = nodes;
+            this.connectionState = connectionState;
         }
         protected override bool _appearImplimentation(int scene)
         {
@@ -17,11 +20,11 @@ namespace Objects.Galaxy
             {
                 if ( scene == 0)
                 {
-                    if ((nodes[0].transform != null && nodes[1].transform != null))
+                    if ((connectionState.nodes[0].transform != null && connectionState.nodes[1].transform != null))
                     {
-                        var line = activeGO.GetComponent<DrawLineBetweenPoints>();
-                        line.setTarget(nodes[0].transform.gameObject, 0);
-                        line.setTarget(nodes[1].transform.gameObject, 1);
+                        var line = state.appearTransform.GetComponent<DrawLineBetweenPoints>();
+                        line.setTarget(connectionState.nodes[0].transform.gameObject, 0);
+                        line.setTarget(connectionState.nodes[1].transform.gameObject, 1);
                         line.draw();
                     }
 

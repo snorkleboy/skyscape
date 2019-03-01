@@ -14,6 +14,8 @@ namespace Objects.Galaxy.State
 {
 
     public class AppearableContainerState{
+        public AppearableContainerState(){}
+
         public AppearableContainerState(Transform childTransform){
             this.childrenTransform = childTransform;
         }
@@ -41,11 +43,12 @@ namespace Objects.Galaxy.State
 
     public class AppearableState
     {
-        public AppearableState(Transform appearTransform, Vector3 position, StarNode star, bool isActive){
+        public AppearableState(Transform appearTransform, Vector3 position, StarNode star, bool isActive = false){
             this.appearTransform = appearTransform;
             this.isActive = isActive;
             this.starAt = star;
             this.position = position;
+            this.appearTransform.position = position;
         }
         public Transform appearTransform { set;get; }
         private Vector3 _position = Vector3.negativeInfinity;

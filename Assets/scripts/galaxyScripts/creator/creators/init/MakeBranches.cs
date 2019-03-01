@@ -53,7 +53,7 @@ namespace GalaxyCreators
             {
                 star.transform.RotateAround(starArr[starI-1].transform.position, Vector3.up, ((int)(ranMult * perStarAngle)));
             }
-            star.appearer.setAppearPosition(star.transform.position,0);
+            star.appearer.state.position = star.transform.position;
             return star;
         }
     }

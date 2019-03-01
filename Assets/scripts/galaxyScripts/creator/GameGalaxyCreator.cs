@@ -26,7 +26,7 @@ namespace GalaxyCreators
                     var star = starFactory.createStar(holder.transform,starModel);
                     branch.Add(star);
                     yield return new WaitForSeconds(.1f);
-                    Debug.Log("created " + star + " " + star.id);
+                    Debug.Log("created " + star + " " + star.state.id);
                 }
                 starNodes[branchI] = branch;
                 yield return new WaitForSeconds(.1f);
@@ -43,7 +43,7 @@ namespace GalaxyCreators
                 for(var i = 0; i<protoNodes[branchI].Count; i++)
                 {
                     var protoStar = protoNodes[branchI][i];
-                    var starNode = starFactory.createStar(holder.transform, protoStar.appearer.getAppearPosition(0));
+                    var starNode = starFactory.createStar(holder.transform, protoStar.appearer.state.position);
                     starNodes[branchI].Add(starNode);
                     protoToStar[protoStar] = starNode;
                 }
@@ -56,13 +56,13 @@ namespace GalaxyCreators
                 {
                     var protoStar = protoNodes[branchI][i];
                     var starNode = protoToStar[protoStar];
-                    foreach(var connection in protoStar.connections){
+                    foreach(var connection in protoStar.state.connections){
                         var a = connection.nodes[1];
                         var b = connection.nodes[0]; 
                         var otherproto = a == protoStar ? b : a;
                         var otherStarNode = protoToStar[otherproto];
                         starFactory.makeConnection(starNode,otherStarNode );
-                        Debug.Log("created " + starNode + " " + starNode.id);
+                        Debug.Log("created " + starNode + " " + starNode.state.id);
 
                     };
                     yield return null;

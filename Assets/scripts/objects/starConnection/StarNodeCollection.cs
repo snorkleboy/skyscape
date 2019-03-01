@@ -41,7 +41,7 @@ namespace Objects.Galaxy
             {
                 foreach (var star in arr)
                 {
-                    star.appear(scene);
+                    star.appearer.appear(scene);
                 }
             }
         }

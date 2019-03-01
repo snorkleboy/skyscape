@@ -14,21 +14,16 @@ namespace Objects.Galaxy
         }
         public ProtoStarConnection makeConnection(ProtoStar a, ProtoStar b)
         {
-            var starNodes = new ProtoStar[] { a, b };
-            var conn = new ProtoStarConnection();
+            var state = new ProtoStarConnectionState(){nodes = new ProtoStar[] { a, b }};
             var infos = new sceneAppearInfo[_sceneToPrefab.Length];
             for(var i=0;i<_sceneToPrefab.Length;i++){
-                infos[i] = new sceneAppearInfo(_sceneToPrefab[i], Vector3.zero);
+                infos[i] = new sceneAppearInfo(_sceneToPrefab[i]);
             }
-            infos[0].appearPosition = a.appearer.getAppearPosition(0);
-            var renderer = new ProtoStarConnectionRenderer(infos, starNodes);
-            conn.Init(Random.Range(.01f, .99f), starNodes, renderer);
-            renderer.appearTransform = a.transform;
 
-
-            conn.appear(0);
-            a.addConnection(conn);
-            b.addConnection(conn);
+            var renderer = new ProtoStarConnectionRenderer(infos, state,a.state.appearableState);
+            var conn = new ProtoStarConnection();
+            conn.Init( state, renderer);
+            conn.appearer.appear(0);
             return conn;
         }
     }

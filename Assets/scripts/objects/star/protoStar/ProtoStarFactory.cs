@@ -15,10 +15,17 @@ namespace Objects.Galaxy
         }
         public ProtoStar createStar(Transform holder)
         {
-            var mainAppearer = new SingleSceneAppearer(new sceneAppearInfo(_sceneToPrefab[0],Vector3.zero),0,holder);
-            var rep = new LinkedAppearer(mainAppearer);
-            var star = new ProtoStar(rep);
-            star.appear(0);
+            var state = new ProtostarState(){
+                appearableState = new State.AppearableState(
+                    appearTransform:holder,
+                    position:Vector3.zero,
+                    star:null
+                )
+            };
+            var mainAppearer = new SingleSceneAppearer(new sceneAppearInfo(_sceneToPrefab[0]),0,holder,state.appearableState);
+            var rep = new LinkedAppearer(mainAppearer,state,state.appearableState);
+            var star = new ProtoStar(rep,state);
+            star.appearer.appear(0);
             return star;
         }
         public virtual ProtoStarConnection makeConnection(ProtoStar a, ProtoStar b)

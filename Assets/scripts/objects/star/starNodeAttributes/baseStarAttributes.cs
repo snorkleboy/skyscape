@@ -15,10 +15,32 @@ namespace Objects.Galaxy
 
     public static class StarContainerExtension{
         public static void moveToStar(this Fleet fleet, StarNode to){
-            var starAt = fleet.state.positionState.starAt;
-            starAt.state.asContainerState.removeFleet(fleet);
-            to.state.asContainerState.addFleet(fleet);            
+            var starAt = fleet.appearer.state.starAt;
+            starAt.enterable.removeFleet(fleet);
+            to.enterable.addFleet(fleet);            
         }
+    }
+    public class EnterableStar{
+        public EnterableStar(StarAsContainerState state){
+            this.state = state;
+        }
+        StarAsContainerState state;
+        public StarConnection getConnection(long id){
+            return state.getConnection(id);
+        }
+        public void addConnection(StarConnection connection){
+            state.addConnection(connection);
+        }
+        public void setPlanets(Reference<Planet>[] planets) {
+            state.setPlanets(planets);
+        }
+        public void addFleet(Fleet fleet){
+            state.addFleet(fleet);
+        }
+        public void removeFleet(Fleet fleet){
+            state.removeFleet(fleet);
+        }
+
     }
     public class StarAsContainerState:AppearableContainerState{
         public StarAsContainerState(Transform childTransform):base(childTransform)
@@ -31,7 +53,7 @@ namespace Objects.Galaxy
 
         public StarConnection getConnection(long id){
             foreach(var connection in connections){
-                if(connection.nodes[0].getId() == id || connection.nodes[1].getId() == id){
+                if(connection.state.nodes[0].getId() == id || connection.state.nodes[1].getId() == id){
                     return connection;
                 }
             }
@@ -40,8 +62,8 @@ namespace Objects.Galaxy
         public void addConnection(StarConnection connection)
         {
             bool alreadyAdded = connections.Any(existingConnection=>(
-                existingConnection.nodes.Any(node=>node.getId() == existingConnection.nodes[0].getId()) && 
-                existingConnection.nodes.Any(node=>node.getId() == existingConnection.nodes[1].getId())
+                existingConnection.state.nodes.Any(node=>node.getId() == existingConnection.state.nodes[0].getId()) && 
+                existingConnection.state.nodes.Any(node=>node.getId() == existingConnection.state.nodes[1].getId())
             ));
             if (!alreadyAdded){
                 addConnection(connection);

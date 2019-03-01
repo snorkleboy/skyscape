@@ -64,9 +64,9 @@ namespace Objects.Galaxy
 
         public void appear(int scene)
         {
-            if (planetRenderer.appear(scene)){
-                planetRenderer.activeGO.name = "planet representation";
-            }
+            // if (planetRenderer.appear(scene)){
+            //     planetRenderer.activeGO.name = "planet representation";
+            // }
         }
     }
     public partial class Planet{

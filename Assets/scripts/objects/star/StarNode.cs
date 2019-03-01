@@ -57,9 +57,11 @@ namespace Objects.Galaxy
         {
             this.state = state;
             this.starAppearer = renderer;
+            this.enterable = new EnterableStar(state.asContainerState);
         }
         public override IAppearer appearer { get { return starAppearer; } }
         public LinkedAppearer starAppearer;
+        public EnterableStar enterable;
     }
     public partial class StarNode{
         public GameObject renderIcon(){

@@ -5,26 +5,13 @@ using System;
 using UI;
 using UnityEngine.UI;
 using Loaders;
+using Objects.Galaxy.State;
 namespace Objects.Galaxy
 {
-    [System.Serializable]
-    public class ProtoStar:IAppearable
-    {
-        public IAppearer appearer { get { return starRenderer; } 
-            set
-            {
-                starRenderer = (LinkedAppearer)value;
-            }
-        }
-        public LinkedAppearer starRenderer;
-        public Transform transform { get { return appearer.activeGO.transform; } }
-        public Vector3 position;
+    public class ProtostarState : AppearableContainerState{
+        public AppearableState appearableState;
+        private List<ProtoStarConnection> _connections = new List<ProtoStarConnection>();
 
-        [SerializeField] private List<ProtoStarConnection> _connections = new List<ProtoStarConnection>();
-        public ProtoStar(LinkedAppearer renderer)
-        {
-            this.starRenderer = renderer;
-        }
         public List<ProtoStarConnection> connections
         {
             get
@@ -34,18 +21,35 @@ namespace Objects.Galaxy
             set
             {
                 _connections = value;
-                starRenderer.setAppearables(_connections.ToArray());
+                appearables = new List<IAppearable>(value) ;
             }
         }
         public void addConnection(ProtoStarConnection connection)
         {
             connections.Add(connection);
-            starRenderer.addAppearables(connections.ToArray());
+            appearables.Add(connection);
         }
-        public void appear(int scene)
+
+    }
+    [System.Serializable]
+    public class ProtoStar:IAppearable
+    {
+        public ProtostarState state;
+        public IAppearer appearer { get { return starRenderer; } 
+            set
+            {
+                starRenderer = (LinkedAppearer)value;
+            }
+        }
+        public LinkedAppearer starRenderer;
+        public Transform transform { get { return appearer.state.appearTransform; } }
+        public Vector3 position;
+
+        [SerializeField] private List<ProtoStarConnection> _connections = new List<ProtoStarConnection>();
+        public ProtoStar(LinkedAppearer renderer, ProtostarState state)
         {
-            starRenderer.appear(scene);//,position
-            starRenderer.activeGO.transform.position = position;
+            this.state = state;
+            this.starRenderer = renderer;
         }
 
     }
