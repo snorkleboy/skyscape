@@ -55,8 +55,7 @@ namespace GalaxyCreators
                 tran.Translate(star.transform.forward *(int)( ranMult * 50+ branchCount));
                 tran.Translate(Vector3.up * (int)(ranMult*10));
                 tran.RotateAround(originalstar.transform.position, Vector3.up, (int)(ranMult*30/ branchCount * i ));
-                newStar.position = tran.position;
-                newStar.appearer.appear(0);
+                newStar.state.appearableState.position = tran.position;
                 starFactory.makeConnection(star, newStar);
                 star = newStar;
             }

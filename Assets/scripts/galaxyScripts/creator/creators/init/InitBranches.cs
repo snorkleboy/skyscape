@@ -30,9 +30,9 @@ namespace GalaxyCreators
                 branch.transform.SetParent(holder.transform);
 
                 var star = starFactory.newStar(branch.transform);
-                star.transform.Translate(star.transform.forward * centralNoHabZoneRadius);
-                star.transform.RotateAround(Vector3.zero, Vector3.up, i * (360 / numBranches));
-                star.position = star.transform.position;
+                var trans = star.transform;
+                trans.Translate(star.transform.forward * centralNoHabZoneRadius);
+                trans.RotateAround(Vector3.zero, Vector3.up, i * (360 / numBranches));
                 star.starRenderer.state.position = star.transform.position;
                 var branchArr = new List<ProtoStar>();
                 branchArr.Add(star);

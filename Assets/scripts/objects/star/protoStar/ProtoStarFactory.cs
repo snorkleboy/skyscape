@@ -15,16 +15,21 @@ namespace Objects.Galaxy
         }
         public ProtoStar createStar(Transform holder)
         {
+            var go = new GameObject("protoNode");
+            go.transform.SetParent(holder);
             var state = new ProtostarState(){
                 appearableState = new State.AppearableState(
-                    appearTransform:holder,
+                    appearTransform: go.transform,
                     position:Vector3.zero,
                     star:null
                 )
             };
-            var mainAppearer = new SingleSceneAppearer(new sceneAppearInfo(_sceneToPrefab[0]),0,holder,state.appearableState);
+            var mainAppearer = new SingleSceneAppearer(new sceneAppearInfo(_sceneToPrefab[0]),0,state.appearableState);
             var rep = new LinkedAppearer(mainAppearer,state,state.appearableState);
-            var star = new ProtoStar(rep,state);
+
+
+            var star = go.AddComponent<ProtoStar>();
+            star.init(rep, state);
             star.appearer.appear(0);
             return star;
         }

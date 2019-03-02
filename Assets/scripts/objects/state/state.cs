@@ -12,6 +12,7 @@ using UnityEditor;
 using System.Linq;
 namespace Objects.Galaxy.State
 {
+    [System.Serializable]
 
     public class AppearableContainerState{
         public AppearableContainerState(){}
@@ -40,7 +41,7 @@ namespace Objects.Galaxy.State
         public NamedState(string name){this.name = name;}
         public string name;
     }
-
+    [System.Serializable]
     public class AppearableState
     {
         public AppearableState(Transform appearTransform, Vector3 position, StarNode star, bool isActive = false){
@@ -50,20 +51,22 @@ namespace Objects.Galaxy.State
             this.position = position;
             this.appearTransform.position = position;
         }
-        public Transform appearTransform { set;get; }
-        private Vector3 _position = Vector3.negativeInfinity;
+        public Transform activeTransform;
+        public Transform appearTransform;
+        public Vector3 _position = Vector3.negativeInfinity;
         public virtual Vector3 position{
             get{
                 return _position;
             }
             set{
                 _position = value;
-                if(isActive){
-                    appearTransform.position = _position;
+                if(activeTransform != null)
+                {
+                    activeTransform.position = _position;
                 }
             }   
         }
-        public StarNode starAt{get;set;}
-        public bool isActive{get;set;}
+        public StarNode starAt;
+        public bool isActive;
     }
 }

@@ -8,10 +8,10 @@ namespace Objects.Galaxy
     [System.Serializable]
     public class SingleSceneAppearer : BaseAppearable
     {
-        [SerializeField] private GameObject _prefab;
-        private int _sceneToAppearOn;
-        private sceneAppearInfo _info;
-        public SingleSceneAppearer(sceneAppearInfo info, int scene, Transform parent,AppearableState state):base(state)
+        [SerializeField] protected GameObject _prefab;
+        protected int _sceneToAppearOn;
+        protected sceneAppearInfo _info;
+        public SingleSceneAppearer(sceneAppearInfo info, int scene,AppearableState state):base(state)
         {
             _prefab = info.prefab;
             _sceneToAppearOn = scene;
@@ -22,16 +22,17 @@ namespace Objects.Galaxy
             destroy();
             if (scene == _sceneToAppearOn){
                 //todo improve
+
+                if(state.appearTransform){
+                    state.activeTransform = GameObject.Instantiate(_prefab, state.appearTransform).transform;
+                }else{
+                    util.Log.warnLog(this,"appearing object without an attachement point",_prefab,_sceneToAppearOn);
+                    state.activeTransform = GameObject.Instantiate(_prefab).transform;
+                }
                 if(_info.positionOverride != null && _info.positionOverride !=  Vector3.negativeInfinity){
                     state.position = _info.positionOverride;
                 }else{
                     state.position = state.position;
-                }
-                if(state.appearTransform){
-                    GameObject.Instantiate(_prefab, state.appearTransform);
-                }else{
-                    util.Log.warnLog(this,"appearing object without an attachement point",_prefab,_sceneToAppearOn);
-                    GameObject.Instantiate(_prefab);
                 }
                 state.isActive = true;
 

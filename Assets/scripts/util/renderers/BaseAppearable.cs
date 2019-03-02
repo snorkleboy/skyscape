@@ -14,19 +14,15 @@ namespace Objects
         public BaseAppearable(AppearableState state){
             this.state = state;
         }
-        public virtual void setAppearTransform(Transform transform){
-            state.appearTransform = transform;
-        }
         protected int sceneI = -1;
         public virtual void destroy()
         {
             if (state.isActive)
             {
-                var obj = state.appearTransform.gameObject;
 #if UNITY_EDITOR
-            GameObject.DestroyImmediate(obj);
+    GameObject.DestroyImmediate(state.activeTransform.gameObject);
 #else
-            GameObject.Destroy(obj);
+    GameObject.Destroy(state.activeTransform.gameObject);
 #endif
                 state.isActive = false;
             }

@@ -7,31 +7,51 @@ namespace Objects.Galaxy
     public class ProtoStarConnectionState{
         public ProtoStar[] nodes = new ProtoStar[2];
     }
-    public class ProtoStarConnectionRenderer : MultiSceneAppearer
+    public class ProtoStarConnectionRenderer : IAppearer
     {
-        ProtoStarConnectionState connectionState;
-        public ProtoStarConnectionRenderer(sceneAppearInfo[] sceneToPrefab,ProtoStarConnectionState connectionState ,AppearableState appearableState) : base(sceneToPrefab,appearableState)
+        public ProtoStarConnectionState connectionState;
+        public AppearableState state{get;set;}
+        private sceneAppearInfo[] sceneToPrefab;
+        public ProtoStarConnectionRenderer(sceneAppearInfo[] sceneToPrefab,ProtoStarConnectionState connectionState)
         {
+            this.state = new AppearableState(
+                appearTransform:connectionState.nodes[0].appearer.state.appearTransform,
+                position:connectionState.nodes[0].appearer.state.position,
+                star: null
+            );
             this.connectionState = connectionState;
+            this.sceneToPrefab = sceneToPrefab;
         }
-        protected override bool _appearImplimentation(int scene)
+        public bool appear(int scene)
         {
-            if (base._appearImplimentation(scene))
-            {
-                if ( scene == 0)
-                {
-                    if ((connectionState.nodes[0].transform != null && connectionState.nodes[1].transform != null))
-                    {
-                        var line = state.appearTransform.GetComponent<DrawLineBetweenPoints>();
-                        line.setTarget(connectionState.nodes[0].transform.gameObject, 0);
-                        line.setTarget(connectionState.nodes[1].transform.gameObject, 1);
-                        line.draw();
-                    }
-
+            if(scene == 0){
+                var _prefab = sceneToPrefab[0].prefab;
+                if(state.appearTransform != null){
+                    state.activeTransform = GameObject.Instantiate(_prefab, state.appearTransform).transform;
+                }else{
+                    util.Log.warnLog(this,"appearing object without an attachement point",_prefab,0);
+                     state.activeTransform = GameObject.Instantiate(_prefab).transform;
                 }
+                var line =  state.activeTransform.GetComponent<DrawLineBetweenPoints>();
+                line.setTarget(connectionState.nodes[0].state.appearableState.position, 0);
+                line.setTarget(connectionState.nodes[1].state.appearableState.position, 1);
+                line.draw();
                 return true;
             }
+
             return false;
+        }
+        public void destroy()
+        {
+            if (state.activeTransform.gameObject != null)
+            {
+#if UNITY_EDITOR
+    GameObject.DestroyImmediate(state.activeTransform.gameObject);
+#else
+    GameObject.Destroy(state.activeTransform.gameObject);
+#endif
+            }
+
         }
     }
 }

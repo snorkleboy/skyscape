@@ -65,17 +65,6 @@ namespace Objects
                 Debug.LogWarning("game manger couldnt find UIManager");
             }
             objectTable = new ObjectTable();
-            idMaker = new UniqueIdMaker(1232,objectTable);
-            var tc = new testclass();
-            tc.id = idMaker.newId(tc);
-            var thing = new Reference<testclass>(tc);
-            Debug.Log(thing.getId());
-            var ser = JsonConvert.SerializeObject(thing);
-            Debug.Log(ser);
-            var deser = JsonConvert.DeserializeObject<Reference<testclass>>(ser);
-            Debug.Log(deser.getId());
-            Debug.Log(deser.value.getId());
-
         }
         [SerializeField]private int scene;
         [SerializeField]public StarNode selectedStar;

@@ -24,7 +24,7 @@ namespace Objects.Galaxy
         {
             sceneRenderers = new SingleSceneAppearer[appearInfo.Length];
             for(var i =0; i<appearInfo.Length;i++){
-                sceneRenderers[i] = new SingleSceneAppearer(appearInfo[i],i,state.appearTransform,state);
+                sceneRenderers[i] = new SingleSceneAppearer(appearInfo[i],i,state);
             }
         }
         private int activeScene = -1;

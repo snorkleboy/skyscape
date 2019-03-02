@@ -4,22 +4,28 @@ using UnityEngine;
 
 public class DrawLineBetweenPoints : MonoBehaviour {
 
-	public GameObject[] targets= new GameObject[2];
+	public Vector3[] targets= new Vector3[2];
     public void setTarget(GameObject target, int i)
+    {
+        targets[i] = target.transform.position;
+    }
+    public void setTarget(Vector3 target, int i)
     {
         targets[i] = target;
     }
     public void setTargets(GameObject[] targets)
     {
-        this.targets = targets;
+        this.targets[0] = targets[0].transform.position;
+        this.targets[1] = targets[1].transform.position;
+
     }
     public LineRenderer lineRenderer;
 
     [ContextMenu("draw")]
     public void draw()
     {
-        lineRenderer.SetPosition(0, targets[0].transform.position);
-        lineRenderer.SetPosition(1, targets[1].transform.position);
+        lineRenderer.SetPosition(0, targets[0]);
+        lineRenderer.SetPosition(1, targets[1]);
     }
     public void Start()
     {

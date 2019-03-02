@@ -20,8 +20,8 @@ namespace Objects.Galaxy
                 infos[i] = new sceneAppearInfo(_sceneToPrefab[i]);
             }
 
-            var renderer = new ProtoStarConnectionRenderer(infos, state,a.state.appearableState);
-            var conn = new ProtoStarConnection();
+            var renderer = new ProtoStarConnectionRenderer(infos, state);
+            var conn = a.state.appearableState.activeTransform.gameObject.AddComponent<ProtoStarConnection>();
             conn.Init( state, renderer);
             conn.appearer.appear(0);
             return conn;

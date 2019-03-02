@@ -8,6 +8,7 @@ using Loaders;
 using Objects.Galaxy.State;
 namespace Objects.Galaxy
 {
+    [System.Serializable]
     public class ProtostarState : AppearableContainerState{
         public AppearableState appearableState;
         private List<ProtoStarConnection> _connections = new List<ProtoStarConnection>();
@@ -32,21 +33,12 @@ namespace Objects.Galaxy
 
     }
     [System.Serializable]
-    public class ProtoStar:IAppearable
+    public class ProtoStar:MonoBehaviour, IAppearable
     {
         public ProtostarState state;
-        public IAppearer appearer { get { return starRenderer; } 
-            set
-            {
-                starRenderer = (LinkedAppearer)value;
-            }
-        }
+        public IAppearer appearer { get { return starRenderer; }}
         public LinkedAppearer starRenderer;
-        public Transform transform { get { return appearer.state.appearTransform; } }
-        public Vector3 position;
-
-        [SerializeField] private List<ProtoStarConnection> _connections = new List<ProtoStarConnection>();
-        public ProtoStar(LinkedAppearer renderer, ProtostarState state)
+        public void init(LinkedAppearer renderer, ProtostarState state)
         {
             this.state = state;
             this.starRenderer = renderer;

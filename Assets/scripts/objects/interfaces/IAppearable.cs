@@ -9,7 +9,6 @@ namespace Objects
     }
     public interface IAppearer:IStatefulAttribute<AppearableState>
     {
-        void setAppearTransform(Transform parent);
         bool appear(int scene);
         void destroy();
     }
