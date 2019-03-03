@@ -68,7 +68,6 @@ namespace Objects.Galaxy
                 connections.Add(connection);
                 addAppearable(connection);
             }
-            Debug.Log("connections count:"+connections.Count + " " + alreadyAdded);
 
         }
         public void setPlanets(Reference<Planet>[] planets) {

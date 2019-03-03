@@ -52,7 +52,10 @@ namespace Objects.Galaxy
             {
                 drawLineForGalaxyView();
             }
-            if(scene == 3){
+            if (scene == 2){
+                state.position = connectionState.nodes[0].value.state.positionState.position;
+            }
+            else if(scene == 3){
                 state.appearTransform.gameObject.GetComponent<starNodeConnectionController>().set(conn);
             }
         }
