@@ -42,18 +42,18 @@ namespace GalaxyCreators
             var branchLeader = starArr[0];
             var ran = (int)Random.Range(-1, 1);
             var ranMult = 1 + (.2 * ran);
-            var star = starFactory.newStar(branchLeader.transform.parent);
-            star.transform.position = branchLeader.transform.position;
-            star.transform.Translate(branchLeader.transform.forward * (int)(ranMult*starI * starToStarDistance + starI));
-            star.transform.Translate(Vector3.up * ((int)(ranMult * starToStarDistance * .3)));
-            star.transform.RotateAround(Vector3.zero, Vector3.up, ((int)(ranMult * starI * perStarAngle)+ starI));
-            star.state.appearableState.position = star.transform.position;
+            var star = starFactory.newStar(branchLeader.state.appearableState.appearTransform.parent);
+            star.state.appearableState.appearTransform.position = branchLeader.state.appearableState.appearTransform.position;
+            star.state.appearableState.appearTransform.Translate(branchLeader.state.appearableState.appearTransform.forward * (int)(ranMult*starI * starToStarDistance + starI));
+            star.state.appearableState.appearTransform.Translate(Vector3.up * ((int)(ranMult * starToStarDistance * .3)));
+            star.state.appearableState.appearTransform.RotateAround(Vector3.zero, Vector3.up, ((int)(ranMult * starI * perStarAngle)+ starI));
+            star.state.appearableState.position = star.state.appearableState.appearTransform.position;
 
             if (starI > 0)
             {
-                star.transform.RotateAround(starArr[starI-1].transform.position, Vector3.up, ((int)(ranMult * perStarAngle)));
+                star.state.appearableState.appearTransform.RotateAround(starArr[starI-1].state.appearableState.appearTransform.position, Vector3.up, ((int)(ranMult * perStarAngle)));
             }
-            star.appearer.state.position = star.transform.position;
+            star.appearer.state.position = star.state.appearableState.appearTransform.position;
             return star;
         }
     }

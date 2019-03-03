@@ -13,6 +13,7 @@ using Objects.Galaxy.State;
 
 namespace Objects.Galaxy
 {
+    [System.Serializable]
     public class StarNodeState:GalaxyGameObjectState{
         public StarAsContainerState asContainerState;
 
@@ -53,14 +54,16 @@ namespace Objects.Galaxy
     public partial class StarNode : GalaxyGameObject<StarNodeState>, IAppearable, IUIable, ISaveAble<StarNodeModel>,IIded
     {
         public StarNodeModel model{get{return new StarNodeModel(this);}}
+        [SerializeField]private StarNodeState stateForDebug;
         public void Init(LinkedAppearer renderer,StarNodeState state)
         {
             this.state = state;
-            this.starAppearer = renderer;
+            stateForDebug = state;
+            this.appearer = renderer;
             this.enterable = new EnterableStar(state.asContainerState);
+            this.gameObject.name = state.namedState.name;
         }
-        public override IAppearer appearer { get { return starAppearer; } }
-        public LinkedAppearer starAppearer;
+        public override IAppearer appearer { get;set; }
         public EnterableStar enterable;
     }
     public partial class StarNode{

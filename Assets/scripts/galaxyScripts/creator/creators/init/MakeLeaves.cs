@@ -46,15 +46,15 @@ namespace GalaxyCreators
             var list = new List<ProtoStar>();
             for (var i =0; i < Random.Range(1, branchCount); i++)
             {
-                var newStar = starFactory.newStar(originalstar.transform.parent);
+                var newStar = starFactory.newStar(originalstar.state.appearableState.appearTransform.parent);
                 list.Add(newStar);
                 newStar.appearer.appear(0);
                 var ranMult = Random.Range(-.4f, .4f) + 1;
-                Transform tran = newStar.transform;
-                tran.position = star.transform.position;
-                tran.Translate(star.transform.forward *(int)( ranMult * 50+ branchCount));
+                Transform tran = newStar.state.appearableState.appearTransform;
+                tran.position = star.state.appearableState.appearTransform.position;
+                tran.Translate(star.state.appearableState.appearTransform.forward *(int)( ranMult * 50+ branchCount));
                 tran.Translate(Vector3.up * (int)(ranMult*10));
-                tran.RotateAround(originalstar.transform.position, Vector3.up, (int)(ranMult*30/ branchCount * i ));
+                tran.RotateAround(originalstar.state.appearableState.appearTransform.position, Vector3.up, (int)(ranMult*30/ branchCount * i ));
                 newStar.state.appearableState.position = tran.position;
                 starFactory.makeConnection(star, newStar);
                 star = newStar;

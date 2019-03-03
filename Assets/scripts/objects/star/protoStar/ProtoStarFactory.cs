@@ -20,15 +20,15 @@ namespace Objects.Galaxy
             var state = new ProtostarState(){
                 appearableState = new State.AppearableState(
                     appearTransform: go.transform,
-                    position:Vector3.zero,
+                    position:new Vector3(1,1,1),
                     star:null
                 )
             };
             var mainAppearer = new SingleSceneAppearer(new sceneAppearInfo(_sceneToPrefab[0]),0,state.appearableState);
-            var rep = new LinkedAppearer(mainAppearer,state,state.appearableState);
+            var rep = new LinkedAppearer(mainAppearer,state);
 
 
-            var star = go.AddComponent<ProtoStar>();
+            var star = new ProtoStar();
             star.init(rep, state);
             star.appearer.appear(0);
             return star;

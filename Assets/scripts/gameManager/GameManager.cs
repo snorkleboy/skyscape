@@ -45,13 +45,6 @@ namespace Objects
         [SerializeField]public StarNodeCollection _starNodes;
         [SerializeField]public FactionManager factions;
         [SerializeField]public UIManager UIManager;
-        public class testclass: IIded{
-            public testclass(){
-            }
-            public string thing = "hi";
-            public long id;
-            public long getId(){return id;}
-        }
         void Awake()
         {
             Debug.Log("game manager awake");
@@ -79,12 +72,12 @@ namespace Objects
     public partial class GameManager{
         public void startgame(Dictionary<int, List<ProtoStar>> protoNodes)
         {
-            scrub();
+            // scrub();
             Debug.Log("Start Game Called, loading loading screen");
             sceneLoader.buildGame(this,buildFromProtoStars(protoNodes));
         }
         public void startgame(SavedGame savedGame){
-            scrub();     
+            // scrub();     
             sceneLoader.buildGame(this,buildGameFromSave(savedGame));
         } 
         private IEnumerator buildFromProtoStars(Dictionary<int,List<ProtoStar>> protoNodes){

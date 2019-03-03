@@ -57,13 +57,11 @@ namespace GalaxyCreators
                     var protoStar = protoNodes[branchI][i];
                     var starNode = protoToStar[protoStar];
                     foreach(var connection in protoStar.state.connections){
-                        var a = connection.nodes[1];
-                        var b = connection.nodes[0]; 
+                        var a = connection.state.nodes[1];
+                        var b = connection.state.nodes[0]; 
                         var otherproto = a == protoStar ? b : a;
                         var otherStarNode = protoToStar[otherproto];
-                        starFactory.makeConnection(starNode,otherStarNode );
-                        Debug.Log("created " + starNode + " " + starNode.state.id);
-
+                        var conn = starFactory.makeConnection(starNode,otherStarNode );
                     };
                     yield return null;
                 }

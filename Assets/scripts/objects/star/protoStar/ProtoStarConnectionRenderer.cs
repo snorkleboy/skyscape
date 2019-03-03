@@ -30,7 +30,7 @@ namespace Objects.Galaxy
                     state.activeTransform = GameObject.Instantiate(_prefab, state.appearTransform).transform;
                 }else{
                     util.Log.warnLog(this,"appearing object without an attachement point",_prefab,0);
-                     state.activeTransform = GameObject.Instantiate(_prefab).transform;
+                    state.activeTransform = GameObject.Instantiate(_prefab).transform;
                 }
                 var line =  state.activeTransform.GetComponent<DrawLineBetweenPoints>();
                 line.setTarget(connectionState.nodes[0].state.appearableState.position, 0);

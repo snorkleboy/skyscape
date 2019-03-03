@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEditor;
 using Objects.Galaxy.State;
 namespace Objects.Galaxy
@@ -15,6 +16,7 @@ namespace Objects.Galaxy
         }
         public long[] starIds;
     }
+    [Serializable]
     public class StarConnectionState
     {        
         public double strength;
@@ -34,23 +36,6 @@ namespace Objects.Galaxy
         }
 
     }
-    [CustomEditor(typeof(StarConnection),true)]
-    public class StarConnectionEditor : Editor 
-    {
-        public override void OnInspectorGUI() {
-            StarConnection myTarget = (StarConnection)target;
-            EditorGUILayout.LabelField("stars: ");
-            EditorGUILayout.BeginVertical ();
-            foreach (var star in myTarget.state.nodes.getAllReferenced())
-            {
-                EditorGUILayout.BeginHorizontal(GUILayout.Width((float)(EditorGUIUtility.currentViewWidth*.8)));
-                    EditorGUILayout.LabelField("star id", star.state.id.ToString());
-                    EditorGUILayout.ObjectField("value",star,typeof(StarNode),true);
-                EditorGUILayout.EndHorizontal();
-            } 
-            EditorGUILayout.EndVertical();
-            EditorUtility.SetDirty(target);
-        }
-    }
+
 
 }

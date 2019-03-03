@@ -30,10 +30,10 @@ namespace GalaxyCreators
                 branch.transform.SetParent(holder.transform);
 
                 var star = starFactory.newStar(branch.transform);
-                var trans = star.transform;
-                trans.Translate(star.transform.forward * centralNoHabZoneRadius);
+                var trans = star.state.appearableState.appearTransform;
+                trans.Translate(star.state.appearableState.appearTransform.forward * centralNoHabZoneRadius);
                 trans.RotateAround(Vector3.zero, Vector3.up, i * (360 / numBranches));
-                star.starRenderer.state.position = star.transform.position;
+                star.starRenderer.state.position = star.state.appearableState.appearTransform.position;
                 var branchArr = new List<ProtoStar>();
                 branchArr.Add(star);
                 starNodes[i] = branchArr;
@@ -44,6 +44,7 @@ namespace GalaxyCreators
                 var b = starNodes[i + 1][0];
                 var connection = starFactory.makeConnection(a, b);
             }
+
             starFactory.makeConnection(starNodes[0][0], starNodes[starNodes.Count-1][0]);
             return starNodes;
         }

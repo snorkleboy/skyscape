@@ -8,12 +8,10 @@ namespace Objects
 {
 
     [System.Serializable]
-    public abstract partial class BaseAppearable: IAppearer
+    public abstract class BaseAppearable: IAppearer
     {
-        public virtual AppearableState state{get;private set;}
-        public BaseAppearable(AppearableState state){
-            this.state = state;
-        }
+        public abstract AppearableState state{get;set;}
+
         protected int sceneI = -1;
         public virtual void destroy()
         {
@@ -29,9 +27,6 @@ namespace Objects
 
         }
 
-    }
-    //appear
-    public partial class BaseAppearable{
         protected System.Action<int> preAppear = null;
         public void withPreAppearHook(System.Action<int> pre){
             preAppear = pre;

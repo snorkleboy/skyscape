@@ -85,9 +85,9 @@ namespace Objects.Galaxy
             {
                 infos[i] = new sceneAppearInfo(_sceneToPrefab[i]);
             }
-            infos[3].positionOverride = Vector3.zero;
+            // infos[3].positionOverride = Vector3.zero;
             var mainrep = new MultiSceneAppearer(infos,appearableState);
-            return new LinkedAppearer(mainrep,containerState,appearableState);
+            return new LinkedAppearer(mainrep,containerState);
         }
         public virtual StarConnection makeConnection(StarNode a, StarNode b)
         {

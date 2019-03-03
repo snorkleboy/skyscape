@@ -10,12 +10,11 @@ namespace Objects.Galaxy
     {
         StarConnectionState connectionState;
         StarConnection conn;
-        public StarConnectionAppearer(StarConnection conn, sceneAppearInfo[] sceneToPrefab, StarConnectionState connectionState, AppearableState appearableState) : base(sceneToPrefab, appearableState)
+        public StarConnectionAppearer(StarConnection conn, sceneAppearInfo[] sceneToPrefab, StarConnectionState connectionState) : base(sceneToPrefab, connectionState.appearableState)
         {
             this.preAppear = preAppearFunc;
             this.postAppear = postAppearFunc;
             this.connectionState = connectionState;
-            //TODO have connection be gotten on awake in go;
             this.conn = conn;
         }
         private StarNode setPositionForStarView(){
@@ -35,14 +34,12 @@ namespace Objects.Galaxy
             return starAt;
         }
         private void drawLineForGalaxyView(){
-            var goA = connectionState.nodes[0].value.appearer.state.appearTransform.gameObject;
-            var goB = connectionState.nodes[1].value.appearer.state.appearTransform.gameObject;
-            if(goA != null && goB != null){
-                var line = state.appearTransform.GetComponent<DrawLineBetweenPoints>();
-                line.setTarget(goA, 0);
-                line.setTarget(goB, 1);
-                line.draw();
-            }
+            var posA = connectionState.nodes[0].value.appearer.state.position;
+            var posB = connectionState.nodes[1].value.appearer.state.position;
+            var line = state.activeTransform.GetComponent<DrawLineBetweenPoints>();
+            line.setTarget(posA, 0);
+            line.setTarget(posB, 1);
+            line.draw();
         }
         private void preAppearFunc(int scene){
             //todo reset appearstate between nodes depending on active star

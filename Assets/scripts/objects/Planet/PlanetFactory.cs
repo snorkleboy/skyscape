@@ -23,10 +23,10 @@ namespace Objects.Galaxy
             var planetHolder = star.state.asContainerState.childrenTransform;
             parent.SetParent(planetHolder,false);
             var planet = parent.AddComponent<Planet>();
-            // var rep = new SingleSceneAppearer(new sceneAppearInfo(baseStarFab,position),3,parent.transform);
+            var rep = new SingleSceneAppearer(new sceneAppearInfo(baseStarFab),3,new State.AppearableState(parent.transform,new Vector3(1,1,1),null));
 
             var sprite = planetSprites[Random.Range(0,planetSprites.Length-1)];
-            // planet.Init(rep,sprite,new Reference<StarNode>(star),model);
+            planet.Init(rep,sprite,new Reference<StarNode>(star),model);
             planet.position = position;
             if(model == null){
                 planet.tileManager = tileFactory.makeTileManager();

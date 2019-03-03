@@ -21,8 +21,10 @@ namespace Objects.Galaxy
             }
 
             var renderer = new ProtoStarConnectionRenderer(infos, state);
-            var conn = a.state.appearableState.activeTransform.gameObject.AddComponent<ProtoStarConnection>();
+            var conn = new ProtoStarConnection();
             conn.Init( state, renderer);
+            a.state.addConnection(conn);
+            b.state.addConnection(conn);
             conn.appearer.appear(0);
             return conn;
         }

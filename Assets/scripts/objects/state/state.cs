@@ -1,3 +1,4 @@
+using System.Runtime.Serialization;
 
     using System.Data;
 using System.Collections;
@@ -33,15 +34,19 @@ namespace Objects.Galaxy.State
         }
     }
 
+    [System.Serializable]
 
     public class FactionOwnedState{
         public Faction belongsTo;
     }
+        [System.Serializable]
+
     public class NamedState{
         public NamedState(string name){this.name = name;}
         public string name;
     }
     [System.Serializable]
+    [DataContract]
     public class AppearableState
     {
         public AppearableState(Transform appearTransform, Vector3 position, StarNode star, bool isActive = false){
@@ -51,9 +56,9 @@ namespace Objects.Galaxy.State
             this.position = position;
             this.appearTransform.position = position;
         }
-        public Transform activeTransform;
-        public Transform appearTransform;
-        public Vector3 _position = Vector3.negativeInfinity;
+        [DataMember]public Transform activeTransform;
+        [DataMember]public Transform appearTransform;
+        [DataMember]public Vector3 _position = Vector3.negativeInfinity;
         public virtual Vector3 position{
             get{
                 return _position;
@@ -66,7 +71,7 @@ namespace Objects.Galaxy.State
                 }
             }   
         }
-        public StarNode starAt;
-        public bool isActive;
+        [IgnoreDataMember]public StarNode starAt{get;set;}
+        [DataMember]public bool isActive;
     }
 }

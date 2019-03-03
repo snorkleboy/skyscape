@@ -25,9 +25,7 @@ namespace Objects.Galaxy
         }
         public StarConnection makeConnection(StarNode nodeInstance,Reference<StarNode> referencedStarNode){
             StarConnection conn = null;
-            bool existed = false;
             if(referencedStarNode.checkExists()){
-                existed = true;
                 conn = referencedStarNode.value.enterable.getConnection(nodeInstance.state.id);
             }
             if (conn == null){
@@ -38,7 +36,11 @@ namespace Objects.Galaxy
         }
         private StarConnection _makeConnection(StarNode nodeInstance,Reference<StarNode> referencedStarNode){
             var state = new StarConnectionState(){
-                appearableState = nodeInstance.appearer.state,
+                appearableState = new State.AppearableState(
+                    appearTransform:nodeInstance.appearer.state.appearTransform,
+                    position: new Vector3(-99999,-99999,-99999),
+                    star:null
+                ),
                 strength = Random.Range(.01f, .99f),
                 nodes = new Reference<StarNode>[] {new Reference<StarNode>(nodeInstance), referencedStarNode}
             };
@@ -47,7 +49,7 @@ namespace Objects.Galaxy
                 infos[i] = new sceneAppearInfo(_sceneToPrefab[i]);
             }
             var conn = nodeInstance.gameObject.AddComponent<StarConnection>();
-            var renderer = new StarConnectionAppearer(conn,infos, state,nodeInstance.appearer.state);
+            var renderer = new StarConnectionAppearer(conn,infos, state);
             conn.Init(state, renderer);
             return conn;
         }

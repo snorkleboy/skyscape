@@ -1,3 +1,4 @@
+using System.Runtime.Serialization;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +17,8 @@ namespace Objects
     public interface ISaveAble<SerializableClass>{
         SerializableClass model{get;}
     }
-    
+    [System.Serializable]
+    [DataContract]
     public class GalaxyGameObjectState{
         public GalaxyGameObjectState(){}
         public GalaxyGameObjectState(Sprite icon,long id,FactoryStamp stamp,NamedState namedState,AppearableState positionState){
@@ -27,10 +29,10 @@ namespace Objects
             this.positionState = positionState;
         }
         public Sprite icon;
-        public long id;
-        public FactoryStamp stamp;
-        public NamedState namedState;
-        public AppearableState positionState;
+        [DataMember]public long id;
+        [DataMember]public FactoryStamp stamp;
+        [DataMember]public NamedState namedState;
+        [DataMember]public AppearableState positionState;
 
     }
 
@@ -42,7 +44,7 @@ namespace Objects
         //todo move model stuff into state and make state private-ish
         public StateModel state{get;set;}
         public abstract IconInfo getIconableInfo();
-        public virtual IAppearer appearer{get;} 
+        public virtual IAppearer appearer{get;set;} 
     }
     public abstract class MoveAbleGameObject<StateModel>:GalaxyGameObject<StateModel>,IStateActionable,IMoveable where StateModel:GalaxyGameObjectState
     {

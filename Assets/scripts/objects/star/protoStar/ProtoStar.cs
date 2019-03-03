@@ -11,7 +11,7 @@ namespace Objects.Galaxy
     [System.Serializable]
     public class ProtostarState : AppearableContainerState{
         public AppearableState appearableState;
-        private List<ProtoStarConnection> _connections = new List<ProtoStarConnection>();
+        [SerializeField]private List<ProtoStarConnection> _connections = new List<ProtoStarConnection>();
 
         public List<ProtoStarConnection> connections
         {
@@ -33,7 +33,7 @@ namespace Objects.Galaxy
 
     }
     [System.Serializable]
-    public class ProtoStar:MonoBehaviour, IAppearable
+    public class ProtoStar: IAppearable
     {
         public ProtostarState state;
         public IAppearer appearer { get { return starRenderer; }}

@@ -42,6 +42,8 @@ namespace Objects.Galaxy
         }
 
     }
+        [System.Serializable]
+
     public class StarAsContainerState:AppearableContainerState{
         public StarAsContainerState(Transform childTransform):base(childTransform)
         {
@@ -65,8 +67,9 @@ namespace Objects.Galaxy
                 existingConnection.state.nodes.Any(node=>node.getId() == existingConnection.state.nodes[0].getId()) && 
                 existingConnection.state.nodes.Any(node=>node.getId() == existingConnection.state.nodes[1].getId())
             ));
+
             if (!alreadyAdded){
-                addConnection(connection);
+                connections.Add(connection);
                 addAppearable(connection);
             }
         }
