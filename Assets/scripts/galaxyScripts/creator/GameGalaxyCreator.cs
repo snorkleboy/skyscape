@@ -56,6 +56,7 @@ namespace GalaxyCreators
                 {
                     var protoStar = protoNodes[branchI][i];
                     var starNode = protoToStar[protoStar];
+                    
                     foreach(var connection in protoStar.state.connections){
                         var a = connection.state.nodes[1];
                         var b = connection.state.nodes[0]; 

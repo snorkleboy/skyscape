@@ -63,15 +63,13 @@ namespace Objects.Galaxy
         }
         public void addConnection(StarConnection connection)
         {
-            bool alreadyAdded = connections.Any(existingConnection=>(
-                existingConnection.state.nodes.Any(node=>node.getId() == existingConnection.state.nodes[0].getId()) && 
-                existingConnection.state.nodes.Any(node=>node.getId() == existingConnection.state.nodes[1].getId())
-            ));
-
-            if (!alreadyAdded){
+            bool alreadyAdded = connections.Any(existingConnection=>existingConnection.Equals(connection));
+        if (!alreadyAdded){
                 connections.Add(connection);
                 addAppearable(connection);
             }
+            Debug.Log("connections count:"+connections.Count + " " + alreadyAdded);
+
         }
         public void setPlanets(Reference<Planet>[] planets) {
             this.planets = planets.ToList();

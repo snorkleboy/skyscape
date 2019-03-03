@@ -8,8 +8,8 @@ namespace GalaxyCreators
 {
     public class InitBranches : ProtoStarMaker
     {
-        [Range(1, 200)]
-        [SerializeField] public int centralNoHabZoneRadius = 30;
+        [Range(90, 200)]
+        [SerializeField] public int centralNoHabZoneRadius = 90;
         public void setCentralNoHabZoneRadius(Slider slider) { centralNoHabZoneRadius = (int)slider.value; }
         [Range(1, 10)]
         [SerializeField] public int numBranches = 4;

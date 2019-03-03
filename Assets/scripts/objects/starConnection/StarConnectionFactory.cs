@@ -18,7 +18,6 @@ namespace Objects.Galaxy
         public StarConnection makeConnection(StarNode a, StarNode b)
         {
             var conn = _makeConnection(a,new Reference<StarNode>(b));
-            // renderer.parent = a.transform.Find("representation");
             a.enterable.addConnection(conn);
             b.enterable.addConnection(conn);
             return conn;

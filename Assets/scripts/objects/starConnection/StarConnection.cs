@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEditor;
 using Objects.Galaxy.State;
+using System.Linq;
 namespace Objects.Galaxy
 {
     public class StarConnectionModel{
@@ -16,6 +17,7 @@ namespace Objects.Galaxy
         }
         public long[] starIds;
     }
+
     [Serializable]
     public class StarConnectionState
     {        
@@ -23,7 +25,7 @@ namespace Objects.Galaxy
         public Reference<StarNode>[] nodes;
         public AppearableState appearableState;
     }
-    public class StarConnection: MonoBehaviour,IAppearable, ISaveAble<StarConnectionModel>
+    public class StarConnection: MonoBehaviour,IAppearable, ISaveAble<StarConnectionModel>,IEquatable<StarConnection>
     {
         public StarConnectionModel model{get{return new StarConnectionModel(this);}}
         public IAppearer appearer { get; set; }
@@ -33,6 +35,16 @@ namespace Objects.Galaxy
         {
             appearer = renderer;
             this.state = state;
+        }
+        public bool Equals(StarConnection other){
+            var theseNodes = state.nodes;
+            var otherIdA = other.state.nodes[0].getId();
+            var otherIdB = other.state.nodes[1].getId();
+            var thisIdA = state.nodes[0].getId();
+            var thisIdB = state.nodes[1].getId();
+            var hasA = thisIdA == otherIdA || thisIdA == otherIdB;
+            var hasB = thisIdB == otherIdA || thisIdB == otherIdB;
+            return hasA && hasB;
         }
 
     }
