@@ -51,7 +51,7 @@ namespace Objects.Galaxy
         }
     }
 
-    public partial class StarNode : GalaxyGameObject<StarNodeState>, IAppearable, IUIable, ISaveAble<StarNodeModel>,IIded
+    public partial class StarNode : GalaxyGameObject<StarNodeState>,  ISaveAble<StarNodeModel>
     {
         public StarNodeModel model{get{return new StarNodeModel(this);}}
         [SerializeField]private StarNodeState stateForDebug;
@@ -89,7 +89,7 @@ namespace Objects.Galaxy
             var otherDetail = new IconInfo();
             var popNum = 0;
             foreach(var planet in state.asContainerState.planets){
-               foreach(var tile in  planet.value.tileManager.tiles){
+               foreach(var tile in  planet.value.tileable.state.tiles){
                    if (tile.building != null){
                        if (tile.building.pops != null){
                            popNum += tile.building.pops.Count;

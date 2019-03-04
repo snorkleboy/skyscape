@@ -27,7 +27,7 @@ namespace Objects.Conceptuals{
 		public Dictionary<string,Fleet> fleets = new Dictionary<string, Fleet>();
 		public FleetFactory fleetFactory;
 		public Fleet createFleet(Planet planet){
-			var fleet = fleetFactory.makeFleet(this,planet.parentStar.value, planet.appearer.state.position + new Vector3(2,0,2));
+			var fleet = fleetFactory.makeFleet(this,planet.state.positionState.starAt, planet.appearer.state.position + new Vector3(2,0,2));
 			return fleet;
 		}
 		public Fleet createFleet(FleetModel model, StarNode star){

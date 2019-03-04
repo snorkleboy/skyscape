@@ -13,23 +13,30 @@ namespace Objects.Galaxy
             buildingSprites = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"building");
             tileSprites = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"tile");
         }
-        public TileManager makeTileManager(TileModel[] tileModels, int tileWidth){
-            var width = tileWidth;
-            var height = width;
+        public Tileable makeTileManager(TileModel[] tileModels, int tileWidth){
             Tile[] tiles = new Tile[tileModels.Length];
             for (int i =0; i<tiles.Length;i++){
                 tiles[i] = makeTile(tileModels[i]);
             }
-            return new TileManager(width, height, tiles);
+            var state = new TileableState(){
+                width = tileWidth,
+                height = tileWidth,
+                tiles = tiles
+            };
+            return new Tileable(state);
         }
-        public TileManager makeTileManager(){
+        public Tileable makeTileManager(){
             var width = (int)Random.Range(5,15);
-            var height = width;
-            Tile[] tiles = new Tile[width*height];
+            Tile[] tiles = new Tile[width*width];
             for (int i =0; i<tiles.Length;i++){
                 tiles[i] = makeTile(i);
             }
-            return new TileManager(width, height, tiles);
+            var state = new TileableState(){
+                width = width,
+                height = width,
+                tiles = tiles
+            };
+            return new Tileable(state);
         }
         public Tile makeTile(TileModel model){
             Building building = null;

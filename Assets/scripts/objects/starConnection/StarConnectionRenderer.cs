@@ -56,7 +56,8 @@ namespace Objects.Galaxy
                 state.position = connectionState.nodes[0].value.state.positionState.position;
             }
             else if(scene == 3){
-                state.appearTransform.gameObject.GetComponent<starNodeConnectionController>().set(conn);
+                var go = state.activeTransform.gameObject;
+                go.GetComponent<starNodeConnectionController>().set(conn);
             }
         }
         public override void destroy(){

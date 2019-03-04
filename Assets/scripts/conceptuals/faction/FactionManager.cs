@@ -38,12 +38,12 @@ namespace Objects.Conceptuals{
             }
             return faction;
         }
-        public Planet registerPlanetToFaction(Planet planet, Faction faction){
+        public Faction registerPlanetToFaction(Planet planet, Faction faction){
             planetToFactions[planet] = faction;
             if (factions[faction.name] != faction){
                 Debug.LogWarning("unknown faction " + faction);
             }
-            return planet;
+            return faction;
         }
         public Faction GetFaction(string faction){
             return factions[faction];

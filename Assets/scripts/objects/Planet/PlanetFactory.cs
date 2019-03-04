@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Loaders;
+using Objects.Conceptuals;
 namespace Objects.Galaxy
 {
     public class PlanetFactory: MonoBehaviour
@@ -19,24 +20,41 @@ namespace Objects.Galaxy
         }
         public Planet makePlanet(StarNode star, Vector3 position,PlanetModel model = null)
         {
-            var parent = new GameObject("planet");
-            var planetHolder = star.state.asContainerState.childrenTransform;
-            parent.SetParent(planetHolder,false);
-            var planet = parent.AddComponent<Planet>();
-            var rep = new SingleSceneAppearer(new sceneAppearInfo(baseStarFab),3,new State.AppearableState(parent.transform,new Vector3(1,1,1),null));
+            var name = Names.planetNames.getName();
+            var faction = GameManager.instance.user.faction;
+            Transform parent;
+            var planet = makeTransforms(star,name,out parent);
 
-            var sprite = planetSprites[Random.Range(0,planetSprites.Length-1)];
-            planet.Init(rep,sprite,new Reference<StarNode>(star),model);
-            planet.position = position;
-            if(model == null){
-                planet.tileManager = tileFactory.makeTileManager();
-                planet.id = GameManager.idMaker.newId(planet);
-            }else{
-                planet.tileManager = tileFactory.makeTileManager(model.tiles,model.tileWidth);
-                planet.id = GameManager.idMaker.insertObject(planet,model.id);
-            }
+            var tileable = tileFactory.makeTileManager();
+            var state = makeState(parent,planet,position,star,name,faction,tileable.state);
+            var appearable = new SingleSceneAppearer(new sceneAppearInfo(baseStarFab),3,state.positionState);
+
+            planet.Init(appearable,tileable,state);
 
             return planet;
+        }
+        private Planet makeTransforms(StarNode starAt,string name,out Transform parent){
+            var planetHolder = starAt.state.asContainerState.childrenTransform;
+            var parentGo = new GameObject("planet");
+            parentGo.name = name;
+            parent = parentGo.transform;
+            parent.SetParent(planetHolder,false);
+            return parentGo.AddComponent<Planet>();
+        }
+        private PlanetState makeState(Transform parent,Planet planet,Vector3 position,StarNode starAt,string name,Faction faction,TileableState tileState){
+            return new PlanetState(){
+                positionState = new State.AppearableState(
+                    appearTransform:parent,
+                    position:position,
+                    star:starAt
+                ),
+                tileableState = tileState,
+                id = GameManager.idMaker.newId(planet),
+                namedState = new State.NamedState(){name = name},
+                icon = planetSprites[Random.Range(0,planetSprites.Length-1)],
+                factionState = new State.FactionOwnedState(){belongsTo = GameManager.instance.factions.registerPlanetToFaction(planet,faction)}           
+            };
+            ;
         }
 
     }

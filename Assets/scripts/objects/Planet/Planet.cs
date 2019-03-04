@@ -5,8 +5,13 @@ using Objects.Galaxy;
 using UnityEngine.UI;
 using UI;
 using Objects.Conceptuals;
+using Objects.Galaxy.State;
 namespace Objects.Galaxy
 {
+    public class PlanetState :GalaxyGameObjectState{
+        public FactionOwnedState factionState;
+        public TileableState tileableState;
+    }
     public class PlanetModel{
         public string name;
         public TileModel[] tiles;
@@ -16,57 +21,30 @@ namespace Objects.Galaxy
         public long factionId;
         public PlanetModel(){}
         public PlanetModel(Planet planet){
-            tileWidth = planet.tileManager.width;
+            tileWidth = planet.tileable.state.width;
             name = planet.name;
-            id = planet.id;
-            position = planet.position;
-            var length = planet.tileManager.tiles.Length;
+            id = planet.state.id;
+            position = planet.appearer.state.position;
+            var length = planet.tileable.state.tiles.Length;
             tiles = new TileModel[length];
             for(var i =0; i<length;i++){
-                tiles[i] = planet.tileManager.tiles[i].model;
+                tiles[i] = planet.tileable.state.tiles[i].model;
             }
-            factionId = planet.owningFaction.id;
+            factionId = planet.state.factionState.belongsTo.id;
         }
 
     }
     [System.Serializable]
-    public partial class Planet :MonoBehaviour, IViewable,IContextable,IActOnable, IAppearable, ISaveAble<PlanetModel>, IIded
+    public partial class Planet :GalaxyGameObject<PlanetState>,IViewable,IContextable,IActOnable,  ISaveAble<PlanetModel>
     {
         public PlanetModel model{get{return new PlanetModel(this);}}
-        public long id;
-        public long getId(){
-            return id;
-        }
-        public IAppearer appearer { get { return planetRenderer; } }
-        public string title;
-        public Reference<StarNode> parentStar;
-        [SerializeField]private SingleSceneAppearer planetRenderer { get; set; }
-        public Sprite planetSprite;
-        public Vector3 position;
-        public TileManager tileManager;
-        public Faction owningFaction;
-        public void Init(SingleSceneAppearer renderer,Sprite planetSprite,Reference<StarNode> star,PlanetModel model = null)
+        public override IAppearer appearer { get;set; }
+        public Tileable tileable;
+        public void Init(SingleSceneAppearer renderer,Tileable tileable,PlanetState state)
         {
-            if(model !=null){
-                title = model.name;
-                owningFaction = model.factionId.dereference<Faction>();
-            }else{
-                title = Names.planetNames.getName();
-                owningFaction = GameManager.instance.user.faction;
-                GameManager.instance.factions.registerPlanetToFaction(this,owningFaction);
-            }
-            gameObject.name = title;
-            parentStar = star;
-            this.planetSprite = planetSprite;
-            planetRenderer = renderer;
-
-        }
-
-        public void appear(int scene)
-        {
-            // if (planetRenderer.appear(scene)){
-            //     planetRenderer.activeGO.name = "planet representation";
-            // }
+            appearer = renderer;
+            this.state = state;
+            this.tileable = tileable;
         }
     }
     public partial class Planet{
@@ -95,24 +73,24 @@ namespace Objects.Galaxy
             callbacks.contextViewCallback(this);
             callbacks.actionViewCallBack(this);
             Debug.Log("RENDER PLANET UI VIEW");
-            return tileManager.renderUIView(parent,callbacks);
+            return tileable.renderUIView(parent,callbacks);
         }
         public GameObject renderContext(Transform parent, clickViews callbacks){
             var holder =  new GameObject("PLANET Context");
             holder.transform.SetParent(parent, false);
             var text = new GameObject("planet info");
             var textComp = text.AddComponent<Text>();
-            textComp.text = "number of tiles:" + tileManager.tiles.Length;
+            textComp.text = "number of tiles:" + tileable.state.tiles.Length;
             textComp.fontSize = 16;
             textComp.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
             text.transform.SetParent(holder.transform,false);
             return holder;
         }
-        public IconInfo getIconableInfo(){
+        public override IconInfo getIconableInfo(){
             var info = new IconInfo();
             info.source = this;
-            info.name = title;
-            info.icon = planetSprite;
+            info.name = state.namedState.name;
+            info.icon = state.icon;
             return info;
         }
     }

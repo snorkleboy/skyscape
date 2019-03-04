@@ -5,16 +5,22 @@ using UI;
 namespace Objects.Galaxy
 {
     [Serializable]
-    public class TileManager{
-        public int updateId{get;}
-        [SerializeField]public Tile[] tiles;
-        public TilerView tilerView = new TilerView();
+    public class TileableState{
         public int height;
         public int width;
-        public TileManager(int width, int height, Tile[] tiles){
-            this.height = height;
-            this.width = width;
-            this.tiles = tiles;
+        [SerializeField]public Tile[] tiles;
+
+    }
+    public interface ITileable:IStatefulAttribute<TileableState>{
+        
+    }
+    [Serializable]
+    public class Tileable:ITileable{
+        public TileableState state{get;set;}
+        public int updateId{get;}
+        public TilerView tilerView = new TilerView();
+        public Tileable(TileableState state){
+            this.state = state;
         }
         public GameObject renderUIView(Transform parent,clickViews callbacks){
             Debug.Log("Tilemanger render UIVIEW");

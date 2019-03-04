@@ -42,6 +42,7 @@ namespace Objects.Galaxy.State
         [System.Serializable]
 
     public class NamedState{
+        public NamedState(){}
         public NamedState(string name){this.name = name;}
         public string name;
     }
