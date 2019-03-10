@@ -10,7 +10,7 @@ namespace Objects
     [System.Serializable]
     public abstract class BaseAppearable: IAppearer
     {
-        public abstract AppearableState state{get;set;}
+        public virtual AppearableState state{get;set;}
 
         protected int sceneI = -1;
         public virtual void destroy()

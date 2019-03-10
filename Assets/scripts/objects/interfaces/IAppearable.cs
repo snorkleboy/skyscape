@@ -4,11 +4,10 @@ using Objects.Galaxy;
 using Objects.Galaxy.State;
 namespace Objects
 {
-    public interface IStatefulAttribute<State>{
-        State state{get;}
-    }
-    public interface IAppearer:IStatefulAttribute<AppearableState>
+
+    public interface IAppearer
     {
+        AppearableState state{get;}
         bool appear(int scene);
         void destroy();
     }

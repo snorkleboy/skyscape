@@ -11,18 +11,18 @@ namespace Objects.Galaxy
         public ShipModel(){}
         public ShipModel(Ship ship){
             id=ship.id;
-            position = ship.mover.getPosition();
+            position = ship.mover.appearableState.position;
         }
         public long id;
         public SerializableVector3 position;
         public SerializableQuaternion rotation;
     }
 
-    public partial class Ship : MoveAbleGameObject<GalaxyGameObjectState>,ISaveAble<ShipModel>,IIded
+    public partial class Ship : GalaxyGameObject<GalaxyGameObjectState>,ISaveAble<ShipModel>
     {
         public long id;
         public ShipModel model{get{return new ShipModel(this);}}
-        public override IMover mover{get{return moverHelper;}}
+        public IMover mover{get{return moverHelper;}}
         private ShipMover moverHelper;
         public void Init(SingleSceneAppearer renderer){
         //     appearer = renderer;

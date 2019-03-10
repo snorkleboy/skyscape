@@ -21,36 +21,37 @@ namespace Objects
     [DataContract]
     public class GalaxyGameObjectState{
         public GalaxyGameObjectState(){}
-        public GalaxyGameObjectState(Sprite icon,long id,FactoryStamp stamp,NamedState namedState,AppearableState positionState){
+        public GalaxyGameObjectState(Sprite icon,long id,FactoryStamp stamp,NamedState namedState,AppearableState positionState,StateActionState actionState){
             this.icon = icon;
             this.id = id;
             this.stamp = stamp;
             this.namedState = namedState;
             this.positionState = positionState;
+            this.actionState = actionState;
         }
         public Sprite icon;
         [DataMember]public long id;
         [DataMember]public FactoryStamp stamp;
         [DataMember]public NamedState namedState;
         [DataMember]public AppearableState positionState;
+        [DataMember]public StateActionState actionState;
 
     }
 
-    public abstract class GalaxyGameObject<StateModel>: MonoBehaviour,IUIable,IAppearable,IIded where StateModel:GalaxyGameObjectState
+    public abstract class GalaxyGameObject<StateModel>: MonoBehaviour,IStateActionable,IUIable,IAppearable,IIded where StateModel:GalaxyGameObjectState
     {
+        public StateModel state{get;set;}
+
         public long getId(){
             return state.id;
         }
-        //todo move model stuff into state and make state private-ish
-        public StateModel state{get;set;}
+
         public abstract IconInfo getIconableInfo();
+        public virtual IStateActionManager stateActionManager{get;}
+        public virtual StateActionState stateActionState{get;}
         public virtual IAppearer appearer{get;set;} 
     }
-    public abstract class MoveAbleGameObject<StateModel>:GalaxyGameObject<StateModel>,IStateActionable,IMoveable where StateModel:GalaxyGameObjectState
-    {
-        public IStateActionManager stateActionManager{get;}
-        public virtual IMover mover{get;}
-    }
+
     
 
 

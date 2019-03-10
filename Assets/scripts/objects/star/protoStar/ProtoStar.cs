@@ -43,7 +43,6 @@ namespace Objects.Galaxy
             this.state = state;
             this.starRenderer = renderer;
         }
-
     }
 
 }

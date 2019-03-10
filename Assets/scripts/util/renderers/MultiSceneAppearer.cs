@@ -24,7 +24,6 @@ namespace Objects.Galaxy
     [System.Serializable]
     public class MultiSceneAppearer : BaseAppearable
     {
-        public override AppearableState state{get;set;}
 
         public MultiSceneAppearer(sceneAppearInfo[] appearInfo,AppearableState state)
         {

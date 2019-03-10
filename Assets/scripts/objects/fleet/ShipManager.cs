@@ -9,9 +9,7 @@ namespace Objects
 {
     public class ShipManager{
         public FleetMover mover;
-        public Vector3 getPostion(){
-            return mover.getPosition();
-        }
+
         public ShipManager(FleetMover mover){
             this.mover = mover;
         }

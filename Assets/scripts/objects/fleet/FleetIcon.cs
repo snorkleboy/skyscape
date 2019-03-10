@@ -14,7 +14,7 @@ public class FleetIcon : SpaceIcon {
         }
     }
     protected override Vector3 getTargetPosition(){
-        return fleet.getPosition();
+        return fleet.state.positionState.position;
     }
     protected override bool shouldRender(){
         return true;

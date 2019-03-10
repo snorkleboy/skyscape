@@ -11,7 +11,6 @@ namespace Objects.Galaxy
         //  protected GameObject _prefab;
         protected int _sceneToAppearOn;
         protected sceneAppearInfo _info;
-        public override AppearableState state{get;set;}
 
         private bool savedPosition = false;
         private Vector3 positionSave = new Vector3(-999,999,-999);

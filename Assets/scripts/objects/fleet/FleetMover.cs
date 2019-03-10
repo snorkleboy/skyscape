@@ -10,9 +10,6 @@ namespace Objects
         public List<IMover> subMovers = new List<IMover>();
         public Transform fleetTransform;
         public Fleet fleet;
-        public override Vector3 getPosition(){
-            return fleetTransform.position;
-        }
         public void addMover(IMover mover){
             subMovers.Add(mover);
         }
@@ -21,32 +18,40 @@ namespace Objects
         }
 
         public override StateAction setTarget(UnityEngine.Vector3 target, float d = 0.5f){
-            return Fleet.FleetStateActions.moveFleet(fleet, target);
+            return FleetStateActions.moveFleet(fleet, target);
         }
     }
-    [System.Serializable]
-    public class MoveFleetModel :StateActionModel{
-        public MoveFleetModel(){}
-        public MoveFleetModel(MoveFleet action){
-            target = action.target;
-            constructorName = nameof(Fleet.FleetStateActions.moveFleet);
-        }
-        public override Objects.StateAction hydrate<T>(T stateSource){
-            Fleet fleet= stateSource as Fleet;
-            if (fleet == null){
-                Debug.LogError("couldnt cast stateSource to fleet");
-                return null;
-            }else{
+    // [System.Serializable]
+    // public class MoveFleetModel :StateActionModel{
+    //     public MoveFleetModel(){}
+    //     public MoveFleetModel(MoveFleet action){
+    //         target = action.target;
+    //         constructorName = nameof(Fleet.FleetStateActions.moveFleet);
+    //     }
+    //     public override Objects.StateAction hydrate<T>(T stateSource){
+    //         Fleet fleet= stateSource as Fleet;
+    //         if (fleet == null){
+    //             Debug.LogError("couldnt cast stateSource to fleet");
+    //             return null;
+    //         }else{
+    //             return new MoveFleet().Init(fleet, target);
+    //         }
+
+    //     }
+    //     public SerializableVector3 target;
+
+    // }
+    public static class FleetStateActions{
+            public static StateAction moveFleet(Fleet fleet,Vector3 target){
                 return new MoveFleet().Init(fleet, target);
             }
-
-        }
-        public SerializableVector3 target;
-
+            // public static StateAction moveFleet(Fleet fleet,MoveFleetModel model){
+            //     return new MoveFleet().Init(fleet, model.target);
+            // }
     }
     [System.Serializable]
     public class MoveFleet : Objects.StateAction{
-        public override StateActionModel model{get{return new MoveFleetModel(this);}}
+        // public override StateActionModel model{get{return new MoveFleetModel(this);}}
         List<IMover> subMovers;
         [SerializeField] List<StateAction> subActions = new List<StateAction>();
         public Vector3 target;
@@ -113,7 +118,7 @@ namespace Objects
         private Vector3 getAveragePosition(){
             Vector3 pos = Vector3.zero;
             foreach(var mover in subMovers){
-                pos += mover.getPosition();
+                pos += mover.appearableState.position;
             }
             return pos/subMovers.Count;
         }

@@ -11,8 +11,8 @@ namespace Objects.Galaxy
         [SerializeField]public Tile[] tiles;
 
     }
-    public interface ITileable:IStatefulAttribute<TileableState>{
-        
+    public interface ITileable{
+        TileableState state{get;}
     }
     [Serializable]
     public class Tileable:ITileable{

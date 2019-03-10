@@ -33,12 +33,12 @@ namespace Objects
         public long factionId;
         public long id;
         public ShipModel[] shipModels;
-        public StateActionModel stateAction;
+        // public StateActionModel stateAction;
 
     }
 
     //setup
-    public partial class Fleet:MoveAbleGameObject<FleetState> ,ISaveAble<FleetModel>,IViewable,ISelectable,IIded{
+    public partial class Fleet:GalaxyGameObject<FleetState>,ISaveAble<FleetModel>,IViewable,ISelectable{
         public FleetModel model{get{return new FleetModel(this);}}
         public long id;
         public Faction owningFaction;
@@ -59,8 +59,7 @@ namespace Objects
                 };
         }
         public bool checkClick(){
-            var down = Input.GetMouseButtonDown(1);
-            return down;
+            return Input.GetMouseButtonDown(1);
         }
         public void moveTo(){
             Debug.Log("set position " + this);
@@ -78,12 +77,12 @@ namespace Objects
     }
     public partial class Fleet
     {
-        public override IMover mover{get{return ships.mover;}}
+        public IMover mover{get{return ships.mover;}}
         public Vector3 fleetPosition;
         public ShipManager ships;
-        public Vector3 getPosition(){
-            return ships.getPostion();
-        }
+        // public Vector3 getPosition(){
+        //     return ships.getPostion();
+        // }
         public Fleet addShips(Ship ship){
             this.ships.addShips(ship);
             // _appearer.addAppearables(ship);
@@ -104,12 +103,12 @@ namespace Objects
         public void appear(int scene){
             var count = 0;
             // foreach (var appearable in _appearer.appearables){
-                // var appearPos = fleetPosition + new Vector3(1 + 3*count++,0,0);
-                // appearable.appearer.setAppearPosition(appearPos,3);
+            //     var appearPos = fleetPosition + new Vector3(1 + 3*count++,0,0);
+            //     appearable.appearer.setAppearPosition(appearPos,3);
             // }
             // if(appearer.appear(scene)){
-                // appearer.activeGO.transform.position = fleetPosition;
-                // this.ships.mover.fleetTransform = appearer.activeGO.transform;
+            //     appearer.activeGO.transform.position = fleetPosition;
+            //     this.ships.mover.fleetTransform = appearer.activeGO.transform;
             // }
 
         }
@@ -132,14 +131,7 @@ namespace Objects
             return new GameObject();
         }
 
-        public static class FleetStateActions{
-            public static StateAction moveFleet(Fleet fleet,Vector3 target){
-                return new MoveFleet().Init(fleet, target);
-            }
-            public static StateAction moveFleet(Fleet fleet,MoveFleetModel model){
-                return new MoveFleet().Init(fleet, model.target);
-            }
-        }
+
     }
 
 }
