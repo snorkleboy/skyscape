@@ -65,7 +65,7 @@ namespace Objects.Galaxy
             var button = makeShipButton.AddComponent<Button>();
             button.onClick.AddListener(()=>{
                 var fleet = GameManager.instance.factions.GetFaction(this).createFleet(this);
-                fleet.appearer.appear(2);
+                fleet.appearer.appear(3);
                 Debug.Log("fleet created: " + fleet);
             });
             var text = makeShipButton.AddComponent<Text>();

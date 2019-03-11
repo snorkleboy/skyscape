@@ -36,7 +36,7 @@ namespace Objects
         private Fleet makeFleet(Faction faction,StarNode starAt, Vector3 position,string name){
             GameObject fleetGo;
             var fleet =  makeTransforms(starAt,out fleetGo);
-            var fleetState = makeFleetState(fleet,position,faction,fleetGo.transform,starAt);
+            var fleetState = makeFleetState(fleet,position,faction,fleetGo.transform,starAt,name);
             var fleetRenderer = makeAppearers(fleetState);
             var mover = fleetGo.AddComponent<FleetMover>().init(fleet);
             fleet.init(fleetState,fleetRenderer,mover);
@@ -56,11 +56,11 @@ namespace Objects
             {
                 infos[i] = new sceneAppearInfo(sceneToPrefab[i]);
             }
-            var mainrep = new MultiSceneAppearer(infos,fleetState.positionState);
+            // var mainrep = new MultiSceneAppearer(infos,fleetState.positionState);
             var mainRep = new SingleSceneAppearer( infos[3],3,fleetState.positionState);
             return new LinkedAppearer(mainRep,fleetState.shipsContainer);
         }
-        private FleetState makeFleetState(Fleet fleet, Vector3 position,Faction faction, Transform appearTransform,StarNode star){
+        private FleetState makeFleetState(Fleet fleet, Vector3 position,Faction faction, Transform appearTransform,StarNode star,string name){
             return new FleetState(
                 ships: new ShipsContainer(),
                 id : GameManager.idMaker.newId(fleet),

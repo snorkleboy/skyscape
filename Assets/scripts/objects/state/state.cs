@@ -39,7 +39,7 @@ namespace Objects.Galaxy.State
     public class FactionOwnedState{
         public Faction belongsTo;
     }
-        [System.Serializable]
+    [System.Serializable]
 
     public class NamedState{
         public NamedState(){}

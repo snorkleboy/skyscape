@@ -1,5 +1,6 @@
 namespace Objects
 {
+    [System.Serializable]
     public class FactoryStamp
     {
         public FactoryStamp(string stamp){
