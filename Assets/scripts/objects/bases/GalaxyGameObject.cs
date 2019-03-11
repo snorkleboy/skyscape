@@ -20,14 +20,14 @@ namespace Objects
     [System.Serializable]
     [DataContract]
     public class GalaxyGameObjectState{
-        public GalaxyGameObjectState(){}
-        public GalaxyGameObjectState(Sprite icon,long id,FactoryStamp stamp,NamedState namedState,AppearableState positionState,StateActionState actionState){
+        public GalaxyGameObjectState(Sprite icon,long id,FactoryStamp stamp,NamedState namedState,AppearableState positionState,FactionOwnedState factionOwnedState,StateActionState actionState){
             this.icon = icon;
             this.id = id;
             this.stamp = stamp;
             this.namedState = namedState;
             this.positionState = positionState;
             this.actionState = actionState;
+            this.factionOwnedState = factionOwnedState;
         }
         public Sprite icon;
         [DataMember]public long id;
@@ -35,19 +35,17 @@ namespace Objects
         [DataMember]public NamedState namedState;
         [DataMember]public AppearableState positionState;
         [DataMember]public StateActionState actionState;
+        [DataMember]public FactionOwnedState factionOwnedState;
 
     }
 
-    public abstract class GalaxyGameObject<StateModel>: MonoBehaviour,IStateActionable,IUIable,IAppearable,IIded where StateModel:GalaxyGameObjectState
+    public abstract class GalaxyGameObject<StateModel>: MonoBehaviour,IUIable,IAppearable,IIded where StateModel:GalaxyGameObjectState
     {
         public StateModel state{get;set;}
-
         public long getId(){
             return state.id;
         }
-
         public abstract IconInfo getIconableInfo();
-        public virtual IStateActionManager stateActionManager{get;}
         public virtual StateActionState stateActionState{get;}
         public virtual IAppearer appearer{get;set;} 
     }

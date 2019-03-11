@@ -9,8 +9,12 @@ using Objects.Galaxy.State;
 namespace Objects.Galaxy
 {
     public class PlanetState :GalaxyGameObjectState{
-        public FactionOwnedState factionState;
         public TileableState tileableState;
+        public PlanetState(FactionOwnedState factionState,TileableState tileableState,Sprite icon, long id, FactoryStamp stamp, NamedState namedState, AppearableState positionState, StateActionState actionState) :
+        base(icon, id, stamp, namedState, positionState,factionState, actionState)
+        {
+            this.tileableState = tileableState;
+        }
     }
     public class PlanetModel{
         public string name;
@@ -30,7 +34,7 @@ namespace Objects.Galaxy
             for(var i =0; i<length;i++){
                 tiles[i] = planet.tileable.state.tiles[i].model;
             }
-            factionId = planet.state.factionState.belongsTo.id;
+            // factionId = planet.state.factionState.belongsTo.id;
         }
 
     }
@@ -61,6 +65,7 @@ namespace Objects.Galaxy
             var button = makeShipButton.AddComponent<Button>();
             button.onClick.AddListener(()=>{
                 var fleet = GameManager.instance.factions.GetFaction(this).createFleet(this);
+                fleet.appearer.appear(2);
                 Debug.Log("fleet created: " + fleet);
             });
             var text = makeShipButton.AddComponent<Text>();

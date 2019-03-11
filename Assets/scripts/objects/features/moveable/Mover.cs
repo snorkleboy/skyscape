@@ -13,27 +13,20 @@ namespace Objects
         IMover mover{get;} 
     }
     public interface IMover{
-        StateAction setTarget(Vector3 target, float stopDistence = .5f);
+        StateAction moveTo(Vector3 target, float stopDistence = .5f);
         AppearableState appearableState{get;}
-        StateAction StateAction{get;}
+        StateActionState stateActionState{get;}
     }
 
     public abstract class BasicMover :MonoBehaviour, IMover{
         public float speed = 5f;
-        public StateAction StateAction{get;set;}
+        public StateActionState stateActionState{get;set;}
         public AppearableState appearableState{get;set;}
         public virtual void init(float speed = 5f){
             this.speed = speed;
         }        
-        public abstract StateAction setTarget(Vector3 target,float d = .5f);
+        public abstract StateAction moveTo(Vector3 target,float d = .5f);
 
     }
-    public class Mover :BasicMover{
-        public override StateAction setTarget(Vector3 target,float d = .5f){
-            if(StateAction !=null){
-                StateAction.Destroy();
-            }
-            return StateAction = new MoveTransform().Init(transform,speed,d,target);
-        }
-    }
+
 }

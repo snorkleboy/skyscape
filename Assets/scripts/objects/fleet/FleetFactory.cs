@@ -5,6 +5,7 @@ using Objects.Galaxy;
 using UI;
 using Loaders;
 using Objects.Conceptuals;
+using Objects.Galaxy.State;
 namespace Objects
 {
     public class FleetFactory : MonoBehaviour
@@ -24,44 +25,63 @@ namespace Objects
                 Debug.LogWarning("fleet factory did not find fleet prefab");
             }
         }
-        private Fleet makeFleet(Faction faction, Vector3 position,string name, long id =-1){
-            var fleetGo = new GameObject("fleet");
-            var fleetGoShipsHolder = new GameObject("ships");
-            fleetGoShipsHolder.SetParent(fleetGo);
-            var fleet = fleetGo.AddComponent<Fleet>();
-            if(id == -1){
-                fleet.id = GameManager.idMaker.newId(fleet);
-            }else{
-                fleet.id = GameManager.idMaker.insertObject(fleet,id);
-            }
+        public Fleet makeFleet(Faction faction, StarNode parent, Vector3 position){
+            var fleet = makeFleet(faction,parent,position,"fleet" +  faction.fleets.Count);
+            shipFactory.makeShip(fleet);
+            shipFactory.makeShip(fleet);
+            shipFactory.makeShip(fleet);
+            parent.enterable.addFleet(fleet);
+            return fleet;
+        }
+        private Fleet makeFleet(Faction faction,StarNode starAt, Vector3 position,string name){
+            GameObject fleetGo;
+            var fleet =  makeTransforms(starAt,out fleetGo);
+            var fleetState = makeFleetState(fleet,position,faction,fleetGo.transform,starAt);
+            var fleetRenderer = makeAppearers(fleetState);
+            var mover = fleetGo.AddComponent<FleetMover>().init(fleet);
+            fleet.init(fleetState,fleetRenderer,mover);
+            faction.fleets[fleet.name] = fleet;
+            fleetGo.name = fleet.name;
+            return fleet;
+        }
+        private Fleet makeTransforms(StarNode starAt,out GameObject go){
+            go = new GameObject("fleet");
+            var fleet = go.AddComponent<Fleet>();
+            go.SetParent(starAt.appearer.state.appearTransform);
+            return fleet;
+        }
+        private LinkedAppearer makeAppearers(FleetState fleetState){
             var infos = new sceneAppearInfo[sceneToPrefab.Length];
             for (int i = 0; i < infos.Length; i++)
             {
                 infos[i] = new sceneAppearInfo(sceneToPrefab[i]);
             }
-            // infos[3].appearPosition = position;
-            // // var mainrep = new MultiSceneAppearer(infos,fleetGo.transform);
-            // var mainRep = new SingleSceneAppearer( infos[3],3,fleetGo.transform);
-            // var fleetRenderer = new LinkedAppearer(mainRep);
+            var mainrep = new MultiSceneAppearer(infos,fleetState.positionState);
+            var mainRep = new SingleSceneAppearer( infos[3],3,fleetState.positionState);
+            return new LinkedAppearer(mainRep,fleetState.shipsContainer);
+        }
+        private FleetState makeFleetState(Fleet fleet, Vector3 position,Faction faction, Transform appearTransform,StarNode star){
+            return new FleetState(
+                ships: new ShipsContainer(),
+                id : GameManager.idMaker.newId(fleet),
+                icon:icon,
+                stamp:new FactoryStamp("fleet"),
+                namedState:new Galaxy.State.NamedState(name),
+                positionState: new AppearableState(
+                    position:position,
+                    appearTransform:appearTransform,
+                    star:star
+                ),
+                actionState:new StateActionState(fleet),
+                factionOwnedState:new FactionOwnedState{belongsTo = faction}
+            );
+        }
 
-            // fleet.Init(name,icon,fleetRenderer,position, faction);
-            faction.fleets[fleet.name] = fleet;
-            fleetGo.name = fleet.name;
-            return fleet;
-        }
-        public Fleet makeFleet(Faction faction, StarNode parent, Vector3 position){
-            var fleet = makeFleet(faction,position,"fleet" +  faction.fleets.Count);
-            shipFactory.makeShip(fleet);
-            shipFactory.makeShip(fleet);
-            shipFactory.makeShip(fleet);
-            // parent.fleetEnter(fleet);
-            return fleet;
-        }
         public Fleet makeFleet(Faction faction, StarNode parent, FleetModel model){
             if (faction.id != model.factionId){
                 Debug.LogError("faction id does not match owningFaction id. Model Id:"+model.id + "  model factionId:"+model.factionId);
             }
-            var fleet = makeFleet(faction,model.position,model.name,model.id);
+            var fleet = makeFleet(faction,parent,model.position,model.name);
             foreach(var shipModel in model.shipModels){
                 var ship = shipFactory.makeShip(fleet,shipModel);
             }

@@ -7,18 +7,18 @@ using Loaders;
 
 namespace Objects
 {
-        public class MoveTransform:StateAction{
+        public class MovePositionState:StateAction{
         public Vector3 targetVector = Vector3.negativeInfinity;
-        Transform controlledTransform;
+        Objects.Galaxy.State.AppearableState controlledState;
         public float distance;
         public float speed;
         private LineRenderer lineRenderer;
-        public MoveTransform Init(Transform controlledTransform, float speed, float stopDistance, Vector3 targetVector){
+        public MovePositionState Init(Objects.Galaxy.State.AppearableState controlledState, float speed, float stopDistance, Vector3 targetVector){
             this.targetVector = targetVector;
             this.distance = stopDistance;
             this.speed = speed;
-            this.controlledTransform = controlledTransform;
-            lineRenderer = util.Line.DrawTempLine(controlledTransform.position,targetVector,Color.green,3);
+            this.controlledState = controlledState;
+            lineRenderer = util.Line.DrawTempLine(controlledState.position,targetVector,Color.green,3);
             base._Init();
             return this;
         }
@@ -30,7 +30,7 @@ namespace Objects
         }
         protected IEnumerator keepLineUpdated(){
             while(lineRenderer){
-                lineRenderer.SetPosition(0,controlledTransform.position);
+                lineRenderer.SetPosition(0,controlledState.position);
                 yield return null;
             }
         }
@@ -41,11 +41,11 @@ namespace Objects
             }
         }
         protected virtual bool checkExitCondition(){
-            return Vector3.Distance(targetVector, controlledTransform.position) < distance;
+            return Vector3.Distance(targetVector, controlledState.position) < distance;
         }
         protected virtual void moveStep(){
                 float step = speed * Time.deltaTime;
-                this.controlledTransform.position = Vector3.MoveTowards(controlledTransform.position, targetVector, step);
+                this.controlledState.position = Vector3.MoveTowards(controlledState.position, targetVector, step);
         }
         public override void Destroy(){
             if(lineRenderer){

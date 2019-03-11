@@ -29,11 +29,6 @@ public class galaxyViewCamera : InputController
             new inputAction(freeLookCheck,freeLook),
         };
     }
-    public InputController getInputController(GameObject parent){
-        var controller = gameObject.AddComponent<InputController>();
-        controller.Init(controls,this.gameObject);
-        return controller;
-    }
     private void heightClamp(){
         transform.position = new Vector3(transform.position.x,Mathf.Clamp(transform.position.y,heightLimits.x,heightLimits.y),transform.position.z);
     }

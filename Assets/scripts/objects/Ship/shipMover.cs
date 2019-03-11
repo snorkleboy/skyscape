@@ -7,14 +7,16 @@ using Loaders;
 
 namespace Objects
 {
-    public class ShipMover :BasicMover{
-        public float speed = 5f;
-        public virtual Vector3 getPosition(){return transform.position;}
-        public override StateAction setTarget(Vector3 target,float d = .5f){
-            if(StateAction !=null){
-                StateAction.Destroy();
-            }
-            return StateAction = new Objects.Galaxy.ship.MoveToPoint().Init(transform,speed,d,target);
+    public class ShipMover:IMover{
+        public Objects.Galaxy.State.AppearableState appearableState{get;set;}
+        public StateActionState stateActionState{get;set;}
+        public void init(Ship ship){
+            appearableState = ship.state.positionState;
+            stateActionState = ship.state.actionState;
+
+        }
+        public StateAction moveTo(Vector3 target,float d = .5f){
+            return stateActionState.stateAction = new Objects.Galaxy.ship.MoveToPoint().Init(appearableState,.5f,d,target);
         }
 
     }

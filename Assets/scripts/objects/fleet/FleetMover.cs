@@ -5,20 +5,17 @@ using UnityEngine;
 namespace Objects
 {
     [System.Serializable]
-    public class FleetMover : Mover
+    public class FleetMover : BasicMover
     {
-        public List<IMover> subMovers = new List<IMover>();
-        public Transform fleetTransform;
+        public FleetMover init(Fleet fleet){
+            this.fleet = fleet;
+            return this;
+        }
         public Fleet fleet;
-        public void addMover(IMover mover){
-            subMovers.Add(mover);
-        }
-        public void addMover(IEnumerable<IMover> movers){
-            subMovers.AddRange(movers);
-        }
-
-        public override StateAction setTarget(UnityEngine.Vector3 target, float d = 0.5f){
-            return FleetStateActions.moveFleet(fleet, target);
+        public override StateAction moveTo(UnityEngine.Vector3 target, float d = 0.5f){
+            var action = FleetStateActions.moveFleet(fleet, target);
+            stateActionState.setStateAction(action);
+            return action;
         }
     }
     // [System.Serializable]
@@ -45,22 +42,16 @@ namespace Objects
             public static StateAction moveFleet(Fleet fleet,Vector3 target){
                 return new MoveFleet().Init(fleet, target);
             }
-            // public static StateAction moveFleet(Fleet fleet,MoveFleetModel model){
-            //     return new MoveFleet().Init(fleet, model.target);
-            // }
     }
     [System.Serializable]
     public class MoveFleet : Objects.StateAction{
-        // public override StateActionModel model{get{return new MoveFleetModel(this);}}
-        List<IMover> subMovers;
-        [SerializeField] List<StateAction> subActions = new List<StateAction>();
         public Vector3 target;
-        Transform fleetRepresentationTransform;
+        Fleet fleet;
         bool tempActive = true;
-        Fleet tempFleet;
         public MoveFleet Init(Fleet fleet, Vector3 target){
 
-            this.subMovers = fleet.ships.mover.subMovers;
+            // this.subMovers = fleet.ships.mover.subMovers;
+            this.fleet = fleet;
             this.target = target;
             // if(fleet.appearer.isActive){
                 // this.fleetRepresentationTransform = fleet.appearer.activeGO.transform;
@@ -82,16 +73,16 @@ namespace Objects
                 // }
             }
             float offset = 0;
-            var shipsMovingBehavior = new IEnumerator[subMovers.Count];
+            var shipsMovingBehavior = new IEnumerator[fleet.state.shipsContainer.ships.Count];
             var count = 0;
-            var towardsTarget = (target -fleetRepresentationTransform.position );
+            var towardsTarget = (target -fleet.state.positionState.position );
             var perpendicular = Vector3.Cross(towardsTarget,Vector3.up);
             perpendicular.Normalize();
 
-            foreach(var mover in subMovers){
-                var subaction = mover.setTarget(makeOffset(perpendicular,target,count));
-                subActions.Add(subaction);
-                shipsMovingBehavior[count++] = subaction;
+            foreach(var ship in fleet.state.shipsContainer.ships){
+                var mover = ship.mover;
+                 mover.moveTo(makeOffset(perpendicular,target,count));
+                shipsMovingBehavior[count++] = ship.state.actionState.stateAction;
                 offset += 1;
             }
             yield return util.Routiner.Any(
@@ -111,16 +102,17 @@ namespace Objects
         }
         protected IEnumerator keepIconToAveragePosition(){
             while(true){
-                fleetRepresentationTransform.position = getAveragePosition();
+                fleet.state.positionState.position = getAveragePosition();
                 yield return null;
             }
         }
         private Vector3 getAveragePosition(){
             Vector3 pos = Vector3.zero;
-            foreach(var mover in subMovers){
+            foreach(var ship in fleet.state.shipsContainer.ships){
+                var mover = ship.mover;
                 pos += mover.appearableState.position;
             }
-            return pos/subMovers.Count;
+            return pos/fleet.state.shipsContainer.ships.Count;
         }
     }
 

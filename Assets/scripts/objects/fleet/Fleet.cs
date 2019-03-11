@@ -1,31 +1,57 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Objects.Galaxy;
 using UI;
 using Loaders;
 using Objects.Conceptuals;
+
 namespace Objects
 {
-    public class FleetState:GalaxyGameObjectState{
-        public StateActionState stateActionState{get;set;}
+    [System.Serializable]
+    public partial class Fleet:GalaxyGameObject<FleetState>,ISaveAble<FleetModel>,IViewable,IControllable{
+        public void init(FleetState state, LinkedAppearer appearer,FleetMover mover){
+            this.state = state;
+            _debugfleetState = state;
+            this._appearer = appearer;
+            this._mover = mover;
+            this.fleetController = gameObject.AddComponent<FleetController>().init(mover);
+        }
+        public FleetState _debugfleetState;
+        public InputController controller{get{return fleetController;}}
+        private FleetController fleetController;
+        public FleetModel model{get{return new FleetModel(this);}}
+        public override IAppearer appearer{get{return _appearer;}} 
+        private LinkedAppearer _appearer;
+        public IMover mover{get{return _mover;}}
+        private FleetMover _mover;
+        public override IconInfo getIconableInfo(){
+            var info = new IconInfo();
+            info.source = this;
+            info.name = state.namedState.name;
+            // info.icon = icon;
+            return info;
+        }
+        public GameObject renderUIView(Transform parent, clickViews callbacks){
+            return new GameObject();
+        }
     }
+
     public class FleetModel{
         public FleetModel(){}
         public FleetModel(Fleet fleet){
 
-            position = fleet.fleetPosition;
-            var ships = fleet.GetShips();
-            var models = new List<ShipModel>();
-            foreach (var ship in ships)
-            {
-                models.Add(new ShipModel(ship));
-            }
-            shipModels = models.ToArray();
-            id=fleet.id;
-            factionId = fleet.owningFaction.id;
-            name = fleet.name;
-            // stateAction = fleet.stateAction.model;
+            // position = fleet.fleetPosition;
+            // var ships = fleet.GetShips();
+            // var models = new List<ShipModel>();
+            // foreach (var ship in ships)
+            // {
+            //     models.Add(new ShipModel(ship));
+            // }
+            // shipModels = models.ToArray();
+            // id=fleet.id;
+            // factionId = fleet.owningFaction.id;
+            // name = fleet.name;
+            // // stateAction = fleet.stateAction.model;
         }
         public SerializableVector3 position;
         public SerializableQuaternion rotation;
@@ -33,75 +59,13 @@ namespace Objects
         public long factionId;
         public long id;
         public ShipModel[] shipModels;
-        // public StateActionModel stateAction;
 
     }
+}
 
-    //setup
-    public partial class Fleet:GalaxyGameObject<FleetState>,ISaveAble<FleetModel>,IViewable,ISelectable{
-        public FleetModel model{get{return new FleetModel(this);}}
-        public long id;
-        public Faction owningFaction;
-        public void Init(string name, Sprite icon, LinkedAppearer renderHelper,Vector3 position,Faction faction){
-            this.name = name;
-            this.state.icon = icon;
-            this.fleetPosition = position;
-            this._appearer = renderHelper;
-            var fleetMover = gameObject.AddComponent<FleetMover>();
-            ships = new ShipManager(fleetMover);
-            owningFaction = faction;
-        }
-        public List<inputAction> controls;
-        public void Awake(){
-            controls = new List<inputAction>()
-                {
-                    new inputAction(checkClick,moveTo),
-                };
-        }
-        public bool checkClick(){
-            return Input.GetMouseButtonDown(1);
-        }
-        public void moveTo(){
-            Debug.Log("set position " + this);
-            Ray castPoint = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(castPoint, out hit, Mathf.Infinity))
-            {
-                var newvec = hit.point;
-                newvec.y = 0;
-                // setStateAction(FleetStateActions.moveFleet(this,newvec));
-            }else{
-                Debug.Log("no hit");
-            }
-        }
-    }
-    public partial class Fleet
-    {
-        public IMover mover{get{return ships.mover;}}
-        public Vector3 fleetPosition;
-        public ShipManager ships;
-        // public Vector3 getPosition(){
-        //     return ships.getPostion();
-        // }
-        public Fleet addShips(Ship ship){
-            this.ships.addShips(ship);
-            // _appearer.addAppearables(ship);
-            return this;
-        }
-        public Fleet addShips(List<Ship> ships){
-            this.ships.addShips(ships) ;
-            // _appearer.addAppearables(ships.ToArray());
-            return this;
-        }
-        public IEnumerable<Ship> GetShips(){return ships.ships;}
 
-    }
-    // rendering
-    public partial class Fleet{
-        public override IAppearer appearer{get{return _appearer;}} 
-        private LinkedAppearer _appearer;
-        public void appear(int scene){
-            var count = 0;
+            
+        // public void appear(int scene){
             // foreach (var appearable in _appearer.appearables){
             //     var appearPos = fleetPosition + new Vector3(1 + 3*count++,0,0);
             //     appearable.appearer.setAppearPosition(appearPos,3);
@@ -110,28 +74,4 @@ namespace Objects
             //     appearer.activeGO.transform.position = fleetPosition;
             //     this.ships.mover.fleetTransform = appearer.activeGO.transform;
             // }
-
-        }
-    }
-    //ui
-    public partial class Fleet {
-        public InputController getInputController(GameObject parent){
-            var controller = parent.AddComponent<InputController>();
-            controller.Init(controls ,this.gameObject);
-            return controller;
-        }
-        public override IconInfo getIconableInfo(){
-            var info = new IconInfo();
-            info.source = this;
-            info.name = name;
-            // info.icon = icon;
-            return info;
-        }
-        public GameObject renderUIView(Transform parent, clickViews callbacks){
-            return new GameObject();
-        }
-
-
-    }
-
-}
+        // }

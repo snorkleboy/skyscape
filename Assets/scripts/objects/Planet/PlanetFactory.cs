@@ -24,8 +24,8 @@ namespace Objects.Galaxy
             var faction = GameManager.instance.user.faction;
             Transform parent;
             var planet = makeTransforms(star,name,out parent);
-
             var tileable = tileFactory.makeTileManager();
+
             var state = makeState(parent,planet,position,star,name,faction,tileable.state);
             var appearable = new SingleSceneAppearer(new sceneAppearInfo(baseStarFab),3,state.positionState);
 
@@ -42,19 +42,21 @@ namespace Objects.Galaxy
             return parentGo.AddComponent<Planet>();
         }
         private PlanetState makeState(Transform parent,Planet planet,Vector3 position,StarNode starAt,string name,Faction faction,TileableState tileState){
-            return new PlanetState(){
-                positionState = new State.AppearableState(
+            return new PlanetState(
+                positionState : new State.AppearableState(
                     appearTransform:parent,
                     position:position,
                     star:starAt
                 ),
-                tileableState = tileState,
-                id = GameManager.idMaker.newId(planet),
-                namedState = new State.NamedState(){name = name},
-                icon = planetSprites[Random.Range(0,planetSprites.Length-1)],
-                factionState = new State.FactionOwnedState(){belongsTo = GameManager.instance.factions.registerPlanetToFaction(planet,faction)}           
-            };
-            ;
+                stamp:  new FactoryStamp("basic planet"),
+                actionState: new StateActionState(planet),
+                tileableState : tileState,
+                id : GameManager.idMaker.newId(planet),
+                namedState : new State.NamedState(){name = name},
+                icon : planetSprites[Random.Range(0,planetSprites.Length-1)],
+                factionState : new State.FactionOwnedState(){belongsTo = GameManager.instance.factions.registerPlanetToFaction(planet,faction)}           
+            );
+            
         }
 
     }

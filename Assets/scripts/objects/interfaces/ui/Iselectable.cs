@@ -5,10 +5,10 @@ using System;
 namespace UI
 {
     public interface IControllable{
-        InputController getInputController(GameObject parent);
+        InputController controller{get;}
     }
-    public interface ISelectable: IControllable,IUIable{
-    }
+    // public interface ISelectable: IControllable,IUIable{
+    // }
     public class inputAction{
         public inputAction(Func<bool> check, Action action){
             this.check = check;

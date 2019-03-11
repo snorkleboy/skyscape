@@ -60,6 +60,19 @@ namespace Objects.Galaxy.State
         [DataMember]public Transform activeTransform;
         [DataMember]public Transform appearTransform;
         [DataMember]public Vector3 _position = Vector3.negativeInfinity;
+        [DataMember]public Quaternion _rotation;
+        [DataMember]public Quaternion rotation {
+            get{
+                return _rotation;
+            }
+            set{
+                _rotation = value;
+                if(activeTransform != null)
+                {
+                    activeTransform.rotation = rotation;
+                }
+            }  
+        }
         public virtual Vector3 position{
             get{
                 return _position;

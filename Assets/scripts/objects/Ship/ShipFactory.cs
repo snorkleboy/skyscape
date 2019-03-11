@@ -1,3 +1,4 @@
+using System.Numerics;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,25 +21,40 @@ namespace Objects.Galaxy
                 Debug.LogWarning("ship factory did not find icon");
             }
         }
-        private Ship _makeShip(Fleet fleet){
-            var prefab = shipPrefabs[0];
-            var shipParent = fleet.transform.Find("ships");
-            var shipHolder= new GameObject("ship");
-            shipHolder.SetParent(shipParent,false);
-            var ship = shipHolder.AddComponent<Ship>();
-            // var renderer = new SingleSceneAppearer(new sceneAppearInfo(prefab),3,shipHolder.transform);
-            // ship.Init(renderer);
-            fleet.addShips(ship);
+        public Ship makeShip(Fleet fleet){
+            GameObject go;
+            var ship = makeTransforms(out go,fleet);
+            var state = makeState(ship,go.transform,fleet);
+            var renderer = new SingleSceneAppearer(new sceneAppearInfo(shipPrefabs[0]),3,state.positionState);
+            var shipMover = new ShipMover();
+            ship.Init(state,renderer,shipMover);
+            fleet.state.shipsContainer.addShips(ship);
             return ship;
         }
-        public Ship makeShip(Fleet fleet){
-            var ship = _makeShip(fleet);
-            ship.id = GameManager.idMaker.newId(ship);
-            return ship;
+        private Ship makeTransforms(out GameObject go,Fleet fleet){
+            var shipParent = fleet.state.positionState.appearTransform;
+            go= new GameObject("ship");
+            go.SetParent(shipParent,false);
+            return go.AddComponent<Ship>();
+        }
+        private GalaxyGameObjectState makeState(Ship ship,Transform transform,Fleet fleet){
+            return new GalaxyGameObjectState(
+                icon:AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"star")[0],
+                id:GameManager.idMaker.newId(ship),
+                stamp: new FactoryStamp("ship"),
+                namedState:new State.NamedState("ship"),
+                positionState:new State.AppearableState(
+                    appearTransform:transform,
+                    position:fleet.state.positionState.position,
+                    star:fleet.state.positionState.starAt
+                ),
+                factionOwnedState: fleet.state.factionOwnedState,
+                actionState:new StateActionState(fleet)
+            );
         }
         public Ship makeShip(Fleet fleet, ShipModel model){
-            var ship = _makeShip(fleet);
-            ship.id = GameManager.idMaker.insertObject(ship,model.id);
+            var ship = makeShip(fleet);
+            // ship.id = GameManager.idMaker.insertObject(ship,model.id);
             return ship;
         }
     }

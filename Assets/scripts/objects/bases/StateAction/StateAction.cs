@@ -18,11 +18,10 @@ namespace Objects
             enumerator = getEnumerator();
         }
         public virtual bool MoveNext(){
-            if(enumerator == null){
-                enumerator = getEnumerator();
-            }
-            var ran = enumerator.MoveNext();
-            return ran;
+            // if(enumerator == null){
+            //     enumerator = getEnumerator();
+            // }
+            return enumerator.MoveNext();
         }
         protected abstract IEnumerator getEnumerator();
 

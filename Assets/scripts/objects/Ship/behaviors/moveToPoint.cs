@@ -9,16 +9,16 @@ namespace Objects.Galaxy.ship
 {
     public class MoveToPoint:StateAction{
         public Vector3 targetVector = Vector3.negativeInfinity;
-        Transform controlledTransform;
+        Galaxy.State.AppearableState controlledState;
         public float distance;
         public float speed;
         private LineRenderer lineRenderer;
-        public MoveToPoint Init(Transform controlledTransform, float speed, float stopDistance, Vector3 targetVector){
+        public MoveToPoint Init(Galaxy.State.AppearableState controlledState, float speed, float stopDistance, Vector3 targetVector){
             this.targetVector = targetVector;
             this.distance = stopDistance;
             this.speed = speed;
-            this.controlledTransform = controlledTransform;
-            lineRenderer = util.Line.DrawTempLine(controlledTransform.position,targetVector,Color.green,3);
+            this.controlledState = controlledState;
+            lineRenderer = util.Line.DrawTempLine(controlledState.position,targetVector,Color.green,3);
             base._Init();
             return this;
         }
@@ -30,15 +30,15 @@ namespace Objects.Galaxy.ship
         }
         protected IEnumerator keepLineUpdated(){
             while(lineRenderer){
-                lineRenderer.SetPosition(0,controlledTransform.position);
+                lineRenderer.SetPosition(0,controlledState.position);
                 yield return null;
             }
         }
         protected bool rotateStep(){
-            var direction = (targetVector - controlledTransform.position).normalized;
+            var direction = (targetVector - controlledState.position).normalized;
             var lookRotation = Quaternion.LookRotation(direction);
-            controlledTransform.rotation = Quaternion.RotateTowards(controlledTransform.rotation, lookRotation, 45*Time.deltaTime);
-            float angle = Quaternion.Angle(controlledTransform.rotation, lookRotation);
+            controlledState.rotation = Quaternion.RotateTowards(controlledState.rotation, lookRotation, 45*Time.deltaTime);
+            float angle = Quaternion.Angle(controlledState.rotation, lookRotation);
             return Mathf.Abs (angle) < 1e-3f;
         }
         protected IEnumerator move(){
@@ -50,11 +50,11 @@ namespace Objects.Galaxy.ship
             }
         }
         protected virtual bool withinDistance(){
-            return Vector3.Distance(targetVector, controlledTransform.position) < distance;
+            return Vector3.Distance(targetVector, controlledState.position) < distance;
         }
         protected virtual bool moveStep(){
             float step = speed * Time.deltaTime;
-            this.controlledTransform.position = Vector3.MoveTowards(controlledTransform.position, targetVector, step);
+            this.controlledState.position = Vector3.MoveTowards(controlledState.position, targetVector, step);
             return withinDistance();
         }
         public override void Destroy(){

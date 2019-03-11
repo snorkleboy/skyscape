@@ -68,16 +68,16 @@ namespace Objects.Galaxy
             return star;
         }
         private StarNodeState makeBaseState(StarNode node,Vector3 position,Transform representationTransform,Transform childrenTransform, string name){
-            return new StarNodeState()
-            {
-                positionState = new AppearableState(appearTransform:representationTransform,position:position,star:node,isActive:false),
-                asContainerState = new StarAsContainerState(childrenTransform),
-
-                namedState = new NamedState(Names.starNames.getName()),
-                stamp = new FactoryStamp("basic star"),
-                id = GameManager.idMaker.newId(node),
-                icon = starIconSprites[0]
-            };
+            return new StarNodeState(
+                positionState: new AppearableState(appearTransform:representationTransform,position:position,star:node,isActive:false),
+                asContainerState : new StarAsContainerState(childrenTransform),
+                actionState : new StateActionState(node),
+                namedState : new NamedState(Names.starNames.getName()),
+                stamp : new FactoryStamp("basic star"),
+                id : GameManager.idMaker.newId(node),
+                icon : starIconSprites[0],
+                factionOwned:new FactionOwnedState()
+            );
         }
         private LinkedAppearer makeAppearer(AppearableContainerState containerState, AppearableState appearableState){
             var infos = new sceneAppearInfo[_sceneToPrefab.Length];
