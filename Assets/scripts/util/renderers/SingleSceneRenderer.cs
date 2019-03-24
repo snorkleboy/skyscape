@@ -11,10 +11,8 @@ namespace Objects.Galaxy
         //  protected GameObject _prefab;
         protected int _sceneToAppearOn;
         protected sceneAppearInfo _info;
-
-        private bool savedPosition = false;
-        private Vector3 positionSave = new Vector3(-999,999,-999);
-
+        protected Vector3 savedPosition;
+        protected bool positionSaved = false;
         public SingleSceneAppearer(sceneAppearInfo info, int scene,AppearableState state)
         {
             this._info = info;
@@ -34,14 +32,15 @@ namespace Objects.Galaxy
                     util.Log.warnLog(this,"appearing object without an attachement point",_info.prefab,_sceneToAppearOn);
                     state.activeTransform = GameObject.Instantiate(_info.prefab).transform;
                 }
-                 if(_info.shouldOveride){
-                     Debug.Log("positionOverride  " + this + " " + _info.positionOverride.x + " " + _info.positionOverride.y );
-                     positionSave = state.position;
-                     state.position = _info.positionOverride;
-                     savedPosition = true;
-                 }else{
+                if(_info.shouldOveride){
+                        Debug.Log("OVERRIDING POSITION");
+                        savedPosition = state.position;
+                        state.position = _info.positionOverride;
+                        positionSaved = true;
+                }else{
                     state.position = state.position;
-                 }
+                }
+
                 state.isActive = true;
 
                 return state.isActive;
@@ -51,10 +50,10 @@ namespace Objects.Galaxy
         }
         public override void destroy(){
             base.destroy();
-            if(savedPosition){
-                state.position = positionSave;
-                positionSave = new Vector3(-999,999,-999);
-                savedPosition = false;
+            if(positionSaved){
+                Debug.Log("UN-OVERRIDING POSITION");
+                state.position = savedPosition;
+                positionSaved = false;
             }
         }
 

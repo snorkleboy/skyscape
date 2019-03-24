@@ -5,6 +5,8 @@ using UnityEngine;
 public class DrawLineBetweenPoints : MonoBehaviour {
 
 	public Vector3[] targets= new Vector3[2];
+    public LineRenderer lineRenderer;
+
     public void setTarget(GameObject target, int i)
     {
         targets[i] = target.transform.position;
@@ -19,7 +21,6 @@ public class DrawLineBetweenPoints : MonoBehaviour {
         this.targets[1] = targets[1].transform.position;
 
     }
-    public LineRenderer lineRenderer;
 
     [ContextMenu("draw")]
     public void draw()
@@ -31,7 +32,7 @@ public class DrawLineBetweenPoints : MonoBehaviour {
     {
         lineRenderer.startWidth = 3;
         lineRenderer.positionCount = 2;
-        lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
+        lineRenderer.material = new Material(Shader.Find("Mobile/Particles/Additive"));
     }
 
 }

@@ -10,7 +10,6 @@ namespace Objects.Galaxy
         public GameObject[] _sceneToPrefab;
 
         public void Awake(){
-            
             _sceneToPrefab = new GameObject[4];
             _sceneToPrefab[2] = AssetSingleton.getBundle(AssetSingleton.bundleNames.prefabs).LoadAsset<GameObject>("connection");
             _sceneToPrefab[3] = AssetSingleton.getBundle(AssetSingleton.bundleNames.prefabs).LoadAsset<GameObject>("starViewConnection");

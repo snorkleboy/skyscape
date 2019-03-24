@@ -10,7 +10,7 @@ public class SpaceIcon : MonoBehaviour {
     private GameObject canvas;
     public IUIable uiable;
     private Renderer m_Renderer;
-	public int renderDistance =  700;
+	// public int renderDistance =  1500;
 	public System.Func<IconInfo,GameObject> iconCallBack =  UIComponents.renderIconLabel;
 	public Vector3 offset = new Vector3(0,12,0);
     public virtual void Start(){
@@ -50,7 +50,7 @@ public class SpaceIcon : MonoBehaviour {
 		floatingIcon.transform.position = (pos);
 	}
 	protected virtual bool shouldRender(){
-		return m_Renderer.isVisible && Vector3.Distance(Camera.main.transform.position, transform.position)< renderDistance;
+		return m_Renderer.isVisible;
 	}
 	protected virtual Vector3 getTargetPosition(){
 		return transform.position;

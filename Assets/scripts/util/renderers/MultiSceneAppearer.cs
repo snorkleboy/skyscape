@@ -24,7 +24,7 @@ namespace Objects.Galaxy
     [System.Serializable]
     public class MultiSceneAppearer : BaseAppearable
     {
-
+        public SingleSceneAppearer currentAppearer;
         public MultiSceneAppearer(sceneAppearInfo[] appearInfo,AppearableState state)
         {
             this.state = state;
@@ -42,11 +42,17 @@ namespace Objects.Galaxy
             if(state.isActive){
                 destroy();
             }
-            var ren = sceneRenderers[scene];
-            if(ren != null){
-                state.isActive = ren.appear(scene);
+            currentAppearer = sceneRenderers[scene];
+            if(currentAppearer != null){
+                state.isActive = currentAppearer.appear(scene);
             }
             return state.isActive;
+        }
+        public override void destroy(){
+            base.destroy();
+            if(currentAppearer != null){
+                currentAppearer.destroy();
+            }
         }
 
     }
