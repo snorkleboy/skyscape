@@ -4,19 +4,20 @@ using UnityEngine;
 using Objects.Galaxy;
 using UI;
 using Loaders;
+using Objects.Galaxy.State;
 
 namespace Objects
 {
     public class ShipMover:IMover{
-        public Objects.Galaxy.State.AppearableState appearableState{get;set;}
-        public StateActionState stateActionState{get;set;}
-        public void init(Ship ship){
-            appearableState = ship.state.positionState;
-            stateActionState = ship.state.actionState;
-
+        public Ship ship;
+        public AppearableState appearableState{get{return ship.state.positionState;}}
+        public StateActionState stateActionState{get{return ship.state.actionState;}}
+        public ShipMover init(Ship ship){
+            this.ship = ship;
+            return this;
         }
-        public StateAction moveTo(Vector3 target,float d = .5f){
-            return stateActionState.stateAction = new Objects.Galaxy.ship.MoveToPoint().Init(appearableState,.5f,d,target);
+        public void moveTo(Vector3 target,float d = .5f){
+            stateActionState.setStateAction(new Objects.Galaxy.ship.MoveToPoint().Init(appearableState,5f,d,target));
         }
 
     }

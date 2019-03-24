@@ -17,13 +17,19 @@ namespace Objects
             this.fleetController = gameObject.AddComponent<FleetController>().init(mover);
         }
         public FleetState _debugfleetState;
+
         public InputController controller{get{return fleetController;}}
         private FleetController fleetController;
+
         public FleetModel model{get{return new FleetModel(this);}}
+
         public override IAppearer appearer{get{return _appearer;}} 
         private LinkedAppearer _appearer;
+
         public IMover mover{get{return _mover;}}
         private FleetMover _mover;
+
+
         public override IconInfo getIconableInfo(){
             var info = new IconInfo();
             info.source = this;
@@ -63,15 +69,3 @@ namespace Objects
     }
 }
 
-
-            
-        // public void appear(int scene){
-            // foreach (var appearable in _appearer.appearables){
-            //     var appearPos = fleetPosition + new Vector3(1 + 3*count++,0,0);
-            //     appearable.appearer.setAppearPosition(appearPos,3);
-            // }
-            // if(appearer.appear(scene)){
-            //     appearer.activeGO.transform.position = fleetPosition;
-            //     this.ships.mover.fleetTransform = appearer.activeGO.transform;
-            // }
-        // }

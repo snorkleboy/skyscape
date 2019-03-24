@@ -71,7 +71,7 @@ namespace Objects.Galaxy
             return new StarNodeState(
                 positionState: new AppearableState(appearTransform:representationTransform,position:position,star:node,isActive:false),
                 asContainerState : new StarAsContainerState(childrenTransform),
-                actionState : new StateActionState(node),
+                actionState : new SelfStateActionState(node),
                 namedState : new NamedState(Names.starNames.getName()),
                 stamp : new FactoryStamp("basic star"),
                 id : GameManager.idMaker.newId(node),

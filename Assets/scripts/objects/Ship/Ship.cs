@@ -20,21 +20,16 @@ namespace Objects.Galaxy
 
     public partial class Ship : GalaxyGameObject<GalaxyGameObjectState>,ISaveAble<ShipModel>
     {
+        public GalaxyGameObjectState debugState;
         public ShipModel model{get{return new ShipModel(this);}}
         public IMover mover{get{return moverHelper;}}
         private ShipMover moverHelper;
         public void Init(GalaxyGameObjectState state,SingleSceneAppearer renderer,ShipMover mover){
             this.state = state;
+            this.debugState = state;
             appearer = renderer;
             moverHelper = mover;
         }
-        // public void appear(int context){
-        // //     if(appearer.appear(context)){
-        // //         var pos = appearer.activeGO.transform.position;
-        // //         transform.position = pos;
-        // //         appearer.activeGO.transform.position = pos;
-        // //     }
-        // }
         public override IconInfo getIconableInfo(){
             return new IconInfo();
         }

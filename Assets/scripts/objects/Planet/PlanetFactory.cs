@@ -49,7 +49,7 @@ namespace Objects.Galaxy
                     star:starAt
                 ),
                 stamp:  new FactoryStamp("basic planet"),
-                actionState: new StateActionState(planet),
+                actionState: new SelfStateActionState(planet),
                 tileableState : tileState,
                 id : GameManager.idMaker.newId(planet),
                 namedState : new State.NamedState(){name = name},

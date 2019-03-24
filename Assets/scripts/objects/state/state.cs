@@ -49,18 +49,21 @@ namespace Objects.Galaxy.State
     [DataContract]
     public class AppearableState
     {
-        public AppearableState(Transform appearTransform, Vector3 position, StarNode star, bool isActive = false){
+        public AppearableState(Transform appearTransform, Vector3 position,Quaternion rotation, StarNode star, bool isActive = false){
             this.appearTransform = appearTransform;
             this.isActive = isActive;
             this.starAt = star;
             this.position = position;
+            this.rotation = rotation;
             this.appearTransform.position = position;
+        }
+        public AppearableState(Transform appearTransform, Vector3 position, StarNode star, bool isActive = false):this(appearTransform,position,Quaternion.identity,star,isActive){
+
         }
         [DataMember]public Transform activeTransform;
         [DataMember]public Transform appearTransform;
-        [DataMember]public Vector3 _position = Vector3.negativeInfinity;
-        [DataMember]public Quaternion _rotation;
-        [DataMember]public Quaternion rotation {
+        [DataMember]public SerializableQuaternion _rotation;
+        [IgnoreDataMember]public virtual Quaternion rotation {
             get{
                 return _rotation;
             }
@@ -68,11 +71,13 @@ namespace Objects.Galaxy.State
                 _rotation = value;
                 if(activeTransform != null)
                 {
-                    activeTransform.rotation = rotation;
+                    Debug.Log("setting rotation " + value.y + "  original: " + activeTransform.rotation.y);
+                    activeTransform.rotation = value;
                 }
             }  
         }
-        public virtual Vector3 position{
+        [DataMember]public SerializableVector3 _position = Vector3.negativeInfinity;
+        [IgnoreDataMember]public virtual Vector3 position{
             get{
                 return _position;
             }
@@ -80,7 +85,7 @@ namespace Objects.Galaxy.State
                 _position = value;
                 if(activeTransform != null)
                 {
-                    activeTransform.position = _position;
+                    activeTransform.position = value;
                 }
             }   
         }

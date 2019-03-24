@@ -33,6 +33,7 @@ namespace Objects
         [DataMember]public long id;
         [DataMember]public FactoryStamp stamp;
         [DataMember]public NamedState namedState;
+
         [DataMember]public AppearableState positionState;
         [DataMember]public StateActionState actionState;
         [DataMember]public FactionOwnedState factionOwnedState;
@@ -46,7 +47,6 @@ namespace Objects
             return state.id;
         }
         public abstract IconInfo getIconableInfo();
-        public virtual StateActionState stateActionState{get;}
         public virtual IAppearer appearer{get;set;} 
     }
 

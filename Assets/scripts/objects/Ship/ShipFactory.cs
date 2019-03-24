@@ -20,12 +20,12 @@ namespace Objects.Galaxy
                 Debug.LogWarning("ship factory did not find icon");
             }
         }
-        public Ship makeShip(Fleet fleet){
+        public Ship makeShip(Fleet fleet,Vector3 position){
             GameObject go;
             var ship = makeTransforms(out go,fleet);
-            var state = makeState(ship,go.transform,fleet);
+            var state = makeState(ship,go.transform,fleet,position);
             var renderer = new SingleSceneAppearer(new sceneAppearInfo(shipPrefabs[0]),3,state.positionState);
-            var shipMover = new ShipMover();
+            var shipMover = new ShipMover().init(ship);
             ship.Init(state,renderer,shipMover);
             fleet.state.shipsContainer.addShips(ship);
             return ship;
@@ -36,7 +36,7 @@ namespace Objects.Galaxy
             go.SetParent(shipParent,false);
             return go.AddComponent<Ship>();
         }
-        private GalaxyGameObjectState makeState(Ship ship,Transform transform,Fleet fleet){
+        private GalaxyGameObjectState makeState(Ship ship,Transform transform,Fleet fleet,Vector3 position){
             return new GalaxyGameObjectState(
                 icon:AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"star")[0],
                 id:GameManager.idMaker.newId(ship),
@@ -44,15 +44,15 @@ namespace Objects.Galaxy
                 namedState:new State.NamedState("ship"),
                 positionState:new State.AppearableState(
                     appearTransform:transform,
-                    position:fleet.state.positionState.position,
+                    position:position,
                     star:fleet.state.positionState.starAt
                 ),
                 factionOwnedState: fleet.state.factionOwnedState,
-                actionState:new StateActionState(fleet)
+                actionState:new ControlledStateActionState(fleet)
             );
         }
         public Ship makeShip(Fleet fleet, ShipModel model){
-            var ship = makeShip(fleet);
+            var ship = makeShip(fleet,model.position);
             // ship.id = GameManager.idMaker.insertObject(ship,model.id);
             return ship;
         }

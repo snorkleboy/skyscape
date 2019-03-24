@@ -11,7 +11,7 @@ namespace util
              myLine.transform.position = start;
              myLine.AddComponent<LineRenderer>();
              LineRenderer lr = myLine.GetComponent<LineRenderer>();
-             lr.material = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
+             lr.material = new Material(Shader.Find("Mobile/Particles/Additive"));
              lr.SetColors(color, Color.red);
              lr.SetWidth(0.1f, 0.1f);
              lr.SetPosition(0, start);

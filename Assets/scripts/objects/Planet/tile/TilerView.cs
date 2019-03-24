@@ -23,7 +23,9 @@ public class TilerView {
 		var height = rect.rect.height;
 		var width = rect.rect.width;
 
-		var tileDim = height/tileManager.state.height;
+		var tileDimHeight = height/tileManager.state.height;
+		var tileDimWidth = width/tileManager.state.width;
+		var tileDim = tileDimHeight < tileDimWidth ? tileDimHeight : tileDimWidth;
 		rect.rect.Set(0,0,tileDim * tileManager.state.width,tileDim);
 		grid.cellSize = new Vector2(tileDim,tileDim);
 		Holder.AddComponent<AspectRatioFitter>().aspectMode = UnityEngine.UI.AspectRatioFitter.AspectMode.FitInParent;

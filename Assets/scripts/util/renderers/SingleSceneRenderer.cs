@@ -24,29 +24,25 @@ namespace Objects.Galaxy
         {
             destroy();
             if (scene == _sceneToAppearOn){
-                //todo improve
-
                 if(state.appearTransform){
                     state.activeTransform = GameObject.Instantiate(_info.prefab, state.appearTransform).transform;
                 }else{
                     util.Log.warnLog(this,"appearing object without an attachement point",_info.prefab,_sceneToAppearOn);
                     state.activeTransform = GameObject.Instantiate(_info.prefab).transform;
                 }
+                
                 if(_info.shouldOveride){
-                        Debug.Log("OVERRIDING POSITION");
-                        savedPosition = state.position;
-                        state.position = _info.positionOverride;
-                        positionSaved = true;
+                    savedPosition = state.position;
+                    state.position = _info.positionOverride;
+                    positionSaved = true;
                 }else{
                     state.position = state.position;
                 }
-
+                state.rotation = state.rotation;
                 state.isActive = true;
-
-                return state.isActive;
-            }else{
-                return state.isActive;
             }
+            return state.isActive;
+
         }
         public override void destroy(){
             base.destroy();

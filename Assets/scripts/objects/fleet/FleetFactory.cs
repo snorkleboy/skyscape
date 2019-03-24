@@ -27,9 +27,9 @@ namespace Objects
         }
         public Fleet makeFleet(Faction faction, StarNode parent, Vector3 position){
             var fleet = makeFleet(faction,parent,position,"fleet" +  faction.fleets.Count);
-            shipFactory.makeShip(fleet);
-            shipFactory.makeShip(fleet);
-            shipFactory.makeShip(fleet);
+            shipFactory.makeShip(fleet,position+new Vector3(1,0,0));
+            // shipFactory.makeShip(fleet,position+new Vector3(2,0,0));
+            // shipFactory.makeShip(fleet,position+new Vector3(3,0,0));
             parent.enterable.addFleet(fleet);
             return fleet;
         }
@@ -56,7 +56,6 @@ namespace Objects
             {
                 infos[i] = new sceneAppearInfo(sceneToPrefab[i]);
             }
-            // var mainrep = new MultiSceneAppearer(infos,fleetState.positionState);
             var mainRep = new SingleSceneAppearer( infos[3],3,fleetState.positionState);
             return new LinkedAppearer(mainRep,fleetState.shipsContainer);
         }
@@ -72,7 +71,7 @@ namespace Objects
                     appearTransform:appearTransform,
                     star:star
                 ),
-                actionState:new StateActionState(fleet),
+                actionState:new SelfStateActionState(fleet),
                 factionOwnedState:new FactionOwnedState{belongsTo = faction}
             );
         }
