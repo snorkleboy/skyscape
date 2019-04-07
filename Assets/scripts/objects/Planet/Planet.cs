@@ -6,9 +6,11 @@ using UnityEngine.UI;
 using UI;
 using Objects.Conceptuals;
 using Objects.Galaxy.State;
+using Newtonsoft.Json;
 namespace Objects.Galaxy
 {
     public class PlanetState :GalaxyGameObjectState{
+        [JsonProperty]
         public TileableState tileableState;
         public PlanetState(FactionOwnedState factionState,TileableState tileableState,Sprite icon, long id, FactoryStamp stamp, NamedState namedState, AppearableState positionState, StateActionState actionState) :
         base(icon, id, stamp, namedState, positionState,factionState, actionState)
@@ -32,7 +34,7 @@ namespace Objects.Galaxy
             var length = planet.tileable.state.tiles.Length;
             tiles = new TileModel[length];
             for(var i =0; i<length;i++){
-                tiles[i] = planet.tileable.state.tiles[i].model;
+                tiles[i] = planet.tileable.state.tiles[i].value.model;
             }
             // factionId = planet.state.factionState.belongsTo.id;
         }

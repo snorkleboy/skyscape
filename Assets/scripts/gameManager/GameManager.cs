@@ -17,20 +17,16 @@ namespace Objects
         public GameManagerModel(){}
         public GameManagerModel(GameManager gm){
             idMaker = GameManager.idMaker.count;
-            _starNodes = gm._starNodes.model;
-            var list = new List<FactionModel>();
-            foreach(var faction in gm.factions.factions.Values){
-                list.Add(faction.model);
-            }
-            factions = list.ToArray();
+            _starNodes = gm._starNodes;
+            objectTable = gm.objectTable;
         }
         public long idMaker;
-        public StarNodeCollectionModel _starNodes;
-        public FactionModel[] factions;
+        public StarNodeCollection _starNodes;
+        public ObjectTable objectTable;
 
     }
 
-    public partial class GameManager : MonoBehaviour, ISaveAble<GameManagerModel>
+    public partial class GameManager : MonoBehaviour
     {
         public static GameManager instance;
         [SerializeField]public GameObject GameCreatorPrefab;
@@ -96,10 +92,10 @@ namespace Objects
             yield return null;
             objectTable = new ObjectTable();
             idMaker = new UniqueIdMaker(savedGame.loadedModel.idMaker,objectTable);
-            factions.createFactions(savedGame.loadedModel.factions);
+            // factions.createFactions(savedGame.loadedModel.factions);
             instance.user = new User(factions.userFaction);
             var collection = new Dictionary<int, List<StarNode>>();
-            yield return instance.galaxyCreator.hydrate(savedGame.loadedModel._starNodes.starNodes,collection);
+            // yield return instance.galaxyCreator.hydrate(savedGame.loadedModel._starNodes.starNodes,collection);
             instance._starNodes = new StarNodeCollection(collection);
         }
         public void Save() {

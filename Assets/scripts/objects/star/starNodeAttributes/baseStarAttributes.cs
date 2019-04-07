@@ -9,6 +9,7 @@ using Objects.Conceptuals;
 using System.Linq;
 using UnityEditor;
 using Objects.Galaxy.State;
+using Newtonsoft.Json;
 
 namespace Objects.Galaxy
 {
@@ -49,8 +50,11 @@ namespace Objects.Galaxy
         {
 
         }
+        [JsonProperty]
         public List<Reference<Planet>> planets = new List<Reference<Planet>>();
+        [JsonProperty]
         public List<Reference<Fleet>> fleets = new List<Reference<Fleet>>();
+        [JsonProperty]
         public List<StarConnection> connections = new List<StarConnection>();
 
         public StarConnection getConnection(long id){

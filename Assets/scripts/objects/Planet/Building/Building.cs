@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UI;
+using Newtonsoft.Json;
 namespace Objects.Galaxy
 {
     public static class buildingNames{
@@ -22,6 +23,8 @@ namespace Objects.Galaxy
         }
     }
     [System.Serializable]
+	[JsonObject(MemberSerialization.OptIn)]
+
     public class Building : IIconable, IContextable, ISaveAble<BuildingModel>
     {
         public long id;

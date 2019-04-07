@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
@@ -46,14 +47,25 @@ public static class SavedGameManager {
 	public static void Save(GameManagerModel gmModel) {
 		var settings = new JsonSerializerSettings
 		{
-			TypeNameHandling = TypeNameHandling.Auto
+			TypeNameHandling = TypeNameHandling.Auto,
+			Formatting = Formatting.Indented
 		};
-		Debug.Log("writing file");
-		var gameJson = JsonConvert.SerializeObject(gmModel, Formatting.Indented,settings);
-		Task.Run(()=>{
-			File.WriteAllText(Constants.Paths.SavedGamePath + "\\savedGame.json",gameJson);
-			Debug.Log("writing file done");
-		});
+		using (StreamWriter writer = new StreamWriter(Constants.Paths.SavedGamePath + @"\savedGame.json"))
+		using (JsonTextWriter jsonWriter = new JsonTextWriter(writer))
+		{
+			JsonSerializer ser = new JsonSerializer();
+			ser.TypeNameHandling = TypeNameHandling.Auto;
+			//hmmmmm, found kind of late in the game, not sure if it would help unless I can figure out how to get it to auto deserialize unity objects. 
+			ser.PreserveReferencesHandling = PreserveReferencesHandling.Objects; 
+			ser.ReferenceLoopHandling = ReferenceLoopHandling.Serialize;
+			if (Debug.isDebugBuild)
+			{
+				ser.Formatting = Formatting.Indented;
+			}
+			ser.Serialize(jsonWriter, gmModel);
+			jsonWriter.Flush();
+		}
+		Debug.Log("wrote saved game");
 	}
 
 

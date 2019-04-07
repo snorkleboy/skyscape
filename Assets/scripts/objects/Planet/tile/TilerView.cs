@@ -35,7 +35,7 @@ public class TilerView {
 
 		foreach (var tile in tileManager.state.tiles)
 		{
-			tile.renderIcon(callbacks)
+			tile.value.renderIcon(callbacks)
 				.transform.SetParent(Holder.transform);
 		}
 		return Holder;

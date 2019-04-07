@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Objects.Galaxy;
 using System;
 using UI;
+using Newtonsoft.Json;
 namespace Objects.Galaxy
 {
     public class TileModel{
@@ -22,10 +23,15 @@ namespace Objects.Galaxy
             position = tile.tilePosition;
         }
     }
-    public partial class Tile: IContextable, IIconable, IActOnable, ISaveAble<TileModel>
+	[JsonObject(MemberSerialization.OptIn)]
+
+    public partial class Tile: IContextable, IIconable, IActOnable, ISaveAble<TileModel>,IIded
     {
         public TileModel model{get{return new TileModel(this);}}
         public long id;
+        public long getId(){
+            return id;
+        }
         public Building building = null;
         public void setBuilding(Building building){
             this.building = building;

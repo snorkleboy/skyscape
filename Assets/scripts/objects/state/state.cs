@@ -10,9 +10,11 @@ using Loaders;
 using Objects.Conceptuals;
 using UnityEditor;
 using System.Linq;
+using Newtonsoft.Json;
 namespace Objects.Galaxy.State
 {
     [System.Serializable]
+    [JsonObject(MemberSerialization.OptIn)]
 
     public class AppearableContainerState{
         public AppearableContainerState(){}
@@ -36,7 +38,7 @@ namespace Objects.Galaxy.State
     [System.Serializable]
 
     public class FactionOwnedState{
-        public Faction belongsTo;
+        public Reference<Faction> belongsTo;
     }
     [System.Serializable]
 
@@ -47,6 +49,8 @@ namespace Objects.Galaxy.State
     }
     [System.Serializable]
     [DataContract]
+    [JsonObject(MemberSerialization.OptOut)]
+
     public class AppearableState
     {
         public AppearableState(Transform appearTransform, Vector3 position,Quaternion rotation, StarNode star, bool isActive = false){
@@ -60,10 +64,10 @@ namespace Objects.Galaxy.State
         public AppearableState(Transform appearTransform, Vector3 position, StarNode star, bool isActive = false):this(appearTransform,position,Quaternion.identity,star,isActive){
 
         }
-        [DataMember]public Transform activeTransform;
-        [DataMember]public Transform appearTransform;
+        [JsonIgnoreAttribute][DataMember]public Transform activeTransform;
+        [JsonIgnoreAttribute][DataMember]public Transform appearTransform;
         [DataMember]public SerializableQuaternion _rotation;
-        [IgnoreDataMember]public virtual Quaternion rotation {
+        [JsonIgnoreAttribute][IgnoreDataMember]public virtual Quaternion rotation {
             get{
                 return _rotation;
             }
@@ -71,13 +75,12 @@ namespace Objects.Galaxy.State
                 _rotation = value;
                 if(activeTransform != null)
                 {
-                    Debug.Log("setting rotation " + value.y + "  original: " + activeTransform.rotation.y);
                     activeTransform.rotation = value;
                 }
             }  
         }
         [DataMember]public SerializableVector3 _position = Vector3.negativeInfinity;
-        [IgnoreDataMember]public virtual Vector3 position{
+        [JsonIgnoreAttribute][IgnoreDataMember]public virtual Vector3 position{
             get{
                 return _position;
             }
@@ -89,7 +92,7 @@ namespace Objects.Galaxy.State
                 }
             }   
         }
-        [IgnoreDataMember]public StarNode starAt{get;set;}
+        [JsonIgnoreAttribute][IgnoreDataMember]public StarNode starAt{get;set;}
         [DataMember]public bool isActive;
     }
 }

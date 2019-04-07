@@ -54,7 +54,7 @@ namespace Objects.Galaxy
                 id : GameManager.idMaker.newId(planet),
                 namedState : new State.NamedState(){name = name},
                 icon : planetSprites[Random.Range(0,planetSprites.Length-1)],
-                factionState : new State.FactionOwnedState(){belongsTo = GameManager.instance.factions.registerPlanetToFaction(planet,faction)}           
+                factionState : new State.FactionOwnedState(){belongsTo = new Reference<Faction>(GameManager.instance.factions.registerPlanetToFaction(planet,faction))}           
             );
             
         }

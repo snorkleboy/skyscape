@@ -7,10 +7,10 @@ using UI;
 using Loaders;
 using util;
 using UnityEditor;
- using System;
- using Objects.Conceptuals;
- using Objects.Galaxy.State;
-
+using System;
+using Objects.Conceptuals;
+using Objects.Galaxy.State;
+using Newtonsoft.Json;
 namespace Objects
 {
 
@@ -19,6 +19,7 @@ namespace Objects
     }
     [System.Serializable]
     [DataContract]
+
     public class GalaxyGameObjectState{
         public GalaxyGameObjectState(Sprite icon,long id,FactoryStamp stamp,NamedState namedState,AppearableState positionState,FactionOwnedState factionOwnedState,StateActionState actionState){
             this.icon = icon;
@@ -39,9 +40,11 @@ namespace Objects
         [DataMember]public FactionOwnedState factionOwnedState;
 
     }
+    [JsonObject(MemberSerialization.OptIn)]
 
     public abstract class GalaxyGameObject<StateModel>: MonoBehaviour,IUIable,IAppearable,IIded where StateModel:GalaxyGameObjectState
     {
+        [JsonProperty]
         public StateModel state{get;set;}
         public long getId(){
             return state.id;

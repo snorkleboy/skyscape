@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Objects.Galaxy;
 using System;
 using UI;
+using Newtonsoft.Json;
 namespace Objects.Galaxy
 {
     public static class PopNames{
@@ -22,6 +23,8 @@ namespace Objects.Galaxy
         }
     }
     [System.Serializable]
+    [JsonObject(MemberSerialization.OptIn)]
+
     public partial class Pop : IIconable, ISaveAble<PopModel>
     {
         public long id;

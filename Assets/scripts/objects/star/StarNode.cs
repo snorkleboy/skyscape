@@ -9,12 +9,13 @@ using UI;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Runtime.Serialization;
 
 namespace Objects.Galaxy {
     [System.Serializable]
     public class StarNodeState : GalaxyGameObjectState {
 
-        public StarAsContainerState asContainerState;
+        [DataMember]public StarAsContainerState asContainerState;
         public StarNodeState(StarAsContainerState asContainerState,Sprite icon, long id, FactoryStamp stamp, NamedState namedState, AppearableState positionState,FactionOwnedState factionOwned, StateActionState actionState) : base(icon, id, stamp, namedState, positionState,factionOwned, actionState)
         {
             this.asContainerState = asContainerState;
@@ -52,10 +53,10 @@ namespace Objects.Galaxy {
         }
     }
 
-    public partial class StarNode : GalaxyGameObject<StarNodeState>, ISaveAble<StarNodeModel> {
-        public StarNodeModel model { get { return new StarNodeModel (this); } }
+    public partial class StarNode : GalaxyGameObject<StarNodeState> {
 
         [SerializeField] private StarNodeState stateForDebug;
+
         public void Init (LinkedAppearer renderer, StarNodeState state) {
             this.state = state;
             stateForDebug = state;
@@ -89,7 +90,8 @@ namespace Objects.Galaxy {
             var otherDetail = new IconInfo ();
             var popNum = 0;
             foreach (var planet in state.asContainerState.planets) {
-                foreach (var tile in planet.value.tileable.state.tiles) {
+                foreach (var tileR in planet.value.tileable.state.tiles) {
+                    var tile = tileR.value;
                     if (tile.building != null) {
                         if (tile.building.pops != null) {
                             popNum += tile.building.pops.Count;

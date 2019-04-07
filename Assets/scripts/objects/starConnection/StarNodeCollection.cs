@@ -7,32 +7,15 @@ using UnityEngine;
 namespace Objects.Galaxy
 {
     [System.Serializable]
-    public struct StarNodeCollectionModel{
-        [SerializeField]public Dictionary<int, List<StarNodeModel>> starNodes;
-        public StarNodeCollectionModel(StarNodeCollection collection){
-            starNodes = new Dictionary<int, List<StarNodeModel>>();
-            foreach (var keyVal in collection._starNodes)
-            {
-                var branchI = keyVal.Key;
-                var starBranch = keyVal.Value;
-                var length = starBranch.Count;
-                var branch = new List<StarNodeModel>();
-                for(var i=0;i< length;i++){
-                    branch.Add(starBranch[i].model);
-                }
-                starNodes.Add(branchI,branch);
-            }
-        }
-    }
-    public class StarNodeCollection : ISaveAble<StarNodeCollectionModel>
+
+    public class StarNodeCollection
     {
-        public StarNodeCollectionModel model{get{return new StarNodeCollectionModel(this);}}
-        public Dictionary<int, List<StarNode>> _starNodes = new Dictionary<int, List<StarNode>>();
+        public Dictionary<int, List<Reference<StarNode>>> _starNodes = new Dictionary<int, List<Reference<StarNode>>>();
 
         public StarNodeCollection(Dictionary<int, List<StarNode>> starNodes){
             foreach (var item in starNodes)
             {
-                _starNodes[item.Key] = item.Value;
+                _starNodes[item.Key] = item.Value.Select(i=>new Reference<StarNode>(i)).ToList();
             }
         }
         public void render(int scene)
@@ -41,7 +24,7 @@ namespace Objects.Galaxy
             {
                 foreach (var star in arr)
                 {
-                    star.appearer.appear(scene);
+                    star.value.appearer.appear(scene);
                 }
             }
         }
@@ -52,7 +35,7 @@ namespace Objects.Galaxy
             {
                 foreach (var star in keyVal.Value)
                 {
-                    star.appearer.destroy();
+                    star.value.appearer.destroy();
                 }
             }
         }

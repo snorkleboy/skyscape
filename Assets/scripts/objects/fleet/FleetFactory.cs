@@ -28,8 +28,8 @@ namespace Objects
         public Fleet makeFleet(Faction faction, StarNode parent, Vector3 position){
             var fleet = makeFleet(faction,parent,position,"fleet" +  faction.fleets.Count);
             shipFactory.makeShip(fleet,position+new Vector3(1,0,0));
-            // shipFactory.makeShip(fleet,position+new Vector3(2,0,0));
-            // shipFactory.makeShip(fleet,position+new Vector3(3,0,0));
+            shipFactory.makeShip(fleet,position+new Vector3(2,0,0));
+            shipFactory.makeShip(fleet,position+new Vector3(3,0,0));
             parent.enterable.addFleet(fleet);
             return fleet;
         }
@@ -72,7 +72,7 @@ namespace Objects
                     star:star
                 ),
                 actionState:new SelfStateActionState(fleet),
-                factionOwnedState:new FactionOwnedState{belongsTo = faction}
+                factionOwnedState:new FactionOwnedState{belongsTo = new Reference<Faction>(faction)}
             );
         }
 

@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEditor;
 using Objects.Galaxy.State;
 using System.Linq;
+using Newtonsoft.Json;
 namespace Objects.Galaxy
 {
     public class StarConnectionModel{
@@ -25,11 +26,13 @@ namespace Objects.Galaxy
         public Reference<StarNode>[] nodes;
         public AppearableState appearableState;
     }
+    [JsonObject(MemberSerialization.OptIn)]
+
     public class StarConnection: MonoBehaviour,IAppearable, ISaveAble<StarConnectionModel>,IEquatable<StarConnection>
     {
         public StarConnectionModel model{get{return new StarConnectionModel(this);}}
         public IAppearer appearer { get; set; }
-        public StarConnectionState state;
+        [JsonProperty]public StarConnectionState state;
 
         public void Init(StarConnectionState state, StarConnectionAppearer renderer)
         {

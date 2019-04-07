@@ -94,6 +94,7 @@ namespace Loaders {
             gameManager._starNodes.render(2);
             gameManager.UIManager.mainUI.transform.gameObject.SetActive(true);
             yield return new WaitForSeconds(.1f);
+            gameManager.Save();
         }
 
         public static void onStarLoaded(Scene scene, LoadSceneMode mode)

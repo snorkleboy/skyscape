@@ -8,7 +8,7 @@ namespace Objects.Galaxy
     public class TileableState{
         public int height;
         public int width;
-        [SerializeField]public Tile[] tiles;
+        [SerializeField]public Reference<Tile>[] tiles;
 
     }
     public interface ITileable{

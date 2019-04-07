@@ -6,10 +6,12 @@ using UI;
 using Loaders;
 using util;
 using UnityEditor;
- using System;
+using System;
+using Newtonsoft.Json;
 namespace Objects
 {
 
+    [JsonObject(MemberSerialization.OptIn)]
     public abstract class StateActionState{
         public StateActionState(MonoBehaviour runSource){
             this.coroutineRunSource = runSource;

@@ -30,9 +30,10 @@ namespace Objects
         }
     }
     [System.Serializable]
+
     public class Reference<T>:IEquatable<Reference<T>> where T : class,IIded{
 
-        public long id;
+        [JsonProperty]public long id;
         public long getId(){
             return id;
         }
@@ -101,7 +102,7 @@ public class ObjectTable{
         }
         public ObjectTable(){
         }
-        private Dictionary<long,object> objects = new Dictionary<long, object>();
+        public Dictionary<long,object> objects = new Dictionary<long, object>();
         public object get(long id){
             object test = null;
             if(!objects.TryGetValue(id, out test)){

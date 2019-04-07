@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using Loaders;
@@ -21,7 +22,7 @@ namespace Objects.Galaxy
             var state = new TileableState(){
                 width = tileWidth,
                 height = tileWidth,
-                tiles = tiles
+                tiles = tiles.Select(i=>new Reference<Tile>(i)).ToArray()
             };
             return new Tileable(state);
         }
@@ -34,7 +35,7 @@ namespace Objects.Galaxy
             var state = new TileableState(){
                 width = width,
                 height = width,
-                tiles = tiles
+                tiles = tiles.Select(i=>new Reference<Tile>(i)).ToArray()
             };
             return new Tileable(state);
         }

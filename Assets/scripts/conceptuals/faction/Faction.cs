@@ -5,6 +5,7 @@ using Objects.Galaxy;
 using UI;
 using Loaders;
 using Objects;
+using Newtonsoft.Json;
 namespace Objects.Conceptuals{
 	[System.Serializable]
 	public class FactionModel
@@ -17,11 +18,12 @@ namespace Objects.Conceptuals{
 		public long id;
 		public string name;
 	}
-	public class Faction :MonoBehaviour,ISaveAble<FactionModel>,IIded,IViewable
+	[JsonObject(MemberSerialization.OptIn)]
+
+	public class Faction :MonoBehaviour,IIded,IViewable
 	{
 		private IconInfo baseInfo;
 		public long id;
-		public FactionModel model{get{return new FactionModel(this);}}
 		public long getId(){return id;}
 		public Dictionary<string,Planet> ownedPlanets = new Dictionary<string,Planet>();
 		public Dictionary<string,Fleet> fleets = new Dictionary<string, Fleet>();
