@@ -89,13 +89,11 @@ namespace Objects.Galaxy
                 var connection = starConnectionFactory.makeConnection(starter,connectionRef,stateTable);
                 state.asContainerState.appearables.Add(connection);
                 Debug.Log("created star connection  " + connectionRef.value.state.id);
-                yield return null;
             } 
             foreach (var planetRef in state.asContainerState.planets)
             {
                 var planet = planetfactory.makePlanet(planetRef,starter,stateTable);
-                // state.asContainerState.appearables.Add(planet);
-
+                state.asContainerState.appearables.Add(planet);
                 Debug.Log("created planet " + planetRef.value.state.id);
                 yield return null;
             } 

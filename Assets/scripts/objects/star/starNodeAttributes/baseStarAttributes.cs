@@ -53,10 +53,11 @@ namespace Objects.Galaxy
         {
 
         }
+        [JsonProperty]
         public List<Reference<Planet>> planets = new List<Reference<Planet>>();
+        [JsonProperty]
         public List<Reference<Fleet>> fleets = new List<Reference<Fleet>>();
         [JsonProperty]
-
         public List<Reference<StarConnection>> connections = new List<Reference<StarConnection>>();
 
         public StarConnection getConnection(long id){

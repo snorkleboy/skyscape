@@ -13,7 +13,9 @@ namespace Objects.Conceptuals{
             userFaction = createFaction(name);
             return userFaction;
         }
-
+        public Faction createFaction(FactionState state){
+            return createFaction(state.factionName,state.id);
+        }
         public Faction createFaction(string name, long id = -1){
             var factionHolder = new GameObject(name);
             factionHolder.transform.SetParent(this.transform);

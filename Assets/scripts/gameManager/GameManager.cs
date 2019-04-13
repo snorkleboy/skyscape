@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.Linq;
+using System.Security.Cryptography;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,9 +25,11 @@ namespace Objects
             idMaker = GameManager.idMaker.count;
             starNodes = gm._starNodes.starNodeRef;
             objectTable = gm.objectTable.objects.toStateTable();
+            factions = gm.factions.factions.Values.referenceAll();
         }
         public long idMaker;
         public Dictionary<long,object> objectTable;
+        public List<Reference<Faction>> factions;
         public Dictionary<int, List<Reference<StarNode>>> starNodes ;
         
 
@@ -101,7 +104,9 @@ namespace Objects
             yield return null;
             objectTable = new ObjectTable();
             idMaker = new UniqueIdMaker(savedGame.loadedModel.idMaker,objectTable);
-            // factions.createFactions(savedGame.loadedModel.factions);
+            foreach(var factionRef in savedGame.loadedModel.factions){
+                factions.createFaction((FactionState)savedGame.loadedModel.objectTable[factionRef.id]);
+            }
             instance.user = new User(factions.userFaction);
             var collection = new Dictionary<int,List<StarNode>>();
             yield return galaxyCreator.hydrate(savedGame,collection);

@@ -48,6 +48,9 @@ namespace Objects
         public StateModel state{get;set;}
         public object stateObject{get{return state;}set{state = (StateModel)value;}}
         public long getId(){
+            if(state == null){
+                Debug.LogError("calling null state");
+            }
             return state.id;
         }
         public abstract IconInfo getIconableInfo();

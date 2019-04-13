@@ -60,6 +60,32 @@ namespace Objects.Galaxy
         //     tile.id = GameManager.idMaker.insertObject(tile, model.id);
         //     return tile;
         // }
+        public Tile makeTile(Reference<Tile> tileRef, Dictionary<long,object> stateTable){
+
+            var stateObj = stateTable[tileRef.id];
+            var tileState = (TileState)stateObj;
+            Tile tile = new Tile(tileState);
+            GameManager.idMaker.insertObject(tile,tile.state.id);
+            tileState.sprite = tileSprites[Random.Range(0,tileSprites.Length)];
+
+            if(tileState.building != null){
+                var buildingStateObj = stateTable[tileState.building.id];
+                var bState = (BuildingState)buildingStateObj;
+                if(bState.pops != null && bState.pops.Count > 0){
+                    foreach (var popRef in bState.pops)
+                    {
+                        var popStateObj = stateTable[popRef.id];
+                        var popState = (PopState)popStateObj;
+                        var pop = makePop(popState);
+                    }
+                }
+                var building = makeBuilding(bState);
+            }
+            tile = new Tile(tileState);
+
+            return tile;
+        }
+
         public Tile makeTile(int tileNum){
             var shouldMakeBuilding = Random.Range(0,10)>3;
             Tile tile;
@@ -79,7 +105,12 @@ namespace Objects.Galaxy
             tile.state.id = GameManager.idMaker.newId(tile);
             return tile;
         }
-
+        public Pop makePop(PopState state){
+            state.sprite = popSprites[0];
+            var pop = new Pop(state);
+            GameManager.idMaker.insertObject(pop,state.id);
+            return pop;
+        }
         public Pop[] makePops(int num){
             Pop[] pops = new Pop[num];
             for(var i = 0; i<num;i++){
@@ -90,6 +121,12 @@ namespace Objects.Galaxy
                 pops[i].state.id = GameManager.idMaker.newId(pops[i]);
             }
             return pops;
+        }
+        public Building makeBuilding(BuildingState state){
+            state.sprite = buildingSprites[0];
+            var building = new Building(state);
+            building.state.id = GameManager.idMaker.insertObject(building,state.id);
+            return building;
         }
         public Building makeBuilding(Pop[] pops){
             var buildingState = new BuildingState(){

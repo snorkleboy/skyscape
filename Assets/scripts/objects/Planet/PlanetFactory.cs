@@ -31,20 +31,32 @@ namespace Objects.Galaxy
 
             return planet;
         }
-        public IEnumerator makePlanet( Reference<Planet> Planetref, StarNode star,Dictionary<long,object> stateTable)
+        public Planet makePlanet( Reference<Planet> Planetref, StarNode star,Dictionary<long,object> stateTable)
         {
             var name = Names.planetNames.getName();
             var faction = GameManager.instance.user.faction;
             Transform parent;
             var planet = makeTransforms(star,name,out parent);
+            var state = (PlanetState)stateTable[Planetref.id];
+            hydrateState(planet,star,state,parent,stateTable);
             var tileable = tileFactory.makeTileManager();
 
-            var state = (PlanetState)stateTable[Planetref.id];
             var appearable = new SingleSceneAppearer(new sceneAppearInfo(baseStarFab),3,state.positionState);
 
             planet.Init(appearable,tileable,state);
-            yield return null;
-            // return planet;
+            return planet;
+        }
+        private void hydrateState(Planet planet, StarNode star,PlanetState state,Transform parent, Dictionary<long,object> stateTable){
+            planet.state = state;
+            planet.state.positionState.appearTransform = parent;
+            planet.state.positionState.starAt = star;
+            planet.state.icon = planetSprites[Random.Range(0,planetSprites.Length-1)];
+            GameManager.instance.factions.registerPlanetToFaction(planet,state.factionOwnedState.belongsTo.value);
+            GameManager.idMaker.insertObject(planet,state.id);
+            foreach (var tileRef in state.tileableState.tiles)
+            {
+                tileFactory.makeTile(tileRef,stateTable);
+            } 
         }
         private Planet makeTransforms(StarNode starAt,string name,out Transform parent){
             var planetHolder = starAt.state.asContainerState.childrenTransform;
