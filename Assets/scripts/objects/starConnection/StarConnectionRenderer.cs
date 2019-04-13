@@ -28,7 +28,6 @@ namespace Objects.Galaxy
                 starAt = connectionState.nodes[1].value;
                 OtherStar = connectionState.nodes[0].value; 			
             }
-            
             Vector3 direction = OtherStar.appearer.state.position - starAt.appearer.state.position;
             state.position  = Vector3.MoveTowards(Vector3.zero,Vector3.zero+direction.normalized*500,500);
             return starAt;

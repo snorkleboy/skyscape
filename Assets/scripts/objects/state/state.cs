@@ -1,3 +1,4 @@
+using System.Data;
 using System.Runtime.Serialization;
 
 using System.Collections;
@@ -13,10 +14,11 @@ using System.Linq;
 using Newtonsoft.Json;
 namespace Objects.Galaxy.State
 {
+
+
     [System.Serializable]
     [JsonObject(MemberSerialization.OptIn)]
-
-    public class AppearableContainerState{
+    public abstract class AppearableContainerState{
         public AppearableContainerState(){}
 
         public AppearableContainerState(Transform childTransform){
@@ -36,7 +38,6 @@ namespace Objects.Galaxy.State
     }
 
     [System.Serializable]
-
     public class FactionOwnedState{
         public Reference<Faction> belongsTo;
     }
@@ -53,10 +54,11 @@ namespace Objects.Galaxy.State
 
     public class AppearableState
     {
+        public AppearableState(){}
         public AppearableState(Transform appearTransform, Vector3 position,Quaternion rotation, StarNode star, bool isActive = false){
             this.appearTransform = appearTransform;
             this.isActive = isActive;
-            this.starAt = star;
+            this.starAt = (Reference<StarNode>)star;
             this.position = position;
             this.rotation = rotation;
             this.appearTransform.position = position;
@@ -92,7 +94,7 @@ namespace Objects.Galaxy.State
                 }
             }   
         }
-        [JsonIgnoreAttribute][IgnoreDataMember]public StarNode starAt{get;set;}
-        [DataMember]public bool isActive;
+        [JsonIgnoreAttribute][IgnoreDataMember]public Reference<StarNode> starAt{get;set;}
+        [JsonIgnoreAttribute][DataMember]public bool isActive = false;
     }
 }

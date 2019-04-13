@@ -78,7 +78,7 @@ namespace util
             bounds.SetMinMax( min, max );
             return bounds;
         }
-        public static List<toFind> getObjectsInBox<toFind>(Bounds bounds) where toFind : MonoBehaviour, IAppearable{
+        public static List<toFind> getObjectsInBox<toFind>(Bounds bounds) where toFind : MonoBehaviour,IAppearable{
                 var things = GameManager.instance.selectedStar.gameObject.GetComponentsInChildren<toFind>();
                 if (things != null ){
                     Debug.Log(typeof(toFind) + " - things.Length: " +things.Length);

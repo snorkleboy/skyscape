@@ -15,26 +15,25 @@ namespace GalaxyCreators
             {
                 foreach (var starNode in starList)
                 {
-                    var planets = new Reference<Planet>[Random.Range(0, 10)];
-                    var multiplier = 1.0;
-                    for (int i = 0; i < planets.Length; i++)
-                    {
-                        multiplier = Random.Range(.8f,1.2f) * multiplier;
-                        multiplier++;
-                        var position = Vector3.right*(int)(30*multiplier);
-                        var planet =  planetFactory.makePlanet(starNode,position);
-                        if (i>2){
-                            multiplier++;
-                        }
-                        if (i>4){
-                            multiplier++;
-                        }
-                        var refa = new Reference<Planet>(planet);
-                        planets[i] = refa;
+                    // var planets = new Planet[Random.Range(0, 10)];
+                    // var multiplier = 1.0;
+                    // for (int i = 0; i < planets.Length; i++)
+                    // {
+                    //     multiplier = Random.Range(.8f,1.2f) * multiplier;
+                    //     multiplier++;
+                    //     var position = Vector3.right*(int)(30*multiplier);
+                    //     var planet =  planetFactory.makePlanet(starNode,position);
+                    //     if (i>2){
+                    //         multiplier++;
+                    //     }
+                    //     if (i>4){
+                    //         multiplier++;
+                    //     }
+                    //     planets[i] = planet;
                         
-                    }
+                    // }
                 
-                    starNode.enterable.setPlanets(planets);
+                    // starNode.enterable.setPlanets(planets);
                 }
             }
             return starNodes;

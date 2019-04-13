@@ -4,11 +4,11 @@ using Objects.Galaxy;
 using UI;
 using Loaders;
 using Objects.Conceptuals;
-
 namespace Objects
 {
     [System.Serializable]
-    public partial class Fleet:GalaxyGameObject<FleetState>,ISaveAble<FleetModel>,IViewable,IControllable{
+    public partial class Fleet:GalaxyGameObject<FleetState>,ISaveable<FleetState>,IViewable,IControllable{
+
         public void init(FleetState state, LinkedAppearer appearer,FleetMover mover){
             this.state = state;
             _debugfleetState = state;

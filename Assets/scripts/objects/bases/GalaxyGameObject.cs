@@ -13,14 +13,14 @@ using Objects.Galaxy.State;
 using Newtonsoft.Json;
 namespace Objects
 {
-
-    public interface ISaveAble<SerializableClass>{
-        SerializableClass model{get;}
+    public interface IStateFul<T>{
+        T state{get;}
     }
+
     [System.Serializable]
     [DataContract]
-
     public class GalaxyGameObjectState{
+        public GalaxyGameObjectState(){}
         public GalaxyGameObjectState(Sprite icon,long id,FactoryStamp stamp,NamedState namedState,AppearableState positionState,FactionOwnedState factionOwnedState,StateActionState actionState){
             this.icon = icon;
             this.id = id;
@@ -40,12 +40,13 @@ namespace Objects
         [DataMember]public FactionOwnedState factionOwnedState;
 
     }
-    [JsonObject(MemberSerialization.OptIn)]
 
-    public abstract class GalaxyGameObject<StateModel>: MonoBehaviour,IUIable,IAppearable,IIded where StateModel:GalaxyGameObjectState
+    [JsonObject(MemberSerialization.OptIn)]
+    public abstract class GalaxyGameObject<StateModel>:MonoBehaviour,IUIable,IAppearable,ISaveable<StateModel> where StateModel:GalaxyGameObjectState
     {
         [JsonProperty]
         public StateModel state{get;set;}
+        public object stateObject{get{return state;}set{state = (StateModel)value;}}
         public long getId(){
             return state.id;
         }

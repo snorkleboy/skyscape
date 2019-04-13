@@ -18,32 +18,11 @@ namespace Objects.Galaxy
             this.tileableState = tileableState;
         }
     }
-    public class PlanetModel{
-        public string name;
-        public TileModel[] tiles;
-        public int tileWidth;
-        public long id;
-        public SerializableVector3 position;
-        public long factionId;
-        public PlanetModel(){}
-        public PlanetModel(Planet planet){
-            tileWidth = planet.tileable.state.width;
-            name = planet.name;
-            id = planet.state.id;
-            position = planet.appearer.state.position;
-            var length = planet.tileable.state.tiles.Length;
-            tiles = new TileModel[length];
-            for(var i =0; i<length;i++){
-                tiles[i] = planet.tileable.state.tiles[i].value.model;
-            }
-            // factionId = planet.state.factionState.belongsTo.id;
-        }
 
-    }
     [System.Serializable]
-    public partial class Planet :GalaxyGameObject<PlanetState>,IViewable,IContextable,IActOnable,  ISaveAble<PlanetModel>
+
+    public partial class Planet :GalaxyGameObject<PlanetState>,IViewable,IContextable,IActOnable
     {
-        public PlanetModel model{get{return new PlanetModel(this);}}
         public override IAppearer appearer { get;set; }
         public Tileable tileable;
         public void Init(SingleSceneAppearer renderer,Tileable tileable,PlanetState state)

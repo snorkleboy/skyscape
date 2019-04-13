@@ -17,7 +17,7 @@ namespace Objects.Galaxy
     public static class StarContainerExtension{
         public static void moveToStar(this Fleet fleet, StarNode to){
             var starAt = fleet.appearer.state.starAt;
-            starAt.enterable.removeFleet(fleet);
+            starAt.value.enterable.removeFleet(fleet);
             to.enterable.addFleet(fleet);            
         }
     }
@@ -32,7 +32,7 @@ namespace Objects.Galaxy
         public void addConnection(StarConnection connection){
             state.addConnection(connection);
         }
-        public void setPlanets(Reference<Planet>[] planets) {
+        public void setPlanets(Planet[] planets) {
             state.setPlanets(planets);
         }
         public void addFleet(Fleet fleet){
@@ -43,23 +43,25 @@ namespace Objects.Galaxy
         }
 
     }
-        [System.Serializable]
+    [System.Serializable]
+    public partial class StarAsContainerState:AppearableContainerState{
+        public StarAsContainerState()
+        {
 
-    public class StarAsContainerState:AppearableContainerState{
+        }
         public StarAsContainerState(Transform childTransform):base(childTransform)
         {
 
         }
-        [JsonProperty]
         public List<Reference<Planet>> planets = new List<Reference<Planet>>();
-        [JsonProperty]
         public List<Reference<Fleet>> fleets = new List<Reference<Fleet>>();
         [JsonProperty]
-        public List<StarConnection> connections = new List<StarConnection>();
+
+        public List<Reference<StarConnection>> connections = new List<Reference<StarConnection>>();
 
         public StarConnection getConnection(long id){
             foreach(var connection in connections){
-                if(connection.state.nodes[0].getId() == id || connection.state.nodes[1].getId() == id){
+                if(connection.value.state.nodes[0].getId() == id || connection.value.state.nodes[1].getId() == id){
                     return connection;
                 }
             }
@@ -68,25 +70,65 @@ namespace Objects.Galaxy
         public void addConnection(StarConnection connection)
         {
             bool alreadyAdded = connections.Any(existingConnection=>existingConnection.Equals(connection));
-        if (!alreadyAdded){
-                connections.Add(connection);
+            if (!alreadyAdded){
+                connections.Add((Reference<StarConnection>)connection);
                 addAppearable(connection);
             }
 
         }
-        public void setPlanets(Reference<Planet>[] planets) {
-            this.planets = planets.ToList();
-            addAppearable(planets.getAllReferenced());
+        public void setPlanets(Planet[] planets) {
+            this.planets = planets.referenceAll();
+            addAppearable(planets);
         }
         public void addFleet(Fleet fleet){
-            fleets.Add(new Reference<Fleet>(fleet));
+            fleets.Add((Reference<Fleet>)fleet);
             addAppearable(fleet);
         }
         public void removeFleet(Fleet fleet){
-            fleets.Remove(new Reference<Fleet>(fleet));
+            fleets.Remove((Reference<Fleet>)fleet);
             removeAppearable(fleet);
         }
 
     }
+    // public partial class StarAsContainerState{
 
+    //     public List<PlanetState> _planetStates = new List<PlanetState>();
+    //     // [JsonProperty]
+    //     public List<PlanetState> planetStates{
+    //         get{
+    //             if(_planetStates == null){
+    //                 _planetStates = planets.Select(i=>i.state).ToList();
+    //             }
+    //             return _planetStates;
+    //         }
+    //         set{_planetStates = value;}
+    //     }
+
+    //     public List<FleetState> _fleetStates = new List<FleetState>();
+    //     // [JsonProperty]
+
+    //     public List<FleetState> fleetStates{
+    //         get{
+    //             if(_fleetStates == null){
+    //                 _fleetStates = fleets.Select(i=>i.state).ToList();
+    //             }
+    //             return _fleetStates;
+    //         }
+    //         set{_fleetStates = value;}
+    //     }
+
+
+
+    //     private List<StarConnectionState> _connectionStates;
+    //     [JsonProperty]
+    //     private List<StarConnectionState> connectionStates{
+    //         get{
+    //             if(_connectionStates == null){
+    //                 _connectionStates = connections.Select(i=>i.state).ToList();
+    //             }
+    //             return _connectionStates;
+    //         }
+    //         set{_connectionStates = value;}
+    //     }
+    // }
 }

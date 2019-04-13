@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Security.Cryptography;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,18 +12,23 @@ using Loaders;
 using util;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+
+
+
 namespace Objects
 {
-    public class GameManagerModel{
-        public GameManagerModel(){}
-        public GameManagerModel(GameManager gm){
+    public class SaveGameModel{
+        public SaveGameModel(){}
+        public SaveGameModel(GameManager gm){
             idMaker = GameManager.idMaker.count;
-            _starNodes = gm._starNodes;
-            objectTable = gm.objectTable;
+            starNodes = gm._starNodes.starNodeRef;
+            objectTable = gm.objectTable.objects.toStateTable();
         }
         public long idMaker;
-        public StarNodeCollection _starNodes;
-        public ObjectTable objectTable;
+        public Dictionary<long,object> objectTable;
+        public Dictionary<int, List<Reference<StarNode>>> starNodes ;
+        
 
     }
 
@@ -32,7 +38,7 @@ namespace Objects
         [SerializeField]public GameObject GameCreatorPrefab;
         [SerializeField]public GameGalaxyCreator galaxyCreator;
         [SerializeField]public SceneLoader sceneLoader;
-        public GameManagerModel model{get{return new GameManagerModel(this);}}
+        public SaveGameModel model{get{return new SaveGameModel(this);}}
 
         public ObjectTable objectTable;
         public static UniqueIdMaker idMaker;
@@ -43,6 +49,7 @@ namespace Objects
         [SerializeField]public UIManager UIManager;
         void Awake()
         {
+
             Debug.Log("game manager awake");
             instance = this;
             factions = GetComponentInChildren<FactionManager>();
@@ -66,6 +73,7 @@ namespace Objects
         }
     }
     public partial class GameManager{
+        public FactoryProvider factories;
         public void startgame(Dictionary<int, List<ProtoStar>> protoNodes)
         {
             // scrub();
@@ -80,12 +88,13 @@ namespace Objects
             yield return null;
             objectTable = new ObjectTable();
             idMaker = new UniqueIdMaker(0,objectTable);
-
-            var faction = instance.factions.setUserFaction("my faction");
-            instance.user = new User(faction);
             var collection = new Dictionary<int, List<StarNode>>();
+            var faction = factions.setUserFaction("my faction");
+            user = new User(faction);
+            factories.fleetFactory = new Dictionary<Faction,FleetFactory>(){{faction,faction.fleetFactory}};
             yield return instance.galaxyCreator.hydrate(protoNodes,collection);
             instance._starNodes = new StarNodeCollection(collection);
+
         }
 
         private IEnumerator buildGameFromSave(SavedGame savedGame){
@@ -94,8 +103,8 @@ namespace Objects
             idMaker = new UniqueIdMaker(savedGame.loadedModel.idMaker,objectTable);
             // factions.createFactions(savedGame.loadedModel.factions);
             instance.user = new User(factions.userFaction);
-            var collection = new Dictionary<int, List<StarNode>>();
-            // yield return instance.galaxyCreator.hydrate(savedGame.loadedModel._starNodes.starNodes,collection);
+            var collection = new Dictionary<int,List<StarNode>>();
+            yield return galaxyCreator.hydrate(savedGame,collection);
             instance._starNodes = new StarNodeCollection(collection);
         }
         public void Save() {

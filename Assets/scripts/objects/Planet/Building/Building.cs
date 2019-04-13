@@ -3,54 +3,50 @@ using UnityEngine;
 using UnityEngine.UI;
 using UI;
 using Newtonsoft.Json;
+using Objects;
+using Objects.Galaxy.State;
+
 namespace Objects.Galaxy
 {
     public static class buildingNames{
         public static string[] names = new string[]{"buildinger","anotherBuil","Foo","Bar"};
     }
-    public class BuildingModel{
-        public string name;
-        public PopModel[] pops;
-        public long id;
-        public BuildingModel(){}
-        public BuildingModel(Building building){
-            id = building.id;
-            name = building.name;
-            pops = new PopModel[building.pops.Count];
-            for(var i=0;i<pops.Length;i++){
-                pops[i] = building.pops[i].model;
-            }
-        }
+    	[JsonObject(MemberSerialization.OptOut)]
+
+    public class TerrestrialState{
+        public long id; 
+        public TerrestrialState(){}
+        public Planet planetOn;
+        public FactionOwnedState factionOwnedState;
+        public NamedState named;
+        [JsonIgnore]public Sprite sprite;
+
+
+    }
+    public class BuildingState:TerrestrialState{
+        public BuildingState(){}
+        private List<Reference<Pop>> _pops = new List<Reference<Pop>>();
+        public List<Reference<Pop>> pops{get{return _pops;}set{_pops = value;}}
     }
     [System.Serializable]
 	[JsonObject(MemberSerialization.OptIn)]
 
-    public class Building : IIconable, IContextable, ISaveAble<BuildingModel>
+    public class Building : IIconable, IContextable, ISaveable<BuildingState>
     {
-        public long id;
-        public BuildingModel model{get{return new BuildingModel(this);}}
-        [SerializeField]public string name;
-        public Sprite buildingSprite;
-        public string title{get;}
-        private List<Pop> _pops = new List<Pop>();
-        public List<Pop> pops{get{return _pops;}}
-        public int updateId{get;}
-        public Building(Sprite icon,Pop[] startPops, BuildingModel model){
-            title = "building";
-            buildingSprite = icon;
-            name = model.name;
-            pops.AddRange(startPops);
+        public long getId(){return state.id;}
+        public object  stateObject{get{return state;}set{state = (BuildingState)value;}}
 
-        }
-        public Building(Sprite icon)
-        {
-            title = "building";
-            name = buildingNames.names[Random.Range(0,buildingNames.names.Length-1)];
-            buildingSprite = icon;
-        }
-        public Building(Sprite icon,Pop[] startPops):this(icon)
-        {
-            pops.AddRange(startPops);
+        public BuildingState state{get;set;}
+
+        // public Building(Sprite icon,Pop[] startPops, BuildingModel model){
+        //     title = "building";
+        //     buildingSprite = icon;
+        //     name = model.name;
+        //     pops.AddRange(startPops);
+
+        // }
+        public Building(BuildingState state){
+            this.state = state;
         }
         public GameObject renderContext(Transform parent, clickViews callbacks){
             var holder =  new GameObject("BUILDING Context");
@@ -73,14 +69,14 @@ namespace Objects.Galaxy
         public IconInfo getIconableInfo(){
             var info = new IconInfo();
             info.source = this;
-            info.name = name;
-            info.icon = buildingSprite;
+            info.name = state.named.name;
+            info.icon = state.sprite;
             return info;
         }
         public GameObject renderIcon(){
             var go =  new GameObject("BuildingIcon");
             var image = go.AddComponent<Image>();
-            image.sprite = buildingSprite;
+            image.sprite = state.sprite;
             image.rectTransform.sizeDelta = new Vector2(20,20);
             return go;
         }
@@ -93,11 +89,11 @@ namespace Objects.Galaxy
         }
         public List<GameObject> renderInfo(clickViews viewCallBacks){
             List<GameObject> gos = new List<GameObject>();
-            if (pops != null)
+            if (state.pops != null)
             {
-                foreach (var item in pops)
+                foreach (var item in state.pops)
                 {
-                    gos.Add(item.renderIcon(viewCallBacks));
+                    gos.Add(item.value.renderIcon(viewCallBacks));
                 }
             }
             return gos;        

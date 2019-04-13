@@ -24,15 +24,19 @@ namespace Objects.Galaxy
     {        
         public double strength;
         public Reference<StarNode>[] nodes;
+        public long id;
+
         public AppearableState appearableState;
     }
     [JsonObject(MemberSerialization.OptIn)]
 
-    public class StarConnection: MonoBehaviour,IAppearable, ISaveAble<StarConnectionModel>,IEquatable<StarConnection>
+    public class StarConnection: MonoBehaviour,IAppearable,ISaveable<StarConnectionState>, IEquatable<StarConnection>
     {
-        public StarConnectionModel model{get{return new StarConnectionModel(this);}}
         public IAppearer appearer { get; set; }
-        [JsonProperty]public StarConnectionState state;
+        public long getId(){return state.id;}
+
+        [JsonProperty]public StarConnectionState state{get;set;}
+        public object stateObject{get{return state;}set{state = (StarConnectionState)value;}}
 
         public void Init(StarConnectionState state, StarConnectionAppearer renderer)
         {

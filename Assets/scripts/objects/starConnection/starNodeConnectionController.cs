@@ -15,10 +15,10 @@ public class starNodeConnectionController : MonoBehaviour {
 		if(starNode == null){
 			Debug.Log("starNode not found in starconnection");
 		}
-		if(starConnection.state.nodes[0].value == starNode){
-			other = starConnection.state.nodes[1].value; 			
+		if(starConnection.state.nodes[0] == starNode){
+			other = starConnection.state.nodes[1]; 			
 		}else{
-			other = starConnection.state.nodes[0].value; 			
+			other = starConnection.state.nodes[0]; 			
 		}
 		var name = other.name;
 		text.text = name;

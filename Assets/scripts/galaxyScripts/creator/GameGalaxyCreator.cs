@@ -14,23 +14,17 @@ namespace GalaxyCreators
         
         [SerializeField] public new List<StarMaker> creatorStack = new List<StarMaker>();
         public StarFactory starFactory;
-        public IEnumerator hydrate( Dictionary<int, List<StarNodeModel>> savedModels,Dictionary<int, List<StarNode>> starNodes)
+        public IEnumerator hydrate(SavedGame saved, Dictionary<int, List<StarNode>> toFill)
         {
             yield return null;
-            foreach(var branchThing in savedModels)
+            var stateTable = saved.loadedModel.objectTable;
+            foreach(var referenceBranch in saved.loadedModel.starNodes)
             {
-                var branchSaved = branchThing.Value;
-                var branchI = branchThing.Key;
-                var branch = new List<StarNode>();
-                foreach(var starModel in branchSaved){
-                    var star = starFactory.createStar(holder.transform,starModel);
-                    branch.Add(star);
-                    yield return new WaitForSeconds(.1f);
-                    Debug.Log("created " + star + " " + star.state.id);
+                var newBranch = new List<StarNode>();
+                foreach(var starReference in referenceBranch.Value){
+                    yield return starFactory.createStar(holder.transform,starReference,stateTable,(star)=>newBranch.Add(star));
                 }
-                starNodes[branchI] = branch;
-                yield return new WaitForSeconds(.1f);
-
+                toFill[referenceBranch.Key] = newBranch;
             }
         }
         public IEnumerator hydrate( Dictionary<int, List<ProtoStar>> protoNodes,Dictionary<int, List<StarNode>> starNodes)

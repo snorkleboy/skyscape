@@ -26,7 +26,7 @@ namespace Objects
             }
         }
         public Fleet makeFleet(Faction faction, StarNode parent, Vector3 position){
-            var fleet = makeFleet(faction,parent,position,"fleet" +  faction.fleets.Count);
+            var fleet = makeFleet(faction,parent,position,"fleet" +  faction.state.fleets.Count);
             shipFactory.makeShip(fleet,position+new Vector3(1,0,0));
             shipFactory.makeShip(fleet,position+new Vector3(2,0,0));
             shipFactory.makeShip(fleet,position+new Vector3(3,0,0));
@@ -40,7 +40,7 @@ namespace Objects
             var fleetRenderer = makeAppearers(fleetState);
             var mover = fleetGo.AddComponent<FleetMover>().init(fleet);
             fleet.init(fleetState,fleetRenderer,mover);
-            faction.fleets[fleet.name] = fleet;
+            faction.state.fleets[fleet.name] = fleet;
             fleetGo.name = fleet.name;
             return fleet;
         }
@@ -72,12 +72,12 @@ namespace Objects
                     star:star
                 ),
                 actionState:new SelfStateActionState(fleet),
-                factionOwnedState:new FactionOwnedState{belongsTo = new Reference<Faction>(faction)}
+                factionOwnedState:new FactionOwnedState{belongsTo = (Reference<Faction>)faction}
             );
         }
 
         public Fleet makeFleet(Faction faction, StarNode parent, FleetModel model){
-            if (faction.id != model.factionId){
+            if (faction.state.id != model.factionId){
                 Debug.LogError("faction id does not match owningFaction id. Model Id:"+model.id + "  model factionId:"+model.factionId);
             }
             var fleet = makeFleet(faction,parent,model.position,model.name);

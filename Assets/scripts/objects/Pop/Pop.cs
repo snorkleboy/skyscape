@@ -11,53 +11,45 @@ namespace Objects.Galaxy
     public static class PopNames{
         public static string[] names = new string[]{"bob","tim","fisher","ms.disher","constilisher"};
     }
-    public class PopModel{
-        public int money;
-        public string name;
-        public long id;
-        public PopModel(){}
-        public PopModel(Pop pop){
-            money = pop.money;
-            name = pop.name;
-            id = pop.id;
-        }
+    public class PopState : TerrestrialState{
+        [SerializeField]public int money;
     }
     [System.Serializable]
     [JsonObject(MemberSerialization.OptIn)]
 
-    public partial class Pop : IIconable, ISaveAble<PopModel>
+    public partial class Pop : IIconable, ISaveable<PopState>
     {
-        public long id;
-        public PopModel model{get{return new PopModel(this);}}
-       [SerializeField]public string name;
-        [SerializeField]public int money;
-        public string title{get{return name;}}
-        public Sprite popSprite;
-        public Pop(Sprite sprite,PopModel model)
+        public object  stateObject{get{return state;}set{state = (PopState)value;}}
+
+        public long getId(){return state.id; }  
+        public PopState state{get;set;}     
+
+        // public Pop(Sprite sprite,PopModel model)
+        // {
+        //     popSprite = sprite;
+        //     name = model.name;
+        //     money = model.money;
+        // }
+        public Pop(PopState state)
         {
-            popSprite = sprite;
-            name = model.name;
-            money = model.money;
-        }
-        public Pop(Sprite sprite)
-        {
-            popSprite = sprite;
-            name = PopNames.names[UnityEngine.Random.Range(0,PopNames.names.Length-1)];
-            money = UnityEngine.Random.Range(0,100);
+            this.state = state;
+            // popSprite = sprite;
+            // name = PopNames.names[UnityEngine.Random.Range(0,PopNames.names.Length-1)];
+            // money = UnityEngine.Random.Range(0,100);
         }
     }
     public partial class Pop{
         public IconInfo getIconableInfo(){
             var info = new IconInfo();
             info.source = this;
-            info.name = name;
-            info.icon = popSprite;
+            info.name = state.named.name;
+            info.icon = state.sprite;
             return info;
         }
         private GameObject renderIcon(){
             var go =  new GameObject("popIcon");
             var image = go.AddComponent<Image>();
-            image.sprite = popSprite;
+            image.sprite = state.sprite;
             image.rectTransform.sizeDelta = new Vector2(20,20);
             return go;
         }

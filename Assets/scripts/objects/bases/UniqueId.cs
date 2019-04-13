@@ -1,6 +1,12 @@
 using UnityEngine;
 namespace Objects
 {
+    public interface hasStateObject:IIded{
+        object stateObject{get;set;}
+    }
+    public interface ISaveable<StateModel>:IStateFul<StateModel>,hasStateObject{
+        
+    }
     public interface IIded{
         long getId();
     }
@@ -12,14 +18,14 @@ namespace Objects
             this.table = table;
         }
         public long count = 0;
-        public long newId(object obj){
+        public long newId(hasStateObject obj){
             var num = count++;
             table.set(num,obj);
             return num;
         }
-        public long insertObject(object obj, long id){
+        public long insertObject(hasStateObject obj, long id){
             if(table.get(id) != null){
-                Debug.LogError("insertObject is attempting to overwriting object in id table, id="+id);
+                Debug.LogError("insertObject is attempting to overwrit object in id table, id = "+id);
             }
             table.set(id,obj);
             return id;

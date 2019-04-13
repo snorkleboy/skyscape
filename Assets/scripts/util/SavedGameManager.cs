@@ -1,4 +1,7 @@
-﻿using System;
+﻿using System.Runtime.Serialization;
+using System.Linq;
+using System.Reflection;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,22 +11,22 @@ using Objects.Galaxy;
 using System.Threading.Tasks;
 using Objects;
 using System.IO;
-
 public class SavedGame{
 	public string fileName;
 	public string displayName;
 	public string data = null;
-	public GameManagerModel loadedModel{get;private set;}
+	public SaveGameModel loadedModel{get;private set;}
 	public void loadData(){
 		data = System.IO.File.ReadAllText(fileName);
 		deserialize();
 	}
 	public void deserialize(){
+		var data = System.IO.File.ReadAllText(Constants.Paths.SavedGamePath + @"\savedGame.json");
 		var settings = new JsonSerializerSettings
 		{
-			TypeNameHandling = TypeNameHandling.Auto
+			TypeNameHandling = TypeNameHandling.Auto,
 		};
-		loadedModel = JsonConvert.DeserializeObject<GameManagerModel>(data,settings);
+		loadedModel = JsonConvert.DeserializeObject<SaveGameModel>(data,settings);
 	}
 	
 }
@@ -44,20 +47,18 @@ public static class SavedGameManager {
 		}
 		return list;
 	}
-	public static void Save(GameManagerModel gmModel) {
-		var settings = new JsonSerializerSettings
-		{
-			TypeNameHandling = TypeNameHandling.Auto,
-			Formatting = Formatting.Indented
-		};
-		using (StreamWriter writer = new StreamWriter(Constants.Paths.SavedGamePath + @"\savedGame.json"))
+	public static void Save(SaveGameModel gmModel) {
+		_Save(gmModel,@"\savedGame.json");
+	}
+
+	public static void _Save(SaveGameModel gmModel,string fileName) {
+		DateTime start = DateTime.Now;
+
+		using (StreamWriter writer = new StreamWriter(Constants.Paths.SavedGamePath + fileName))
 		using (JsonTextWriter jsonWriter = new JsonTextWriter(writer))
 		{
 			JsonSerializer ser = new JsonSerializer();
 			ser.TypeNameHandling = TypeNameHandling.Auto;
-			//hmmmmm, found kind of late in the game, not sure if it would help unless I can figure out how to get it to auto deserialize unity objects. 
-			ser.PreserveReferencesHandling = PreserveReferencesHandling.Objects; 
-			ser.ReferenceLoopHandling = ReferenceLoopHandling.Serialize;
 			if (Debug.isDebugBuild)
 			{
 				ser.Formatting = Formatting.Indented;
@@ -65,7 +66,8 @@ public static class SavedGameManager {
 			ser.Serialize(jsonWriter, gmModel);
 			jsonWriter.Flush();
 		}
-		Debug.Log("wrote saved game");
+		DateTime end = DateTime.Now;
+		Debug.Log("wrote saved game" + " " + (end-start));
 	}
 
 

@@ -75,6 +75,14 @@ namespace Loaders {
             creator.SetActive(true);
             var galHolder = GameObject.Find("Galaxy");
             galHolder.transform.SetParent(gameManager.transform);
+            creator.transform.SetParent(gameManager.transform);
+
+            gameManager.factories = new FactoryProvider(){
+                starFactory = creator.transform.GetComponent<StarFactory>(),
+                planetFactory = creator.transform.GetComponent<PlanetFactory>(),
+                tileFactory = creator.transform.GetComponent<TileFactory>(),
+                starConnectionFactory = creator.transform.GetComponent<StarConnectionFactory>(),
+            };
             yield return new WaitForSeconds(.1f);
             
             Log("Hydrating Galaxy",textEl);
@@ -94,7 +102,6 @@ namespace Loaders {
             gameManager._starNodes.render(2);
             gameManager.UIManager.mainUI.transform.gameObject.SetActive(true);
             yield return new WaitForSeconds(.1f);
-            gameManager.Save();
         }
 
         public static void onStarLoaded(Scene scene, LoadSceneMode mode)

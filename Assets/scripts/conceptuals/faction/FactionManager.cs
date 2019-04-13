@@ -13,28 +13,21 @@ namespace Objects.Conceptuals{
             userFaction = createFaction(name);
             return userFaction;
         }
-        public void createFactions(IEnumerable<FactionModel> models){
-            var first = true;
-            foreach(var model in models){
-                var faction = createFaction(model.name,model.id);
-                Debug.Log("created faction:"+model.name);
 
-                if(first){
-                    first = false;
-                    userFaction = faction;
-                }
-            }
-        }
         public Faction createFaction(string name, long id = -1){
             var factionHolder = new GameObject(name);
             factionHolder.transform.SetParent(this.transform);
             var faction = factionHolder.AddComponent<Faction>();
-            faction.factionName = name;
+            var factionState = new FactionState(){
+                factionName = name
+            };
+            faction.init(factionState);
             factions[faction.name] = faction;
             if(id == -1){
-                faction.id = GameManager.idMaker.newId(faction);
+                var maker = GameManager.idMaker;
+                faction.state.id = GameManager.idMaker.newId(faction);
             }else{
-                faction.id = GameManager.idMaker.insertObject(faction,id);
+                faction.state.id = GameManager.idMaker.insertObject(faction,id);
             }
             return faction;
         }

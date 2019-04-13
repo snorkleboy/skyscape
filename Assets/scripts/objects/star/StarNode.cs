@@ -10,52 +10,21 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Runtime.Serialization;
-
+using Newtonsoft.Json;
 namespace Objects.Galaxy {
     [System.Serializable]
     public class StarNodeState : GalaxyGameObjectState {
-
+        public StarNodeState(){}
         [DataMember]public StarAsContainerState asContainerState;
         public StarNodeState(StarAsContainerState asContainerState,Sprite icon, long id, FactoryStamp stamp, NamedState namedState, AppearableState positionState,FactionOwnedState factionOwned, StateActionState actionState) : base(icon, id, stamp, namedState, positionState,factionOwned, actionState)
         {
             this.asContainerState = asContainerState;
         }
     }
-    public class StarNodeModel {
-        public SerializableVector3 position;
-        FactoryStamp stamp;
-        public long id;
-        public string name;
-        public StarConnectionModel[] starConnections;
-        public PlanetModel[] planets;
-        public FleetModel[] fleets;
-        public StarNodeModel () { }
-        public StarNodeModel (StarNode node) {
-            position = node.transform.position;
-            stamp = node.state.stamp;
-            id = node.state.id;
-            name = node.name;
-            var numConn = node.state.asContainerState.connections.Count;
-            starConnections = new StarConnectionModel[numConn];
-            for (var i = 0; i < numConn; i++) {
-                starConnections[i] = node.state.asContainerState.connections[i].model;
-            }
-
-            var planetNum = node.state.asContainerState.planets.Count;
-            planets = new PlanetModel[planetNum];
-            for (var i = 0; i < planetNum; i++) {
-                planets[i] = node.state.asContainerState.planets[i].value.model;
-            }
-            fleets = new FleetModel[node.state.asContainerState.fleets.Count];
-            for (var i = 0; i < node.state.asContainerState.fleets.Count; i++) {
-                fleets[i] = new FleetModel (node.state.asContainerState.fleets[i].value);
-            }
-        }
-    }
 
     public partial class StarNode : GalaxyGameObject<StarNodeState> {
 
-        [SerializeField] private StarNodeState stateForDebug;
+        public StarNodeState stateForDebug;
 
         public void Init (LinkedAppearer renderer, StarNodeState state) {
             this.state = state;
@@ -91,10 +60,10 @@ namespace Objects.Galaxy {
             var popNum = 0;
             foreach (var planet in state.asContainerState.planets) {
                 foreach (var tileR in planet.value.tileable.state.tiles) {
-                    var tile = tileR.value;
-                    if (tile.building != null) {
-                        if (tile.building.pops != null) {
-                            popNum += tile.building.pops.Count;
+                    var tile = tileR;
+                    if (tile.value.state.building != null) {
+                        if (tile.value.state.building.value.state.pops != null) {
+                            popNum += tile.value.state.building.value.state.pops.Count;
                         }
                     }
                 }

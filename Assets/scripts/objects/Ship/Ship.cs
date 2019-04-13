@@ -18,7 +18,7 @@ namespace Objects.Galaxy
         public SerializableQuaternion rotation;
     }
 
-    public partial class Ship : GalaxyGameObject<GalaxyGameObjectState>,ISaveAble<ShipModel>
+    public partial class Ship : GalaxyGameObject<GalaxyGameObjectState>
     {
         public GalaxyGameObjectState debugState;
         public ShipModel model{get{return new ShipModel(this);}}

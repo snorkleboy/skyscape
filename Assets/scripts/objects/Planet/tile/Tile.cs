@@ -8,52 +8,34 @@ using UI;
 using Newtonsoft.Json;
 namespace Objects.Galaxy
 {
-    public class TileModel{
-        public int position;
-        public long id;
-        public BuildingModel building;
-        public TileModel(){}
-        public TileModel(Tile tile){
-            if (tile.building != null){
-                building = tile.building.model;
-            }else{
-                building = null;
-            }
-            id = tile.id;
-            position = tile.tilePosition;
+    public class TileState:TerrestrialState{
+        public Reference<Building> building = null;
+        public int tilePosition;
+
+        public void setBuilding(Building building){
+            this.building = (Reference<Building>)building;
         }
+
     }
 	[JsonObject(MemberSerialization.OptIn)]
-
-    public partial class Tile: IContextable, IIconable, IActOnable, ISaveAble<TileModel>,IIded
+    public partial class Tile: IContextable, IIconable, IActOnable,ISaveable<TileState>
     {
-        public TileModel model{get{return new TileModel(this);}}
-        public long id;
         public long getId(){
-            return id;
+            return state.id;
         }
-        public Building building = null;
-        public void setBuilding(Building building){
-            this.building = building;
-        }
-        public int tilePosition;
-        private Sprite sprite = null;
-        public string title{get;}
-        public Tile(Sprite texture, Building building, TileModel model)
-        {
-            title = "tile";
-            sprite = texture;
-            this.tilePosition = model.position;
-            this.building = building;
-        }
-        public Tile(Sprite texture, int tilePosition)
-        {
-            title = "tile";
-            sprite = texture;
-            this.tilePosition = tilePosition;
-        }
-        public Tile(Sprite sprite, Building building, int tilePosition):this(sprite,tilePosition){
-            this.building = building;
+        public object  stateObject{get{return state;}set{state = (TileState)value;}}
+
+        public TileState state{get;set;}
+
+        // public Tile(Sprite texture, Building building, TileModel model)
+        // {
+        //     title = "tile";
+        //     sprite = texture;
+        //     this.tilePosition = model.position;
+        //     this.building = building;
+        // }
+        public Tile(TileState state){
+            this.state = state;
         }
 
     }
@@ -81,7 +63,7 @@ namespace Objects.Galaxy
             thisIcon.transform.SetParent(holder.transform, false);
             thisIcon.AddComponent<AspectRatioFitter>().aspectMode = UnityEngine.UI.AspectRatioFitter.AspectMode.FitInParent;
 
-            if (building != null){
+            if (state.building != null){
                 var right = new GameObject("info-right");
                 right.transform.SetParent(holder.transform, false);
                 layout = right.AddComponent<VerticalLayoutGroup>();
@@ -89,8 +71,8 @@ namespace Objects.Galaxy
                 layout.childControlWidth = false;
                 layout.childForceExpandHeight = false;
                 layout.childForceExpandWidth = false;
-                building.renderIcon(callbacks).transform.SetParent(right.transform,false);
-                foreach( var infoObj in building.renderInfo(callbacks)){
+                state.building.value.renderIcon(callbacks).transform.SetParent(right.transform,false);
+                foreach( var infoObj in state.building.value.renderInfo(callbacks)){
                     infoObj.transform.SetParent(right.transform,false);
                 }
             }else{
@@ -101,17 +83,17 @@ namespace Objects.Galaxy
         public IconInfo getIconableInfo(){
             var info = new IconInfo();
             info.source = this;
-            info.name = "tile " +tilePosition;
-            info.icon = sprite;
+            info.name = "tile " +state.tilePosition;
+            info.icon = state.sprite;
             return info;
         }
         private GameObject renderSimpleIcon(int width = 20,int height = 20 ){
             var tile = new GameObject("TileIcon");
             tile.AddComponent<TileStub>().tile = this;
             var image = tile.AddComponent<Image>();
-            image.sprite = sprite;
-            if (building != null){
-                var bInfo = building.getIconableInfo();
+            image.sprite = state.sprite;
+            if (state.building != null){
+                var bInfo = state.building.value.getIconableInfo();
                 var topImage = new GameObject("buildingSprite");
                 topImage.transform.SetParent(tile.transform);
                 topImage.AddComponent<Image>().sprite = bInfo.icon;
@@ -128,13 +110,13 @@ namespace Objects.Galaxy
         }
         public List<GameObject> renderInfo(clickViews viewCallBacks)
         {
-            if (building != null){
-                var buildingIcon =  building.renderIcon(viewCallBacks);
-                var buildingInfo = building.renderInfo(viewCallBacks);
+            if (state.building != null){
+                var buildingIcon =  state.building.value.renderIcon(viewCallBacks);
+                var buildingInfo = state.building.value.renderInfo(viewCallBacks);
                 buildingInfo.Insert(0,buildingIcon);
                 return buildingInfo;
             }else{
-                return new List<GameObject>(){ building.renderIcon(viewCallBacks)};
+                return new List<GameObject>(){ state.building.value.renderIcon(viewCallBacks)};
             }
 
         }
