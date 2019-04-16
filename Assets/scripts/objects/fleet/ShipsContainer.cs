@@ -1,18 +1,18 @@
 using System.Collections.Generic;
 using Objects.Galaxy;
 using Objects.Galaxy.State;
-
+using Newtonsoft.Json;
 namespace Objects
 {
     [System.Serializable]
     public class ShipsContainer:AppearableContainerState{
-        public List<Ship> ships = new List<Ship>();
+        [JsonProperty]public List<Reference<Ship>> ships = new List<Reference<Ship>>();
         public void addShips(Ship ship){
             this.ships.Add(ship);
             this.appearables.Add(ship);
         }
         public void addShips(List<Ship> ships ){
-            this.ships.AddRange(ships);
+            this.ships.AddRange(ships.referenceAll());
             this.appearables.AddRange(ships);
         }
     }

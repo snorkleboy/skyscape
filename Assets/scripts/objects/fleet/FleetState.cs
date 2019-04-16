@@ -1,11 +1,11 @@
 using UnityEngine;
 using Objects.Galaxy.State;
-
+using Newtonsoft.Json;
 namespace Objects
 {
     [System.Serializable]
     public class FleetState:GalaxyGameObjectState{
-        public ShipsContainer shipsContainer;
+        [JsonProperty]public ShipsContainer shipsContainer;
         public FleetState(ShipsContainer ships,Sprite icon, long id, FactoryStamp stamp, NamedState namedState,FactionOwnedState factionOwnedState, AppearableState positionState, StateActionState actionState) : 
         base(icon, id, stamp, namedState, positionState,factionOwnedState, actionState)
         {

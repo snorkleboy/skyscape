@@ -10,6 +10,14 @@ namespace Objects
         public class MovePositionState:StateAction{
         public Vector3 targetVector = Vector3.negativeInfinity;
         Objects.Galaxy.State.AppearableState controlledState;
+
+        public override void hydrate<T>(T source){
+            this.controlledState = source as Objects.Galaxy.State.AppearableState;
+            if (this.controlledState == null){
+                Debug.LogError("couldnt coerce source to AppearableState" + " " + source);
+            }
+            base._Init();
+        }
         public float distance;
         public float speed;
         private LineRenderer lineRenderer;

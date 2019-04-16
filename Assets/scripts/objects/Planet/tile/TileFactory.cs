@@ -116,6 +116,7 @@ namespace Objects.Galaxy
             for(var i = 0; i<num;i++){
                 var popState = new PopState(){
                     sprite = popSprites[0],
+                    named= new State.NamedState("pop")
                 };
                 pops[i] = new Pop(popState);
                 pops[i].state.id = GameManager.idMaker.newId(pops[i]);
@@ -131,7 +132,8 @@ namespace Objects.Galaxy
         public Building makeBuilding(Pop[] pops){
             var buildingState = new BuildingState(){
                 sprite = buildingSprites[0],
-                pops = pops.referenceAll()
+                pops = pops.referenceAll(),
+                named = new State.NamedState("building"),
             };
            var building =  new Building(buildingState);
            building.state.id = GameManager.idMaker.newId(building);

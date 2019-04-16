@@ -9,8 +9,8 @@ using Newtonsoft.Json;
 namespace Objects.Conceptuals{
 	[System.Serializable]
 	public class FactionState{
-		public Dictionary<string,Planet> ownedPlanets = new Dictionary<string,Planet>();
-		public Dictionary<string,Fleet> fleets = new Dictionary<string, Fleet>();
+		public Dictionary<string,Reference<Planet>> ownedPlanets = new Dictionary<string,Reference<Planet>>();
+		public Dictionary<string,Reference<Fleet>> fleets = new Dictionary<string, Reference<Fleet>>();
 		public IconInfo baseInfo;
 		public long id;
 		public string factionName;
@@ -38,10 +38,10 @@ namespace Objects.Conceptuals{
 			var fleet = fleetFactory.makeFleet(this,planet.state.positionState.starAt, planet.appearer.state.position + new Vector3(2,0,2));
 			return fleet;
 		}
-		public Fleet createFleet(FleetModel model, StarNode star){
-			var fleet = fleetFactory.makeFleet(this,star, model);
-			return fleet;
-		}
+		// public Fleet createFleet(FleetModel model, StarNode star){
+		// 	var fleet = fleetFactory.makeFleet(this,star, model);
+		// 	return fleet;
+		// }
 
 
 		public int updateId{get;}

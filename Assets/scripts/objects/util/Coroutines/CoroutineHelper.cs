@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
 namespace util
 {
     public static class GameObjectExtensionCoRoutineHelper
@@ -19,7 +21,9 @@ namespace util
     public interface IRoutinerable :IEnumerator{
         bool finished{get;}
     }
-    public partial class Routiner {
+    [Serializable]
+    public class Routiner:IRoutinerable {
+
         public static IRoutinerable All(params IEnumerator[] routines){
             return new All(routines);
         }
@@ -29,31 +33,8 @@ namespace util
         public static IRoutinerable wait(float time){
             return new WaitRoutine(time);
         }
-    }
-    public class WaitRoutine: IRoutinerable{
-        public float timeToWait;
-        public float startTime;
-        public float endTime;
-        public bool finished{get;set;}
-        public WaitRoutine(float timeToWait){
-            this.timeToWait = timeToWait;
-            this.startTime = Time.time;
-            this.endTime = startTime + timeToWait;
-        }
-        public bool MoveNext(){
-            return finished = Time.time < endTime;
-        }
-        public void Reset(){
-            this.startTime = Time.time;
-            this.endTime = startTime + timeToWait;
-        }
-        public object Current{get{return null;}}
-    }
-    [System.Serializable]
-    public partial class Routiner : IRoutinerable
-    {
-        IEnumerator mainRoutine;
-        Routiner subRoutine;
+        public IEnumerator mainRoutine;
+        public Routiner subRoutine;
 
         public bool finished{get;set;}
         public Coroutine unityRoutine;
@@ -105,6 +86,25 @@ namespace util
             }
         }
 
+    }
+     public class WaitRoutine: IRoutinerable{
+        public float timeToWait;
+        public float startTime;
+        public float endTime;
+        public bool finished{get;set;}
+        public WaitRoutine(float timeToWait){
+            this.timeToWait = timeToWait;
+            this.startTime = Time.time;
+            this.endTime = startTime + timeToWait;
+        }
+        public bool MoveNext(){
+            return finished = Time.time < endTime;
+        }
+        public void Reset(){
+            this.startTime = Time.time;
+            this.endTime = startTime + timeToWait;
+        }
+        public object Current{get{return null;}}
     }
     public abstract class MultiRoutiner :IRoutinerable{
         public HashSet<IEnumerator> routines = new HashSet<IEnumerator>();
@@ -166,4 +166,7 @@ namespace util
             return finished = routines.Count == startCount;
         }
     }
+
+
+
 }

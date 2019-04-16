@@ -46,6 +46,9 @@ namespace Objects.Galaxy
 
         // }
         public Building(BuildingState state){
+            if(state == null){
+                Debug.LogError("state null");
+            }
             this.state = state;
         }
         public GameObject renderContext(Transform parent, clickViews callbacks){

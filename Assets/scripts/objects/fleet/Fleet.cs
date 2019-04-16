@@ -21,7 +21,6 @@ namespace Objects
         public InputController controller{get{return fleetController;}}
         private FleetController fleetController;
 
-        public FleetModel model{get{return new FleetModel(this);}}
 
         public override IAppearer appearer{get{return _appearer;}} 
         private LinkedAppearer _appearer;
@@ -64,7 +63,7 @@ namespace Objects
         public string name;
         public long factionId;
         public long id;
-        public ShipModel[] shipModels;
+        // public ShipModel[] shipModels;
 
     }
 }

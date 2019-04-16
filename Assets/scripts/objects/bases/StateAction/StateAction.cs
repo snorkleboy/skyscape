@@ -1,29 +1,36 @@
+using System;
 using UnityEngine;
 using System.Collections;
+using Newtonsoft.Json;
+using UnityEditor;
 namespace Objects
 {
-    // public abstract class StateActionModel{
-    //     public StateActionModel(){}
-    //     public string constructorName;
-
-    //     public abstract StateAction hydrate<T>(T stateSource);
-    // }
 
     [System.Serializable]
-    public abstract class StateAction : IEnumerator  {/*ISaveAble<StateActionModel> */
-        // public virtual StateActionModel model{get;}
+    [JsonObject(MemberSerialization.OptIn)]
+    public class StateAction : IEnumerator,ISerializationCallbackReceiver  {
+
         protected IEnumerator enumerator;
         public util.Routiner routineInstance;
+        public string _type;
+        public virtual void hydrate<T>(T source){
+            throw(new NotImplementedException());
+        }
+        public void OnBeforeSerialize() {
+            _type = this.GetType().ToString();
+        }
+        public void OnAfterDeserialize() {
+            _type = null;
+        }
         protected virtual void _Init(){
             enumerator = getEnumerator();
         }
         public virtual bool MoveNext(){
-            // if(enumerator == null){
-            //     enumerator = getEnumerator();
-            // }
             return enumerator.MoveNext();
         }
-        protected abstract IEnumerator getEnumerator();
+        protected virtual IEnumerator getEnumerator(){
+            throw(new NotImplementedException());
+        }
 
         public virtual void Reset() {
             
@@ -31,7 +38,11 @@ namespace Objects
         public virtual void Destroy(){
 
         }
-        public object Current{get{return enumerator.Current;}}
+        [JsonIgnore]public object Current{get{return enumerator.Current;}}
+
 
     }
+
+
+    
 }

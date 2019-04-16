@@ -94,7 +94,7 @@ namespace Objects.Galaxy.State
                 }
             }   
         }
-        [JsonIgnoreAttribute][IgnoreDataMember]public Reference<StarNode> starAt{get;set;}
+        [IgnoreDataMember]public Reference<StarNode> starAt{get;set;}
         [JsonIgnoreAttribute][DataMember]public bool isActive = false;
     }
 }

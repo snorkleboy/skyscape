@@ -20,6 +20,17 @@ namespace Objects.Galaxy
                 Debug.LogWarning("ship factory did not find icon");
             }
         }
+        public Ship makeShip(GalaxyGameObjectState shipState,Fleet fleet){
+            GameObject go;
+            var ship = makeTransforms(out go,fleet);
+            GameManager.idMaker.insertObject(ship,shipState.id);
+            hydrateState(shipState,go.transform);
+            var renderer = new SingleSceneAppearer(new sceneAppearInfo(shipPrefabs[0]),3,shipState.positionState);
+            var shipMover = new ShipMover().init(ship);
+            ship.Init(shipState,renderer,shipMover);
+            return ship;
+        }
+
         public Ship makeShip(Fleet fleet,Vector3 position){
             GameObject go;
             var ship = makeTransforms(out go,fleet);
@@ -36,6 +47,10 @@ namespace Objects.Galaxy
             go.SetParent(shipParent,false);
             return go.AddComponent<Ship>();
         }
+        public void hydrateState(GalaxyGameObjectState state, Transform transform){
+            state.icon = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"star")[0];
+            state.positionState.appearTransform = transform;
+        }
         private GalaxyGameObjectState makeState(Ship ship,Transform transform,Fleet fleet,Vector3 position){
             return new GalaxyGameObjectState(
                 icon:AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"star")[0],
@@ -51,11 +66,7 @@ namespace Objects.Galaxy
                 actionState:new ControlledStateActionState(fleet)
             );
         }
-        public Ship makeShip(Fleet fleet, ShipModel model){
-            var ship = makeShip(fleet,model.position);
-            // ship.id = GameManager.idMaker.insertObject(ship,model.id);
-            return ship;
-        }
+
     }
 
 

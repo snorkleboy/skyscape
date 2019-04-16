@@ -25,15 +25,43 @@ namespace Objects
                 Debug.LogWarning("fleet factory did not find fleet prefab");
             }
         }
+        public Fleet makeFleet(FleetState state,Dictionary<long,object> stateTable ){
+            var faction = state.factionOwnedState.belongsTo;
+            var starAt = state.positionState.starAt;
+            GameObject fleetGo;
+            var fleet =  makeTransforms(starAt,out fleetGo);
+            fleet.state = state;
+            GameManager.idMaker.insertObject(fleet,state.id);
+            var fleetState = hydrateState(state,fleetGo.transform);
+            var fleetRenderer = makeAppearers(fleetState);
+            var mover = fleetGo.AddComponent<FleetMover>().init(fleet);
+            fleet.init(fleetState,fleetRenderer,mover);
+            fleetGo.name = fleet.name;
+            
+            for(var i=0;i<state.shipsContainer.ships.Count;i++)
+            {
+                var shipRef = state.shipsContainer.ships[i];
+                var stateObject = stateTable[shipRef.id];
+                var shipState = (GalaxyGameObjectState)stateObject;
+                var ship = shipFactory.makeShip(shipState,fleet);
+                state.shipsContainer.appearables.Add(ship);
+            }
+            if(state.actionState.stateAction != null){
+                state.actionState.stateAction.hydrate(fleet);
+                state.actionState.coroutineRunSource = fleet;
+                state.actionState.run();
+            }
+            return fleet;
+        }
         public Fleet makeFleet(Faction faction, StarNode parent, Vector3 position){
-            var fleet = makeFleet(faction,parent,position,"fleet" +  faction.state.fleets.Count);
+            var fleet = _makeFleet(faction,parent,position,"fleet" +  faction.state.fleets.Count);
             shipFactory.makeShip(fleet,position+new Vector3(1,0,0));
             shipFactory.makeShip(fleet,position+new Vector3(2,0,0));
             shipFactory.makeShip(fleet,position+new Vector3(3,0,0));
             parent.enterable.addFleet(fleet);
             return fleet;
         }
-        private Fleet makeFleet(Faction faction,StarNode starAt, Vector3 position,string name){
+        private Fleet _makeFleet(Faction faction,StarNode starAt, Vector3 position,string name){
             GameObject fleetGo;
             var fleet =  makeTransforms(starAt,out fleetGo);
             var fleetState = makeFleetState(fleet,position,faction,fleetGo.transform,starAt,name);
@@ -44,10 +72,11 @@ namespace Objects
             fleetGo.name = fleet.name;
             return fleet;
         }
+
         private Fleet makeTransforms(StarNode starAt,out GameObject go){
             go = new GameObject("fleet");
             var fleet = go.AddComponent<Fleet>();
-            go.SetParent(starAt.appearer.state.appearTransform);
+            go.SetParent(starAt.state.positionState.appearTransform);
             return fleet;
         }
         private LinkedAppearer makeAppearers(FleetState fleetState){
@@ -58,6 +87,11 @@ namespace Objects
             }
             var mainRep = new SingleSceneAppearer( infos[3],3,fleetState.positionState);
             return new LinkedAppearer(mainRep,fleetState.shipsContainer);
+        }
+        private FleetState hydrateState(FleetState state, Transform appearTransform){
+            state.positionState.appearTransform = appearTransform;
+            state.icon = icon;
+            return state;
         }
         private FleetState makeFleetState(Fleet fleet, Vector3 position,Faction faction, Transform appearTransform,StarNode star,string name){
             return new FleetState(
@@ -76,19 +110,19 @@ namespace Objects
             );
         }
 
-        public Fleet makeFleet(Faction faction, StarNode parent, FleetModel model){
-            if (faction.state.id != model.factionId){
-                Debug.LogError("faction id does not match owningFaction id. Model Id:"+model.id + "  model factionId:"+model.factionId);
-            }
-            var fleet = makeFleet(faction,parent,model.position,model.name);
-            foreach(var shipModel in model.shipModels){
-                var ship = shipFactory.makeShip(fleet,shipModel);
-            }
-            // parent.fleetEnter(fleet);
-            // if(model.stateAction != null){
-            //     fleet.setStateAction(model.stateAction.hydrate(fleet));
-            // }
-            return fleet;
-        }
+        // public Fleet makeFleet(Faction faction, StarNode parent, FleetModel model){
+        //     if (faction.state.id != model.factionId){
+        //         Debug.LogError("faction id does not match owningFaction id. Model Id:"+model.id + "  model factionId:"+model.factionId);
+        //     }
+        //     var fleet = makeFleet(faction,parent,model.position,model.name);
+        //     foreach(var shipModel in model.shipModels){
+        //         var ship = shipFactory.makeShip(fleet,shipModel);
+        //     }
+        //     // parent.fleetEnter(fleet);
+        //     // if(model.stateAction != null){
+        //     //     fleet.setStateAction(model.stateAction.hydrate(fleet));
+        //     // }
+        //     return fleet;
+        // }
     }
 }

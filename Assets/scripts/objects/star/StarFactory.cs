@@ -88,15 +88,25 @@ namespace Objects.Galaxy
             {
                 var connection = starConnectionFactory.makeConnection(starter,connectionRef,stateTable);
                 state.asContainerState.appearables.Add(connection);
-                Debug.Log("created star connection  " + connectionRef.value.state.id);
             } 
             foreach (var planetRef in state.asContainerState.planets)
             {
                 var planet = planetfactory.makePlanet(planetRef,starter,stateTable);
                 state.asContainerState.appearables.Add(planet);
-                Debug.Log("created planet " + planetRef.value.state.id);
                 yield return null;
             } 
+            var length = state.asContainerState.fleets.Count;
+            for(var i =0; i < length; i++){
+                var fleetRef = state.asContainerState.fleets[i];
+                var fleetStateObj = stateTable[fleetRef.id];
+                var fleetState = (FleetState)fleetStateObj;
+                var faction = fleetState.factionOwnedState.belongsTo;
+                var factory = faction.value.fleetFactory;
+                var fleet = factory.makeFleet(fleetState,stateTable);
+                state.asContainerState.appearables.Add(fleet);
+                Debug.Log("created fleet " + fleet.state.id);
+
+            }
         }
         private StarNodeState makeBaseState(StarNode node,Vector3 position,Transform representationTransform,Transform childrenTransform, string name){
             return new StarNodeState(

@@ -1,13 +1,21 @@
 using System.Collections;
 using UnityEngine;
-
+using Newtonsoft.Json;
 namespace Objects
 {
     [System.Serializable]
-    public class MoveFleet : Objects.StateAction{
-        public Vector3 target;
+
+    public class MoveFleet : StateAction{
+        [JsonProperty]public SerializableVector3 target;
         Fleet fleet;
         bool tempActive = true;
+        public override void hydrate<T>(T source){
+            this.fleet = source as Fleet;
+            if (this.fleet == null){
+                Debug.LogError("couldnt coerce source to fleet" + " " + source);
+            }
+            base._Init();
+        }
         public MoveFleet init(Fleet fleet, Vector3 target){
             this.fleet = fleet;
             this.target = target;
@@ -26,9 +34,9 @@ namespace Objects
 
             foreach(var ship in fleet.state.shipsContainer.ships){
                 
-                var mover = ship.mover;
+                var mover = ship.value.mover;
                 mover.moveTo(makeOffset(perpendicular,target,count));
-                shipsMovingBehavior[count++] = ship.state.actionState.stateAction;
+                shipsMovingBehavior[count++] = ship.value.state.actionState.stateAction;
                 offset += 1;
             }
             yield return util.Routiner.Any(
@@ -55,7 +63,7 @@ namespace Objects
         private Vector3 getAveragePosition(){
             Vector3 pos = Vector3.zero;
             foreach(var ship in fleet.state.shipsContainer.ships){
-                var mover = ship.mover;
+                var mover = ship.value.mover;
                 pos += mover.appearableState.position;
             }
             return pos/fleet.state.shipsContainer.ships.Count;

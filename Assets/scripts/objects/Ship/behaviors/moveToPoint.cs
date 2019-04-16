@@ -8,10 +8,18 @@ using Newtonsoft.Json;
 namespace Objects.Galaxy.ship
 {
     public class MoveToPoint:StateAction{
-        public Vector3 targetVector = Vector3.negativeInfinity;
+        [JsonProperty]public SerializableVector3 targetVector = Vector3.negativeInfinity;
         Galaxy.State.AppearableState controlledState;
-        public float distance;
-        public float speed;
+        public override void hydrate<T>(T source){
+            this.controlledState = source as Galaxy.State.AppearableState;
+            if (this.controlledState == null){
+                Debug.LogError("couldnt coerce source to AppearableState" + " " + source);
+            }
+            lineRenderer = util.Line.DrawTempLine(controlledState.position,targetVector,Color.green,3);
+            base._Init();
+        }
+        [JsonProperty]public float distance;
+        [JsonProperty]public float speed;
         private LineRenderer lineRenderer;
         public MoveToPoint Init(Galaxy.State.AppearableState controlledState, float speed, float stopDistance, Vector3 targetVector){
             this.targetVector = targetVector;
@@ -40,12 +48,10 @@ namespace Objects.Galaxy.ship
             var direction = (targetVector - controlledState.position).normalized;
             var lookRotation = Quaternion.LookRotation(direction);
             float angle = Quaternion.Angle(controlledState.rotation, lookRotation);
-            Debug.Log("1    :angle :" + Mathf.Abs (angle) + " closeEnough:" + (Mathf.Abs (angle) < 1e-3f) + "    controlledState.rotation   :"+controlledState.rotation.y);
             // Debug.Log("direction :"+direction.y + " lookRotation:" + lookRotation.y + " controlledState.rotation" + controlledState.rotation.y);
             controlledState.rotation = Quaternion.RotateTowards(controlledState.rotation, lookRotation, 55*Time.deltaTime);
             // controlledState.rotation = Quaternion.Slerp(controlledState.rotation, lookRotation, 45*Time.deltaTime);
             angle = Quaternion.Angle(controlledState.rotation, lookRotation);
-            Debug.Log("2    :angle :" + Mathf.Abs (angle) + " closeEnough:" + (Mathf.Abs (angle) < 1e-3f) + "    controlledState.rotation   :"+controlledState.rotation.y);
             return Mathf.Abs (angle) < 1e-3f;
         }
         protected IEnumerator move(){

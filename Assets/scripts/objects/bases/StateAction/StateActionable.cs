@@ -8,22 +8,26 @@ using util;
 using UnityEditor;
 using System;
 using Newtonsoft.Json;
+using System.Runtime.Serialization;
 namespace Objects
 {
-
     [JsonObject(MemberSerialization.OptIn)]
-    public abstract class StateActionState{
+    [System.Serializable]
+    public class StateActionState{
         public StateActionState(MonoBehaviour runSource){
             this.coroutineRunSource = runSource;
         }
         public MonoBehaviour coroutineRunSource;
-
-        public Objects.StateAction stateAction = null;
-        public Objects.StateAction previousAction = null;
-        public abstract void setStateAction(StateAction action);
-
+        [JsonProperty]public Objects.StateAction stateAction = null;
+        [JsonProperty]public Objects.StateAction previousAction = null;
+        public virtual void setStateAction(StateAction action){
+           throw(new NotImplementedException());
+        }
+        public virtual void run(){
+            stateAction.routineInstance = coroutineRunSource.runRoutine(stateAction);
+        }
     }
-
+    [System.Serializable]
     public class ControlledStateActionState :StateActionState{
         public ControlledStateActionState(MonoBehaviour runSource):base(runSource){}
         public override void setStateAction(StateAction action){
@@ -31,6 +35,7 @@ namespace Objects
             stateAction = action;
         }
     }
+    [System.Serializable]
     public class SelfStateActionState :StateActionState{
         public SelfStateActionState(MonoBehaviour runSource):base(runSource){
         }
@@ -46,7 +51,7 @@ namespace Objects
                 stopPreviousAction();
             }
             stateAction = action;
-            stateAction.routineInstance = coroutineRunSource.runRoutine(action);
+            run();
         }
     }
 }

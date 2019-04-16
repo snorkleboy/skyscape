@@ -11,7 +11,7 @@ namespace Objects.Galaxy
         //  protected GameObject _prefab;
         protected int _sceneToAppearOn;
         protected sceneAppearInfo _info;
-        protected Vector3 savedPosition;
+        // protected Vector3 savedPosition;
         protected bool positionSaved = false;
         public SingleSceneAppearer(sceneAppearInfo info, int scene,AppearableState state)
         {
@@ -32,8 +32,7 @@ namespace Objects.Galaxy
                 }
                 
                 if(_info.shouldOveride){
-                    savedPosition = state.position;
-                    state.position = _info.positionOverride;
+                    state.activeTransform.position = _info.positionOverride;
                     positionSaved = true;
                 }else{
                     state.position = state.position;
@@ -48,7 +47,7 @@ namespace Objects.Galaxy
             base.destroy();
             if(positionSaved){
                 Debug.Log("UN-OVERRIDING POSITION");
-                state.position = savedPosition;
+                state.position = state.position;
                 positionSaved = false;
             }
         }
