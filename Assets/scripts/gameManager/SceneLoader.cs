@@ -165,7 +165,7 @@ namespace Loaders {
         }
         public static void loadAssets () {
             foreach (var bundle in bundles) {
-                AssetSingleton.addBundle (bundle.Key, bundle.Value);
+                AssetSingleton.addBundle(bundle.Key, bundle.Value);
             }
         }
     }

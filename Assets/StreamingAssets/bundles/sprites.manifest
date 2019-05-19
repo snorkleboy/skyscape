@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3801618210
+CRC: 1901229589
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 74e118077feadc2bf017d00b5e71397d
+    Hash: 2eaabe7a31072beac50225f97354d1a5
   TypeTreeHash:
     serializedVersion: 2
     Hash: ea5a42e0fd8ea905efa7aa926a3b8944
@@ -31,6 +31,7 @@ Assets:
 - Assets/RunTimeAssets/sprites/tile/ground4_Diffuse.tga
 - Assets/RunTimeAssets/sprites/UI/71.png
 - Assets/RunTimeAssets/sprites/UI/79.png
+- Assets/RunTimeAssets/sprites/faction/green3.png
 - Assets/RunTimeAssets/sprites/UI/33.png
 - Assets/RunTimeAssets/sprites/tile/ground12_Diffuse.tga
 - Assets/RunTimeAssets/sprites/building/icons/whiteTall.png
@@ -46,6 +47,7 @@ Assets:
 - Assets/RunTimeAssets/sprites/UI/X.png
 - Assets/RunTimeAssets/sprites/tile/ground5_Diffuse.tga
 - Assets/RunTimeAssets/sprites/UI/36.png
+- Assets/RunTimeAssets/sprites/faction/red1.png
 - Assets/RunTimeAssets/sprites/UI/45.png
 - Assets/RunTimeAssets/sprites/UI/46.png
 - Assets/RunTimeAssets/sprites/UI/94.png
@@ -57,6 +59,7 @@ Assets:
 - Assets/RunTimeAssets/sprites/planet/icons/pink.png
 - Assets/RunTimeAssets/sprites/building/icons/factory.png
 - Assets/RunTimeAssets/sprites/UI/93.png
+- Assets/RunTimeAssets/sprites/faction/blue2.png
 - Assets/RunTimeAssets/sprites/planet/icons/othereathy.png
 - Assets/RunTimeAssets/sprites/tile/ground1_Diffuse.tga
 - Assets/RunTimeAssets/sprites/star/sun.jpg

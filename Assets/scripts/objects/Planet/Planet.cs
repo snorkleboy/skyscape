@@ -9,6 +9,7 @@ using Objects.Galaxy.State;
 using Newtonsoft.Json;
 namespace Objects.Galaxy
 {
+    [System.Serializable]
     public class PlanetState :GalaxyGameObjectState{
         [JsonProperty]
         public TileableState tileableState;
@@ -24,6 +25,7 @@ namespace Objects.Galaxy
     public partial class Planet :GalaxyGameObject<PlanetState>,IViewable,IContextable,IActOnable
     {
         public override IAppearer appearer { get;set; }
+        public PlanetState debugState{get{return this.state;}}
         public Tileable tileable;
         public void Init(SingleSceneAppearer renderer,Tileable tileable,PlanetState state)
         {
@@ -77,6 +79,10 @@ namespace Objects.Galaxy
             info.source = this;
             info.name = state.namedState.name;
             info.icon = state.icon;
+            var factionState = state.factionOwnedState.belongsTo.value.state;
+            info.details = new IconInfo[]{
+                new IconInfo(){name=factionState.factionName,icon = factionState.icon}
+            };
             return info;
         }
     }

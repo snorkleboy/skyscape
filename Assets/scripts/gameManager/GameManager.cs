@@ -52,7 +52,6 @@ namespace Objects
         [SerializeField]public UIManager UIManager;
         void Awake()
         {
-
             Debug.Log("game manager awake");
             instance = this;
             factions = GetComponentInChildren<FactionManager>();
@@ -92,9 +91,15 @@ namespace Objects
             objectTable = new ObjectTable();
             idMaker = new UniqueIdMaker(0,objectTable);
             var collection = new Dictionary<int, List<StarNode>>();
-            var faction = factions.setUserFaction("my faction");
-            user = new User(faction);
-            factories.fleetFactory = new Dictionary<Faction,FleetFactory>(){{faction,faction.fleetFactory}};
+            var userFaction = factions.setUserFaction("my faction");
+            user = new User(userFaction);
+            var AIFaction = factions.createAIFaction("Ai1");
+            var AI2Faction = factions.createAIFaction("Ai2");
+            factories.fleetFactory = new Dictionary<Faction,FleetFactory>(){
+                {userFaction,userFaction.fleetFactory},
+                {AIFaction,AIFaction.fleetFactory},
+                {AI2Faction,AI2Faction.fleetFactory},
+            };
             yield return instance.galaxyCreator.hydrate(protoNodes,collection);
             instance._starNodes = new StarNodeCollection(collection);
 

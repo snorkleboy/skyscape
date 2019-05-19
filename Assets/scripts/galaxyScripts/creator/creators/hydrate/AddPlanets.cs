@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Objects.Galaxy;
@@ -13,16 +14,22 @@ namespace GalaxyCreators
         {
             foreach (var starList in starNodes.Values)
             {
+                var factions = GameManager.instance.factions.factions.Values.ToArray();
+                var factionI = 0;
                 foreach (var starNode in starList)
                 {
+                    var faction = factions[(factionI++)%factions.Length];
                     var planets = new Planet[Random.Range(0, 10)];
                     var multiplier = 1.0;
                     for (int i = 0; i < planets.Length; i++)
                     {
+                        if(Random.Range(0, 10) > 7){
+                            faction = factions[(factionI++)%factions.Length];
+                        }
                         multiplier = Random.Range(.8f,1.2f) * multiplier;
                         multiplier++;
                         var position = Vector3.right*(int)(30*multiplier);
-                        var planet =  planetFactory.makePlanet(starNode,position);
+                        var planet =  planetFactory.makePlanet(starNode,position,faction);
                         if (i>2){
                             multiplier++;
                         }

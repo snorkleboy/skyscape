@@ -16,10 +16,10 @@ namespace Objects.Galaxy
             planetSprites = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"planet");
         }
 
-        public Planet makePlanet(StarNode star, Vector3 position)
+        public Planet makePlanet(StarNode star, Vector3 position, Faction faction)
         {
             var name = Names.planetNames.getName();
-            var faction = GameManager.instance.user.faction;
+
             Transform parent;
             var planet = makeTransforms(star,name,out parent);
             var tileable = tileFactory.makeTileManager();
@@ -28,7 +28,7 @@ namespace Objects.Galaxy
             var appearable = new SingleSceneAppearer(new sceneAppearInfo(baseStarFab),3,state.positionState);
 
             planet.Init(appearable,tileable,state);
-
+            GameManager.instance.factions.registerPlanetToFaction(planet,faction);
             return planet;
         }
         public Planet makePlanet( Reference<Planet> Planetref, StarNode star,Dictionary<long,object> stateTable)
@@ -67,7 +67,7 @@ namespace Objects.Galaxy
             return parentGo.AddComponent<Planet>();
         }
         private PlanetState makeState(Transform parent,Planet planet,Vector3 position,StarNode starAt,string name,Faction faction,TileableState tileState){
-            return new PlanetState(
+            var state = new PlanetState(
                 positionState : new State.AppearableState(
                     appearTransform:parent,
                     position:position,
@@ -79,9 +79,9 @@ namespace Objects.Galaxy
                 id : GameManager.idMaker.newId(planet),
                 namedState : new State.NamedState(){name = name},
                 icon : planetSprites[Random.Range(0,planetSprites.Length-1)],
-                factionState : new State.FactionOwnedState(){belongsTo = (Reference<Faction>)GameManager.instance.factions.registerPlanetToFaction(planet,faction)}           
+                factionState : new State.FactionOwnedState(){belongsTo = faction}           
             );
-            
+            return state;
         }
 
     }

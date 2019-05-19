@@ -9,28 +9,30 @@ using Newtonsoft.Json;
 namespace Objects.Conceptuals{
 	[System.Serializable]
 	public class FactionState{
-		public Dictionary<string,Reference<Planet>> ownedPlanets = new Dictionary<string,Reference<Planet>>();
+		public Dictionary<long,Reference<Planet>> ownedPlanets = new Dictionary<long,Reference<Planet>>();
 		public Dictionary<string,Reference<Fleet>> fleets = new Dictionary<string, Reference<Fleet>>();
-		public IconInfo baseInfo;
 		public long id;
 		public string factionName;
 		public Sprite icon;
 		public int money;
 	}
 	[JsonObject(MemberSerialization.OptIn)]
-
-	public class Faction :MonoBehaviour,IIded,IViewable,ISaveable<FactionState>
+	[System.Serializable]
+	public class Faction :MonoBehaviour,IUIable,IIded,IViewable,ISaveable<FactionState>
 	{
 		public FactionState state{get;set;}
 		public object stateObject{get{return state;}set{state = (FactionState)value;}}
 		public long getId(){return state.id;}
+		public IconInfo baseInfo;
+		private Sprite fleetSprite;
+		private Sprite finDetailsSprite;
+		private Sprite starDetailsSprite;
+
 		public void init(FactionState state){
 			this.state = state;
-			// state.icon = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"ui")[2];
-			// var starDetails = new IconInfo(state.ownedPlanets.Count.ToString(),AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"star")[0]);
-			// var finDetails = new IconInfo(state.money.ToString(),AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"ui")[0]);
-			// var fleetDetails = new IconInfo(state.fleets.Count.ToString(),AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"ui")[1]);
-			// state.baseInfo = new IconInfo(name,state.icon,this,new IconInfo[]{starDetails,finDetails,fleetDetails});
+			fleetSprite = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"ui")[1];
+			finDetailsSprite = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"ui")[0];
+			starDetailsSprite = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"star")[0];
 			fleetFactory = gameObject.AddComponent<FleetFactory>();
 		}
 		public FleetFactory fleetFactory;
@@ -45,9 +47,15 @@ namespace Objects.Conceptuals{
 
 
 		public int updateId{get;}
-	
+		public void updateIconInfo(){
+			var starDetails = new IconInfo(state.ownedPlanets.Count.ToString(),starDetailsSprite);
+			var finDetails = new IconInfo(state.money.ToString(),finDetailsSprite);
+			var fleetDetails = new IconInfo(state.fleets.Count.ToString(),fleetSprite);
+			baseInfo = new IconInfo(state.factionName,state.icon,this,new IconInfo[]{starDetails,finDetails,fleetDetails});
+		}
 		public IconInfo getIconableInfo(){
-			var info = state.baseInfo;
+			updateIconInfo();
+			var info = baseInfo;
 			return info;
 		}
 		public GameObject renderUIView(Transform parent, clickViews callbacks){
