@@ -25,7 +25,7 @@ namespace Objects
         public override IAppearer appearer{get{return _appearer;}} 
         private LinkedAppearer _appearer;
 
-        public IMover mover{get{return _mover;}}
+        public FleetMover mover{get{return _mover;}}
         private FleetMover _mover;
 
 

@@ -30,5 +30,8 @@ namespace Objects
             table.set(id,obj);
             return id;
         }
+        public bool removeObject(long id){
+            return table.remove(id);
+        }
     }
 }

@@ -21,14 +21,23 @@ namespace Objects.Conceptuals{
         private IEnumerator ai(){
             Debug.Log("start AI routine");
             while(true){
-                yield return new WaitForSeconds(10);
-                Debug.Log(this.state.factionName + " " + "ownedPlanets length:   " + this.state.ownedPlanets.Values.ToArray().Length);
+                yield return new WaitForSeconds(5);
                 foreach(var pair in this.state.ownedPlanets){
                     if(!madeFleetForPlanet.ContainsKey(pair.Value.id)){
                         madeFleetForPlanet[pair.Value.id] = true;
-                        var fleet = createFleet(pair.Value.value);
-                        fleet.appearer.appear(3);
-                        Debug.Log(this.state.factionName +" created fleet : " + fleet);
+                        var planet = pair.Value.value;
+                        var fleet = createFleet(planet);
+                        if(GameManager.instance.selectedStar != null && planet.state.positionState.starAt.id == GameManager.instance.selectedStar.state.id){
+                            fleet.appearer.appear(3);
+                        }
+                        var offset = 25;
+                        var points = new Vector3[]{
+                            planet.state.positionState.position+new Vector3(offset,0,0),
+                            planet.state.positionState.position+new Vector3(0,0,offset),
+                            planet.state.positionState.position+new Vector3(-offset,0,0),
+                            planet.state.positionState.position+new Vector3(0,0,-offset)
+                        };
+                        fleet.mover.patrol(points);
                     }
                 }
             }

@@ -140,6 +140,9 @@ public class ObjectTable{
             }
             return test;
         }
+        public bool remove(long id){
+            return objects.Remove(id);
+        }
         public void set(long id,hasStateObject obj){
             hasStateObject test = null;
             if(objects.TryGetValue(id, out test)){

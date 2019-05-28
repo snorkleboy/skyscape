@@ -10,7 +10,7 @@ namespace Objects.Conceptuals{
 	[System.Serializable]
 	public class FactionState{
 		public Dictionary<long,Reference<Planet>> ownedPlanets = new Dictionary<long,Reference<Planet>>();
-		public Dictionary<string,Reference<Fleet>> fleets = new Dictionary<string, Reference<Fleet>>();
+		public Dictionary<long,Reference<Fleet>> fleets = new Dictionary<long, Reference<Fleet>>();
 		public long id;
 		public string factionName;
 		public Sprite icon;

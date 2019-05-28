@@ -13,9 +13,12 @@ namespace UI
         // public Dictionary<string,Sprite> cursorIcons;
         [SerializeField]
         public List<inputAction> controls;
-        public static void checkAction(InputController controller){
-            if(controller.controls != null){
-                foreach (var control in controller.controls)
+        public void checkAction(){
+            _checkAction();
+        }
+        protected virtual void _checkAction(){
+          if(controls != null){
+                foreach (var control in controls)
                 {
                     var check = control.check();
                     if(check){

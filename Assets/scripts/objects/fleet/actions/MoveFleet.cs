@@ -41,8 +41,9 @@ namespace Objects
             }
             yield return util.Routiner.Any(
                 keepIconToAveragePosition(),
-                timedOutMove(shipsMovingBehavior,util.Routiner.wait(15))
+                timedOutMove(shipsMovingBehavior,util.Routiner.wait(25))
             );
+
         }
         protected IEnumerator timedOutMove(IEnumerator[] routines, IEnumerator waiter){
             return util.Routiner.Any(

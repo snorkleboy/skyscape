@@ -20,7 +20,7 @@ namespace Objects.Galaxy
                 Debug.LogWarning("ship factory did not find icon");
             }
         }
-        public Ship makeShip(GalaxyGameObjectState shipState,Fleet fleet){
+        public Ship makeShip(ShipState shipState,Fleet fleet){
             GameObject go;
             var ship = makeTransforms(out go,fleet);
             GameManager.idMaker.insertObject(ship,shipState.id);
@@ -51,20 +51,37 @@ namespace Objects.Galaxy
             state.icon = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"star")[0];
             state.positionState.appearTransform = transform;
         }
-        private GalaxyGameObjectState makeState(Ship ship,Transform transform,Fleet fleet,Vector3 position){
-            return new GalaxyGameObjectState(
-                icon:AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"star")[0],
-                id:GameManager.idMaker.newId(ship),
-                stamp: new FactoryStamp("ship"),
-                namedState:new State.NamedState("ship"),
-                positionState:new State.AppearableState(
+        private ShipState makeState(Ship ship,Transform transform,Fleet fleet,Vector3 position){
+            var positionState = new State.AppearableState(
                     appearTransform:transform,
                     position:position,
                     star:fleet.state.positionState.starAt
-                ),
-                factionOwnedState: fleet.state.factionOwnedState,
-                actionState:new ControlledStateActionState(fleet)
-            );
+                );
+            var id =  GameManager.idMaker.newId(ship);
+            return new ShipState(){
+                fleetShipIsIn = fleet,
+                icon =AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"star")[0],
+                id=id,
+                stamp= new FactoryStamp("ship"),
+                namedState=new State.NamedState("ship"),
+                positionState=positionState,
+                factionOwnedState= fleet.state.factionOwnedState,
+                actionState=new ControlledStateActionState(fleet),
+                destructableState = new State.DestructableState(){hp = 100, onDestroy = ()=>{
+                    Debug.Log("destroying ship");
+                    fleet.state.shipsContainer.removeShip(ship);
+                    GameManager.idMaker.removeObject(id);
+                }},
+                shieldedState = new State.ShieldedState(),
+                weapons = new weapon.Weapon[1]{
+                    new weapon.SimpleLaser().init(positionState, new weapon.WeaponDescription(){
+                        damage = 10,
+                        fireRate = .5f,
+                        accuracy = 90,
+                        maxDistance = 1000,
+                    })
+                }
+            };
         }
 
     }

@@ -23,10 +23,10 @@ namespace Objects
         public DragBox dragSelect;
         private void Update() {
             if(objectinputController != null){
-                InputController.checkAction(objectinputController);
+                objectinputController.checkAction();
             }
             if(cameraController != null){
-                InputController.checkAction(cameraController);
+                cameraController.checkAction();
             }
         }
         public void setGameManager(GameManager manager){

@@ -7,10 +7,10 @@ namespace util
     public static class Line{
          public static LineRenderer DrawTempLine(Vector3 start, Vector3 end, Color color, float duration = 0.2f)
          {
+             
              GameObject myLine = new GameObject();
              myLine.transform.position = start;
-             myLine.AddComponent<LineRenderer>();
-             LineRenderer lr = myLine.GetComponent<LineRenderer>();
+             LineRenderer lr = myLine.AddComponent<LineRenderer>();
              lr.material = new Material(Shader.Find("Mobile/Particles/Additive"));
              lr.SetColors(color, Color.red);
              lr.SetWidth(0.1f, 0.1f);

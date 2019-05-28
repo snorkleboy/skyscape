@@ -17,8 +17,10 @@ namespace Objects
             return this;
         }
         public void moveTo(Vector3 target,float d = .5f){
-            stateActionState.setStateAction(new Objects.Galaxy.ship.MoveToPoint().Init(appearableState,5f,d,target));
+            stateActionState.setStateAction(new Objects.Galaxy.ship.MoveToPoint().Init(appearableState,15f,d,target));
         }
 
     }
+
+
 }

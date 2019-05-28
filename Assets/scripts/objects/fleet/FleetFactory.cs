@@ -42,7 +42,7 @@ namespace Objects
             {
                 var shipRef = state.shipsContainer.ships[i];
                 var stateObject = stateTable[shipRef.id];
-                var shipState = (GalaxyGameObjectState)stateObject;
+                var shipState = (ShipState)stateObject;
                 var ship = shipFactory.makeShip(shipState,fleet);
                 state.shipsContainer.appearables.Add(ship);
             }
@@ -68,7 +68,7 @@ namespace Objects
             var fleetRenderer = makeAppearers(fleetState);
             var mover = fleetGo.AddComponent<FleetMover>().init(fleet);
             fleet.init(fleetState,fleetRenderer,mover);
-            faction.state.fleets[fleet.name] = fleet;
+            faction.state.fleets[fleet.state.id] = fleet;
             fleetGo.name = fleet.name;
             return fleet;
         }

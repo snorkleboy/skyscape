@@ -31,7 +31,6 @@ namespace Objects
     public class ControlledStateActionState :StateActionState{
         public ControlledStateActionState(MonoBehaviour runSource):base(runSource){}
         public override void setStateAction(StateAction action){
-            Debug.Log("set state action (controlled)" + action);
             stateAction = action;
         }
     }
@@ -46,7 +45,6 @@ namespace Objects
             coroutineRunSource.StopCoroutine(previousAction.routineInstance.unityRoutine);
         }
         public override void setStateAction(StateAction action){
-            Debug.Log("set state action (self controlled)" + action);
             if(stateAction!= null && stateAction.routineInstance.unityRoutine != null){
                 stopPreviousAction();
             }

@@ -18,19 +18,16 @@ namespace util
 
 namespace util
 {
-    public interface IRoutinerable :IEnumerator{
-        bool finished{get;}
-    }
-    [Serializable]
-    public class Routiner:IRoutinerable {
 
-        public static IRoutinerable All(params IEnumerator[] routines){
+    [Serializable]
+    public class Routiner:IEnumerator {
+        public static IEnumerator All(params IEnumerator[] routines){
             return new All(routines);
         }
-        public static IRoutinerable Any(params IEnumerator[] routines){
+        public static IEnumerator Any(params IEnumerator[] routines){
             return new Any(routines);
         }    
-        public static IRoutinerable wait(float time){
+        public static IEnumerator wait(float time){
             return new WaitRoutine(time);
         }
         public IEnumerator mainRoutine;
@@ -55,14 +52,16 @@ namespace util
             }
         }
         private bool runSubRoutine(){
-            bool moved;
-            if (!(moved = subRoutine.MoveNext() )){
+            bool moved = subRoutine.MoveNext();
+            if (!moved){
+                Current = subRoutine.Current;
                 subRoutine = null;
             }
             return moved;
         }
         private bool runMainRoutine(){
             bool moved = mainRoutine.MoveNext();
+            Current = mainRoutine.Current;
             if(moved && mainRoutine.Current is IEnumerator)
             {
                 var newSubroutine = (IEnumerator)mainRoutine.Current;
@@ -78,16 +77,10 @@ namespace util
         {
             throw new System.NotImplementedException("no reset of CR");
         }
-        public object Current
-        {
-            get
-            {
-                return mainRoutine.Current;
-            }
-        }
+        public object Current{get;set; }
 
     }
-     public class WaitRoutine: IRoutinerable{
+     public class WaitRoutine: IEnumerator{
         public float timeToWait;
         public float startTime;
         public float endTime;
@@ -106,7 +99,7 @@ namespace util
         }
         public object Current{get{return null;}}
     }
-    public abstract class MultiRoutiner :IRoutinerable{
+    public abstract class MultiRoutiner :IEnumerator{
         public HashSet<IEnumerator> routines = new HashSet<IEnumerator>();
         public bool finished{get;set;}
         public MultiRoutiner(params IEnumerator[] routines){
@@ -166,7 +159,4 @@ namespace util
             return finished = routines.Count == startCount;
         }
     }
-
-
-
 }

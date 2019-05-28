@@ -7,6 +7,10 @@ namespace Objects
     [System.Serializable]
     public class ShipsContainer:AppearableContainerState{
         [JsonProperty]public List<Reference<Ship>> ships = new List<Reference<Ship>>();
+        public void removeShip(Ship ship){
+            this.ships.Remove(ship);
+            this.appearables.Remove(ship);
+        }
         public void addShips(Ship ship){
             this.ships.Add(ship);
             this.appearables.Add(ship);
