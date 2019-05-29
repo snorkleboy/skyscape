@@ -5,7 +5,8 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using Newtonsoft.Json;
-
+using Objects.Galaxy;
+using Objects.Galaxy.ship;
 namespace Objects
 {
      [System.Serializable]
@@ -27,7 +28,8 @@ namespace Objects
             Debug.Log("engaging fleet with ship count = "+targetFleet.state.shipsContainer.ships.Count);
             foreach(var shipMovable in fleet.state.shipsContainer.ships){
                 var otherShip = otherShips[lastTargetedI % otherShips.Count];
-                shipsMovingBehavior[lastTargetedI] = targetShip(shipMovable,otherShip,otherShips);
+                shipsMovingBehavior[lastTargetedI % shipsMovingBehavior.Length] = ShipStateActions
+                    .engageShip(shipMovable,otherShip,()=>onDestroyTargetShip(shipMovable));
                 lastTargetedI++;
             }
             yield return util.Routiner.All(
@@ -38,18 +40,21 @@ namespace Objects
             }
         }
 
-        public IEnumerator targetShip(Galaxy.Ship ship,Galaxy.Ship shipTarget, List<Galaxy.Ship> otherTargets){
-            return Galaxy.ship.ShipStateActions.engageShip(ship, shipTarget,()=>onDestroyTargetShip(ship,shipTarget,otherTargets));
-        }
-        public IEnumerator onDestroyTargetShip(Galaxy.Ship ship,Galaxy.Ship shipTarget, List<Galaxy.Ship> otherTargets){
-            otherTargets.Remove(shipTarget);
-            Debug.Log("destroyed ship ");
-            UnityEngine.MonoBehaviour.Destroy(shipTarget.gameObject);
-            if(otherTargets.Count > 0){
-                return targetShip(ship,otherTargets[lastTargetedI % otherTargets.Count],otherTargets);
+        public IEnumerator onDestroyTargetShip(Ship ship){
+            Debug.Log("destroyed ship picking new");
+            if(targetFleet != null){
+                var otherShips = targetFleet.state.shipsContainer.ships.getAllReferenced();
+                if(otherShips.Count > 0){
+                    return ShipStateActions
+                        .engageShip(ship,otherShips[lastTargetedI++ % otherShips.Count],()=>onDestroyTargetShip(ship));
+                }else{
+                    return null;
+                }
             }else{
+                Debug.Log("ENGAGE FLEET DESTROYED FLEET?");
                 return null;
             }
+
         }
 
     }

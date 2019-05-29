@@ -20,11 +20,17 @@ namespace Objects.Galaxy.ship
         }
         protected override IEnumerator getEnumerator(){
             yield return util.Routiner.Any(
+                checkExistance(),
                 new FollowReference().Init(thisShip.state.positionState,target.state.positionState,15f,15),
                 new ShootShip().Init(thisShip,target)
             );
             if(onDestroyTarget != null){
                 yield return onDestroyTarget();
+            }
+        }
+        private IEnumerator checkExistance(){
+            while(target != null){
+                yield return null;
             }
         }
     }

@@ -7,9 +7,14 @@ namespace Objects
     [System.Serializable]
     public class ShipsContainer:AppearableContainerState{
         [JsonProperty]public List<Reference<Ship>> ships = new List<Reference<Ship>>();
+        public System.Action onEmpty;
+
         public void removeShip(Ship ship){
             this.ships.Remove(ship);
             this.appearables.Remove(ship);
+            if(this.ships.Count == 0 && onEmpty!= null){
+                onEmpty();
+            }
         }
         public void addShips(Ship ship){
             this.ships.Add(ship);

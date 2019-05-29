@@ -71,6 +71,7 @@ namespace Objects.Galaxy
                     Debug.Log("destroying ship");
                     fleet.state.shipsContainer.removeShip(ship);
                     GameManager.idMaker.removeObject(id);
+                    UnityEngine.MonoBehaviour.Destroy(ship.gameObject);
                 }},
                 shieldedState = new State.ShieldedState(),
                 weapons = new weapon.Weapon[1]{

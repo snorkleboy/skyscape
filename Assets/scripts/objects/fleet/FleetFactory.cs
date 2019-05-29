@@ -94,17 +94,23 @@ namespace Objects
             return state;
         }
         private FleetState makeFleetState(Fleet fleet, Vector3 position,Faction faction, Transform appearTransform,StarNode star,string name){
+            var positionState = new AppearableState(
+                    position:position,
+                    appearTransform:appearTransform,
+                    star:star
+                );
             return new FleetState(
-                ships: new ShipsContainer(),
+                ships: new ShipsContainer(){onEmpty = ()=>{
+                    Debug.Log("destroying fleet");
+                    positionState.starAt.value.enterable.removeFleet(fleet);
+                    GameManager.idMaker.removeObject(fleet.state.id);
+                    UnityEngine.MonoBehaviour.Destroy(fleet.gameObject);
+                }},
                 id : GameManager.idMaker.newId(fleet),
                 icon:icon,
                 stamp:new FactoryStamp("fleet"),
                 namedState:new Galaxy.State.NamedState(name),
-                positionState: new AppearableState(
-                    position:position,
-                    appearTransform:appearTransform,
-                    star:star
-                ),
+                positionState: positionState,
                 actionState:new SelfStateActionState(fleet),
                 factionOwnedState:new FactionOwnedState{belongsTo = (Reference<Faction>)faction}
             );

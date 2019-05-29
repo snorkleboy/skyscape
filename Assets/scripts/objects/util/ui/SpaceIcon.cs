@@ -14,22 +14,34 @@ public class SpaceIcon : MonoBehaviour {
 	public System.Func<IconInfo,GameObject> iconCallBack =  UIComponents.renderIconLabel;
 	public Vector3 offset = new Vector3(0,12,0);
     public virtual void Start(){
-		m_Renderer = gameObject.GetComponent<MeshRenderer>();
-		if (!m_Renderer){
-			m_Renderer = gameObject.GetComponentInChildren<MeshRenderer>();
+			m_Renderer = gameObject.GetComponent<MeshRenderer>();
+			if (!m_Renderer){
+				m_Renderer = gameObject.GetComponentInChildren<MeshRenderer>();
+			}
+			if (!m_Renderer){
+				m_Renderer = gameObject.GetComponentInParent<MeshRenderer>();
+			}
+			if (!m_Renderer){
+				Debug.LogWarning("spaceIcon couldnt get m_Renderer  " + m_Renderer);
+			}
+			uiable = gameObject.GetComponentInParent<IUIable>();
+			if (uiable == null){
+				Debug.LogWarning("spaceIcon couldnt get uiable  " + uiable);
+			}
+	}
+	private void OnDestroy() {
+		destroyLabel();
+	}
+	public void LateUpdate(){
+		if(uiable != null){
+			renderLabel();
 		}
-		if (!m_Renderer){
-			m_Renderer = gameObject.GetComponentInParent<MeshRenderer>();
-		}
-		if (!m_Renderer){
-			Debug.LogWarning("spaceIcon couldnt get m_Renderer  " + m_Renderer);
-		}
-        uiable = gameObject.GetComponentInParent<IUIable>();
-		if (uiable == null){
-			Debug.LogWarning("spaceIcon couldnt get uiable  " + uiable);
-		}
-    }
-    public void LateUpdate(){
+	}
+	private void destroyLabel(){
+		Debug.Log("DESTROYING ICON");
+		Destroy(floatingIcon);
+	}
+	private void renderLabel(){
 		if (GameManager.instance.UIManager.sceneCanvas && (canvas = GameManager.instance.UIManager.sceneCanvas.gameObject)){
 			if (floatingIcon == null){
 				floatingIcon = iconCallBack(uiable.getIconableInfo());
@@ -43,8 +55,7 @@ public class SpaceIcon : MonoBehaviour {
 				floatingIcon.SetActive(false);
 			}
 		}
-
-    }
+	}
 	private void setPosition(){
 		var pos = Camera.main.WorldToScreenPoint(getTargetPosition() + offset);
 		floatingIcon.transform.position = (pos);
