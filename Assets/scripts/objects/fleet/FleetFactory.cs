@@ -47,7 +47,7 @@ namespace Objects
                 state.shipsContainer.appearables.Add(ship);
             }
             if(state.actionState.stateAction != null){
-                state.actionState.stateAction.hydrate(fleet);
+                state.actionState.stateAction = state.actionState.stateAction.hydrate(fleet);
                 state.actionState.coroutineRunSource = fleet;
                 state.actionState.run();
             }
