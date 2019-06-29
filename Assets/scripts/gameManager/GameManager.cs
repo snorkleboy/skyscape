@@ -117,8 +117,8 @@ namespace Objects
             yield return galaxyCreator.hydrate(savedGame,collection);
             instance._starNodes = new StarNodeCollection(collection);
         }
-        public void Save() {
-            SavedGameManager.Save(this.model);
+        public void Save(string name) {
+            SavedGameManager.Save(this.model,name);
         }
         private void scrub(){
             if(_starNodes != null){

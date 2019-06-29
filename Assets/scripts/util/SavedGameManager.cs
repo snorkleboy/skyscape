@@ -47,8 +47,8 @@ public static class SavedGameManager {
 		}
 		return list;
 	}
-	public static void Save(SaveGameModel gmModel) {
-		_Save(gmModel,@"\savedGame.json");
+	public static void Save(SaveGameModel gmModel,string name) {
+		_Save(gmModel,@"\"+name+@".json");
 	}
 
 	public static void _Save(SaveGameModel gmModel,string fileName) {

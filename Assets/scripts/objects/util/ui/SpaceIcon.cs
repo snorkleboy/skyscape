@@ -38,7 +38,6 @@ public class SpaceIcon : MonoBehaviour {
 		}
 	}
 	private void destroyLabel(){
-		Debug.Log("DESTROYING ICON");
 		Destroy(floatingIcon);
 	}
 	private void renderLabel(){
