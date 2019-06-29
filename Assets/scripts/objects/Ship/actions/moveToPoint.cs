@@ -7,16 +7,17 @@ using Loaders;
 using Newtonsoft.Json;
 namespace Objects.Galaxy.ship
 {
-    public class MoveToPoint:StateAction{
+    public class MoveToPoint:SaveableStateAction{
         [JsonProperty]public SerializableVector3 targetVector = Vector3.negativeInfinity;
         Galaxy.State.AppearableState controlledState;
-        public override void hydrate<T>(T source){
+        public override StateAction hydrate<T>(T source){
             this.controlledState = source as Galaxy.State.AppearableState;
             if (this.controlledState == null){
                 Debug.LogError("couldnt coerce source to AppearableState" + " " + source);
             }
             lineRenderer = util.Line.DrawTempLine(controlledState.position,targetVector,Color.green);
             base._Init();
+            return this;
         }
         [JsonProperty]public float distance;
         [JsonProperty]public float speed;

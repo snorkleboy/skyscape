@@ -5,14 +5,18 @@ using System;
 using UnityEngine.UI;
 using Loaders;
 using UI;
+using System.Runtime.Serialization;
+
 namespace Objects.Galaxy
 {
     [System.Serializable]
+    [DataContract]
+
     public class ShipState : GalaxyGameObjectState{
         public Fleet fleetShipIsIn;
-        public Galaxy.weapon.Weapon[] weapons;
-        public Galaxy.State.DestructableState destructableState;
-        public Galaxy.State.ShieldedState shieldedState;
+        [DataMember]public Galaxy.weapon.Weapon[] weapons;
+        [DataMember]public Galaxy.State.DestructableState destructableState;
+        [DataMember]public Galaxy.State.ShieldedState shieldedState;
     }
     public partial class Ship : GalaxyGameObject<ShipState>
     {

@@ -18,7 +18,7 @@ namespace Objects.Galaxy.ship
         }
         protected override IEnumerator getEnumerator(){
             bool destroyedTarget = false;
-            while(!destroyedTarget){
+            while(!destroyedTarget &&  target){
                 destroyedTarget = thisShip.state.weapons[0].fire(target.state.positionState,target.state.destructableState);
                 Debug.Log("SHOOTSHIP - destroyed = " + destroyedTarget);
                 yield return util.Routiner.wait(thisShip.state.weapons[0].weaponDescription.fireRate);

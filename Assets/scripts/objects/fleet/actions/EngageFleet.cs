@@ -42,7 +42,7 @@ namespace Objects
 
         public IEnumerator onDestroyTargetShip(Ship ship){
             Debug.Log("destroyed ship picking new");
-            if(targetFleet != null){
+            if(targetFleet){
                 var otherShips = targetFleet.state.shipsContainer.ships.getAllReferenced();
                 if(otherShips.Count > 0){
                     return ShipStateActions

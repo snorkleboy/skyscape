@@ -27,7 +27,11 @@ namespace Objects.Conceptuals{
                 gotSprites=true;
                 factionSprites = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"faction");
             }
-            return createFaction(state.factionName,state.id);
+            if(state.GetType() == typeof(AIFactionState)){
+                return createAIFaction(state.factionName,state.id);
+            }else{
+                return createFaction(state.factionName,state.id);
+            }
         }
         public AIFaction createAIFaction(string name, long id = -1){
             if(!gotSprites){

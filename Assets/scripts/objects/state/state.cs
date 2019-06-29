@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 namespace Objects.Galaxy.State
 {
     [System.Serializable]
+    [JsonObject(MemberSerialization.OptOut)]
     public class ShieldedState{
         public int shieldhp = 100;
         public int rechargeRate = 20;
@@ -23,10 +24,11 @@ namespace Objects.Galaxy.State
 
     }
     [System.Serializable]
+    [JsonObject(MemberSerialization.OptOut)]
     public class DestructableState{
         public int hp = 100;
         public int resistance = 5;
-        public System.Action onDestroy; 
+        [JsonIgnore]public System.Action onDestroy; 
         public bool changeHp(int delta){
             hp = hp + delta;
             var destoyed = hp <= 0;

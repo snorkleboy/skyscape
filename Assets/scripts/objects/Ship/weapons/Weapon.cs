@@ -1,6 +1,8 @@
 using UnityEngine;
+using Newtonsoft.Json;
 namespace Objects.Galaxy.weapon
 {
+    [System.Serializable]
     public struct WeaponDescription{
         public int damage;
         public float fireRate;
@@ -8,6 +10,8 @@ namespace Objects.Galaxy.weapon
         public int maxDistance;
 
     }
+    [System.Serializable]
+    [JsonObject(MemberSerialization.OptOut)]
     public abstract class Weapon
     {
         public WeaponDescription weaponDescription;
@@ -16,7 +20,7 @@ namespace Objects.Galaxy.weapon
            this.weaponDescription = weaponDescription;
            return this;
         }
-        public State.AppearableState thisPosition;
+        [JsonIgnore]public State.AppearableState thisPosition;
         public abstract bool fire(State.AppearableState target,State.DestructableState targetHealth);
         public virtual bool didHit(State.AppearableState target){
             var distance = Vector3.Distance(thisPosition.position,target.position);

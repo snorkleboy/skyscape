@@ -15,7 +15,7 @@ namespace Objects.Conceptuals{
         private bool testBool = false;
         private void Awake(){
             Debug.Log("AIFaction  Awake");
-            StartCoroutine(ai());
+            // StartCoroutine(ai());
         }
         public Dictionary<long,bool> madeFleetForPlanet = new Dictionary<long,bool>();
         private IEnumerator ai(){

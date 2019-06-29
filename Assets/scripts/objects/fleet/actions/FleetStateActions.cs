@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections.Generic;
 namespace Objects
 {
     public static class FleetStateActions{
@@ -9,10 +9,18 @@ namespace Objects
         public static StateAction moveFleetBetweenPoints(Fleet fleet,Vector3[] targets){
             return new MoveFleetBetweenPoints().init(fleet, targets);
         }
-        public static StateAction patrolFleet(Fleet fleet,Vector3[] targets){
-            return new PatrolFleet(){onFindFleet=(foundFleets)=>new EngageFleet().init(fleet,foundFleets[0])}
-            .init(fleet, targets);
+        public static class Patrols{
+            public static StateAction patrolFleet(Fleet fleet,Vector3[] targets){
+                return new PatrolFleet(){onFindFleet=engageFoundFleets}
+                .init(fleet, targets);
+            }
+
+            private static object engageFoundFleets(List<Fleet> foundFleets,Fleet controlledFleet){
+                return new EngageFleet().init(controlledFleet,foundFleets[0]);
+            }
         }
+
+
     }
 
 }

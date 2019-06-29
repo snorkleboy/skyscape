@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Objects.Galaxy;
@@ -13,7 +14,7 @@ namespace Objects.Conceptuals{
 		public Dictionary<long,Reference<Fleet>> fleets = new Dictionary<long, Reference<Fleet>>();
 		public long id;
 		public string factionName;
-		public Sprite icon;
+		[NonSerializedAttribute]public Sprite icon;
 		public int money;
 	}
 	[JsonObject(MemberSerialization.OptIn)]

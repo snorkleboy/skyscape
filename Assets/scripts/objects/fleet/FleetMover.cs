@@ -17,7 +17,7 @@ namespace Objects
             fleet.state.actionState.setStateAction(FleetStateActions.moveFleet(fleet, target));
         }
         public void patrol(UnityEngine.Vector3[] targets, float d = 0.5f){
-            fleet.state.actionState.setStateAction(FleetStateActions.patrolFleet(fleet, targets));
+            fleet.state.actionState.setStateAction(FleetStateActions.Patrols.patrolFleet(fleet, targets));
         }
     }
 

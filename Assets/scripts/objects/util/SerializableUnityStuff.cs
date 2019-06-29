@@ -99,6 +99,7 @@ namespace Objects
      {
          return string.Format("[{0}, {1}, {2}]", x, y, z);
      }
+
      public static implicit operator Vector3(SerializableVector3 rValue)
      {
          return new Vector3(rValue.x, rValue.y, rValue.z);
