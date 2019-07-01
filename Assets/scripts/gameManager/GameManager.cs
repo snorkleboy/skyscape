@@ -95,11 +95,14 @@ namespace Objects
             user = new User(userFaction);
             var AIFaction = factions.createAIFaction("Ai1");
             var AI2Faction = factions.createAIFaction("Ai2");
+
             factories.fleetFactory = new Dictionary<Faction,FleetFactory>(){
                 {userFaction,userFaction.fleetFactory},
                 {AIFaction,AIFaction.fleetFactory},
                 {AI2Faction,AI2Faction.fleetFactory},
             };
+            AI2Faction.startAI();
+            AIFaction.startAI();
             yield return instance.galaxyCreator.hydrate(protoNodes,collection);
             instance._starNodes = new StarNodeCollection(collection);
 

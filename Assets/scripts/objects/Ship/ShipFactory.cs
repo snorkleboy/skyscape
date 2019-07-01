@@ -47,9 +47,10 @@ namespace Objects.Galaxy
             go.SetParent(shipParent,false);
             return go.AddComponent<Ship>();
         }
-        public void hydrateState(GalaxyGameObjectState state, Transform transform){
+        public void hydrateState(ShipState state, Transform transform){
             state.icon = AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"star")[0];
             state.positionState.appearTransform = transform;
+            state.weapons[0].init(state.positionState,state.weapons[0].weaponDescription);
         }
         private ShipState makeState(Ship ship,Transform transform,Fleet fleet,Vector3 position){
             var positionState = new State.AppearableState(

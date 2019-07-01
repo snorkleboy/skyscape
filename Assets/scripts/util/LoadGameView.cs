@@ -57,6 +57,8 @@ public class LoadGameView : MonoBehaviour {
 			var button = SGItem.AddComponent<Button>();
 			button.onClick.AddListener(()=>onSavedGameClick(SGItem,saved));
 			var text = SGItem.AddComponent<Text>();
+			var trn = SGItem.GetComponent<RectTransform>();
+			trn.sizeDelta = new Vector3(120,30);
 			text.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
 			text.text = saved.displayName;
 
