@@ -5,9 +5,9 @@ using UI;
 namespace Objects
 {
     public class FleetController : InputController{
-        FleetMover mover;
-        public FleetController init(FleetMover mover){
-            this.mover = mover;
+        public Fleet fleet;
+        public FleetController init(Fleet fleet){
+            this.fleet = fleet;
             controls = new List<inputAction>()
                 {
                     new inputAction(checkClick,moveTo),
@@ -18,14 +18,13 @@ namespace Objects
             return Input.GetMouseButtonDown(1);
         }
         public void moveTo(){
-            Debug.Log("set position " + this);
             Ray castPoint = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(castPoint, out hit, Mathf.Infinity))
             {
                 var newvec = hit.point;
                 newvec.y = 0;
-                mover.moveTo(newvec);
+                fleet.setStateAction(fleet.move(newvec));
             }else{
                 Debug.Log("no hit on move to click");
             }

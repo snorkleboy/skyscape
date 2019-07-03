@@ -68,12 +68,12 @@ namespace Objects.Galaxy
         }
         private PlanetState makeState(Transform parent,Planet planet,Vector3 position,StarNode starAt,string name,Faction faction,TileableState tileState){
             var state = new PlanetState(
-                positionState : new State.AppearableState(
+                positionState : new State.AppearablePositionState(
                     appearTransform:parent,
                     position:position,
                     star:starAt
                 ),
-                stamp:  new FactoryStamp("basic planet"),
+                stamp:  new FactoryStamp(),
                 actionState: new SelfStateActionState(planet),
                 tileableState : tileState,
                 id : GameManager.idMaker.newId(planet),

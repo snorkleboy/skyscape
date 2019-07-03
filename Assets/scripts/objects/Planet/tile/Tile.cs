@@ -18,12 +18,12 @@ namespace Objects.Galaxy
 
     }
 	[JsonObject(MemberSerialization.OptIn)]
-    public partial class Tile: IContextable, IIconable, IActOnable,ISaveable<TileState>
+    public partial class Tile: IContextable, IIconable, IActOnable, IIded,IHasStateObject
     {
         public long getId(){
             return state.id;
         }
-        public object  stateObject{get{return state;}set{state = (TileState)value;}}
+        public IIded stateObject{get{return state;}set{state = (TileState)value;}}
 
         public TileState state{get;set;}
 

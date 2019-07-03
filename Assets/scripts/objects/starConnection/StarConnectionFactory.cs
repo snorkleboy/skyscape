@@ -59,7 +59,7 @@ namespace Objects.Galaxy
 
         private StarConnection _makeConnection(StarNode nodeInstance,Reference<StarNode> referencedStarNode){
             var state = new StarConnectionState(){
-                appearableState = new State.AppearableState(
+                appearableState = new State.AppearablePositionState(
                     appearTransform:nodeInstance.appearer.state.appearTransform,
                     position: new Vector3(-99999,-99999,-99999),
                     star:null

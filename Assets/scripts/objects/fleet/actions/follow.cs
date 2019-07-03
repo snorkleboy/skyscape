@@ -36,8 +36,7 @@ namespace Objects
         private Vector3 getAveragePosition(){
             Vector3 pos = Vector3.zero;
             foreach(var ship in fleet.state.shipsContainer.ships){
-                var mover = ship.value.mover;
-                pos += mover.appearableState.position;
+                pos += ship.value.state.positionState.position;
             }
             return pos/fleet.state.shipsContainer.ships.Count;
         }

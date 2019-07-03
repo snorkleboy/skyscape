@@ -7,22 +7,26 @@ using UI;
 using Loaders;
 using Objects;
 using Newtonsoft.Json;
-namespace Objects.Conceptuals{
-	[System.Serializable]
-	public class FactionState{
-		public Dictionary<long,Reference<Planet>> ownedPlanets = new Dictionary<long,Reference<Planet>>();
-		public Dictionary<long,Reference<Fleet>> fleets = new Dictionary<long, Reference<Fleet>>();
-		public long id;
+namespace Objects.Conceptuals {
+    [System.Serializable]
+    public class FactionState : IIded {
+        public Dictionary<long, Reference<Planet>> ownedPlanets = new Dictionary<long, Reference<Planet>>();
+        public Dictionary<long, Reference<Fleet>> fleets = new Dictionary<long, Reference<Fleet>>();
+        public long id;
+        public long getId()
+        {
+            return id;
+        }
 		public string factionName;
 		[NonSerializedAttribute]public Sprite icon;
 		public int money;
 	}
 	[JsonObject(MemberSerialization.OptIn)]
 	[System.Serializable]
-	public class Faction :MonoBehaviour,IUIable,IIded,IViewable,ISaveable<FactionState>
+	public class Faction :MonoBehaviour,IUIable,IIded,IViewable,IHasStateObject
 	{
 		public FactionState state{get;set;}
-		public object stateObject{get{return state;}set{state = (FactionState)value;}}
+		public IIded stateObject{get{return state;}set{state = (FactionState)value;}}
 		public long getId(){return state.id;}
 		public IconInfo baseInfo;
 		private Sprite fleetSprite;
@@ -38,7 +42,7 @@ namespace Objects.Conceptuals{
 		}
 		public FleetFactory fleetFactory;
 		public Fleet createFleet(Planet planet){
-			var fleet = fleetFactory.makeFleet(this,planet.state.positionState.starAt, planet.appearer.state.position + new Vector3(2,0,2));
+			var fleet = fleetFactory.makeFleet(this,planet.state.positionState.starAt, planet.state.positionState.position + new Vector3(2,0,2));
 			return fleet;
 		}
 		// public Fleet createFleet(FleetModel model, StarNode star){

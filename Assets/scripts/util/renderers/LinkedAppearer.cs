@@ -14,7 +14,7 @@ namespace Objects.Galaxy
             this.thisAppearer = appearer;
             this.linkedState = linkedState;
         } 
-        public override AppearableState state{get{return thisAppearer.state;}}
+        public override AppearablePositionState state{get{return thisAppearer.state;}}
         [SerializeField]private IAppearer thisAppearer;
         public AppearableContainerState linkedState;
         protected override bool _appearImplimentation(int scene){

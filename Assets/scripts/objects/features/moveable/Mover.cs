@@ -8,14 +8,12 @@ using Objects.Galaxy.State;
 
 namespace Objects
 {
-    public interface IMoveable
+    public interface IPositionable
     {
-        IMover mover{get;} 
+        AppearablePositionState positionState { get; }
     }
-    public interface IMover{
-        void moveTo(Vector3 target, float stopDistence = .5f);
-        AppearableState appearableState{get;}
-        StateActionState stateActionState{get;}
+    public interface IMoveable: IPositionable,IActionable
+    {
     }
 
 

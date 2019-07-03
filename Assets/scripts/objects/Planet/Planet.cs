@@ -13,7 +13,7 @@ namespace Objects.Galaxy
     public class PlanetState :GalaxyGameObjectState{
         [JsonProperty]
         public TileableState tileableState;
-        public PlanetState(FactionOwnedState factionState,TileableState tileableState,Sprite icon, long id, FactoryStamp stamp, NamedState namedState, AppearableState positionState, StateActionState actionState) :
+        public PlanetState(FactionOwnedState factionState,TileableState tileableState,Sprite icon, long id, FactoryStamp stamp, NamedState namedState, AppearablePositionState positionState, StateActionState actionState) :
         base(icon, id, stamp, namedState, positionState,factionState, actionState)
         {
             this.tileableState = tileableState;
@@ -33,8 +33,6 @@ namespace Objects.Galaxy
             this.state = state;
             this.tileable = tileable;
         }
-    }
-    public partial class Planet{
         public GameObject renderActionView(Transform parent, clickViews callbacks){
             var holder = new GameObject("planet action view");
             var layout = holder.AddComponent<VerticalLayoutGroup>();

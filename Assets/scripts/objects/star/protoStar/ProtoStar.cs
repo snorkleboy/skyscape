@@ -10,7 +10,7 @@ namespace Objects.Galaxy
 {
     [System.Serializable]
     public class ProtostarState : AppearableContainerState{
-        public AppearableState appearableState;
+        public AppearablePositionState appearableState;
         [SerializeField]private List<ProtoStarConnection> _connections = new List<ProtoStarConnection>();
 
         public List<ProtoStarConnection> connections

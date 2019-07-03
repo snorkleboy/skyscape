@@ -18,7 +18,7 @@ namespace Objects
         public System.Func<List<Fleet>,Fleet,object> onFindFleet;
         public override StateAction hydrate<T>(T source){
             fleet = tryCoerce<T,Fleet>(source);
-            return FleetStateActions.Patrols.patrolFleet(fleet,Array.ConvertAll(targets,(i)=>(Vector3)i));
+            return fleet.patrol(Array.ConvertAll(targets,(i)=>(Vector3)i));
         }
         public PatrolFleet init(Fleet fleet, Vector3[] targets){
             this.fleet = fleet;

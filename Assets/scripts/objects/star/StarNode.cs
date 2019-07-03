@@ -16,7 +16,7 @@ namespace Objects.Galaxy {
     public class StarNodeState : GalaxyGameObjectState {
         public StarNodeState(){}
         [DataMember]public StarAsContainerState asContainerState;
-        public StarNodeState(StarAsContainerState asContainerState,Sprite icon, long id, FactoryStamp stamp, NamedState namedState, AppearableState positionState,FactionOwnedState factionOwned, StateActionState actionState) : base(icon, id, stamp, namedState, positionState,factionOwned, actionState)
+        public StarNodeState(StarAsContainerState asContainerState,Sprite icon, long id, FactoryStamp stamp, NamedState namedState, AppearablePositionState positionState,FactionOwnedState factionOwned, StateActionState actionState) : base(icon, id, stamp, namedState, positionState,factionOwned, actionState)
         {
             this.asContainerState = asContainerState;
         }

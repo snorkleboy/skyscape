@@ -39,7 +39,7 @@ namespace Objects.Conceptuals{
                             planet.state.positionState.position+new Vector3(-offset,0,0),
                             planet.state.positionState.position+new Vector3(0,0,-offset)
                         };
-                        fleet.mover.patrol(points);
+                        fleet.setStateAction(fleet.patrol(points));
                     }
                 }
             }

@@ -13,8 +13,9 @@ namespace Objects.Galaxy
     }
     	[JsonObject(MemberSerialization.OptOut)]
 
-    public class TerrestrialState{
+    public class TerrestrialState:IIded{
         public long id; 
+        public long getId() { return id; }
         public TerrestrialState(){}
         public Planet planetOn;
         public FactionOwnedState factionOwnedState;
@@ -31,10 +32,10 @@ namespace Objects.Galaxy
     [System.Serializable]
 	[JsonObject(MemberSerialization.OptIn)]
 
-    public class Building : IIconable, IContextable, ISaveable<BuildingState>
+    public class Building : IIconable, IContextable,IIded, IHasStateObject
     {
         public long getId(){return state.id;}
-        public object  stateObject{get{return state;}set{state = (BuildingState)value;}}
+        public IIded  stateObject{get{return state;}set{state = (BuildingState)value;}}
 
         public BuildingState state{get;set;}
 

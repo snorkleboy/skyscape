@@ -5,8 +5,9 @@ using Objects.Galaxy.State;
 namespace Objects
 {
 
-    public interface IAppearer:IStateFul<AppearableState>
+    public interface IAppearer
     {
+        AppearablePositionState state { get; set; }
         bool appear(int scene);
         void destroy();
     }

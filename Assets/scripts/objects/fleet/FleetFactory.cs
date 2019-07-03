@@ -25,7 +25,7 @@ namespace Objects
                 Debug.LogWarning("fleet factory did not find fleet prefab");
             }
         }
-        public Fleet makeFleet(FleetState state,Dictionary<long,object> stateTable ){
+        public Fleet hydrateFleet(FleetState state,Dictionary<long,object> stateTable ){
             var faction = state.factionOwnedState.belongsTo;
             var starAt = state.positionState.starAt;
             GameObject fleetGo;
@@ -34,8 +34,7 @@ namespace Objects
             GameManager.idMaker.insertObject(fleet,state.id);
             var fleetState = hydrateState(state,fleetGo.transform);
             var fleetRenderer = makeAppearers(fleetState);
-            var mover = fleetGo.AddComponent<FleetMover>().init(fleet);
-            fleet.init(fleetState,fleetRenderer,mover);
+            fleet.init(fleetState,fleetRenderer);
             fleetGo.name = fleet.name;
             
             for(var i=0;i<state.shipsContainer.ships.Count;i++)
@@ -46,10 +45,10 @@ namespace Objects
                 var ship = shipFactory.makeShip(shipState,fleet);
                 state.shipsContainer.appearables.Add(ship);
             }
-            if(state.actionState.stateAction != null){
-                state.actionState.stateAction = state.actionState.stateAction.hydrate(fleet);
-                state.actionState.coroutineRunSource = fleet;
-                state.actionState.run();
+            if(state.stateActionState.stateAction != null){
+                state.stateActionState.stateAction = state.stateActionState.stateAction.hydrate(fleet);
+                state.stateActionState.coroutineRunSource = fleet;
+                state.stateActionState.run();
             }
             return fleet;
         }
@@ -66,8 +65,7 @@ namespace Objects
             var fleet =  makeTransforms(starAt,out fleetGo);
             var fleetState = makeFleetState(fleet,position,faction,fleetGo.transform,starAt,name);
             var fleetRenderer = makeAppearers(fleetState);
-            var mover = fleetGo.AddComponent<FleetMover>().init(fleet);
-            fleet.init(fleetState,fleetRenderer,mover);
+            fleet.init(fleetState,fleetRenderer);
             faction.state.fleets[fleet.state.id] = fleet;
             fleetGo.name = fleet.name;
             return fleet;
@@ -94,7 +92,7 @@ namespace Objects
             return state;
         }
         private FleetState makeFleetState(Fleet fleet, Vector3 position,Faction faction, Transform appearTransform,StarNode star,string name){
-            var positionState = new AppearableState(
+            var positionState = new AppearablePositionState(
                     position:position,
                     appearTransform:appearTransform,
                     star:star
@@ -108,7 +106,7 @@ namespace Objects
                 }},
                 id : GameManager.idMaker.newId(fleet),
                 icon:icon,
-                stamp:new FactoryStamp("fleet"),
+                stamp:new FactoryStamp(),
                 namedState:new Galaxy.State.NamedState(name),
                 positionState: positionState,
                 actionState:new SelfStateActionState(fleet),

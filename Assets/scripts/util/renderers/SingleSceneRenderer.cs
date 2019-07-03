@@ -13,7 +13,7 @@ namespace Objects.Galaxy
         protected sceneAppearInfo _info;
         // protected Vector3 savedPosition;
         protected bool positionSaved = false;
-        public SingleSceneAppearer(sceneAppearInfo info, int scene,AppearableState state)
+        public SingleSceneAppearer(sceneAppearInfo info, int scene,AppearablePositionState state)
         {
             this._info = info;
             _sceneToAppearOn = scene;

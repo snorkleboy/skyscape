@@ -10,11 +10,11 @@ namespace Objects.Galaxy
     public class ProtoStarConnectionRenderer : IAppearer
     {
         public ProtoStarConnectionState connectionState;
-        public AppearableState state{get;set;}
+        public AppearablePositionState state{get;set;}
         private sceneAppearInfo[] sceneToPrefab;
         public ProtoStarConnectionRenderer(sceneAppearInfo[] sceneToPrefab,ProtoStarConnectionState connectionState)
         {
-            this.state = new AppearableState(
+            this.state = new AppearablePositionState(
                 appearTransform:connectionState.nodes[0].appearer.state.appearTransform,
                 position:connectionState.nodes[0].appearer.state.position,
                 star: null

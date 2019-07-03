@@ -1,11 +1,14 @@
+using System;
 namespace Objects
 {
+
     [System.Serializable]
     public class FactoryStamp
     {
-        public FactoryStamp(string stamp){
+        public FactoryStamp(Enum stamp = null){
             this.stamp = stamp;
         }
-        public string stamp;
+        public Enum stamp;
+
     }
 }

@@ -102,7 +102,7 @@ namespace Objects.Galaxy
                 var fleetState = (FleetState)fleetStateObj;
                 var faction = fleetState.factionOwnedState.belongsTo;
                 var factory = faction.value.fleetFactory;
-                var fleet = factory.makeFleet(fleetState,stateTable);
+                var fleet = factory.hydrateFleet(fleetState,stateTable);
                 state.asContainerState.appearables.Add(fleet);
                 Debug.Log("created fleet " + fleet.state.id);
 
@@ -110,17 +110,17 @@ namespace Objects.Galaxy
         }
         private StarNodeState makeBaseState(StarNode node,Vector3 position,Transform representationTransform,Transform childrenTransform, string name){
             return new StarNodeState(
-                positionState: new AppearableState(appearTransform:representationTransform,position:position,star:null,isActive:false),
+                positionState: new AppearablePositionState(appearTransform:representationTransform,position:position,star:null,isActive:false),
                 asContainerState : new StarAsContainerState(childrenTransform),
                 actionState : new SelfStateActionState(node),
                 namedState : new NamedState(Names.starNames.getName()),
-                stamp : new FactoryStamp("basic star"),
+                stamp : new FactoryStamp(),
                 id : GameManager.idMaker.newId(node),
                 icon : starIconSprites[0],
                 factionOwned:new FactionOwnedState()
             );
         }
-        private LinkedAppearer makeAppearer(AppearableContainerState containerState, AppearableState appearableState){
+        private LinkedAppearer makeAppearer(AppearableContainerState containerState, AppearablePositionState appearableState){
             var infos = new sceneAppearInfo[_sceneToPrefab.Length];
             for (int i = 0; i < _sceneToPrefab.Length; i++)
             {

@@ -18,7 +18,7 @@ namespace Objects.Galaxy
             var go = new GameObject("protoNode");
             go.transform.SetParent(holder);
             var state = new ProtostarState(){
-                appearableState = new State.AppearableState(
+                appearableState = new State.AppearablePositionState(
                     appearTransform: go.transform,
                     position:new Vector3(1,1,1),
                     star:null

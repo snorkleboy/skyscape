@@ -9,10 +9,10 @@ namespace Objects
 {
         public class MovePositionState:SaveableStateAction{
         public Vector3 targetVector = Vector3.negativeInfinity;
-        Objects.Galaxy.State.AppearableState controlledState;
+        Objects.Galaxy.State.AppearablePositionState controlledState;
 
         public override StateAction hydrate<T>(T source){
-            this.controlledState = source as Objects.Galaxy.State.AppearableState;
+            this.controlledState = source as Objects.Galaxy.State.AppearablePositionState;
             if (this.controlledState == null){
                 Debug.LogError("couldnt coerce source to AppearableState" + " " + source);
             }
@@ -22,7 +22,7 @@ namespace Objects
         public float distance;
         public float speed;
         private LineRenderer lineRenderer;
-        public MovePositionState Init(Objects.Galaxy.State.AppearableState controlledState, float speed, float stopDistance, Vector3 targetVector){
+        public MovePositionState Init(Objects.Galaxy.State.AppearablePositionState controlledState, float speed, float stopDistance, Vector3 targetVector){
             this.targetVector = targetVector;
             this.distance = stopDistance;
             this.speed = speed;

@@ -17,9 +17,9 @@ namespace Objects.Galaxy
     [System.Serializable]
     [JsonObject(MemberSerialization.OptIn)]
 
-    public partial class Pop : IIconable, ISaveable<PopState>
+    public partial class Pop : IIconable, IIded,IHasStateObject
     {
-        public object  stateObject{get{return state;}set{state = (PopState)value;}}
+        public IIded  stateObject{get{return state;}set{state = (PopState)value;}}
 
         public long getId(){return state.id; }  
         public PopState state{get;set;}     

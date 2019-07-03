@@ -5,13 +5,14 @@ using Objects.Galaxy;
 using UI;
 using Loaders;
 using Newtonsoft.Json;
-namespace Objects.Galaxy.ship
+namespace Objects.Galaxy
 {
+    
     public class MoveToPoint:SaveableStateAction{
         [JsonProperty]public SerializableVector3 targetVector = Vector3.negativeInfinity;
-        Galaxy.State.AppearableState controlledState;
+        Galaxy.State.AppearablePositionState controlledState;
         public override StateAction hydrate<T>(T source){
-            this.controlledState = source as Galaxy.State.AppearableState;
+            this.controlledState = source as Galaxy.State.AppearablePositionState;
             if (this.controlledState == null){
                 Debug.LogError("couldnt coerce source to AppearableState" + " " + source);
             }
@@ -22,7 +23,11 @@ namespace Objects.Galaxy.ship
         [JsonProperty]public float distance;
         [JsonProperty]public float speed;
         private LineRenderer lineRenderer;
-        public MoveToPoint Init(Galaxy.State.AppearableState controlledState, float speed, float stopDistance, Vector3 targetVector){
+        public MoveToPoint Init(IMoveable movable, float speed, float stopDistance, Vector3 targetVector)
+        {
+            return Init(movable.positionState, speed, stopDistance, targetVector);
+        }
+        public MoveToPoint Init(Galaxy.State.AppearablePositionState controlledState, float speed, float stopDistance, Vector3 targetVector){
             this.targetVector = targetVector;
             this.distance = stopDistance;
             this.speed = speed;

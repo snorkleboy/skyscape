@@ -75,10 +75,10 @@ namespace Objects.Galaxy.State
     [DataContract]
     [JsonObject(MemberSerialization.OptOut)]
 
-    public class AppearableState
+    public class AppearablePositionState
     {
-        public AppearableState(){}
-        public AppearableState(Transform appearTransform, Vector3 position,Quaternion rotation, StarNode star, bool isActive = false){
+        public AppearablePositionState(){}
+        public AppearablePositionState(Transform appearTransform, Vector3 position,Quaternion rotation, StarNode star, bool isActive = false){
             this.appearTransform = appearTransform;
             this.isActive = isActive;
             this.starAt = (Reference<StarNode>)star;
@@ -86,7 +86,7 @@ namespace Objects.Galaxy.State
             this.rotation = rotation;
             this.appearTransform.position = position;
         }
-        public AppearableState(Transform appearTransform, Vector3 position, StarNode star, bool isActive = false):this(appearTransform,position,Quaternion.identity,star,isActive){
+        public AppearablePositionState(Transform appearTransform, Vector3 position, StarNode star, bool isActive = false):this(appearTransform,position,Quaternion.identity,star,isActive){
 
         }
         [JsonIgnoreAttribute][DataMember]public Transform activeTransform;

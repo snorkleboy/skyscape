@@ -116,7 +116,7 @@ namespace Objects
       
     }
 public static class ObjectTableExtension{
-    public static Dictionary<long,object> toStateTable(this Dictionary<long,hasStateObject> objects){
+    public static Dictionary<long,object> toStateTable(this Dictionary<long,IHasStateObject> objects){
         Dictionary<long,object> states = new Dictionary<long,object>();
         foreach (var keyVal in objects)
         {
@@ -127,14 +127,14 @@ public static class ObjectTableExtension{
 }
 public class ObjectTable{
 
-        public ObjectTable(Dictionary<long,hasStateObject> objects){
+        public ObjectTable(Dictionary<long,IHasStateObject> objects){
             this.objects = objects;
         }
         public ObjectTable(){
         }
-        public Dictionary<long,hasStateObject> objects = new Dictionary<long, hasStateObject>();
+        public Dictionary<long,IHasStateObject> objects = new Dictionary<long, IHasStateObject>();
         public object get(long id){
-            hasStateObject test = null;
+            IHasStateObject test = null;
             if(!objects.TryGetValue(id, out test)){
                 // Log.warnLog(this,"requested id returned null",id);
             }
@@ -143,8 +143,8 @@ public class ObjectTable{
         public bool remove(long id){
             return objects.Remove(id);
         }
-        public void set(long id,hasStateObject obj){
-            hasStateObject test = null;
+        public void set(long id,IHasStateObject obj){
+            IHasStateObject test = null;
             if(objects.TryGetValue(id, out test)){
                 Log.errorLog(this,"setting id when id already exists",id,obj,test);
             }

@@ -8,11 +8,11 @@ using Newtonsoft.Json;
 namespace Objects.Galaxy.ship
 {
     public class FollowReference:StateAction{
-        [JsonProperty]public Galaxy.State.AppearableState target;
-        Galaxy.State.AppearableState controlledState;
+        [JsonProperty]public Galaxy.State.AppearablePositionState target;
+        Galaxy.State.AppearablePositionState controlledState;
         float distance;
         float speed;
-        public FollowReference Init(Galaxy.State.AppearableState controlledState,Galaxy.State.AppearableState targetState, float speed, float stopDistance){
+        public FollowReference Init(Galaxy.State.AppearablePositionState controlledState,Galaxy.State.AppearablePositionState targetState, float speed, float stopDistance){
             this.target = targetState;
             this.distance = stopDistance;
             this.speed = speed;

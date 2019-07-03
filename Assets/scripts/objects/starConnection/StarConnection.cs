@@ -20,23 +20,24 @@ namespace Objects.Galaxy
     }
 
     [Serializable]
-    public class StarConnectionState
+    public class StarConnectionState:IIded
     {        
         public double strength;
         public Reference<StarNode>[] nodes;
         public long id;
+        public long getId() { return id; }
 
-        public AppearableState appearableState;
+        public AppearablePositionState appearableState;
     }
     [JsonObject(MemberSerialization.OptIn)]
 
-    public class StarConnection: MonoBehaviour,IAppearable,ISaveable<StarConnectionState>, IEquatable<StarConnection>
+    public class StarConnection: MonoBehaviour,IAppearable,IHasStateObject, IEquatable<StarConnection>
     {
         public IAppearer appearer { get; set; }
         public long getId(){return state.id;}
 
-        [JsonProperty]public StarConnectionState state{get;set;}
-        public object stateObject{get{return state;}set{state = (StarConnectionState)value;}}
+        [JsonProperty]public StarConnectionState state {get;set;}
+        public IIded stateObject {get{return state;}set{state = (StarConnectionState)value;}}
 
         public void Init(StarConnectionState state, StarConnectionAppearer renderer)
         {

@@ -1,42 +1,32 @@
-﻿using System.Linq;
-using System.Security.Cryptography;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using System.Threading.Tasks;
 using Objects.Galaxy;
 using GalaxyCreators;
-using System.IO;
 using Objects.Conceptuals;
 using Loaders;
-using util;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-
-
-
+using UnityEngine.EventSystems;
 namespace Objects
 {
-    public class SaveGameModel{
-        public SaveGameModel(){}
-        public SaveGameModel(GameManager gm){
+    public class SaveGameModel {
+        public SaveGameModel() { }
+        public SaveGameModel(GameManager gm) {
             idMaker = GameManager.idMaker.count;
             starNodes = gm._starNodes.starNodeRef;
             objectTable = gm.objectTable.objects.toStateTable();
             factions = gm.factions.factions.Values.referenceAll();
         }
         public long idMaker;
-        public Dictionary<long,object> objectTable;
+        public Dictionary<long, object> objectTable;
         public List<Reference<Faction>> factions;
-        public Dictionary<int, List<Reference<StarNode>>> starNodes ;
-        
+        public Dictionary<int, List<Reference<StarNode>>> starNodes;
+
 
     }
-
     public partial class GameManager : MonoBehaviour
     {
+        
+        public EventSystem eventmanager;
         public static GameManager instance;
         [SerializeField]public GameObject GameCreatorPrefab;
         [SerializeField]public GameGalaxyCreator galaxyCreator;

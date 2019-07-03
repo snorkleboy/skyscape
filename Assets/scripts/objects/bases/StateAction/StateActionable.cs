@@ -13,14 +13,14 @@ namespace Objects
 {
     [JsonObject(MemberSerialization.OptIn)]
     [System.Serializable]
-    public abstract class StateActionState{
+    public class StateActionState{
         public StateActionState(MonoBehaviour runSource){
             this.coroutineRunSource = runSource;
         }
         public MonoBehaviour coroutineRunSource;
         [JsonProperty]public Objects.StateAction stateAction = null;
         [JsonProperty]public Objects.StateAction previousAction = null;
-        public abstract void setStateAction(StateAction action);
+        public virtual void setStateAction(StateAction action){throw new NotImplementedException();}
         public virtual void run(){
             stateAction.routineInstance = coroutineRunSource.runRoutine(stateAction);
         }

@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Newtonsoft.Json;
+using Objects.Galaxy.ship;
 namespace Objects
 {
     [System.Serializable]
@@ -27,15 +28,12 @@ namespace Objects
             float offset = 0;
             var shipsMovingBehavior = new IEnumerator[fleet.state.shipsContainer.ships.Count];
             var count = 0;
-            var towardsTarget = (target -fleet.state.positionState.position );
+            var towardsTarget = (target - fleet.state.positionState.position );
             var perpendicular = Vector3.Cross(towardsTarget,Vector3.up);
             perpendicular.Normalize();
-
             foreach(var ship in fleet.state.shipsContainer.ships){
-                
-                var mover = ship.value.mover;
-                mover.moveTo(makeOffset(perpendicular,target,count));
-                shipsMovingBehavior[count++] = ship.value.state.actionState.stateAction;
+                shipsMovingBehavior[count++] = ship.value.moveToPoint(makeOffset(perpendicular,target,count));
+                // = ship.value.state.stateActionState.stateAction;
                 offset += 1;
             }
             yield return util.Routiner.Any(
@@ -63,8 +61,7 @@ namespace Objects
         private Vector3 getAveragePosition(){
             Vector3 pos = Vector3.zero;
             foreach(var ship in fleet.state.shipsContainer.ships){
-                var mover = ship.value.mover;
-                pos += mover.appearableState.position;
+                pos += ship.value.state.positionState.position;
             }
             return pos/fleet.state.shipsContainer.ships.Count;
         }

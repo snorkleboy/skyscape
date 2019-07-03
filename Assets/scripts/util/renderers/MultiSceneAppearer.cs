@@ -25,7 +25,7 @@ namespace Objects.Galaxy
     public class MultiSceneAppearer : BaseAppearable
     {
         public SingleSceneAppearer currentAppearer;
-        public MultiSceneAppearer(sceneAppearInfo[] appearInfo,AppearableState state)
+        public MultiSceneAppearer(sceneAppearInfo[] appearInfo,AppearablePositionState state)
         {
             this.state = state;
             sceneRenderers = new SingleSceneAppearer[appearInfo.Length];

@@ -21,13 +21,10 @@ namespace Objects.Galaxy
     public partial class Ship : GalaxyGameObject<ShipState>
     {
         public ShipState debugState;
-        public IMover mover{get{return moverHelper;}}
-        private ShipMover moverHelper;
-        public void Init(ShipState state,SingleSceneAppearer renderer,ShipMover mover){
+        public void Init(ShipState state,SingleSceneAppearer renderer){
             this.state = state;
             this.debugState = state;
             appearer = renderer;
-            moverHelper = mover;
         }
 
         public override IconInfo getIconableInfo(){

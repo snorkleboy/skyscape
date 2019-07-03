@@ -15,18 +15,18 @@ namespace Objects.Galaxy.weapon
     public abstract class Weapon
     {
         public WeaponDescription weaponDescription;
-        public virtual Weapon init(State.AppearableState thisPosition, WeaponDescription weaponDescription){
+        public virtual Weapon init(State.AppearablePositionState thisPosition, WeaponDescription weaponDescription){
            this.thisPosition = thisPosition;
            this.weaponDescription = weaponDescription;
            return this;
         }
-        [JsonIgnore]public State.AppearableState thisPosition;
-        public abstract bool fire(State.AppearableState target,State.DestructableState targetHealth);
-        public virtual bool didHit(State.AppearableState target){
+        [JsonIgnore]public State.AppearablePositionState thisPosition;
+        public abstract bool fire(State.AppearablePositionState target,State.DestructableState targetHealth);
+        public virtual bool didHit(State.AppearablePositionState target){
             var distance = Vector3.Distance(thisPosition.position,target.position);
             return _didHit(distance);
         }
-        public virtual bool didHit(State.AppearableState target,out float distance){
+        public virtual bool didHit(State.AppearablePositionState target,out float distance){
             distance = Vector3.Distance(thisPosition.position,target.position);
             return _didHit(distance);
         }
@@ -42,13 +42,13 @@ namespace Objects.Galaxy.weapon
 
     }
     public class Projectile : Weapon{
-        public override bool fire(State.AppearableState target,State.DestructableState targetHealt){
+        public override bool fire(State.AppearablePositionState target,State.DestructableState targetHealt){
             int damageDone = 0;
             return false;
         }
     }
     public class SimpleLaser:Weapon{
-        public override bool fire(State.AppearableState target,State.DestructableState targetHealth){
+        public override bool fire(State.AppearablePositionState target,State.DestructableState targetHealth){
             util.Line.DrawTempLine(thisPosition.position,target.position,Color.red);
             var hit = didHit(target);
             int damageDone = hit? weaponDescription.damage : 0;
