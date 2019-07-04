@@ -34,7 +34,7 @@ RenderSettings:
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
   m_DefaultReflectionMode: 0
   m_DefaultReflectionResolution: 128
-  m_ReflectionBounces: 2
+  m_ReflectionBounces: 1
   m_ReflectionIntensity: 0
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1432306485}
@@ -9986,6 +9986,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 9035341762246523910, guid: 0867728f05f7ae5419a3245ec79503bd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1649441078614426, guid: 0867728f05f7ae5419a3245ec79503bd, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -10368,11 +10373,6 @@ PrefabInstance:
     - target: {fileID: 1810483412496896279, guid: 0867728f05f7ae5419a3245ec79503bd,
         type: 3}
       propertyPath: m_Color.a
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9035341762246523910, guid: 0867728f05f7ae5419a3245ec79503bd,
-        type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
@@ -21245,7 +21245,7 @@ Light:
   m_Type: 2
   m_Color: {r: 0.990566, g: 0.990566, b: 0.990566, a: 1}
   m_Intensity: 10
-  m_Range: 6000
+  m_Range: 150
   m_SpotAngle: 179
   m_InnerSpotAngle: 178.60872
   m_CookieSize: 10
@@ -21276,8 +21276,8 @@ Light:
       e33: 1
     m_UseCullingMatrixOverride: 0
   m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
-  m_Flare: {fileID: 0}
+  m_DrawHalo: 1
+  m_Flare: {fileID: 12100000, guid: 9bdb18c49d114cb4300035184241aa39, type: 2}
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
@@ -21286,7 +21286,7 @@ Light:
   m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 2
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -30851,6 +30851,36 @@ PrefabInstance:
     - target: {fileID: 1149456963138602, guid: b26ca3e2361fa9c4e9d40a5c15edeef1, type: 3}
       propertyPath: m_Name
       value: planet
+      objectReference: {fileID: 0}
+    - target: {fileID: 220480493336884524, guid: b26ca3e2361fa9c4e9d40a5c15edeef1,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114423578036204710, guid: b26ca3e2361fa9c4e9d40a5c15edeef1,
+        type: 3}
+      propertyPath: atmosphere
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114423578036204710, guid: b26ca3e2361fa9c4e9d40a5c15edeef1,
+        type: 3}
+      propertyPath: updateChangeInRealTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114423578036204710, guid: b26ca3e2361fa9c4e9d40a5c15edeef1,
+        type: 3}
+      propertyPath: hdrExposure
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114423578036204710, guid: b26ca3e2361fa9c4e9d40a5c15edeef1,
+        type: 3}
+      propertyPath: atmoStrength
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114423578036204710, guid: b26ca3e2361fa9c4e9d40a5c15edeef1,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b26ca3e2361fa9c4e9d40a5c15edeef1, type: 3}

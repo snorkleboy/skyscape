@@ -13,6 +13,10 @@ using Objects.Galaxy.State;
 using Newtonsoft.Json;
 namespace Objects
 {
+    public interface IInputReceiverTarget
+    {
+        void configureInputReciever(InputReceiver receiver);
+    }
     public interface IActionable
     {
         StateActionState stateActionState { get; }
@@ -59,10 +63,30 @@ namespace Objects
         public IIded stateObject { get { return state; } set { state = (StateModel)value; } }
     }
 
-    public abstract class GalaxyGameObject<StateModel>: baseGalaxyGameObject<StateModel>, IMoveable , IActionable,IUIable, IAppearable where StateModel : IIded, IActionable, IMoveable
+    public abstract class GalaxyGameObject<StateModel>: baseGalaxyGameObject<StateModel>, IInputReceiverTarget, IMoveable, IActionable,IUIable, IAppearable where StateModel : IIded, IActionable, IMoveable
     {
         public AppearablePositionState positionState { get { return state.positionState; } }
         public StateActionState stateActionState { get { return state.stateActionState; } }
+        InputReceiver receiver;
+        public virtual void configureInputReciever(InputReceiver receiver)
+        {
+            receiver.OnMouseDownCB = OnMouseDown;
+            receiver.OnMouseEnterCB = OnMouseEnter;
+            receiver.OnMouseExitCB = OnMouseEnter;
+            Debug.Log("hello setinput reciever");
+        }
+        protected virtual void OnMouseEnter()
+        {
+            Debug.Log("go MOUSE ENTER");
+        }
+        protected virtual void OnMouseExit()
+        {
+            Debug.Log("go MOUSE Leave");
+        }
+        protected virtual void OnMouseDown()
+        {
+            Debug.Log("go MOUSE Click");
+        }
 
         public abstract IconInfo getIconableInfo();
         public virtual IAppearer appearer{get;set;} 

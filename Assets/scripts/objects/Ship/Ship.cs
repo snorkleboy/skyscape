@@ -18,6 +18,7 @@ namespace Objects.Galaxy
         [DataMember]public Galaxy.State.DestructableState destructableState;
         [DataMember]public Galaxy.State.ShieldedState shieldedState;
     }
+
     public partial class Ship : GalaxyGameObject<ShipState>
     {
         public ShipState debugState;
@@ -25,6 +26,18 @@ namespace Objects.Galaxy
             this.state = state;
             this.debugState = state;
             appearer = renderer;
+        }
+        protected override void OnMouseEnter()
+        {
+            this.state.fleetShipIsIn.OnMouseEnterShip(this);
+        }
+        protected override void OnMouseExit()
+        {
+            this.state.fleetShipIsIn.OnMouseExitShip(this);
+        }
+        protected override void OnMouseDown()
+        {
+            this.state.fleetShipIsIn.OnMouseDownShip(this);
         }
 
         public override IconInfo getIconableInfo(){

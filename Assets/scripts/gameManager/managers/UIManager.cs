@@ -21,6 +21,7 @@ namespace Objects
         public InputController cameraController = null;
         public InputController objectinputController = null;
         public DragBox dragSelect;
+
         private void Update() {
             if(objectinputController != null){
                 objectinputController.checkAction();
@@ -28,6 +29,17 @@ namespace Objects
             if(cameraController != null){
                 cameraController.checkAction();
             }
+
+        }
+        public ClickViewDetailPanel getDetailView()
+        {
+
+            var view =  GMcanvas.GetComponentInChildren<ClickViewDetailPanel>(true);
+            if (view == null)
+            {
+                Debug.LogWarning("planet on click could not find a PlanetClickView");
+            }
+            return view;
         }
         public void setGameManager(GameManager manager){
             gameManager = manager;
@@ -50,11 +62,11 @@ namespace Objects
         }
         public void getObjectsInBox(Vector3 start, Vector3 end){
             Debug.Log("dragselect ONMOUSEUP vectors:  " + start + " " + end);
-            var bounds = util.Rectangle.GetViewportBounds(Camera.main,start,end);
-            var fleets = util.Rectangle.getObjectsInBox<Fleet>(bounds);
+            var bounds = util.UIExt.GetViewportBounds(Camera.main,start,end);
+            var fleets = util.UIExt.getObjectsInBox<Fleet>(bounds);
             Debug.Log("fleets.length :" + fleets.Count);
             if (fleets.Count == 0 ){
-                var planets = util.Rectangle.getObjectsInBox<Planet>(bounds);
+                var planets = util.UIExt.getObjectsInBox<Planet>(bounds);
                 Debug.Log("planets.length:" + planets.Count);
             }else{
                 objectinputController = fleets[0].controller;

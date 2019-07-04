@@ -9,6 +9,7 @@ using Objects.Galaxy.State;
 using Newtonsoft.Json;
 namespace Objects.Galaxy
 {
+
     [System.Serializable]
     public class PlanetState :GalaxyGameObjectState{
         [JsonProperty]
@@ -21,7 +22,6 @@ namespace Objects.Galaxy
     }
 
     [System.Serializable]
-
     public partial class Planet :GalaxyGameObject<PlanetState>,IViewable,IContextable,IActOnable
     {
         public override IAppearer appearer { get;set; }
@@ -83,6 +83,12 @@ namespace Objects.Galaxy
             };
             return info;
         }
-    }
 
+        protected override void OnMouseDown()
+        {
+            var ui = GameManager.instance.UIManager.getDetailView();
+            Debug.Log("planet click");
+            ui.set(this);
+        }
+    }
 }

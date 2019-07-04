@@ -17,7 +17,7 @@ namespace Objects.Galaxy
         public void Awake()
         {
             shipPrefabs = AssetSingleton.getBundledDirectory<GameObject>(AssetSingleton.bundleNames.prefabs,"ship");
-            if(shipPrefabs == null){
+            if (shipPrefabs == null){
                 Debug.LogError("ship factory ship prefab not found");
             }
             shipIcons =new Sprite[]{ AssetSingleton.getBundledDirectory<Sprite>(AssetSingleton.bundleNames.sprites,"fleet")[0]};

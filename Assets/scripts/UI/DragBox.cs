@@ -12,7 +12,7 @@ public class DragBox : MonoBehaviour {
 	public bool someSelected = false;
 	public float thickness = 2;
 	public System.Action onStartDrag;
-
+    int dragFrames = 0;
 	public System.Action<Vector3,Vector3> onMouseUp;
 
 	public void Start(){
@@ -44,19 +44,27 @@ public class DragBox : MonoBehaviour {
         }
     }
 	private void drawSelectionbox(){
-		var rect = util.Rectangle.GetScreenRect( clickDragStart, clickDragEnd );
+		var rect = util.UIExt.GetScreenRect( clickDragStart, clickDragEnd );
 		util.Rectangle.DrawScreenRect( rect,  mainColor);
 		util.Rectangle.DrawScreenRectBorder( rect, thickness, borderColor);
 	}
 
 	bool checkForDragStart(){
-		if (Input.GetMouseButtonDown(0)){
-			return true;
-		}
+		if (Input.GetMouseButton(0)){
+            if (dragFrames > 2)
+            {
+                return true;
+            }
+            else
+            {
+                dragFrames = dragFrames + 1;
+            }
+        }
 		return false;
 	}
 	bool checkForDragEnd(){
 		if (Input.GetMouseButtonUp(0)){
+            dragFrames = 0;
 			return true;
 		}
 		return false;

@@ -26,7 +26,6 @@ namespace Objects
     public partial class GameManager : MonoBehaviour
     {
         
-        public EventSystem eventmanager;
         public static GameManager instance;
         [SerializeField]public GameObject GameCreatorPrefab;
         [SerializeField]public GameGalaxyCreator galaxyCreator;

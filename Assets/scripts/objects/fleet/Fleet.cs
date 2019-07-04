@@ -23,7 +23,28 @@ namespace Objects
         public InputController controller{get{return fleetController;}}
         private FleetController fleetController;
 
-
+        public void OnMouseEnterShip(Ship ship)
+        {
+            Debug.Log("MOUSE ENTER" + ship.state.namedState.name);
+            var switchers = GetComponentsInChildren<shaderSwitcher>();
+            foreach(var switcher in switchers)
+            {
+                switcher.toggle();
+            }
+        }
+        public void OnMouseExitShip(Ship ship)
+        {
+            Debug.Log("go MOUSE Leave" + ship.state.namedState.name);
+            var switchers = GetComponentsInChildren<shaderSwitcher>();
+            foreach (var switcher in switchers)
+            {
+                switcher.toggle();
+            }
+        }
+        public void OnMouseDownShip(Ship ship)
+        {
+            Debug.Log("go MOUSE Click" + ship.state.namedState.name);
+        }
         public override IAppearer appearer{get{return _appearer;}} 
         private LinkedAppearer _appearer;
 

@@ -9,7 +9,6 @@ namespace Objects
     public class MoveFleet : SaveableStateAction{
         [JsonProperty]public SerializableVector3 target;
         Fleet fleet;
-        bool tempActive = true;
         public override StateAction hydrate<T>(T source){
             this.fleet = tryCoerce<T,Fleet>(source);
             base._Init();

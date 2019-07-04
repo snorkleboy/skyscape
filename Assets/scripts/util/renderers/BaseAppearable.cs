@@ -24,7 +24,6 @@ namespace Objects
 #endif
                 state.isActive = false;
             }
-
         }
 
         protected System.Action<int> preAppear = null;

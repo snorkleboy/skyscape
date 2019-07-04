@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 2694961833691260438}
   - component: {fileID: 2300266184832502804}
   - component: {fileID: 7224304252390633119}
+  - component: {fileID: 3295627340702822101}
+  - component: {fileID: 3080781700313335124}
   m_Layer: 0
   m_Name: shipa
   m_TagString: Untagged
@@ -171,6 +173,31 @@ MonoBehaviour:
   shaderToInject: {fileID: 4800000, guid: 1dc9c6b0210966643b75d9813c0c1ae4, type: 3}
   on: 0
   renderer: {fileID: 735971312714241617}
+--- !u!65 &3295627340702822101
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3142679902912606393}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 8}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3080781700313335124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3142679902912606393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4290bbcfa2d619f499118f3abec45547, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8454584240597002424
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,13 +223,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8454584240597002424}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: -0.7071068, w: 0}
   m_LocalPosition: {x: 0, y: -0, z: 0}
-  m_LocalScale: {x: 2, y: 3, z: 1}
+  m_LocalScale: {x: 2, y: 4, z: 1}
   m_Children: []
   m_Father: {fileID: 2694961833691260438}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 270, y: 180, z: 0}
 --- !u!33 &1999186257938092328
 MeshFilter:
   m_ObjectHideFlags: 0

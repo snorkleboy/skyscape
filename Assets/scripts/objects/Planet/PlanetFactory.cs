@@ -64,7 +64,10 @@ namespace Objects.Galaxy
             parentGo.name = name;
             parent = parentGo.transform;
             parent.SetParent(planetHolder,false);
-            return parentGo.AddComponent<Planet>();
+            var planet = parentGo.AddComponent<Planet>();
+            //var collider = planet.gameObject.AddComponent<BoxCollider>();
+            //collider.size = new Vector3(3, 3, 3);
+            return planet;
         }
         private PlanetState makeState(Transform parent,Planet planet,Vector3 position,StarNode starAt,string name,Faction faction,TileableState tileState){
             var state = new PlanetState(

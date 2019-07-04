@@ -44,7 +44,8 @@ public class SpaceIcon : MonoBehaviour {
 		if (GameManager.instance.UIManager.sceneCanvas && (canvas = GameManager.instance.UIManager.sceneCanvas.gameObject)){
 			if (floatingIcon == null){
 				floatingIcon = iconCallBack(uiable.getIconableInfo());
-				floatingIcon.transform.SetParent(canvas.transform);
+                floatingIcon.SetActive(false);
+                floatingIcon.transform.SetParent(canvas.transform);
 				setPosition();
 			}
 			if(shouldRender()){

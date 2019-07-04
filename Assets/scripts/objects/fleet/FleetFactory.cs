@@ -68,6 +68,7 @@ namespace Objects
             fleet.init(fleetState,fleetRenderer);
             faction.state.fleets[fleet.state.id] = fleet;
             fleetGo.name = fleet.name;
+
             return fleet;
         }
 
@@ -75,6 +76,8 @@ namespace Objects
             go = new GameObject("fleet");
             var fleet = go.AddComponent<Fleet>();
             go.SetParent(starAt.state.positionState.appearTransform);
+           // var collider = fleet.gameObject.AddComponent<BoxCollider>();
+            //collider.size = new Vector3(3, 3, 3);
             return fleet;
         }
         private LinkedAppearer makeAppearers(FleetState fleetState){
