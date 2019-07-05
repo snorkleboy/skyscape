@@ -27,6 +27,11 @@ namespace Objects
             fleet.state.setStateAction(action);
             return fleet;
         }
+        public static StateAction engageFleet(this Fleet fleet, Fleet toEngage)
+        {
+            return new EngageFleet()
+                .init(fleet, toEngage);
+        }
         public static StateAction move(this Fleet fleet,Vector3 target){
             return new MoveFleet()
                 .init(fleet, target);
@@ -44,8 +49,26 @@ namespace Objects
 
         private static object engageFoundFleets(List<Fleet> foundFleets, Fleet controlledFleet)
         {
-            return new EngageFleet()
-                .init(controlledFleet, foundFleets[0]);
+            Fleet enemyFleet = null;
+            for(var i = 0; i < foundFleets.Count; i++)
+            {
+                var fleet = foundFleets[i];
+                if(fleet.state.factionOwnedState.belongsTo.id != controlledFleet.state.factionOwnedState.belongsTo.id)
+                {
+                    enemyFleet = fleet;
+                    break;
+                }
+            }
+            if (enemyFleet)
+            {
+                return new EngageFleet()
+                .init(controlledFleet, enemyFleet);
+            }
+            else
+            {
+                return null;
+            }
+    
         }
     }
 

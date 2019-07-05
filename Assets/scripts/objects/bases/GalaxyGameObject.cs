@@ -72,8 +72,7 @@ namespace Objects
         {
             receiver.OnMouseDownCB = OnMouseDown;
             receiver.OnMouseEnterCB = OnMouseEnter;
-            receiver.OnMouseExitCB = OnMouseEnter;
-            Debug.Log("hello setinput reciever");
+            receiver.OnMouseExitCB = OnMouseExit;
         }
         protected virtual void OnMouseEnter()
         {

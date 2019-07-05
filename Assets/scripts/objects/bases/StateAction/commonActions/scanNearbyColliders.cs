@@ -8,7 +8,7 @@ namespace Objects
   
     public class ScanNearbyFleets:StateAction
     {
-        public float waitTime = 1.0f;
+        public float waitTime = .15f;
         public bool shouldExitOnFind = false;
 
         GalaxyGameObjectState state;

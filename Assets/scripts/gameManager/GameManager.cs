@@ -23,9 +23,14 @@ namespace Objects
 
 
     }
+
     public partial class GameManager : MonoBehaviour
     {
-        
+        public static UIManager uiManager
+        {
+            get { return GameManager.instance.UIManager; }
+        }
+
         public static GameManager instance;
         [SerializeField]public GameObject GameCreatorPrefab;
         [SerializeField]public GameGalaxyCreator galaxyCreator;
@@ -62,8 +67,6 @@ namespace Objects
         public void renderGalaxyView(){
             SceneLoader.renderGalaxyView();
         }
-    }
-    public partial class GameManager{
         public FactoryProvider factories;
         public void startgame(Dictionary<int, List<ProtoStar>> protoNodes)
         {

@@ -32,6 +32,10 @@ namespace Objects.Conceptuals {
 		private Sprite fleetSprite;
 		private Sprite finDetailsSprite;
 		private Sprite starDetailsSprite;
+        public virtual bool isUsers
+        {
+            get { return true; }
+        }
 
 		public void init(FactionState state){
 			this.state = state;

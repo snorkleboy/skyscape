@@ -6,7 +6,18 @@ using Loaders;
 using Objects.Conceptuals;
 namespace Objects
 {
+    public static class FleetExt
+    {
+        public static bool isUsers(this Fleet fleet)
+        {
+           return fleet.state.factionOwnedState.belongsTo.value.isUsers;
+        }
+        public static string FleetName(this Fleet fleet)
+        {
+            return fleet.state.namedState.name;
+        }
 
+    }
 
     [System.Serializable]
     public partial class Fleet:GalaxyGameObject<FleetState>,IViewable,IControllable
@@ -25,25 +36,38 @@ namespace Objects
 
         public void OnMouseEnterShip(Ship ship)
         {
-            Debug.Log("MOUSE ENTER" + ship.state.namedState.name);
-            var switchers = GetComponentsInChildren<shaderSwitcher>();
-            foreach(var switcher in switchers)
+            Debug.Log("FLEET MOUSE ENTER" + ship.state.namedState.name);
+            GameManager.instance.UIManager.setHoverObject(this);
+            if (this.isUsers())
             {
-                switcher.toggle();
+                var switchers = GetComponentsInChildren<shaderSwitcher>();
+                foreach (var switcher in switchers)
+                {
+                    switcher.toggle();
+                }
             }
+
         }
         public void OnMouseExitShip(Ship ship)
         {
-            Debug.Log("go MOUSE Leave" + ship.state.namedState.name);
-            var switchers = GetComponentsInChildren<shaderSwitcher>();
-            foreach (var switcher in switchers)
+            Debug.Log("FLEET MOUSE Leavee" + ship.state.namedState.name);
+            GameManager.instance.UIManager.setHoverObject(null);
+            if (this.isUsers())
             {
-                switcher.toggle();
+                var switchers = GetComponentsInChildren<shaderSwitcher>();
+                foreach (var switcher in switchers)
+                {
+                    switcher.toggle();
+                }
             }
         }
         public void OnMouseDownShip(Ship ship)
         {
-            Debug.Log("go MOUSE Click" + ship.state.namedState.name);
+            Debug.Log("FLEET MOUSE Click" + ship.state.namedState.name + " " + this.state.namedState.name);
+            if (this.isUsers())
+            {
+                GameManager.instance.UIManager.setSelectedFleet(this);
+            }
         }
         public override IAppearer appearer{get{return _appearer;}} 
         private LinkedAppearer _appearer;

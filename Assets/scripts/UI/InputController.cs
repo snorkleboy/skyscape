@@ -15,8 +15,20 @@ namespace UI
         // public Dictionary<string,Sprite> cursorIcons;
         [SerializeField]
         public List<inputAction> controls;
+
         public void checkAction(){
             _checkAction();
+        }
+        public virtual void hoverResponse(MonoBehaviour hoveredObject)
+        {
+
+        }
+        public virtual void endControl()
+        {
+        }
+        public virtual InputController startControl()
+        {
+            return this;
         }
         protected virtual void _checkAction(){
           if(controls != null){

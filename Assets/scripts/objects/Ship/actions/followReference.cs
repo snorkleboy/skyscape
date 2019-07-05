@@ -12,22 +12,28 @@ namespace Objects.Galaxy.ship
         Galaxy.State.AppearablePositionState controlledState;
         float distance;
         float speed;
-        public FollowReference Init(Galaxy.State.AppearablePositionState controlledState,Galaxy.State.AppearablePositionState targetState, float speed, float stopDistance){
+        bool exitOnClose;
+        public FollowReference Init(Galaxy.State.AppearablePositionState controlledState,Galaxy.State.AppearablePositionState targetState, float speed, float stopDistance,bool exitOnClose = false){
             this.target = targetState;
             this.distance = stopDistance;
             this.speed = speed;
             this.controlledState = controlledState;
+            this.exitOnClose = exitOnClose;
             base._Init();
             return this;
         }
         protected override IEnumerator getEnumerator(){
-            return util.Routiner.All(
-                move()
-            );
+            return move();
+        }
+        protected bool shouldExit()
+        {
+            return exitOnClose && withinDistance();
         }
         protected IEnumerator move(){
-            while(true){
-            while(!rotateStep()){
+            while(!shouldExit())
+            {
+                while(!rotateStep())
+                {
                     yield return null;
                 }
                 while(!moveStep()){
@@ -50,7 +56,8 @@ namespace Objects.Galaxy.ship
         }
 
         protected virtual bool withinDistance(){
-            return Vector3.Distance(target.position, controlledState.position) < distance;
+            var dist = Vector3.Distance(target.position, controlledState.position);
+            return dist < distance;
         }
         protected virtual bool moveStep(){
             var withinDistanceBool = withinDistance();

@@ -12,7 +12,10 @@ namespace Objects.Conceptuals{
 
     }
 	public class AIFaction :Faction{
-        private bool testBool = false;
+        public override bool isUsers
+        {
+            get { return false; }
+        }
         private void Awake(){
             Debug.Log("AIFaction  Awake");
         }

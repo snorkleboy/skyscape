@@ -36,7 +36,7 @@ namespace Objects
                 savedMoveTask,
                 new ScanNearbyFleets()
                     .config(scanTask=>scanTask.shouldExitOnFind = true)
-                    .init(fleet.state,25,(foundFleets)=>{
+                    .init(fleet.state,50,(foundFleets)=>{
                         this.lastFoundFleets=foundFleets;
                         return null;
                     })

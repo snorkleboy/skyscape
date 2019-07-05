@@ -19,6 +19,7 @@ namespace Objects.Galaxy.ship
             return this;
         }
         protected override IEnumerator getEnumerator(){
+            yield return new FollowReference().Init(thisShip.state.positionState, target.state.positionState, 15f, 15,true);
             yield return util.Routiner.Any(
                 new FollowReference().Init(thisShip.state.positionState,target.state.positionState,15f,15),
                 new ShootShip().Init(thisShip,target)

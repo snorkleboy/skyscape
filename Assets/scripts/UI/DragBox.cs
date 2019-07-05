@@ -63,7 +63,8 @@ public class DragBox : MonoBehaviour {
 		return false;
 	}
 	bool checkForDragEnd(){
-		if (Input.GetMouseButtonUp(0)){
+		if (Input.GetMouseButtonUp(0) || !Input.GetMouseButton(0))
+        {
             dragFrames = 0;
 			return true;
 		}
