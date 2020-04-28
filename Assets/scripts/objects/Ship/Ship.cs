@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using Loaders;
 using UI;
 using System.Runtime.Serialization;
-
 namespace Objects.Galaxy
 {
     [System.Serializable]
@@ -17,12 +16,12 @@ namespace Objects.Galaxy
         [DataMember]public Galaxy.weapon.Weapon[] weapons;
         [DataMember]public Galaxy.State.DestructableState destructableState;
         [DataMember]public Galaxy.State.ShieldedState shieldedState;
+        public int ShipSize = 1;
     }
-
-    public partial class Ship : GalaxyGameObject<ShipState>
+    public class Ship : GalaxyGameObject<ShipState>
     {
         public ShipState debugState;
-        public void Init(ShipState state,SingleSceneAppearer renderer){
+        public virtual void Init(ShipState state,SingleSceneAppearer renderer){
             this.state = state;
             this.debugState = state;
             appearer = renderer;
@@ -45,4 +44,10 @@ namespace Objects.Galaxy
         }
     }
 
+
+
+    public class CarrierShipState : ShipState
+    {
+        public DockableShipContainer dockableShipContainer;
+    }
 }

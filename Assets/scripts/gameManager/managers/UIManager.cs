@@ -1,13 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using System.Threading.Tasks;
 using Objects.Galaxy;
-using GalaxyCreators;
-using System.IO;
-using Objects.Conceptuals;
-using Loaders;
+
 using UI;
 namespace Objects
 {
@@ -62,13 +58,31 @@ namespace Objects
         public void setSelectedFleet(Fleet fleet)
         {
             selectedFleet = fleet;
-
+            Debug.Log("set Selected Fleet " + fleet?.state.namedState.name ?? " null");
             if (fleet)
             {
                 objectinputController = fleet.controller.startControl();
+                var parent = mainUI.bottomBar;
+                var ui = new GameObject("selectionThing");
+                var text = ui.AddComponent<Text>();
+                Font ArialFont = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
+                text.font = ArialFont;
+                text.material = ArialFont.material;
+                text.text = fleet.state.namedState.name;
+                var pos = ui.GetComponent<RectTransform>();
+                ui.SetParent(parent);
+                pos.anchorMin = new Vector2(0, 0);
+                pos.anchorMax = new Vector2(1, 1);
+                pos.offsetMin = new Vector2(0, 0);
+                pos.offsetMax = new Vector2(1, 1);
+
             }
             else
             {
+                foreach (Transform child in mainUI.bottomBar.transform)
+                {
+                    Destroy(child.gameObject);
+                }
                 objectinputController?.endControl();
                 objectinputController = null;
             }

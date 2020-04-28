@@ -47,28 +47,15 @@ namespace Objects
                 .init(fleet, targets);
         }
 
-        private static object engageFoundFleets(List<Fleet> foundFleets, Fleet controlledFleet)
+        private static StateAction engageFoundFleets(List<Fleet> foundFleets, Fleet controlledFleet)
         {
-            Fleet enemyFleet = null;
-            for(var i = 0; i < foundFleets.Count; i++)
+            Fleet enemyFleet;
+            StateAction response = null;
+            if (enemyFleet = controlledFleet.getEnemyFleetFromGroup(foundFleets))
             {
-                var fleet = foundFleets[i];
-                if(fleet.state.factionOwnedState.belongsTo.id != controlledFleet.state.factionOwnedState.belongsTo.id)
-                {
-                    enemyFleet = fleet;
-                    break;
-                }
+                response = controlledFleet.engageFleet(enemyFleet);
             }
-            if (enemyFleet)
-            {
-                return new EngageFleet()
-                .init(controlledFleet, enemyFleet);
-            }
-            else
-            {
-                return null;
-            }
-    
+            return response;
         }
     }
 

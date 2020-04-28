@@ -30,15 +30,14 @@ namespace Objects.Galaxy.ship
             return exitOnClose && withinDistance();
         }
         protected IEnumerator move(){
-            while(!shouldExit())
+            while (!rotateStep())
             {
-                while(!rotateStep())
-                {
-                    yield return null;
-                }
-                while(!moveStep()){
-                    yield return null;
-                }
+                yield return null;
+            }
+            while (!shouldExit())
+            {
+                rotateStep();
+                moveStep();
                 yield return null;
             }
 

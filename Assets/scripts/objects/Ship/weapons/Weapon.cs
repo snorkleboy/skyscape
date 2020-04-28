@@ -8,7 +8,6 @@ namespace Objects.Galaxy.weapon
         public float fireRate;
         public int accuracy;
         public int maxDistance;
-
     }
     [System.Serializable]
     [JsonObject(MemberSerialization.OptOut)]
@@ -33,7 +32,7 @@ namespace Objects.Galaxy.weapon
         private bool _didHit(float distance){
             bool didHit = false;
             if(distance < weaponDescription.maxDistance){
-                var wouldHitChange = weaponDescription.accuracy *(1-(distance/weaponDescription.maxDistance));
+                var wouldHitChange = weaponDescription.accuracy *(weaponDescription.maxDistance / distance);
                 didHit = Random.Range(0,99)<wouldHitChange;
                 Debug.Log("did hit d=" + distance + " md=" + weaponDescription.maxDistance + " wouldHitChange=" + wouldHitChange);
             }
@@ -49,10 +48,11 @@ namespace Objects.Galaxy.weapon
     }
     public class SimpleLaser:Weapon{
         public override bool fire(State.AppearablePositionState target,State.DestructableState targetHealth){
-            util.Line.DrawTempLine(thisPosition.position,target.position,Color.red);
+            util.Line.DrawTempLine(thisPosition.position,target.position,Color.blue);
             var hit = didHit(target);
             int damageDone = hit? weaponDescription.damage : 0;
             return targetHealth.changeHp(-damageDone);
         }
     }
+
 }

@@ -100,6 +100,7 @@ namespace Loaders {
             yield return new WaitForSeconds(.1f);
             Debug.Log("rendering galaxy");
             gameManager._starNodes.render(2);
+            gameManager.UIManager.mainUI.setManager(GameManager.instance);
             gameManager.UIManager.mainUI.transform.gameObject.SetActive(true);
             yield return new WaitForSeconds(.1f);
             // gameManager.Save();

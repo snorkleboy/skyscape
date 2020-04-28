@@ -16,6 +16,10 @@ namespace Objects.Galaxy.ship
         {
             return new EngageShip().Init(ship, target, onDestroyTarget);
         }
+        public static StateAction shootShip(this Ship ship, Ship target)
+        {
+            return new ShootShip().Init(ship, target);
+        }
 
     }
 }

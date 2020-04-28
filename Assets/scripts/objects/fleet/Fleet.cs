@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Objects.Galaxy;
 using UI;
@@ -16,7 +16,36 @@ namespace Objects
         {
             return fleet.state.namedState.name;
         }
+        public static bool sameFaction(this Fleet fleet, Fleet otherFleet)
+        {
+            return fleet.state.factionOwnedState.belongsTo.id == otherFleet.state.factionOwnedState.belongsTo.id;
+        }
+        public static Fleet getEnemyFleetFromGroup(this Fleet principleFleet, IEnumerable<Fleet> otherFleets)
+        {
+            Fleet enemyFleet = null;
+            foreach(var fleet in otherFleets)
+            {
+                if (!fleet.sameFaction(principleFleet))
+                {
+                    enemyFleet = fleet;
+                    break;
+                }
+            }
+            return enemyFleet;
+        }
+        public static List<Fleet> getEnemyFleetsFromGroup(this Fleet principleFleet, IEnumerable<Fleet> otherFleets)
+        {
+            var list = new List<Fleet>();
 
+            foreach (var fleet in otherFleets)
+            {
+                if (!fleet.sameFaction(principleFleet))
+                {
+                    list.Add(fleet);
+                }
+            }
+            return list;
+        }
     }
 
     [System.Serializable]
