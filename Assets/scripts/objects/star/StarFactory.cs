@@ -124,7 +124,7 @@ namespace Objects.Galaxy
             var infos = new sceneAppearInfo[_sceneToPrefab.Length];
             for (int i = 0; i < _sceneToPrefab.Length; i++)
             {
-                infos[i] = new sceneAppearInfo(_sceneToPrefab[i]);;
+                infos[i] = new sceneAppearInfo(_sceneToPrefab[i]);
             }
             infos[3] = new sceneAppearInfo(_sceneToPrefab[3],Vector3.zero);;
             var mainrep = new MultiSceneAppearer(infos,appearableState);

@@ -11,7 +11,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-namespace Objects.Galaxy {
+namespace Objects.Galaxy
+{
     [System.Serializable]
     public class StarNodeState : GalaxyGameObjectState {
         public StarNodeState(){}
@@ -21,6 +22,7 @@ namespace Objects.Galaxy {
             this.asContainerState = asContainerState;
         }
     }
+
 
     public partial class StarNode : GalaxyGameObject<StarNodeState> {
 

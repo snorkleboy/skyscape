@@ -4,6 +4,8 @@ using Objects.Galaxy.State;
 using Newtonsoft.Json;
 namespace Objects
 {
+
+
     [System.Serializable]
     public class ShipsContainer:AppearableContainerState{
 

@@ -36,8 +36,7 @@ namespace Objects
             return Tthing;
         }
     }
-    [System.Serializable]
-
+    [Serializable]
     public class Reference<T>:IEquatable<Reference<T>> where T : class,IIded{
         public static implicit operator Reference<T>(T thing)
         {

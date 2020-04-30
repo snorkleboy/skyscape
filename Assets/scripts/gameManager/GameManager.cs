@@ -20,8 +20,6 @@ namespace Objects
         public Dictionary<long, object> objectTable;
         public List<Reference<Faction>> factions;
         public Dictionary<int, List<Reference<StarNode>>> starNodes;
-
-
     }
 
     public partial class GameManager : MonoBehaviour

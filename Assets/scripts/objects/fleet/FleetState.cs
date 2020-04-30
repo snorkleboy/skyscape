@@ -1,6 +1,8 @@
 using UnityEngine;
 using Objects.Galaxy.State;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using Objects.Galaxy;
 namespace Objects
 {
     [System.Serializable]
@@ -12,4 +14,5 @@ namespace Objects
             this.shipsContainer = ships;
         }
     }
+
 }
